@@ -29,7 +29,7 @@ const GROUPS: Group[] = [
       { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true },
       { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
       { nameKey: 'channels.extension.name', Icon: PuzzleIcon },
-      { nameKey: 'channels.api.name', Icon: CodeIcon },
+      { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '#developers' },
     ],
   },
 ]
@@ -73,8 +73,7 @@ export function Channels() {
                     ) : item.href ? (
                       <a
                         href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        {...(item.href.startsWith('#') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
                         className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
                       >
                         {t('channels.open')}
