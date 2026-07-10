@@ -1,0 +1,7 @@
+@import './fonts.css';
+@import './theme.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background: #FFFFFF; color: #000000; font-family: Inter, sans-serif; }
