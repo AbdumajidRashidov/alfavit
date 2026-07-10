@@ -29,7 +29,7 @@ test('POST converts Cyrillic', async () => {
   expect(b.detectedScript).toBe('cyrillic')
 })
 
-test('POST honors source and returns flags for ambiguous input', async () => {
+test('POST returns ambiguity flags for ambiguous input', async () => {
   const res = await post({ text: 'ер' })
   const b = (await res.json()) as { text: string; flags: unknown[] }
   expect(b.text).toBe('yer')
@@ -46,10 +46,6 @@ test('POST validation: bad JSON → 400', async () => {
 
 test('POST validation: oversized text → 413', async () => {
   expect((await post({ text: 'а'.repeat(100001) })).status).toBe(413)
-})
-
-test('POST validation: invalid source → 400', async () => {
-  expect((await post({ text: 'салом', source: 'klingon' })).status).toBe(400)
 })
 
 test('rate limit: 429 when the limiter denies', async () => {

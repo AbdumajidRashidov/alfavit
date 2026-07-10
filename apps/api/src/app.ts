@@ -6,7 +6,6 @@ export interface Bindings {
   RATE_LIMITER?: { limit: (o: { key: string }) => Promise<{ success: boolean }> }
 }
 
-const SOURCES = ['auto', 'cyrillic', 'old-latin'] as const
 const MAX_TEXT = 100000
 
 export const API_INFO = {
@@ -22,7 +21,7 @@ export const API_INFO = {
 
 export function createApp() {
   const app = new Hono<{ Bindings: Bindings }>()
-  app.use('*', cors())
+  app.use('*', cors({ allowMethods: ['GET', 'POST', 'OPTIONS'], allowHeaders: ['content-type'] }))
 
   app.use('/v1/*', async (c, next) => {
     const limiter = c.env?.RATE_LIMITER
@@ -50,11 +49,7 @@ export function createApp() {
     if (text.length > MAX_TEXT) {
       return c.json({ error: `Text too large (max ${MAX_TEXT} chars)` }, 413)
     }
-    const source = body.source
-    if (source !== undefined && !(SOURCES as readonly unknown[]).includes(source)) {
-      return c.json({ error: 'Invalid "source"' }, 400)
-    }
-    const result = transliterate(text, source ? { source: source as (typeof SOURCES)[number] } : undefined)
+    const result = transliterate(text)
     return c.json({ text: result.text, detectedScript: detectScript(text), flags: result.flags })
   })
 
