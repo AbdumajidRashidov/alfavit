@@ -8,6 +8,9 @@ const CORPUS: Array<[string, string]> = [
   ['shahar', 'şahar'],
   ['Тошкент', 'Toşkent'],
   ['12:30 — vaqt', '12:30 — vaqt'],
+  ['Ёзув', 'Yozuv'],
+  ['Ер', 'Yer'],
+  ['Япония', 'Yaponiya'],
 ]
 
 test.each(CORPUS)('golden: %s → %s', (input, expected) => {

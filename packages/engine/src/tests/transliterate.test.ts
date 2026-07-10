@@ -26,3 +26,9 @@ test('segments carry source, output, and script', () => {
 test('empty input yields an empty result', () => {
   expect(transliterate('')).toEqual({ text: '', segments: [], flags: [] })
 })
+
+test('applies dictionary override for a word embedded in a sentence', () => {
+  const r = transliterate('мен цирк кўрдим')
+  expect(r.text).toContain('sirk')
+  expect(r.text).toBe('men sirk kŏrdim')
+})
