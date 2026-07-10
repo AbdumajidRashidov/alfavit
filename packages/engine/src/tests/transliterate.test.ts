@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { transliterate } from './transliterate'
+import { transliterate } from '../transliterate'
 
 test('converts a mixed-script sentence and preserves foreign runs', () => {
   const r = transliterate('салом, dunyo 2026')

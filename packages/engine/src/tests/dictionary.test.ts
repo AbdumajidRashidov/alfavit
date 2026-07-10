@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { lookupException } from './dictionary'
+import { lookupException } from '../dictionary'
 
 test('returns override for a known exception, preserving lead case', () => {
   // 'цирк' would rule-convert to 'sirk'; dictionary forces 'sirk' explicitly as a demo entry

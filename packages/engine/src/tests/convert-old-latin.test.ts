@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { convertOldLatin } from './convert-old-latin'
+import { convertOldLatin } from '../convert-old-latin'
 
 test('converts 1995 digraphs to reform letters', () => {
   expect(convertOldLatin('shamol')).toBe('şamol')

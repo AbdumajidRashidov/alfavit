@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { detectScript, segment } from './detect'
+import { detectScript, segment } from '../detect'
 
 test('detectScript picks the dominant letter script', () => {
   expect(detectScript('салом')).toBe('cyrillic')

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { transliterate } from './index'
+import { transliterate } from '../index'
 
 // Verified input↔output pairs. Extend as the exception dictionary grows.
 const CORPUS: Array<[string, string]> = [

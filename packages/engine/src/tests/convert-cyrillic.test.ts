@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { convertCyrillicRun } from './convert-cyrillic'
+import { convertCyrillicRun } from '../convert-cyrillic'
 
 test('maps unambiguous Cyrillic letters', () => {
   expect(convertCyrillicRun('салом', 0).output).toBe('salom')

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { normalizeApostrophes } from './normalize'
+import { normalizeApostrophes } from '../normalize'
 
 test('folds apostrophe variants to U+02BB', () => {
   // ASCII apostrophe
