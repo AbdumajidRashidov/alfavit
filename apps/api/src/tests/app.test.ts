@@ -51,3 +51,22 @@ test('POST validation: oversized text → 413', async () => {
 test('POST validation: invalid source → 400', async () => {
   expect((await post({ text: 'салом', source: 'klingon' })).status).toBe(400)
 })
+
+test('rate limit: 429 when the limiter denies', async () => {
+  const env = { RATE_LIMITER: { limit: async () => ({ success: false }) } }
+  const res = await createApp().request(
+    '/v1/transliterate',
+    { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text: 'салом' }) },
+    env,
+  )
+  expect(res.status).toBe(429)
+})
+
+test('rate limit: allowed when no limiter binding', async () => {
+  const res = await createApp().request(
+    '/v1/transliterate',
+    { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ text: 'салом' }) },
+    {},
+  )
+  expect(res.status).toBe(200)
+})

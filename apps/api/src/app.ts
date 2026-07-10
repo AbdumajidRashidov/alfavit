@@ -23,6 +23,17 @@ export const API_INFO = {
 export function createApp() {
   const app = new Hono<{ Bindings: Bindings }>()
   app.use('*', cors())
+
+  app.use('/v1/*', async (c, next) => {
+    const limiter = c.env?.RATE_LIMITER
+    if (limiter) {
+      const key = c.req.header('cf-connecting-ip') ?? 'anon'
+      const { success } = await limiter.limit({ key })
+      if (!success) return c.json({ error: 'Rate limit exceeded' }, 429)
+    }
+    await next()
+  })
+
   app.get('/', (c) => c.json(API_INFO))
 
   app.post('/v1/transliterate', async (c) => {
