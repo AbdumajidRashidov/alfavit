@@ -4,3 +4,6 @@ dist
 *.tsbuildinfo
 .env
 .env.*
+
+# local Claude Code preview config (machine-specific)
+.claude/launch.json
