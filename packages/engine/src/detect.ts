@@ -1,7 +1,7 @@
 import type { SourceScript } from './types'
 
 const CYRILLIC = /[Ѐ-ӿԀ-ԯ]/
-const LATIN = /[A-Za-zÇçŞşĞğŎŏÖöʻ]/
+const LATIN = /[A-Za-zÇçŞşĞğŎŏÖöʻ']/
 
 function classify(ch: string): SourceScript {
   if (CYRILLIC.test(ch)) return 'cyrillic'
