@@ -1,3 +1,16 @@
+import { LanguageProvider } from './i18n/LanguageProvider'
+import { Hero } from './components/Hero'
+import { Converter } from './components/Converter'
+import { MorphShowcase } from './components/MorphShowcase'
+import { Footer } from './components/Footer'
+
 export default function App() {
-  return <main data-testid="app-root" />
+  return (
+    <LanguageProvider>
+      <Hero />
+      <Converter />
+      <MorphShowcase />
+      <Footer />
+    </LanguageProvider>
+  )
 }
