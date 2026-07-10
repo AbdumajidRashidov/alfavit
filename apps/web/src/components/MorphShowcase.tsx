@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useT } from '../i18n/useT'
+import { ErrorBoundary } from './ErrorBoundary'
 
 const MorphBackdrop = lazy(() => import('./MorphBackdrop'))
 
@@ -48,7 +49,9 @@ export function MorphShowcase() {
     <section className="relative min-h-screen overflow-hidden bg-background">
       {!reduce && (
         <div className="pointer-events-none absolute inset-0 opacity-20">
-          <Suspense fallback={null}><MorphBackdrop /></Suspense>
+          <ErrorBoundary fallback={null}>
+            <Suspense fallback={null}><MorphBackdrop /></Suspense>
+          </ErrorBoundary>
         </div>
       )}
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 text-center">

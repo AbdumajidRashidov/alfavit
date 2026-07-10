@@ -21,13 +21,14 @@ export function Converter() {
     <section id="converter" className="max-w-7xl mx-auto px-6 py-24">
       <div className="grid gap-6 md:grid-cols-2">
         <div>
-          <label className="text-sm text-muted">{t('converter.inputLabel')}</label>
+          <label htmlFor="converter-input" className="text-sm text-muted">{t('converter.inputLabel')}</label>
           {input && (
             <span data-testid="detected-badge" className="ml-3 text-xs text-muted">
               {t('converter.detected')}: {t(scriptKey)}
             </span>
           )}
           <textarea
+            id="converter-input"
             className="mt-3 w-full h-64 rounded-2xl border border-black/10 p-4 font-sans text-lg outline-none focus:border-black/30"
             placeholder={t('converter.placeholder')}
             value={input}
@@ -46,6 +47,9 @@ export function Converter() {
           </div>
           <div
             data-testid="output"
+            role="status"
+            aria-live="polite"
+            aria-label={t('converter.outputLabel')}
             className="mt-3 w-full h-64 overflow-auto rounded-2xl bg-black/[0.03] p-4 font-sans text-lg whitespace-pre-wrap"
           >
             {text}

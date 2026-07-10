@@ -17,6 +17,7 @@ export function Hero() {
         muted
         playsInline
         preload="auto"
+        aria-hidden="true"
         style={{ position: 'absolute', top: '300px', inset: 'auto 0 0 0', opacity, transition: 'opacity 0.1s linear' }}
         className="z-0 w-full object-cover"
       />
@@ -24,7 +25,7 @@ export function Hero() {
       <Nav />
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: 'calc(8rem - 75px)', paddingBottom: '10rem' }}>
         <h1 className="animate-fade-rise font-serif font-normal text-foreground text-5xl sm:text-7xl md:text-8xl max-w-7xl leading-[0.95] tracking-[-2.46px]">
-          {t('hero.headlinePre')}<em className="italic text-muted">{t('hero.headlineEm')}</em>
+          {t('hero.headlinePre')}<em className="italic text-muted">{t('hero.headlineEm')}</em>{t('hero.headlinePost')}
         </h1>
         <p className="animate-fade-rise-delay mt-8 max-w-2xl text-base sm:text-lg leading-relaxed text-muted">
           {t('hero.desc')}

@@ -7,9 +7,11 @@ import { Footer } from './components/Footer'
 export default function App() {
   return (
     <LanguageProvider>
-      <Hero />
-      <Converter />
-      <MorphShowcase />
+      <main>
+        <Hero />
+        <Converter />
+        <MorphShowcase />
+      </main>
       <Footer />
     </LanguageProvider>
   )

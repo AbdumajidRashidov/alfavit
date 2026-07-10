@@ -16,6 +16,7 @@ export function useVideoLoop() {
     const video = videoRef.current
     if (!video) return
     let raf = 0
+    let restartTimer: ReturnType<typeof setTimeout> | undefined
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     if (reduce) { setOpacity(1); return }
 
@@ -25,12 +26,16 @@ export function useVideoLoop() {
     }
     const onEnded = () => {
       setOpacity(0)
-      setTimeout(() => { video.currentTime = 0; void video.play() }, 100)
+      restartTimer = setTimeout(() => { video.currentTime = 0; void video.play() }, 100)
     }
     video.addEventListener('ended', onEnded)
     void video.play().catch(() => { /* autoplay may be blocked; ignore */ })
     raf = requestAnimationFrame(tick)
-    return () => { cancelAnimationFrame(raf); video.removeEventListener('ended', onEnded) }
+    return () => {
+      cancelAnimationFrame(raf)
+      if (restartTimer) clearTimeout(restartTimer)
+      video.removeEventListener('ended', onEnded)
+    }
   }, [])
 
   return { videoRef, opacity }
