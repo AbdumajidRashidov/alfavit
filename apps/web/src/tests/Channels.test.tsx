@@ -16,7 +16,11 @@ test('renders download groups, platforms, and CTAs', () => {
   for (const name of ['macOS', 'Windows', 'iOS', 'Android', 'Web app', 'Telegram bot', 'Browser extension', 'API & SDK']) {
     expect(screen.getByText(name)).toBeInTheDocument()
   }
-  // Web is live → an Open button; the other seven are Coming soon.
+  // Web is live → an Open button (scrolls to the converter).
   expect(screen.getByRole('button', { name: 'Open' })).toBeInTheDocument()
-  expect(screen.getAllByText('Coming soon')).toHaveLength(7)
+  // Telegram bot is live → an Open link out to the bot.
+  const tgLink = screen.getByRole('link', { name: 'Open' })
+  expect(tgLink).toHaveAttribute('href', 'https://t.me/alfavit_uz_bot')
+  // The remaining six (macOS, Windows, iOS, Android, extension, API) are Coming soon.
+  expect(screen.getAllByText('Coming soon')).toHaveLength(6)
 })

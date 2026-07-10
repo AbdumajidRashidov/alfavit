@@ -5,7 +5,7 @@ import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon } from './icons'
 
-interface Item { nameKey: TranslationKey; Icon: ComponentType<{ className?: string }>; live?: boolean }
+interface Item { nameKey: TranslationKey; Icon: ComponentType<{ className?: string }>; live?: boolean; href?: string }
 interface Group { labelKey: TranslationKey; items: Item[] }
 
 const GROUPS: Group[] = [
@@ -27,7 +27,7 @@ const GROUPS: Group[] = [
     labelKey: 'channels.group.more',
     items: [
       { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true },
-      { nameKey: 'channels.telegram.name', Icon: TelegramIcon },
+      { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
       { nameKey: 'channels.extension.name', Icon: PuzzleIcon },
       { nameKey: 'channels.api.name', Icon: CodeIcon },
     ],
@@ -68,15 +68,24 @@ export function Channels() {
                       </span>
                       <span className="font-medium text-foreground">{t(item.nameKey)}</span>
                     </div>
-                    {item.live ? (
+                    {!item.live ? (
+                      <span className="text-sm text-muted">{t('status.soon')}</span>
+                    ) : item.href ? (
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
+                      >
+                        {t('channels.open')}
+                      </a>
+                    ) : (
                       <button
                         onClick={scrollToConverter}
                         className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
                       >
                         {t('channels.open')}
                       </button>
-                    ) : (
-                      <span className="text-sm text-muted">{t('status.soon')}</span>
                     )}
                   </motion.div>
                 ))}
