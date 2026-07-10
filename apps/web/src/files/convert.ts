@@ -4,7 +4,10 @@ export function convertPlainText(text: string): string {
   return transliterate(text).text
 }
 
-const WT_RE = /(<w:t\b[^>]*>)([\s\S]*?)(<\/w:t>)/g
+// The `(?<!\/)` excludes self-closing `<w:t/>` runs from the open-tag match —
+// otherwise the lazy inner match would swallow markup up to the next </w:t> and
+// corrupt the document (empty <w:t/> runs are common in real Word output).
+const WT_RE = /(<w:t\b[^>]*(?<!\/)>)([\s\S]*?)(<\/w:t>)/g
 
 function xmlUnescape(s: string): string {
   return s

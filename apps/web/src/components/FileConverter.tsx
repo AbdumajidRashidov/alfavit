@@ -23,11 +23,13 @@ export function FileConverter() {
       document.body.appendChild(a)
       a.click()
       a.remove()
-      URL.revokeObjectURL(url)
+      // Defer revoke: revoking synchronously right after a synthetic click is
+      // fragile in some browsers (large files / older Safari).
+      setTimeout(() => URL.revokeObjectURL(url), 0)
       setStatus('done')
     } catch (e) {
       setStatus('error')
-      setError(e instanceof UnsupportedFormatError ? t('file.unsupported') : String(e))
+      setError(e instanceof UnsupportedFormatError ? t('file.unsupported') : t('file.error'))
     }
   }
 

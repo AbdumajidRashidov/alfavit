@@ -25,3 +25,8 @@ test('transliterateDocxXml leaves non-w:t markup and empty runs untouched', () =
   expect(transliterateDocxXml('<w:p><w:pPr/></w:p>')).toBe('<w:p><w:pPr/></w:p>')
   expect(transliterateDocxXml('<w:t/>')).toBe('<w:t/>')
 })
+
+test('transliterateDocxXml skips a self-closing run adjacent to a real run (no corruption)', () => {
+  const xml = '<w:t/></w:r><w:r><w:t>Салом</w:t>'
+  expect(transliterateDocxXml(xml)).toBe('<w:t/></w:r><w:r><w:t>Salom</w:t>')
+})
