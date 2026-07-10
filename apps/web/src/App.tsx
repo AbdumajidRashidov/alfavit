@@ -3,6 +3,7 @@ import { Hero } from './components/Hero'
 import { Converter } from './components/Converter'
 import { FileConverter } from './components/FileConverter'
 import { Channels } from './components/Channels'
+import { Developers } from './components/Developers'
 import { Footer } from './components/Footer'
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
         <Converter />
         <FileConverter />
         <Channels />
+        <Developers />
       </main>
       <Footer />
     </LanguageProvider>
