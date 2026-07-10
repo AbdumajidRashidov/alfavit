@@ -7,7 +7,7 @@ if (!token) {
   process.exit(1)
 }
 
-const bot = createBot(token)
+const bot = createBot(token, process.env.LOGO_URL)
 await applyBotConfig(bot)
 console.log('Alfavit bot: command menu and descriptions configured.')
 void bot.start({

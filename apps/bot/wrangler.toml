@@ -1,0 +1,12 @@
+name = "alfavit-bot"
+main = "src/worker.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# LOGO_URL is public (non-secret) — the inline result thumbnail.
+# Switch to "https://alfavit.uz/logo.png" once the web app is deployed to Pages.
+[vars]
+LOGO_URL = "https://files.catbox.moe/ltosjy.png"
+
+# BOT_TOKEN is a secret — do NOT put it here. Set it with:
+#   pnpm --dir apps/bot exec wrangler secret put BOT_TOKEN

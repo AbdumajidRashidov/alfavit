@@ -2,7 +2,10 @@ import { Bot } from 'grammy'
 import { handleMessage, buildInlineResults } from './handlers'
 import { pickLocale, strings } from './i18n'
 
-export function createBot(token: string): Bot {
+/** Builds a configured bot. `logoUrl` (optional public https image) is used as the
+ * inline result thumbnail. Passed in explicitly so this works both under Node
+ * (process.env) and Cloudflare Workers (env bindings — no process.env). */
+export function createBot(token: string, logoUrl?: string): Bot {
   const bot = new Bot(token)
 
   // Commands are registered BEFORE the text handler so a "/start" message is
@@ -10,10 +13,9 @@ export function createBot(token: string): Bot {
   bot.command('start', (ctx) => ctx.reply(strings[pickLocale(ctx.from?.language_code)].start))
   bot.command('help', (ctx) => ctx.reply(strings[pickLocale(ctx.from?.language_code)].help))
 
-  // LOGO_URL (optional): a public https image URL used as the inline result thumbnail.
   bot.on('inline_query', (ctx) =>
     ctx.answerInlineQuery(
-      buildInlineResults(ctx.inlineQuery.query, pickLocale(ctx.from?.language_code), process.env.LOGO_URL),
+      buildInlineResults(ctx.inlineQuery.query, pickLocale(ctx.from?.language_code), logoUrl),
       { cache_time: 0 },
     ),
   )
