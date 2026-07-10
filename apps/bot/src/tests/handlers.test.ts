@@ -29,3 +29,13 @@ test('buildInlineResults returns a single hint for an empty query', () => {
   expect(results).toHaveLength(1)
   expect((results[0] as { title: string }).title).toBe('Type text to convert')
 })
+
+test('buildInlineResults sets the thumbnail when a logo URL is given', () => {
+  const url = 'https://alfavit.uz/logo.png'
+  expect((buildInlineResults('чой', 'uz', url)[0] as { thumbnail_url?: string }).thumbnail_url).toBe(url)
+  expect((buildInlineResults('', 'uz', url)[0] as { thumbnail_url?: string }).thumbnail_url).toBe(url)
+})
+
+test('buildInlineResults omits the thumbnail when no logo URL is given', () => {
+  expect((buildInlineResults('чой', 'uz')[0] as { thumbnail_url?: string }).thumbnail_url).toBeUndefined()
+})

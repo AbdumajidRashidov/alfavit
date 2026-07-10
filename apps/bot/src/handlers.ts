@@ -11,13 +11,15 @@ export function handleMessage(text: string, locale: Locale): string {
   return transliterate(capped).text
 }
 
-export function buildInlineResults(query: string, locale: Locale): InlineQueryResult[] {
+export function buildInlineResults(query: string, locale: Locale, logoUrl?: string): InlineQueryResult[] {
+  const withThumb = (description: string) =>
+    logoUrl ? { description, thumbnail_url: logoUrl } : { description }
   const capped = query.slice(0, MAX_INPUT)
   if (!capped.trim()) {
     const hint = strings[locale].emptyHint
-    return [InlineQueryResultBuilder.article('empty', strings[locale].inlineEmptyTitle, { description: hint }).text(hint)]
+    return [InlineQueryResultBuilder.article('empty', strings[locale].inlineEmptyTitle, withThumb(hint)).text(hint)]
   }
   const converted = transliterate(capped).text
   const preview = converted.slice(0, 100)
-  return [InlineQueryResultBuilder.article('convert', strings[locale].inlineTitle, { description: preview }).text(converted)]
+  return [InlineQueryResultBuilder.article('convert', strings[locale].inlineTitle, withThumb(preview)).text(converted)]
 }

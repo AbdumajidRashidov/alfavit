@@ -10,8 +10,12 @@ export function createBot(token: string): Bot {
   bot.command('start', (ctx) => ctx.reply(strings[pickLocale(ctx.from?.language_code)].start))
   bot.command('help', (ctx) => ctx.reply(strings[pickLocale(ctx.from?.language_code)].help))
 
+  // LOGO_URL (optional): a public https image URL used as the inline result thumbnail.
   bot.on('inline_query', (ctx) =>
-    ctx.answerInlineQuery(buildInlineResults(ctx.inlineQuery.query, pickLocale(ctx.from?.language_code)), { cache_time: 0 }),
+    ctx.answerInlineQuery(
+      buildInlineResults(ctx.inlineQuery.query, pickLocale(ctx.from?.language_code), process.env.LOGO_URL),
+      { cache_time: 0 },
+    ),
   )
 
   bot.on('message:text', (ctx) => {
