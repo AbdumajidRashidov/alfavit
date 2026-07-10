@@ -34,6 +34,12 @@ exhaustively-tested transliteration engine.
 The engine holds all the hard problems (linguistic ambiguity). Channels are
 plumbing + UX. Nothing is rewritten per channel.
 
+**Repository:** a single **Turborepo + pnpm** monorepo. The engine is a library
+under `packages/engine`; each channel (web app, API, browser extension) is an app
+under `apps/*` that depends on `@alfavit/engine`. Turborepo orchestrates
+build/test/dev across the graph, so channels always build against the current
+engine.
+
 ## 3. Product tiers (one product, a value ladder)
 
 | Tier | Audience | Value | Monetization |

@@ -6,11 +6,24 @@
 
 **Architecture:** A three-layer pipeline — (1) detect & normalize input into same-script runs, (2) convert each run with deterministic, case-preserving rules, (3) override with a curated exception dictionary. Genuinely uncertain spots emit ambiguity flags instead of silent guesses. No runtime dependencies; runs in browser, Node, React Native, Electron/Tauri.
 
-**Tech Stack:** TypeScript (strict), Vitest (dev-only, test runner), pnpm workspace, Node 20+.
+**Tech Stack:** TypeScript (strict), Vitest (dev-only, test runner), Turborepo + pnpm workspaces, Node 20+.
+
+**Monorepo layout:** Turborepo orchestrates the repo task graph. Libraries live under `packages/*` (the engine is `packages/engine`); future channels (web app, API, browser extension) live under `apps/*` and each depend on `@alfavit/engine`. This plan builds only the engine; `apps/` is established but left empty (YAGNI).
+
+```
+alfavit/
+├── turbo.json              # task pipeline (build, test, lint, dev)
+├── pnpm-workspace.yaml     # packages/* + apps/*
+├── package.json            # root; devDependency: turbo
+├── packages/
+│   └── engine/             # @alfavit/engine  ← this plan
+└── apps/                   # future: web, api, extension (empty for now)
+```
 
 ## Global Constraints
 
 - Package name: `@alfavit/engine`. Zero runtime dependencies (dev dependencies allowed).
+- Monorepo: Turborepo + pnpm workspaces. Root scripts run through `turbo` (`turbo run build`, `turbo run test`); the tight TDD loop runs Vitest directly inside `packages/engine`.
 - TypeScript `strict: true`. Target ES2022, output ESM.
 - New-Latin reform letters (verify against official decree in Task 1): `ç ş ğ` and the loanword `c`; `oʻ→ŏ` is **provisional** (sources disagree ŏ vs ö — do NOT hard-code as certain until Task 1 resolves it).
 - Case preservation is mandatory in every conversion: output case is driven by the case of the first source character of each mapped unit.
@@ -20,10 +33,13 @@
 
 ---
 
-### Task 1: Project scaffold + official-mapping grounding
+### Task 1: Turborepo scaffold + official-mapping grounding
 
 **Files:**
+- Create: `package.json` (root)
 - Create: `pnpm-workspace.yaml`
+- Create: `turbo.json`
+- Create: `.gitignore`
 - Create: `packages/engine/package.json`
 - Create: `packages/engine/tsconfig.json`
 - Create: `packages/engine/vitest.config.ts`
@@ -33,7 +49,7 @@
 
 **Interfaces:**
 - Consumes: nothing.
-- Produces: a working test harness; `version` string exported from `src/index.ts`.
+- Produces: a working Turborepo + test harness; `version` string exported from `src/index.ts`.
 
 - [ ] **Step 1: Source the official reform table (grounding)**
 
@@ -44,12 +60,49 @@ Before writing mapping code, fetch and record the authoritative letter set. Crea
 
 If the official decree cannot be located, record that fact in the file and mark every uncertain mapping as `PROVISIONAL` in the mapping modules (Tasks 5–6). Do not block the build — the pipeline is designed so mapping values are data that can be corrected later.
 
-- [ ] **Step 2: Create the workspace + package manifests**
+- [ ] **Step 2: Create the Turborepo root + workspace manifests**
 
 `pnpm-workspace.yaml`:
 ```yaml
 packages:
   - "packages/*"
+  - "apps/*"
+```
+
+`package.json` (root):
+```json
+{
+  "name": "alfavit",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  }
+}
+```
+
+`turbo.json`:
+```json
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": { "dependsOn": ["^build"], "outputs": ["dist/**"] },
+    "test": { "dependsOn": ["^build"] },
+    "dev": { "cache": false, "persistent": true }
+  }
+}
+```
+
+`.gitignore`:
+```
+node_modules
+dist
+.turbo
 ```
 
 `packages/engine/package.json`:
@@ -116,8 +169,11 @@ test('exports a version string', () => {
 
 - [ ] **Step 4: Install and run the test to verify it fails**
 
-Run (from `packages/engine`): `pnpm install && pnpm test`
+Run from the repo root: `pnpm install`
+Then from `packages/engine`: `pnpm test`
 Expected: FAIL — `version` is not exported.
+
+(Throughout this plan, per-file commands like `pnpm test src/foo.test.ts` are run from `packages/engine` for the tight TDD loop. Whole-repo orchestration uses `pnpm turbo run test` / `pnpm turbo run build` from the root.)
 
 - [ ] **Step 5: Implement minimally**
 
@@ -134,8 +190,8 @@ Expected: PASS.
 - [ ] **Step 7: Commit**
 
 ```bash
-git add pnpm-workspace.yaml packages/engine
-git commit -m "chore(engine): scaffold @alfavit/engine package + grounding doc"
+git add package.json pnpm-workspace.yaml turbo.json .gitignore packages/engine
+git commit -m "chore: scaffold Turborepo monorepo + @alfavit/engine package + grounding doc"
 ```
 
 ---
@@ -938,8 +994,9 @@ export type {
 
 - [ ] **Step 4: Run the full suite + build**
 
-Run: `pnpm test && pnpm build`
-Expected: All tests PASS; `dist/index.js` and `dist/index.d.ts` produced.
+Run from `packages/engine`: `pnpm test`
+Then from the repo root: `pnpm turbo run build`
+Expected: All tests PASS; Turborepo builds `@alfavit/engine`, producing `packages/engine/dist/index.js` and `dist/index.d.ts`.
 
 If any golden pair fails, fix the mapping data (not the test) unless the test encodes a mistaken expectation — then correct the expectation and note why in the commit.
 
