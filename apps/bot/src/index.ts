@@ -1,4 +1,5 @@
 import { createBot } from './bot'
+import { applyBotConfig } from './config'
 
 const token = process.env.BOT_TOKEN
 if (!token) {
@@ -7,5 +8,8 @@ if (!token) {
 }
 
 const bot = createBot(token)
-console.log('Alfavit bot starting (long polling)…')
-void bot.start()
+await applyBotConfig(bot)
+console.log('Alfavit bot: command menu and descriptions configured.')
+void bot.start({
+  onStart: (info) => console.log(`Alfavit bot live as @${info.username} (long polling).`),
+})
