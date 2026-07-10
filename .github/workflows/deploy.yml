@@ -28,6 +28,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '3.114.17'
+          packageManager: npm
           command: pages deploy apps/web/dist --project-name=alfavit-web --branch=main --commit-dirty=true
 
   bot:
@@ -42,11 +44,16 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # Build the engine (and type-check the bot); wrangler bundles worker.ts →
+      # @alfavit/engine, which must have its dist/ present to resolve.
+      - run: pnpm exec turbo run build --filter=@alfavit/bot
       - name: Deploy bot to Cloudflare Workers
         if: env.CF_TOKEN != ''
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '3.114.17'
+          packageManager: npm
           workingDirectory: apps/bot
           command: deploy
