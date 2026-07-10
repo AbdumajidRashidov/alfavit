@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useT } from '../i18n/useT'
+import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 
 type StatusKey = 'status.available' | 'status.soon' | 'status.planned'
@@ -19,7 +20,9 @@ export function Channels() {
   return (
     <section id="channels" className="bg-background">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <h2 className="text-center font-serif text-4xl sm:text-6xl text-foreground">{t('channels.title')}</h2>
+        <Reveal>
+          <h2 className="text-center font-serif text-4xl sm:text-6xl text-foreground">{t('channels.title')}</h2>
+        </Reveal>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {CHANNELS.map((c, i) => (
             <motion.div

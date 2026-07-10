@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTransliterate } from '../hooks/useTransliterate'
 import { useT } from '../i18n/useT'
+import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 
 export function Converter() {
@@ -19,7 +20,7 @@ export function Converter() {
 
   return (
     <section id="converter" className="max-w-7xl mx-auto px-6 py-24">
-      <div className="grid gap-6 md:grid-cols-2">
+      <Reveal className="grid gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="converter-input" className="text-sm text-muted">{t('converter.inputLabel')}</label>
           {input && (
@@ -55,7 +56,7 @@ export function Converter() {
             {text}
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
