@@ -25,7 +25,7 @@ alfavit/
 - Package name: `@alfavit/engine`. Zero runtime dependencies (dev dependencies allowed).
 - Monorepo: Turborepo + pnpm workspaces. Root scripts run through `turbo` (`turbo run build`, `turbo run test`); the tight TDD loop runs Vitest directly inside `packages/engine`.
 - TypeScript `strict: true`. Target ES2022, output ESM.
-- New-Latin reform letters (verify against official decree in Task 1): `ç ş ğ` and the loanword `c`; `oʻ→ŏ` is **provisional** (sources disagree ŏ vs ö — do NOT hard-code as certain until Task 1 resolves it).
+- New-Latin reform letters (GROUNDED, Task 1, 2026-07-07 law): `ş ç ğ ŏ` and the loanword `c`. `oʻ→ŏ` is confirmed (ŏ, not ö). The apostrophe sign (tutuq belgisi) is retained.
 - Case preservation is mandatory in every conversion: output case is driven by the case of the first source character of each mapped unit.
 - Every conversion is offline and synchronous. No network, no I/O in the engine.
 - Public API is the only stable surface: `transliterate`, `detectScript`, and exported types. Everything else is internal.
@@ -51,14 +51,16 @@ alfavit/
 - Consumes: nothing.
 - Produces: a working Turborepo + test harness; `version` string exported from `src/index.ts`.
 
-- [ ] **Step 1: Source the official reform table (grounding)**
+- [ ] **Step 1: Record the official reform grounding**
 
-Before writing mapping code, fetch and record the authoritative letter set. Create `packages/engine/docs/official-mapping-source.md` with:
-- The URL/citation of the adopted reform law and Cabinet orthography rules.
-- A verbatim copy of the official Cyrillic↔new-Latin correspondence table.
-- An explicit resolution of the `oʻ → ŏ` vs `ö` question, with the source.
+Grounding was completed 2026-07-10 (see findings below). Create `packages/engine/docs/official-mapping-source.md` capturing:
 
-If the official decree cannot be located, record that fact in the file and mark every uncertain mapping as `PROVISIONAL` in the mapping modules (Tasks 5–6). Do not block the build — the pipeline is designed so mapping values are data that can be corrected later.
+- **Law:** "On Amending the Law of the Republic of Uzbekistan 'On the Introduction of the Uzbek Alphabet Based on the Latin Script'", approved **2026-07-07** by the Legislative Chamber of the Oliy Majlis.
+- **Outcome:** alphabet becomes **28 letters + 1 apostrophe sign** (was 26 letters + 3 letter combinations).
+- **Confirmed reform substitutions** (2021 proposal → 2026 law): `sh→ş`, `ch→ç`, `gʻ→ğ`, `oʻ→ŏ`, and loanword `ts→c`. The `oʻ→ŏ` vs `ö` question is **RESOLVED: ŏ**.
+- **Sources:** Wikipedia "Uzbek alphabet" (2021 reform proposal table); UzDaily "Uzbek Lawmakers Approve Latin Alphabet Reform" (2026 law). Note in the file that the letter-by-letter Cabinet *orthography rules* (exact Cyrillic→Latin transliteration of `е`, `ц`, `ъ`, `ь`) were not obtained verbatim; the engine handles those via ambiguity flags (Task 7), so they are refinements, not blockers.
+
+The mapping values in Tasks 5–6 are now GROUNDED (not provisional) for the reform letters. Any later discovery of the verbatim Cabinet orthography table is a data-only refinement.
 
 - [ ] **Step 2: Create the Turborepo root + workspace manifests**
 
@@ -503,7 +505,7 @@ export function applyCase(template: string, sourceFirstChar: string): string {
 `packages/engine/src/mappings/old-latin.ts`:
 ```ts
 // Longest source sequences first so 'oʻ' matches before 'o'.
-// NOTE: 'oʻ'→'ŏ' is PROVISIONAL pending Task 1 grounding (ŏ vs ö).
+// GROUNDED against the 2026-07-07 reform law: oʻ→ŏ, gʻ→ğ, sh→ş, ch→ç.
 export const OLD_LATIN_DIGRAPHS: Array<[string, string]> = [
   ['oʻ', 'ŏ'],
   ['gʻ', 'ğ'],
@@ -597,8 +599,9 @@ Expected: FAIL — module not found.
 
 `packages/engine/src/mappings/cyrillic.ts`:
 ```ts
-// PROVISIONAL — verify every row against the official decree (Task 1).
-// Ambiguous letters е and ц are intentionally omitted here; see Task 7.
+// Reform letters GROUNDED against the 2026-07-07 law (ş ç ğ ŏ, loanword c).
+// Cyrillic transliteration of е/ц (and ъ/ь) follows Cabinet orthography rules;
+// ambiguous letters е and ц are intentionally omitted here — see Task 7.
 export const CYRILLIC_MAP: Record<string, string> = {
   а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', ж: 'j', з: 'z', и: 'i',
   й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r',

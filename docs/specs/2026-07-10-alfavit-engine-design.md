@@ -1,7 +1,7 @@
 # Alfavit Engine — Design (Sub-project 1)
 
 **Date:** 2026-07-10
-**Status:** Approved (design); mapping table pending official grounding
+**Status:** Approved (design); reform letters grounded against 2026-07-07 law (ş ç ğ ŏ, loanword c)
 **Package:** `@alfavit/engine` (TypeScript, dependency-free)
 
 ## 1. Purpose & boundaries
