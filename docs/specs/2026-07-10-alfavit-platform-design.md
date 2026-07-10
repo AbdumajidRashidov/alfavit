@@ -26,9 +26,9 @@ exhaustively-tested transliteration engine.
                 │   Cyrillic / old-Latin → new   │  offline, dependency-free
                 └──────────────────────────────┘
                               ▲
-        ┌──────────┬──────────┼──────────┬───────────────┐
-      Web app    Pro layer   Public    Browser        Native
-      (free)     (accounts)  API+SDK   extension    (menu-bar/keyboard/mobile)
+     ┌────────┬────────┬─────┼─────┬─────────┬──────────────┐
+   Web app  Telegram  Pro  Public Browser  Native
+   (free)   bot       layer API   extension (menu-bar/keyboard/mobile)
 ```
 
 The engine holds all the hard problems (linguistic ambiguity). Channels are
@@ -58,9 +58,15 @@ Each item is its own spec → plan → build cycle.
 
 1. **Core engine** (sub-project 1 — see engine design doc). Build & perfect first.
 2. **Free web app** — proves the engine end-to-end; becomes the brand's front door.
-3. **Pro layer** — accounts + bulk/file features on the same app.
-4. **Public API + SDK** — the engine, hosted.
-5. **Additional channels** — menu-bar tool, system keyboard, browser extension,
+3. **Telegram bot** (`apps/bot`) — highest-reach channel in Uzbekistan, where
+   Telegram is dominant. Node service (grammY) that imports `@alfavit/engine`.
+   Modes: **inline** (`@alfavitbot салом` → converted result droppable into any
+   chat — the flagship feature), **DM** (send text → get new-Latin back), and
+   later file conversion. Strong candidate to build right after the web app, or
+   even in parallel, given its reach.
+4. **Pro layer** — accounts + bulk/file features on the same app.
+5. **Public API + SDK** — the engine, hosted.
+6. **Additional channels** — menu-bar tool, system keyboard, browser extension,
    mobile — layered on as demand shows. Each just calls the engine.
 
 ## 5. Immediate non-build action
