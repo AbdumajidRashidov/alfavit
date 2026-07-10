@@ -1,7 +1,7 @@
 import { LanguageProvider } from './i18n/LanguageProvider'
 import { Hero } from './components/Hero'
 import { Converter } from './components/Converter'
-import { MorphShowcase } from './components/MorphShowcase'
+import { Channels } from './components/Channels'
 import { Footer } from './components/Footer'
 
 export default function App() {
@@ -10,7 +10,7 @@ export default function App() {
       <main>
         <Hero />
         <Converter />
-        <MorphShowcase />
+        <Channels />
       </main>
       <Footer />
     </LanguageProvider>
