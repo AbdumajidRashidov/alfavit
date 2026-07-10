@@ -8,12 +8,15 @@ beforeEach(() => {
   Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
 })
 
-test('renders all six channels with their statuses', () => {
+test('renders download groups, platforms, and CTAs', () => {
   render(<LanguageProvider><Channels /></LanguageProvider>)
-  for (const name of ['Web', 'Telegram bot', 'API & SDK', 'Browser extension', 'Desktop', 'Mobile']) {
+  for (const label of ['Desktop', 'Mobile', 'More ways']) {
+    expect(screen.getByText(label)).toBeInTheDocument()
+  }
+  for (const name of ['macOS', 'Windows', 'iOS', 'Android', 'Web app', 'Telegram bot', 'Browser extension', 'API & SDK']) {
     expect(screen.getByText(name)).toBeInTheDocument()
   }
-  expect(screen.getByText('Available')).toBeInTheDocument()
-  expect(screen.getAllByText('Coming soon')).toHaveLength(2)
-  expect(screen.getAllByText('Planned')).toHaveLength(3)
+  // Web is live → an Open button; the other seven are Coming soon.
+  expect(screen.getByRole('button', { name: 'Open' })).toBeInTheDocument()
+  expect(screen.getAllByText('Coming soon')).toHaveLength(7)
 })
