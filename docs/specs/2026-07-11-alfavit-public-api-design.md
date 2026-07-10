@@ -33,8 +33,9 @@ packages/sdk/
 ## 3. HTTP surface (versioned `/v1`)
 
 - **`POST /v1/transliterate`**
-  - Request JSON: `{ text: string, source?: 'auto' | 'cyrillic' | 'old-latin' }`
-    (`source` defaults to `'auto'`; forwarded to the engine's options).
+  - Request JSON: `{ text: string }`. (A `source`/script override is **not** exposed in v1:
+    the engine auto-detects per run and does not yet support forcing a source; adding
+    `source` later is a non-breaking change.)
   - Response 200 JSON: `{ text: string, detectedScript: SourceScript, flags: AmbiguityFlag[] }`
     (from `transliterate` + `detectScript`).
 - **`GET /`** — self-documenting usage JSON: name, version, the endpoint, an example
@@ -54,21 +55,20 @@ packages/sdk/
   - Non-JSON / unparseable body → `400 { error: 'Invalid JSON body' }`.
   - Missing or non-string or empty-after-trim `text` → `400 { error: 'Field "text" is required' }`.
   - `text` longer than **100 000** chars → `413 { error: 'Text too large (max 100000 chars)' }`.
-  - Invalid `source` value → `400 { error: 'Invalid "source"' }`.
 - All responses (success and error) are JSON.
 
 ## 5. SDK (`@alfavit/sdk`)
 
-Zero-dependency, browser + Node (uses global `fetch`):
+Zero-dependency (no workspace deps either — the `SourceScript`/`AmbiguityFlag` types are
+**inlined** so the package is standalone/publishable), browser + Node (global `fetch`):
 ```ts
 createClient(options: { baseUrl: string; fetch?: typeof fetch }): {
-  transliterate(text: string, opts?: { source?: 'auto'|'cyrillic'|'old-latin' }):
+  transliterate(text: string):
     Promise<{ text: string; detectedScript: SourceScript; flags: AmbiguityFlag[] }>
 }
 ```
 - POSTs to `${baseUrl}/v1/transliterate`; throws an `Error` with the API's `error` message
-  on non-2xx. `fetch` is injectable for testing.
-- Re-exports the `SourceScript`/`AmbiguityFlag` types (import type from `@alfavit/engine`).
+  on non-2xx (tolerant of non-JSON error bodies). `fetch` is injectable for testing.
 
 ## 6. Testing (Vitest, in-process, no network)
 
