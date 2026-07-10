@@ -12,6 +12,28 @@ importers:
         specifier: ^2.0.0
         version: 2.10.4
 
+  apps/api:
+    dependencies:
+      '@alfavit/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      hono:
+        specifier: ^4.6.0
+        version: 4.12.29
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240909.0
+        version: 4.20260702.1
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@22.20.1)(jsdom@25.0.1)
+      wrangler:
+        specifier: ^3.80.0
+        version: 3.114.17(@cloudflare/workers-types@4.20260702.1)
+
   apps/bot:
     dependencies:
       '@alfavit/engine':
@@ -1492,6 +1514,10 @@ packages:
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
+
+  hono@4.12.29:
+    resolution: {integrity: sha512-1hNiRjawYrLq/4m3DQQjPGFg0VZkk4RjQJDff/excI6Dm9BiL75qxGrd7/c6YOxPdq6AscP3LiXhQ6fKFC1Waw==}
+    engines: {node: '>=16.9.0'}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
@@ -3329,6 +3355,8 @@ snapshots:
   hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
+
+  hono@4.12.29: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:
