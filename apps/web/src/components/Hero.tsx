@@ -1,6 +1,5 @@
 import { useT } from '../i18n/useT'
 import { useVideoLoop } from '../hooks/useVideoLoop'
-import { Nav } from './Nav'
 
 const VIDEO_URL = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4'
 
@@ -22,8 +21,7 @@ export function Hero() {
         className="z-0 w-full object-cover"
       />
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-transparent to-background" />
-      <Nav />
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: 'calc(8rem - 75px)', paddingBottom: '10rem' }}>
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: '6rem', paddingBottom: '10rem' }}>
         <h1 className="animate-fade-rise font-serif font-normal text-foreground text-5xl sm:text-7xl md:text-8xl max-w-7xl leading-[0.95] tracking-[-2.46px]">
           {t('hero.headlinePre')}<em className="italic text-muted">{t('hero.headlineEm')}</em>{t('hero.headlinePost')}
         </h1>
