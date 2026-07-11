@@ -9,7 +9,7 @@ export function Hero() {
   const toConverter = () => document.getElementById('converter')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-background">
+    <section className="relative flex min-h-[calc(100vh-88px)] w-full items-center overflow-hidden bg-background">
       <video
         ref={videoRef}
         src={VIDEO_URL}
@@ -17,11 +17,11 @@ export function Hero() {
         playsInline
         preload="auto"
         aria-hidden="true"
-        style={{ position: 'absolute', top: '300px', inset: 'auto 0 0 0', opacity, transition: 'opacity 0.1s linear' }}
-        className="z-0 w-full object-cover"
+        style={{ opacity, transition: 'opacity 0.1s linear' }}
+        className="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-transparent to-background" />
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: '6rem', paddingBottom: '10rem' }}>
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 via-background/40 to-background" />
+      <div className="relative z-10 mx-auto flex w-full flex-col items-center justify-center px-6 py-20 text-center">
         <h1 className="animate-fade-rise font-serif font-normal text-foreground text-5xl sm:text-7xl md:text-8xl max-w-7xl leading-[0.95] tracking-[-2.46px]">
           {t('hero.headlinePre')}<em className="italic text-muted">{t('hero.headlineEm')}</em>{t('hero.headlinePost')}
         </h1>
