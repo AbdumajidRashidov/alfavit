@@ -62,7 +62,7 @@ export function Nav() {
 
       {/* mobile panel */}
       {open && (
-        <div data-testid="mobile-menu" className="md:hidden border-t border-black/10 bg-background px-6 py-4 flex flex-col gap-4 font-sans text-base">
+        <div data-testid="mobile-menu" className="md:hidden absolute left-0 right-0 top-full z-20 border-t border-black/10 bg-background px-6 py-6 shadow-lg flex flex-col gap-4 font-sans text-base">
           {ITEMS.map(({ key, to }) => (
             <NavLink key={key} to={to} end={to === '/'} onClick={close} className={linkClass}>
               {t(key)}
