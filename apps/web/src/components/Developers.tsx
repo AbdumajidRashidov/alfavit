@@ -35,7 +35,7 @@ export function Developers() {
 
       <code
         data-testid="endpoint"
-        className="mt-8 inline-block rounded-full bg-black/[0.04] px-4 py-1.5 font-mono text-sm text-foreground"
+        className="mt-8 block break-all rounded-xl bg-black/[0.04] px-4 py-3 font-mono text-sm text-foreground"
       >
         POST {API_BASE}/v1/transliterate
       </code>
