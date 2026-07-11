@@ -1,21 +1,21 @@
+import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
+
+const cls = 'transition-colors hover:text-foreground'
 
 export function Footer() {
   const { t } = useT()
-  const links = [
-    { key: 'footer.reform' as const, href: '#' },
-    { key: 'footer.developers' as const, href: '#' },
-    { key: 'footer.telegram' as const, href: 'https://t.me/' },
-    { key: 'footer.github' as const, href: 'https://github.com/' },
-  ]
   return (
     <footer className="border-t border-black/10 bg-background">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-8 py-10 sm:flex-row">
-        <span className="font-serif text-2xl text-foreground">Alfavit<sup className="text-sm align-super">®</sup></span>
+        <Link to="/" className="font-serif text-2xl text-foreground">
+          Alfavit<sup className="text-sm align-super">®</sup>
+        </Link>
         <nav className="flex gap-6 font-sans text-sm text-muted">
-          {links.map((l) => (
-            <a key={l.key} href={l.href} className="transition-colors hover:text-foreground">{t(l.key)}</a>
-          ))}
+          <Link to="/reform" className={cls}>{t('footer.reform')}</Link>
+          <Link to="/developers" className={cls}>{t('footer.developers')}</Link>
+          <a href="https://t.me/alfavit_uz_bot" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.telegram')}</a>
+          <a href="https://github.com/AbdumajidRashidov/alfavit" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.github')}</a>
         </nav>
       </div>
     </footer>

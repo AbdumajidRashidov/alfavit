@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useT } from '../i18n/useT'
 import { Reveal } from './Reveal'
@@ -26,16 +27,15 @@ const GROUPS: Group[] = [
   {
     labelKey: 'channels.group.more',
     items: [
-      { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true },
+      { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true, href: '/' },
       { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
       { nameKey: 'channels.extension.name', Icon: PuzzleIcon },
-      { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '#developers' },
+      { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '/developers' },
     ],
   },
 ]
 
-const scrollToConverter = () =>
-  document.getElementById('converter')?.scrollIntoView({ behavior: 'smooth' })
+const BTN = 'rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]'
 
 export function Channels() {
   const { t } = useT()
@@ -68,23 +68,12 @@ export function Channels() {
                       </span>
                       <span className="font-medium text-foreground">{t(item.nameKey)}</span>
                     </div>
-                    {!item.live ? (
+                    {!item.live || !item.href ? (
                       <span className="text-sm text-muted">{t('status.soon')}</span>
-                    ) : item.href ? (
-                      <a
-                        href={item.href}
-                        {...(item.href.startsWith('#') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                        className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
-                      >
-                        {t('channels.open')}
-                      </a>
+                    ) : item.href.startsWith('/') ? (
+                      <Link to={item.href} className={BTN}>{t('channels.open')}</Link>
                     ) : (
-                      <button
-                        onClick={scrollToConverter}
-                        className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
-                      >
-                        {t('channels.open')}
-                      </button>
+                      <a href={item.href} target="_blank" rel="noopener noreferrer" className={BTN}>{t('channels.open')}</a>
                     )}
                   </motion.div>
                 ))}
