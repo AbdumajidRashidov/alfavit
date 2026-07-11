@@ -31,3 +31,11 @@ test('renders logo, route links, and localized CTA; switches language', async ()
   await user.click(screen.getByRole('button', { name: 'RU' }))
   expect(screen.getByRole('link', { name: 'Начать' })).toBeInTheDocument()
 })
+
+test('mobile menu toggles open', async () => {
+  const user = userEvent.setup()
+  renderNav()
+  expect(screen.queryByTestId('mobile-menu')).toBeNull()
+  await user.click(screen.getByRole('button', { name: 'Menu' }))
+  expect(screen.getByTestId('mobile-menu')).toBeInTheDocument()
+})
