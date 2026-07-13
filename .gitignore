@@ -7,3 +7,4 @@ dist
 
 # local Claude Code preview config (machine-specific)
 .claude/launch.json
+apps/extension/dist/
