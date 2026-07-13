@@ -8,7 +8,14 @@ export function applyConversion(converted: string): void {
     const field = el as HTMLInputElement | HTMLTextAreaElement
     const start = field.selectionStart ?? field.value.length
     const end = field.selectionEnd ?? field.value.length
-    field.value = field.value.slice(0, start) + converted + field.value.slice(end)
+    const next = field.value.slice(0, start) + converted + field.value.slice(end)
+    // Use the native value setter so framework-controlled inputs (React etc.)
+    // register the change — assigning field.value directly is swallowed by their
+    // tracked setter and reverts on the next re-render.
+    const proto = tag === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype
+    const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set
+    if (setter) setter.call(field, next)
+    else field.value = next
     field.selectionStart = field.selectionEnd = start + converted.length
     field.dispatchEvent(new Event('input', { bubbles: true }))
     return
