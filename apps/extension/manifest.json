@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Alfavit — new Uzbek Latin",
+  "description": "Convert Uzbek text from Cyrillic or old Latin to the reformed new Latin, right in your browser.",
+  "version": "0.1.0",
+  "permissions": ["contextMenus", "scripting", "activeTab"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+  },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" }
+}

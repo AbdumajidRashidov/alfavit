@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        width: 320px;
+        margin: 0;
+        padding: 14px;
+        font: 14px -apple-system, system-ui, sans-serif;
+      }
+      h1 {
+        font: italic 20px 'Times New Roman', serif;
+        margin: 0 0 10px;
+      }
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 72px;
+        resize: vertical;
+        border: 1px solid rgba(128, 128, 128, 0.4);
+        border-radius: 8px;
+        padding: 8px;
+        font: 14px inherit;
+        background: transparent;
+        color: inherit;
+      }
+      #out { margin-top: 8px; }
+      button {
+        margin-top: 8px;
+        border: 0;
+        border-radius: 999px;
+        padding: 8px 16px;
+        background: #000;
+        color: #fff;
+        font: 13px inherit;
+        cursor: pointer;
+      }
+      @media (prefers-color-scheme: dark) {
+        button { background: #fff; color: #000; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Alfavit&reg;</h1>
+    <textarea id="in" placeholder="Matn kiriting…" autofocus></textarea>
+    <textarea id="out" readonly placeholder="new Latin"></textarea>
+    <button id="copy">Copy</button>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
