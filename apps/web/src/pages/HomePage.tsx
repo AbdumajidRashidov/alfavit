@@ -23,7 +23,7 @@ export function HomePage() {
       <Hero />
       <Converter />
       <section className="mx-auto max-w-5xl px-6 pb-24">
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {MORE.map(({ to, key }) => (
             <Link
               key={to}
