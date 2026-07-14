@@ -15,12 +15,22 @@ export function PrivacyPage() {
 
         <div className="mt-12 space-y-8 leading-relaxed text-foreground">
           <div>
-            <h2 className="text-sm font-medium uppercase tracking-wider text-muted">What we collect</h2>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-muted">Your text</h2>
             <p className="mt-3">
-              Nothing. The browser extension and web app convert text locally in
-              your browser. Your text is never transmitted to a server, stored
-              remotely, or shared with third parties. We do not use cookies,
-              analytics, or trackers.
+              Conversion happens entirely in your browser. Your text is never
+              transmitted to a server, stored, or shared with third parties — the
+              browser extension and web app both convert on your device, and the
+              browser extension collects nothing.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-sm font-medium uppercase tracking-wider text-muted">Analytics</h2>
+            <p className="mt-3">
+              The Alfavit website uses Cloudflare Web Analytics to count page views
+              and see which pages are useful. It is cookieless, collects no personal
+              data, does not fingerprint your device, and does not track you across
+              other sites. We run no advertising and no other third-party trackers.
             </p>
           </div>
 
