@@ -9,6 +9,6 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/test-setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
-    exclude: [...configDefaults.exclude, 'src/tests/seo-head.test.ts', 'src/tests/sitemap-build.test.ts'],
+    exclude: [...configDefaults.exclude, 'src/tests/seo-head.test.ts', 'src/tests/sitemap-build.test.ts', 'src/tests/reform-build.test.ts', 'src/tests/guides-build.test.ts'],
   },
 })

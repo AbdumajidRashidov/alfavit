@@ -15,7 +15,9 @@ The 2026 reform (adopted 7 July 2026) replaced the 1995 digraphs and apostrophe-
 ## Pages
 
 - [Converter](https://alfavit.uz/): the web converter (Cyrillic / old Latin → new Latin)
+- [The 2026 reform](https://alfavit.uz/reform): what changed, letter by letter
+- [Cyrillic → new Latin guide](https://alfavit.uz/guide/cyrillic-to-latin): step-by-step
+- [Old Latin → new Latin guide](https://alfavit.uz/guide/old-latin-to-new): step-by-step
 - [Files](https://alfavit.uz/files): convert .txt, .srt, and .docx files in-browser
 - [Apps & channels](https://alfavit.uz/apps): web app, Telegram bot, browser extension, public API
 - [Developers](https://alfavit.uz/developers): free public transliteration API, no key required
-- [The 2026 reform](https://alfavit.uz/reform): what changed, letter by letter

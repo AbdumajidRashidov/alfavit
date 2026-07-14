@@ -36,3 +36,35 @@ export function breadcrumbLd(name: string, url: string) {
     ],
   }
 }
+
+export function faqPageLd(items: { q: string; a: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((i) => ({
+      '@type': 'Question',
+      name: i.q,
+      acceptedAnswer: { '@type': 'Answer', text: i.a },
+    })),
+  }
+}
+
+export function howToLd(name: string, steps: { heading: string; body: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    step: steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, name: s.heading, text: s.body })),
+  }
+}
+
+export function articleLd(headline: string, description: string, url: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    url,
+    publisher: { '@type': 'Organization', name: 'Alfavit' },
+  }
+}
