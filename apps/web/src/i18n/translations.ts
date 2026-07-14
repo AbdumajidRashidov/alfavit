@@ -77,6 +77,10 @@ export const translations = {
     'meta.faq.title': 'FAQ — Alfavit',
     'meta.faq.desc': "Answers about Uzbekistan's 2026 alphabet reform and converting Cyrillic or old Latin to the new Latin script.",
     'faq.title': 'Frequently asked questions',
+    'meta.guide.cyrillic.title': 'Cyrillic to new Latin — Alfavit',
+    'meta.guide.cyrillic.desc': 'Convert Uzbek text from Cyrillic to the reformed 2026 new Latin, step by step.',
+    'meta.guide.oldlatin.title': 'Old Latin to new Latin — Alfavit',
+    'meta.guide.oldlatin.desc': 'Convert 1995 old-Latin digraphs and apostrophe-letters to the new Latin, step by step.',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -154,6 +158,10 @@ export const translations = {
     'meta.faq.title': 'Savol-javob — Alfavit',
     'meta.faq.desc': 'Oʻzbekistonning 2026-yilgi alifbo islohoti va kirill/eski lotinni yangi lotinga oʻgirish haqida savol-javob.',
     'faq.title': 'Koʻp beriladigan savollar',
+    'meta.guide.cyrillic.title': 'Kirilldan lotinga oʻgirish — Alfavit',
+    'meta.guide.cyrillic.desc': 'Kirilldagi oʻzbek matnini 2026-yilgi yangi lotin yozuviga qadamma-qadam oʻgiring.',
+    'meta.guide.oldlatin.title': 'Eski lotindan yangi lotinga — Alfavit',
+    'meta.guide.oldlatin.desc': '1995-yilgi qoʻsh harf va apostrofli harflarni yangi lotinga qadamma-qadam oʻgiring.',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -231,6 +239,10 @@ export const translations = {
     'meta.faq.title': 'Вопросы и ответы — Alfavit',
     'meta.faq.desc': 'Ответы о реформе узбекского алфавита 2026 и конвертации кириллицы или старой латиницы в новую латиницу.',
     'faq.title': 'Часто задаваемые вопросы',
+    'meta.guide.cyrillic.title': 'Кириллица в новую латиницу — Alfavit',
+    'meta.guide.cyrillic.desc': 'Пошаговая конвертация узбекского текста с кириллицы в новую латиницу 2026.',
+    'meta.guide.oldlatin.title': 'Старая латиница в новую — Alfavit',
+    'meta.guide.oldlatin.desc': 'Пошаговая конвертация диграфов и букв с апострофом 1995 года в новую латиницу.',
   },
 } as const
 
