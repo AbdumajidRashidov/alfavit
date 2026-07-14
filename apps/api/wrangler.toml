@@ -3,6 +3,12 @@ main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Custom domain — wrangler provisions the DNS record + edge cert on deploy
+# (the alfavit.uz zone lives in the same Cloudflare account).
+routes = [
+  { pattern = "api.alfavit.uz", custom_domain = true },
+]
+
 [[ratelimits]]
 name = "RATE_LIMITER"
 namespace_id = "1001"
