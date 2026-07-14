@@ -1,6 +1,6 @@
 import { useT } from '../i18n/useT'
 
-const API_BASE = 'https://alfavit-api.abdumajidrashidov44.workers.dev'
+const API_BASE = 'https://api.alfavit.uz'
 
 const CURL = `curl -X POST ${API_BASE}/v1/transliterate \\
   -H "content-type: application/json" \\
