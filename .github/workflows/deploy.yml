@@ -79,7 +79,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '3.114.17'
+          # >= 4.36.0 required for the GA `ratelimit` binding to attach; older
+          # wrangler silently drops it (RATE_LIMITER becomes undefined).
+          wranglerVersion: '4.110.0'
           packageManager: npm
           workingDirectory: apps/api
           command: deploy
