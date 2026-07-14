@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { expect, test, vi, beforeEach } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
 import { routes } from '../router'
+import type { RouteObject } from 'react-router-dom'
 
 beforeEach(() => {
   localStorage.clear()
@@ -15,12 +15,8 @@ beforeEach(() => {
 })
 
 function renderAt(path: string) {
-  const router = createMemoryRouter(routes, { initialEntries: [path] })
-  return render(
-    <LanguageProvider>
-      <RouterProvider router={router} />
-    </LanguageProvider>,
-  )
+  const router = createMemoryRouter(routes as unknown as RouteObject[], { initialEntries: [path] })
+  return render(<RouterProvider router={router} />)
 }
 
 test('/ renders the converter', () => {
