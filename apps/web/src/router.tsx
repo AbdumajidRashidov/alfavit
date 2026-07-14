@@ -5,6 +5,7 @@ import { FilesPage } from './pages/FilesPage'
 import { AppsPage } from './pages/AppsPage'
 import { DevelopersPage } from './pages/DevelopersPage'
 import { ReformPage } from './pages/ReformPage'
+import { PrivacyPage } from './pages/PrivacyPage'
 
 export const routes = [
   {
@@ -15,6 +16,7 @@ export const routes = [
       { path: 'apps', element: <AppsPage /> },
       { path: 'developers', element: <DevelopersPage /> },
       { path: 'reform', element: <ReformPage /> },
+      { path: 'privacy', element: <PrivacyPage /> },
       { path: '*', element: <HomePage /> },
     ],
   },
