@@ -218,7 +218,7 @@ export const translations = {
 
 export type TranslationKey = keyof typeof translations.en
 
-export const LOCALES: Locale[] = ['uz', 'ru', 'en']
+export const LOCALES: readonly Locale[] = ['uz', 'ru', 'en']
 export const DEFAULT_LOCALE: Locale = 'uz'
 
 export function detectInitialLocale(): Locale {
