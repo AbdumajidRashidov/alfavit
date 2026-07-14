@@ -6,7 +6,8 @@
     "dev": "vite-react-ssg dev",
     "build": "tsc -b && vite-react-ssg build",
     "preview": "vite preview --outDir dist",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:dist": "vite-react-ssg build && vitest run --config vitest.dist.config.ts"
   },
   "dependencies": {
     "@alfavit/engine": "workspace:*",

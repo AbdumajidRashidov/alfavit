@@ -16,5 +16,6 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test   # turbo run test (engine + web + bot); ^build runs first
-      - run: pnpm build  # turbo run build (type-check + emit)
+      - run: pnpm test   # turbo run test (unit tests; engine built first via ^build)
+      - run: pnpm build  # turbo run build (type-check + emit, incl. web dist)
+      - run: pnpm --dir apps/web test:dist  # build-output assertions against fresh dist
