@@ -1,6 +1,9 @@
+import { usePageMeta } from '../i18n/usePageMeta'
+
 const UPDATED = 'July 2026'
 
 export function PrivacyPage() {
+  usePageMeta('meta.privacy.title', 'meta.privacy.desc')
   return (
     <section className="mx-auto max-w-3xl px-6 py-24">
       <h1 className="font-serif text-4xl sm:text-6xl text-foreground">Privacy</h1>

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Hero } from '../components/Hero'
 import { Converter } from '../components/Converter'
 import { useT } from '../i18n/useT'
+import { usePageMeta } from '../i18n/usePageMeta'
 import type { TranslationKey } from '../i18n/translations'
 
 const MORE: { to: string; key: TranslationKey }[] = [
@@ -12,6 +13,7 @@ const MORE: { to: string; key: TranslationKey }[] = [
 
 export function HomePage() {
   const { t } = useT()
+  usePageMeta('meta.home.title', 'meta.home.desc')
   return (
     <>
       <Hero />

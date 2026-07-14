@@ -1,4 +1,5 @@
 import { useT } from '../i18n/useT'
+import { usePageMeta } from '../i18n/usePageMeta'
 
 const CHANGES: Array<[string, string]> = [
   ['Sh sh', 'Ş ş'],
@@ -10,6 +11,7 @@ const CHANGES: Array<[string, string]> = [
 
 export function ReformPage() {
   const { t } = useT()
+  usePageMeta('meta.reform.title', 'meta.reform.desc')
   return (
     <section className="mx-auto max-w-3xl px-6 py-24">
       <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('reform.title')}</h1>
