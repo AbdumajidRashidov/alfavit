@@ -8,6 +8,7 @@ import { softwareAppLd } from '../seo/jsonld'
 import type { TranslationKey } from '../i18n/translations'
 
 const MORE: { to: string; key: TranslationKey }[] = [
+  { to: '/faq', key: 'nav.faq' },
   { to: '/files', key: 'nav.files' },
   { to: '/apps', key: 'nav.apps' },
   { to: '/developers', key: 'nav.developers' },
