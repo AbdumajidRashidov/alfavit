@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useT } from '../i18n/useT'
+import { useLocalePath } from '../i18n/useLocalePath'
 import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon } from './icons'
@@ -39,6 +40,7 @@ const BTN = 'rounded-full bg-foreground px-5 py-2 text-sm text-background transi
 
 export function Channels() {
   const { t } = useT()
+  const lp = useLocalePath()
 
   return (
     <section id="channels" className="bg-background">
@@ -71,7 +73,7 @@ export function Channels() {
                     {!item.live || !item.href ? (
                       <span className="text-sm text-muted">{t('status.soon')}</span>
                     ) : item.href.startsWith('/') ? (
-                      <Link to={item.href} className={BTN}>{t('channels.open')}</Link>
+                      <Link to={lp(item.href)} className={BTN}>{t('channels.open')}</Link>
                     ) : (
                       <a href={item.href} target="_blank" rel="noopener noreferrer" className={BTN}>{t('channels.open')}</a>
                     )}

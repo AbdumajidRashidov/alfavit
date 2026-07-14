@@ -45,3 +45,13 @@ test('/reform renders the reform letter changes', () => {
     expect(screen.getByText(glyph)).toBeInTheDocument()
   }
 })
+
+test('/ru renders Russian hero copy', () => {
+  renderAt('/ru')
+  expect(screen.getByText(/новом алфавите/i)).toBeInTheDocument()
+})
+
+test('/en/reform renders the English reform title', () => {
+  renderAt('/en/reform')
+  expect(screen.getByText('The 2026 reform')).toBeInTheDocument()
+})

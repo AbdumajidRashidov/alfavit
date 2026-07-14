@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Hero } from '../components/Hero'
 import { Converter } from '../components/Converter'
 import { useT } from '../i18n/useT'
+import { useLocalePath } from '../i18n/useLocalePath'
 import { usePageMeta } from '../i18n/usePageMeta'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -13,6 +14,7 @@ const MORE: { to: string; key: TranslationKey }[] = [
 
 export function HomePage() {
   const { t } = useT()
+  const lp = useLocalePath()
   usePageMeta('meta.home.title', 'meta.home.desc')
   return (
     <>
@@ -23,7 +25,7 @@ export function HomePage() {
           {MORE.map(({ to, key }) => (
             <Link
               key={to}
-              to={to}
+              to={lp(to)}
               className="rounded-2xl border border-black/10 p-6 font-serif text-2xl text-foreground transition-colors hover:border-black/30"
             >
               {t(key)} →

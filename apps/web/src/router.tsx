@@ -7,18 +7,26 @@ import { DevelopersPage } from './pages/DevelopersPage'
 import { ReformPage } from './pages/ReformPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 
+function contentChildren(): RouteRecord[] {
+  return [
+    { index: true, Component: HomePage },
+    { path: 'files', Component: FilesPage },
+    { path: 'apps', Component: AppsPage },
+    { path: 'developers', Component: DevelopersPage },
+    { path: 'reform', Component: ReformPage },
+    { path: 'privacy', Component: PrivacyPage },
+  ]
+}
+
 export const routes: RouteRecord[] = [
   {
     path: '/',
     element: <RootLayout />,
     entry: 'src/components/RootLayout.tsx',
     children: [
-      { index: true, Component: HomePage },
-      { path: 'files', Component: FilesPage },
-      { path: 'apps', Component: AppsPage },
-      { path: 'developers', Component: DevelopersPage },
-      { path: 'reform', Component: ReformPage },
-      { path: 'privacy', Component: PrivacyPage },
+      ...contentChildren(), // uz at root
+      { path: 'ru', children: contentChildren() },
+      { path: 'en', children: contentChildren() },
       { path: '*', Component: HomePage },
     ],
   },

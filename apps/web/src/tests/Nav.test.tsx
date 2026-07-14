@@ -1,35 +1,35 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router-dom'
-import { expect, test, beforeEach } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
+import { expect, test, vi, beforeEach } from 'vitest'
 import { Nav } from '../components/Nav'
+import { renderApp, renderWithLocale } from './renderApp'
 
 beforeEach(() => {
   localStorage.clear()
   Object.defineProperty(navigator, 'language', { value: 'fr-FR', configurable: true }) // → uz fallback
+  // Reduced-motion so Hero's video loop takes the static path under jsdom (renderApp renders HomePage).
+  vi.stubGlobal('matchMedia', (q: string) => ({
+    matches: q.includes('reduce'), media: q, addEventListener: () => {}, removeEventListener: () => {},
+    addListener: () => {}, removeListener: () => {}, onchange: null, dispatchEvent: () => false,
+  }))
 })
 
 function renderNav() {
-  return render(
-    <LanguageProvider>
-      <MemoryRouter>
-        <Nav />
-      </MemoryRouter>
-    </LanguageProvider>,
-  )
+  return renderWithLocale(<Nav />, '/')
 }
 
-test('renders logo, route links, and localized CTA; switches language', async () => {
-  const user = userEvent.setup()
+test('renders logo, route links, and localized CTA', () => {
   renderNav()
   expect(screen.getByText(/Alfavit/)).toBeInTheDocument()
-  // CTA is now a link
   expect(screen.getByRole('link', { name: 'Boshlash' })).toBeInTheDocument()
-  // Developers route link points at /developers
   expect(screen.getByRole('link', { name: 'Dasturchilar' })).toHaveAttribute('href', '/developers')
+})
+
+test('switching language navigates and re-localizes', async () => {
+  const user = userEvent.setup()
+  renderApp('/')
   await user.click(screen.getByRole('button', { name: 'RU' }))
-  expect(screen.getByRole('link', { name: 'Начать' })).toBeInTheDocument()
+  expect(await screen.findByRole('link', { name: 'Начать' })).toBeInTheDocument()
 })
 
 test('mobile menu toggles open', async () => {

@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { expect, test, beforeEach } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
+import { renderWithLocale } from './renderApp'
 import { Developers } from '../components/Developers'
 
 beforeEach(() => {
@@ -9,7 +9,7 @@ beforeEach(() => {
 })
 
 test('shows the API endpoint and title', () => {
-  render(<LanguageProvider><Developers /></LanguageProvider>)
+  renderWithLocale(<Developers />, '/en')
   expect(screen.getByText('Developers')).toBeInTheDocument()
   expect(screen.getByTestId('endpoint')).toHaveTextContent('/v1/transliterate')
 })

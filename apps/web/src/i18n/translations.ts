@@ -220,12 +220,3 @@ export type TranslationKey = keyof typeof translations.en
 
 export const LOCALES: readonly Locale[] = ['uz', 'ru', 'en']
 export const DEFAULT_LOCALE: Locale = 'uz'
-
-export function detectInitialLocale(): Locale {
-  try {
-    const saved = localStorage.getItem('alfavit.locale')
-    if (saved && LOCALES.includes(saved as Locale)) return saved as Locale
-  } catch { /* ignore */ }
-  const nav = (typeof navigator !== 'undefined' ? navigator.language : 'uz').slice(0, 2)
-  return (LOCALES as string[]).includes(nav) ? (nav as Locale) : 'uz'
-}

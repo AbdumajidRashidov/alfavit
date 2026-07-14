@@ -1,7 +1,7 @@
-import { render, screen, act } from '@testing-library/react'
-import { beforeEach, expect, test } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
+import { screen, act } from '@testing-library/react'
+import { expect, test } from 'vitest'
 import { useT } from '../i18n/useT'
+import { renderWithLocale } from './renderApp'
 
 function Probe() {
   const { t, locale, setLocale } = useT()
@@ -14,22 +14,21 @@ function Probe() {
   )
 }
 
-beforeEach(() => {
-  localStorage.clear()
-  // Force a non-uz/ru/en browser language so we exercise the Uzbek fallback.
-  Object.defineProperty(navigator, 'language', { value: 'fr-FR', configurable: true })
-})
-
-test('defaults to uz (fallback) and shows uz strings', () => {
-  render(<LanguageProvider><Probe /></LanguageProvider>)
+test('root path is uz and shows uz strings', () => {
+  renderWithLocale(<Probe />, '/')
   expect(screen.getByTestId('locale')).toHaveTextContent('uz')
   expect(screen.getByTestId('cta')).toHaveTextContent('Boshlash')
 })
 
-test('setLocale switches strings and persists', () => {
-  render(<LanguageProvider><Probe /></LanguageProvider>)
+test('/ru path is ru and shows ru strings', () => {
+  renderWithLocale(<Probe />, '/ru')
+  expect(screen.getByTestId('locale')).toHaveTextContent('ru')
+  expect(screen.getByTestId('cta')).toHaveTextContent('Начать')
+})
+
+test('setLocale navigates to the same page in the new locale', () => {
+  renderWithLocale(<Probe />, '/')
   act(() => { screen.getByText('ru').click() })
   expect(screen.getByTestId('locale')).toHaveTextContent('ru')
   expect(screen.getByTestId('cta')).toHaveTextContent('Начать')
-  expect(localStorage.getItem('alfavit.locale')).toBe('ru')
 })
