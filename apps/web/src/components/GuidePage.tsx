@@ -38,7 +38,7 @@ export function GuidePage({ guide, pagePath, titleKey, descKey }: GuidePageProps
         <div className="mt-12 rounded-2xl border border-black/10 p-6">
           <div className="flex flex-col gap-2 font-mono text-sm">
             {guide.examples.map(([from, to]) => (
-              <div key={from} className="flex items-center gap-3">
+              <div key={`${from}-${to}`} className="flex items-center gap-3">
                 <span className="text-muted">{from}</span>
                 <span aria-hidden="true" className="text-muted">→</span>
                 <span className="text-foreground">{to}</span>

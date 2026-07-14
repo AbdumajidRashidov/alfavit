@@ -50,7 +50,7 @@ export function ReformPage() {
               <p className="mt-2 leading-relaxed text-muted">{s.body}</p>
               <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 font-mono text-sm text-foreground">
                 {s.examples.map(([from, to]) => (
-                  <span key={from}>{from} → {to}</span>
+                  <span key={`${from}-${to}`}>{from} → {to}</span>
                 ))}
               </div>
             </div>
