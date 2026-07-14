@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { HelmetProvider } from 'react-helmet-async'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { expect, test, vi, beforeEach } from 'vitest'
 import { routes } from '../router'
@@ -16,7 +17,15 @@ beforeEach(() => {
 
 function renderAt(path: string) {
   const router = createMemoryRouter(routes as unknown as RouteObject[], { initialEntries: [path] })
-  return render(<RouterProvider router={router} />)
+  // vite-react-ssg's <Head> (used by <Seo>) renders through react-helmet-async under the
+  // hood, which requires a HelmetProvider ancestor. The real app gets one from
+  // vite-react-ssg's own entrypoint (see main.tsx); tests must supply it themselves since
+  // they render <RouterProvider> directly.
+  return render(
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>,
+  )
 }
 
 test('/ renders the converter', () => {

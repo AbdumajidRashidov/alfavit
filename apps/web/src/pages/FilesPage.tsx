@@ -1,7 +1,11 @@
 import { FileConverter } from '../components/FileConverter'
-import { usePageMeta } from '../i18n/usePageMeta'
+import { Seo } from '../components/Seo'
 
 export function FilesPage() {
-  usePageMeta('meta.files.title', 'meta.files.desc')
-  return <FileConverter />
+  return (
+    <>
+      <Seo titleKey="meta.files.title" descKey="meta.files.desc" pagePath="files" breadcrumb />
+      <FileConverter />
+    </>
+  )
 }
