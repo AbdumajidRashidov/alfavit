@@ -8,7 +8,6 @@ import { softwareAppLd } from '../seo/jsonld'
 import type { TranslationKey } from '../i18n/translations'
 
 const MORE: { to: string; key: TranslationKey }[] = [
-  { to: '/faq', key: 'nav.faq' },
   { to: '/files', key: 'nav.files' },
   { to: '/apps', key: 'nav.apps' },
   { to: '/developers', key: 'nav.developers' },
@@ -23,7 +22,7 @@ export function HomePage() {
       <Hero />
       <Converter />
       <section className="mx-auto max-w-5xl px-6 pb-24">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-3">
           {MORE.map(({ to, key }) => (
             <Link
               key={to}

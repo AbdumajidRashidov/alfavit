@@ -11,7 +11,6 @@ export const PAGE_PATHS: { path: string; priority: number; locales: readonly Loc
   { path: 'apps', priority: 0.8, locales: LOCALES },
   { path: 'developers', priority: 0.8, locales: LOCALES },
   { path: 'reform', priority: 0.7, locales: LOCALES },
-  { path: 'faq', priority: 0.7, locales: LOCALES },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: ['uz', 'ru'] },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: ['uz', 'ru'] },
   { path: 'privacy', priority: 0.3, locales: LOCALES },

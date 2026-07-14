@@ -1,7 +1,8 @@
 import { useT } from '../i18n/useT'
 import { Seo } from '../components/Seo'
 import { spotlights } from '../content/reform'
-import { articleLd } from '../seo/jsonld'
+import { faq } from '../content/faq'
+import { articleLd, faqPageLd } from '../seo/jsonld'
 import { SITE_URL, localePath } from '../seo/config'
 
 const CHANGES: Array<[string, string]> = [
@@ -22,7 +23,7 @@ export function ReformPage() {
         titleKey="meta.reform.title"
         descKey="meta.reform.desc"
         pagePath="reform"
-        jsonLd={articleLd(t('reform.title'), t('reform.intro'), url)}
+        jsonLd={[articleLd(t('reform.title'), t('reform.intro'), url), faqPageLd(faq[locale])]}
         breadcrumb
       />
       <section className="mx-auto max-w-3xl px-6 py-24">
@@ -59,6 +60,16 @@ export function ReformPage() {
 
         <p className="mt-16 leading-relaxed text-foreground">{t('reform.law')}</p>
         <p className="mt-4 leading-relaxed text-muted">{t('reform.why')}</p>
+
+        <h2 id="faq" className="mt-16 scroll-mt-24 text-sm font-medium uppercase tracking-wider text-muted">{t('faq.title')}</h2>
+        <dl className="mt-4 divide-y divide-black/10 border-t border-black/10">
+          {faq[locale].map((item) => (
+            <div key={item.q} className="py-6">
+              <dt className="text-lg font-medium text-foreground">{item.q}</dt>
+              <dd className="mt-2 leading-relaxed text-muted">{item.a}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     </>
   )

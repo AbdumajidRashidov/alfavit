@@ -11,3 +11,9 @@ test('reform page has spotlight anchors + Article schema', () => {
   expect(html).toContain('"@type":"Article"')
   expect(html).toContain('şahar')
 })
+
+test('reform page carries the FAQ section + FAQPage schema', () => {
+  const html = dist('reform.html')
+  expect(html).toContain('Yangi alifboda nechta harf bor?')
+  expect(html).toContain('"@type":"FAQPage"')
+})

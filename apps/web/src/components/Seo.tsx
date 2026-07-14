@@ -8,7 +8,7 @@ interface SeoProps {
   titleKey: TranslationKey
   descKey: TranslationKey
   pagePath: string // locale-agnostic page path, e.g. '' | 'faq' | 'guide/cyrillic-to-latin'
-  jsonLd?: object
+  jsonLd?: object | object[]
   breadcrumb?: boolean
 }
 
@@ -38,7 +38,10 @@ export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb }: SeoProp
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image" content={`${SITE_URL}/og.png`} />
-      {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
+      {jsonLd &&
+        (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((ld, i) => (
+          <script key={i} type="application/ld+json">{JSON.stringify(ld)}</script>
+        ))}
       {crumb && <script type="application/ld+json">{JSON.stringify(crumb)}</script>}
     </Head>
   )

@@ -40,5 +40,4 @@ test('sitemap omits en for uz/ru-only guides', () => {
   expect(xml).toContain('<loc>https://alfavit.uz/guide/cyrillic-to-latin</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/ru/guide/cyrillic-to-latin</loc>')
   expect(xml).not.toContain('https://alfavit.uz/en/guide/cyrillic-to-latin')
-  expect(xml).toContain('<loc>https://alfavit.uz/faq</loc>')
 })

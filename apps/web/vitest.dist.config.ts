@@ -5,6 +5,6 @@ import { defineConfig } from 'vitest/config'
 // these from the fast `pnpm test` unit run.
 export default defineConfig({
   test: {
-    include: ['src/tests/seo-head.test.ts', 'src/tests/sitemap-build.test.ts', 'src/tests/faq-build.test.ts', 'src/tests/reform-build.test.ts', 'src/tests/guides-build.test.ts'],
+    include: ['src/tests/seo-head.test.ts', 'src/tests/sitemap-build.test.ts', 'src/tests/reform-build.test.ts', 'src/tests/guides-build.test.ts'],
   },
 })

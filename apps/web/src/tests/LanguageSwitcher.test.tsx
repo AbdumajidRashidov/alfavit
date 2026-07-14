@@ -15,7 +15,7 @@ function at(path: string) {
 }
 
 test('all-locale page shows UZ/RU/EN', () => {
-  at('/faq')
+  at('/reform')
   expect(screen.getByRole('button', { name: 'UZ' })).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'RU' })).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'EN' })).toBeInTheDocument()
