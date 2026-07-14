@@ -7,6 +7,12 @@ import { faq } from '../content/faq'
 import { articleLd, faqPageLd } from '../seo/jsonld'
 import { SITE_URL, localePath, localesForPath } from '../seo/config'
 
+const SOURCES: Array<[string, string]> = [
+  ['gazeta.uz', 'https://www.gazeta.uz/en/2026/07/09/alphabet/'],
+  ['kun.uz', 'https://kun.uz/news/2026/07/07/ozbekistonda-alifbo-islohoti-boyicha-qonun-qabul-qilindi-4cf07b'],
+  ['Wikipedia', 'https://en.wikipedia.org/wiki/Uzbek_alphabet'],
+]
+
 const CHANGES: Array<[string, string]> = [
   ['Sh sh', 'Ş ş'],
   ['Ch ch', 'Ç ç'],
@@ -88,6 +94,17 @@ export function ReformPage() {
             </div>
           </>
         )}
+
+        <h2 className="mt-16 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.sourcesLabel')}</h2>
+        <ul className="mt-4 flex flex-col gap-2 text-sm">
+          {SOURCES.map(([label, href]) => (
+            <li key={href}>
+              <a href={href} target="_blank" rel="noopener noreferrer" className="text-muted underline transition-colors hover:text-foreground">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
     </>
   )
