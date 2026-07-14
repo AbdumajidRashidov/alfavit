@@ -77,6 +77,9 @@ export const translations = {
     'meta.guide.cyrillic.desc': 'Convert Uzbek text from Cyrillic to the reformed 2026 new Latin, step by step.',
     'meta.guide.oldlatin.title': 'Old Latin to new Latin — Alfavit',
     'meta.guide.oldlatin.desc': 'Convert 1995 old-Latin digraphs and apostrophe-letters to the new Latin, step by step.',
+    'guides.label': 'Guides',
+    'guides.cyrillic': 'Cyrillic → new Latin',
+    'guides.oldlatin': 'Old Latin → new Latin',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -154,6 +157,9 @@ export const translations = {
     'meta.guide.cyrillic.desc': 'Kirilldagi oʻzbek matnini 2026-yilgi yangi lotin yozuviga qadamma-qadam oʻgiring.',
     'meta.guide.oldlatin.title': 'Eski lotindan yangi lotinga — Alfavit',
     'meta.guide.oldlatin.desc': '1995-yilgi qoʻsh harf va apostrofli harflarni yangi lotinga qadamma-qadam oʻgiring.',
+    'guides.label': 'Qoʻllanmalar',
+    'guides.cyrillic': 'Kirilldan lotinga',
+    'guides.oldlatin': 'Eski lotindan yangi lotinga',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -231,6 +237,9 @@ export const translations = {
     'meta.guide.cyrillic.desc': 'Пошаговая конвертация узбекского текста с кириллицы в новую латиницу 2026.',
     'meta.guide.oldlatin.title': 'Старая латиница в новую — Alfavit',
     'meta.guide.oldlatin.desc': 'Пошаговая конвертация диграфов и букв с апострофом 1995 года в новую латиницу.',
+    'guides.label': 'Руководства',
+    'guides.cyrillic': 'Кириллица → латиница',
+    'guides.oldlatin': 'Старая латиница → новая',
   },
 } as const
 

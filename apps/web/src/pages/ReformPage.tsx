@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
+import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
 import { spotlights } from '../content/reform'
 import { faq } from '../content/faq'
 import { articleLd, faqPageLd } from '../seo/jsonld'
-import { SITE_URL, localePath } from '../seo/config'
+import { SITE_URL, localePath, localesForPath } from '../seo/config'
 
 const CHANGES: Array<[string, string]> = [
   ['Sh sh', 'Ş ş'],
@@ -15,8 +17,10 @@ const CHANGES: Array<[string, string]> = [
 
 export function ReformPage() {
   const { t, locale } = useT()
+  const lp = useLocalePath()
   const items = spotlights[locale]
   const url = SITE_URL + localePath(locale, 'reform')
+  const hasGuides = localesForPath('guide/cyrillic-to-latin').includes(locale)
   return (
     <>
       <Seo
@@ -70,6 +74,20 @@ export function ReformPage() {
             </div>
           ))}
         </dl>
+
+        {hasGuides && (
+          <>
+            <h2 className="mt-16 text-sm font-medium uppercase tracking-wider text-muted">{t('guides.label')}</h2>
+            <div className="mt-4 flex flex-col gap-3">
+              <Link to={lp('/guide/cyrillic-to-latin')} className="font-serif text-2xl text-foreground transition-colors hover:text-muted">
+                {t('guides.cyrillic')} →
+              </Link>
+              <Link to={lp('/guide/old-latin-to-new')} className="font-serif text-2xl text-foreground transition-colors hover:text-muted">
+                {t('guides.oldlatin')} →
+              </Link>
+            </div>
+          </>
+        )}
       </section>
     </>
   )
