@@ -29,15 +29,15 @@ test('generateSitemapXml: one url per page per locale it supports', () => {
   expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"')
 })
 
-test('localesForPath: guides are uz/ru only, others all locales', () => {
+test('localesForPath: all current pages exist in all three locales', () => {
   expect(localesForPath('')).toEqual(['uz', 'ru', 'en'])
-  expect(localesForPath('guide/cyrillic-to-latin')).toEqual(['uz', 'ru'])
+  expect(localesForPath('guide/cyrillic-to-latin')).toEqual(['uz', 'ru', 'en'])
   expect(localesForPath('unknown')).toEqual(['uz', 'ru', 'en'])
 })
 
-test('sitemap omits en for uz/ru-only guides', () => {
+test('sitemap includes all locales for guides', () => {
   const xml = generateSitemapXml()
   expect(xml).toContain('<loc>https://alfavit.uz/guide/cyrillic-to-latin</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/ru/guide/cyrillic-to-latin</loc>')
-  expect(xml).not.toContain('https://alfavit.uz/en/guide/cyrillic-to-latin')
+  expect(xml).toContain('<loc>https://alfavit.uz/en/guide/cyrillic-to-latin</loc>')
 })

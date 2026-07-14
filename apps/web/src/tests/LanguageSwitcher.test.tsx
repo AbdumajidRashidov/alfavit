@@ -21,9 +21,9 @@ test('all-locale page shows UZ/RU/EN', () => {
   expect(screen.getByRole('button', { name: 'EN' })).toBeInTheDocument()
 })
 
-test('uz/ru-only guide page hides EN', () => {
+test('guide page shows all three locales (guides are now all-locale)', () => {
   at('/guide/cyrillic-to-latin')
   expect(screen.getByRole('button', { name: 'UZ' })).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'RU' })).toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: 'EN' })).toBeNull()
+  expect(screen.getByRole('button', { name: 'EN' })).toBeInTheDocument()
 })

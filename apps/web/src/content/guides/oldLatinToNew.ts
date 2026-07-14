@@ -1,6 +1,18 @@
 import type { Guide } from '../types'
+import type { Locale } from '../../seo/config'
 
-export const oldLatinToNew: Record<'uz' | 'ru', Guide> = {
+export const oldLatinToNew: Record<Locale, Guide> = {
+  en: {
+    title: 'Old Latin (1995) to the new Latin',
+    intro: 'Convert 1995 old-Latin digraphs and apostrophe-letters to the reformed 2026 new Latin.',
+    steps: [
+      { heading: 'Copy the old-Latin text', body: 'Copy text that uses forms like sh, ch, gʻ, oʻ.' },
+      { heading: 'Open the converter', body: 'Go to the converter on the Alfavit home page.' },
+      { heading: 'Paste the text', body: 'Paste it — digraphs and apostrophe-letters become single letters.' },
+      { heading: 'Take the result', body: 'Copy the result with ş, ç, ğ, ŏ.' },
+    ],
+    examples: [['oʻzbek', 'ŏzbek'], ['gʻalaba', 'ğalaba'], ['shahar', 'şahar'], ['choy', 'çoy']],
+  },
   uz: {
     title: 'Eski (1995) lotindan yangi lotinga',
     intro: '1995-yilgi lotin yozuvidagi qoʻsh harflar va apostrofli harflarni 2026-yilgi yangi lotinga oʻgiring.',

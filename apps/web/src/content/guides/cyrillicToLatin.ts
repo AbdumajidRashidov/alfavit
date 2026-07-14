@@ -1,6 +1,18 @@
 import type { Guide } from '../types'
+import type { Locale } from '../../seo/config'
 
-export const cyrillicToLatin: Record<'uz' | 'ru', Guide> = {
+export const cyrillicToLatin: Record<Locale, Guide> = {
+  en: {
+    title: 'Convert Cyrillic to the new Latin',
+    intro: 'Convert Uzbek text from Cyrillic to the reformed 2026 new Latin in seconds — free and on your device.',
+    steps: [
+      { heading: 'Copy your text', body: 'Select and copy your Cyrillic text.' },
+      { heading: 'Open the converter', body: 'Go to the converter on the Alfavit home page.' },
+      { heading: 'Paste the text', body: 'Paste it into the input field — Alfavit detects the script and converts it to the new Latin.' },
+      { heading: 'Take the result', body: 'Copy the new-Latin result and paste it wherever you need.' },
+    ],
+    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Ŏzbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
+  },
   uz: {
     title: 'Kirill alifbosidan yangi lotinga oʻgirish',
     intro: 'Kirilldagi oʻzbek matnini 2026-yilgi yangi lotin yozuviga bir necha soniyada oʻgiring — bepul va qurilmangizda.',
