@@ -22,3 +22,13 @@ test('ru reform page canonical points at the ru URL', () => {
   const html = dist('ru/reform.html')
   expect(html).toContain('rel="canonical" href="https://alfavit.uz/ru/reform"')
 })
+
+test('every page carries Organization + WebSite schema', () => {
+  const html = dist('index.html')
+  expect(html).toContain('"@type":"Organization"')
+  expect(html).toContain('"@type":"WebSite"')
+  // vite-react-ssg emits flat filenames: dist/ru/reform.html, not dist/ru/reform/index.html.
+  const ru = dist('ru/reform.html')
+  expect(ru).toContain('"@type":"Organization"')
+  expect(ru).toContain('"@type":"BreadcrumbList"')
+})

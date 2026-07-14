@@ -1,5 +1,20 @@
 import { SITE_URL } from './config'
 
+export const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Alfavit',
+  url: SITE_URL,
+  logo: `${SITE_URL}/apple-touch-icon.png`,
+}
+
+export const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Alfavit',
+  url: SITE_URL,
+}
+
 export const softwareAppLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
