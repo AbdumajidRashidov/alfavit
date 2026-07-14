@@ -786,9 +786,21 @@ export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb }: SeoProp
 }
 ```
 
-> `jsonld.ts` (with `breadcrumbLd`) is created in Task 5. To keep Task 4 self-contained and green, create a minimal `apps/web/src/seo/jsonld.ts` now containing just `breadcrumbLd` (Task 5 adds the rest):
+> `jsonld.ts` is created here (Task 4 uses both `breadcrumbLd` and `softwareAppLd`); Task 5 later adds `organizationLd` + `websiteLd`. Create `apps/web/src/seo/jsonld.ts` now with:
 > ```ts
 > import { SITE_URL } from './config'
+>
+> export const softwareAppLd = {
+>   '@context': 'https://schema.org',
+>   '@type': 'SoftwareApplication',
+>   name: 'Alfavit',
+>   applicationCategory: 'UtilitiesApplication',
+>   operatingSystem: 'Any (web browser)',
+>   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+>   description:
+>     'Convert Uzbek text from Cyrillic or old Latin to the reformed 2026 new Latin script, in your browser.',
+> }
+>
 > export function breadcrumbLd(name: string, url: string) {
 >   return {
 >     '@context': 'https://schema.org',
@@ -924,7 +936,7 @@ Run:
 pnpm --dir apps/web build
 pnpm --dir apps/web exec vitest run src/tests/seo-head.test.ts
 ```
-Expected: build succeeds; both tests PASS. (This test depends on `softwareAppLd` from Task 5's `jsonld.ts` — if running Task 4 in isolation before Task 5, temporarily add `softwareAppLd` per Step 1's note. Task 5 finalizes it.)
+Expected: build succeeds; both tests PASS. (`softwareAppLd` is defined in the `jsonld.ts` created in Step 1; Task 5 later adds `organizationLd`/`websiteLd`.)
 
 - [ ] **Step 7: Run the whole suite + commit**
 
