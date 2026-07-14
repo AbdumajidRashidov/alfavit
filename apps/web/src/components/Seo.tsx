@@ -7,7 +7,7 @@ import type { TranslationKey } from '../i18n/translations'
 interface SeoProps {
   titleKey: TranslationKey
   descKey: TranslationKey
-  pagePath: string // '' | 'files' | 'apps' | 'developers' | 'reform' | 'privacy'
+  pagePath: string // '' | 'files' | 'apps' | 'developers' | 'reform' | 'faq' | 'privacy'
   jsonLd?: object
   breadcrumb?: boolean
 }

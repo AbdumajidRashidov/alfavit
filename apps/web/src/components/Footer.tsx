@@ -15,6 +15,7 @@ export function Footer() {
         </Link>
         <nav className="flex gap-6 font-sans text-sm text-muted">
           <Link to={lp('/reform')} className={cls}>{t('footer.reform')}</Link>
+          <Link to={lp('/faq')} className={cls}>{t('footer.faq')}</Link>
           <Link to={lp('/developers')} className={cls}>{t('footer.developers')}</Link>
           <a href="https://t.me/alfavit_uz_bot" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.telegram')}</a>
           <a href="https://github.com/AbdumajidRashidov/alfavit" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.github')}</a>

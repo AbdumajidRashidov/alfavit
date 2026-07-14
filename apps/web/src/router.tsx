@@ -6,6 +6,7 @@ import { FilesPage } from './pages/FilesPage'
 import { AppsPage } from './pages/AppsPage'
 import { DevelopersPage } from './pages/DevelopersPage'
 import { ReformPage } from './pages/ReformPage'
+import { FaqPage } from './pages/FaqPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { localesForPath, type Locale } from './seo/config'
 
@@ -17,6 +18,7 @@ const PAGES: PageDef[] = [
   { path: 'apps', Component: AppsPage },
   { path: 'developers', Component: DevelopersPage },
   { path: 'reform', Component: ReformPage },
+  { path: 'faq', Component: FaqPage },
   { path: 'privacy', Component: PrivacyPage },
 ]
 
