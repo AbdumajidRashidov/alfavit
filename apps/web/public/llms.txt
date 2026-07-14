@@ -1,0 +1,21 @@
+# Alfavit
+
+> Alfavit converts Uzbek text from Cyrillic or the old 1995 Latin script into Uzbekistan's reformed 2026 new Latin alphabet — free, instant, and fully on-device. No account, no upload, no tracking.
+
+## Reform mapping (2026)
+
+- sh → ş
+- ch → ç
+- gʻ → ğ
+- oʻ → ŏ
+- loanword ts → c
+
+The 2026 reform (adopted 7 July 2026) replaced the 1995 digraphs and apostrophe-letters with single letters: 28 letters and one apostrophe sign.
+
+## Pages
+
+- [Converter](https://alfavit.uz/): the web converter (Cyrillic / old Latin → new Latin)
+- [Files](https://alfavit.uz/files): convert .txt, .srt, and .docx files in-browser
+- [Apps & channels](https://alfavit.uz/apps): web app, Telegram bot, browser extension, public API
+- [Developers](https://alfavit.uz/developers): free public transliteration API, no key required
+- [The 2026 reform](https://alfavit.uz/reform): what changed, letter by letter

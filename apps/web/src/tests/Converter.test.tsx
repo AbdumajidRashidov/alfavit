@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
+import { renderWithLocale } from './renderApp'
 import { Converter } from '../components/Converter'
 
 function renderConverter() {
-  return render(<LanguageProvider><Converter /></LanguageProvider>)
+  return renderWithLocale(<Converter />)
 }
 
 test('typing Cyrillic shows new-Latin output and detected script', async () => {

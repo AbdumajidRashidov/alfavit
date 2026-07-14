@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import type { RouteRecord } from 'vite-react-ssg'
 import { RootLayout } from './components/RootLayout'
 import { HomePage } from './pages/HomePage'
 import { FilesPage } from './pages/FilesPage'
@@ -7,19 +7,27 @@ import { DevelopersPage } from './pages/DevelopersPage'
 import { ReformPage } from './pages/ReformPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 
-export const routes = [
+function contentChildren(): RouteRecord[] {
+  return [
+    { index: true, Component: HomePage },
+    { path: 'files', Component: FilesPage },
+    { path: 'apps', Component: AppsPage },
+    { path: 'developers', Component: DevelopersPage },
+    { path: 'reform', Component: ReformPage },
+    { path: 'privacy', Component: PrivacyPage },
+  ]
+}
+
+export const routes: RouteRecord[] = [
   {
+    path: '/',
     element: <RootLayout />,
+    entry: 'src/components/RootLayout.tsx',
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'files', element: <FilesPage /> },
-      { path: 'apps', element: <AppsPage /> },
-      { path: 'developers', element: <DevelopersPage /> },
-      { path: 'reform', element: <ReformPage /> },
-      { path: 'privacy', element: <PrivacyPage /> },
-      { path: '*', element: <HomePage /> },
+      ...contentChildren(), // uz at root
+      { path: 'ru', children: contentChildren() },
+      { path: 'en', children: contentChildren() },
+      { path: '*', Component: HomePage },
     ],
   },
 ]
-
-export const router = createBrowserRouter(routes)

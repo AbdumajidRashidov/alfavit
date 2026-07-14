@@ -1,7 +1,11 @@
 import { Channels } from '../components/Channels'
-import { usePageMeta } from '../i18n/usePageMeta'
+import { Seo } from '../components/Seo'
 
 export function AppsPage() {
-  usePageMeta('meta.apps.title', 'meta.apps.desc')
-  return <Channels />
+  return (
+    <>
+      <Seo titleKey="meta.apps.title" descKey="meta.apps.desc" pagePath="apps" breadcrumb />
+      <Channels />
+    </>
+  )
 }

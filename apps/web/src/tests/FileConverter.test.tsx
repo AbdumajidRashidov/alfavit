@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi, beforeEach } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
+import { renderWithLocale } from './renderApp'
 import { FileConverter } from '../components/FileConverter'
 
 beforeEach(() => {
@@ -13,7 +13,7 @@ beforeEach(() => {
 })
 
 function renderFC() {
-  return render(<LanguageProvider><FileConverter /></LanguageProvider>)
+  return renderWithLocale(<FileConverter />, '/en')
 }
 
 test('converts a supported .txt file and reports done', async () => {

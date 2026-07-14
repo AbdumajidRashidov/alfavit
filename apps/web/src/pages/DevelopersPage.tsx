@@ -1,7 +1,11 @@
 import { Developers } from '../components/Developers'
-import { usePageMeta } from '../i18n/usePageMeta'
+import { Seo } from '../components/Seo'
 
 export function DevelopersPage() {
-  usePageMeta('meta.dev.title', 'meta.dev.desc')
-  return <Developers />
+  return (
+    <>
+      <Seo titleKey="meta.dev.title" descKey="meta.dev.desc" pagePath="developers" breadcrumb />
+      <Developers />
+    </>
+  )
 }

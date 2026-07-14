@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
+import { HelmetProvider } from 'react-helmet-async'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 import { expect, test, vi, beforeEach } from 'vitest'
-import { LanguageProvider } from '../i18n/LanguageProvider'
 import { routes } from '../router'
+import type { RouteObject } from 'react-router-dom'
 
 beforeEach(() => {
   localStorage.clear()
@@ -15,11 +16,15 @@ beforeEach(() => {
 })
 
 function renderAt(path: string) {
-  const router = createMemoryRouter(routes, { initialEntries: [path] })
+  const router = createMemoryRouter(routes as unknown as RouteObject[], { initialEntries: [path] })
+  // vite-react-ssg's <Head> (used by <Seo>) renders through react-helmet-async under the
+  // hood, which requires a HelmetProvider ancestor. The real app gets one from
+  // vite-react-ssg's own entrypoint (see main.tsx); tests must supply it themselves since
+  // they render <RouterProvider> directly.
   return render(
-    <LanguageProvider>
+    <HelmetProvider>
       <RouterProvider router={router} />
-    </LanguageProvider>,
+    </HelmetProvider>,
   )
 }
 
@@ -48,4 +53,14 @@ test('/reform renders the reform letter changes', () => {
   for (const glyph of ['Ş ş', 'Ŏ ŏ', 'Ç ç', 'Ğ ğ']) {
     expect(screen.getByText(glyph)).toBeInTheDocument()
   }
+})
+
+test('/ru renders Russian hero copy', () => {
+  renderAt('/ru')
+  expect(screen.getByText(/новом алфавите/i)).toBeInTheDocument()
+})
+
+test('/en/reform renders the English reform title', () => {
+  renderAt('/en/reform')
+  expect(screen.getByText('The 2026 reform')).toBeInTheDocument()
 })
