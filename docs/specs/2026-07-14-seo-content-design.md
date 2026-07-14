@@ -18,19 +18,18 @@ Uzbek public searching in **uz and ru** ("kirilldan lotinga", "yangi alifbo 2026
 
 ## Page map & locale coverage
 
-Five content surfaces (the originally-requested set consolidated to avoid thin/cannibalizing pages):
+Four content surfaces (the originally-requested set consolidated to avoid thin/cannibalizing pages):
 
 | Route | Status | Locales | Schema | Target intent |
 |-------|--------|---------|--------|---------------|
 | `/faq` | new | uz, ru, en | FAQPage + BreadcrumbList | "nega alifbo oʻzgardi", "nechta harf", "qachon oʻzgaradi" |
 | `/reform` | expand existing | uz, ru, en | Article + BreadcrumbList | "alifbo islohoti 2026" + letter long-tail (anchored sections) |
-| `/alphabet` | new | uz, ru, en | Article + BreadcrumbList | "yangi oʻzbek alifbosi barcha harflar", alphabet chart, LLM citation |
 | `/guide/cyrillic-to-latin` | new | uz, ru | HowTo + BreadcrumbList | biggest transactional cluster; funnels to the converter |
 | `/guide/old-latin-to-new` | new | uz, ru | HowTo + BreadcrumbList | old-Latin (1995) apostrophe-letter migration |
 
 **Consolidation decisions:**
 - The **5 letter-change spotlights** (sh→ş, ch→ç, gʻ→ğ, oʻ→ŏ, loanword ts→c) are **anchored sections within `/reform`** (`/reform#sh`, `#ch`, …), not separate pages — capturing long-tail queries without thin/duplicate pages.
-- `/reform` (narrative: what changed & why) and `/alphabet` (pure reference chart) stay **distinct by intent** with differentiated content, cross-linked.
+- **`/alphabet` (28-letter reference chart) is DEFERRED to a follow-up** — an accurate full per-letter chart (names, Cyrillic/old-Latin equivalents, examples) needs the authoritative Cabinet orthography table, which isn't available; per the accuracy constraint we don't fabricate it. The confirmed reformed-letter info lives in `/reform` for now.
 - **Routing:** stable English slugs, localized content (no per-locale slugs in v1).
 
 ## The one foundation change: per-page locale coverage
@@ -52,14 +51,14 @@ Under `apps/web/src/content/`:
   - `AlphabetRow { latin: string; cyrillic: string; oldLatin: string; name: string; exampleNew: string }`
   - `ReformSpotlight { id: string; from: string; to: string; body: string; examples: [string, string][] }`
 - `faq.ts` — `faq: Record<Locale, FaqItem[]>`
-- `reform.ts` — `Record<Locale, { intro; law; why; history; spotlights: ReformSpotlight[] }>`
-- `alphabet.ts` — invariant `ALPHABET: AlphabetRow[]` (letters/equivalents don't change by UI language) + `Record<Locale, { intro; columnLabels }>` for localized chrome
+- `reform.ts` — `spotlights: Record<Locale, ReformSpotlight[]>` (the 5 letter-change sections; existing `reform.*` translation keys stay for intro/law/why)
 - `guides/cyrillicToLatin.ts`, `guides/oldLatinToNew.ts` — `Record<'uz'|'ru', Guide>`
+
+(`alphabet.ts` / `AlphabetRow` are deferred with the `/alphabet` page.)
 
 **Rendering components** (`apps/web/src/pages` + `components`):
 - `FaqPage` → renders `faq[locale]` as a semantic Q&A list (each Q an `<h2>`/`<h3>`, answer prose) + `<Seo>`.
-- `ReformPage` (expand) → intro/why/law/history + a spotlight section per `ReformSpotlight` with `id` anchors.
-- `AlphabetPage` → the `ALPHABET` table (accessible `<table>`, all 28 letters + apostrophe sign) + localized intro.
+- `ReformPage` (expand) → existing intro/why/law + a spotlight section per `ReformSpotlight` with `id` anchors.
 - `GuidePage` — one generic component driven by a `Guide`, reused by both guide routes.
 
 ## Structured data (JSON-LD)
@@ -68,7 +67,7 @@ Added to `apps/web/src/seo/jsonld.ts`, generated from the content data (so count
 
 - `faqPageLd(items: FaqItem[])` → `FAQPage` with a `Question`/`Answer` per item.
 - `howToLd(guide: Guide)` → `HowTo` with a `HowToStep` per `steps[]`.
-- `articleLd(title, description, url)` → `Article` for `/reform` and `/alphabet`.
+- `articleLd(title, description, url)` → `Article` for `/reform`.
 - `BreadcrumbList` (existing `breadcrumbLd`) on every new page.
 
 `<Seo>` gains an optional `jsonLd` already; pages pass their page-type schema.
@@ -93,19 +92,19 @@ Content is authored by the assistant (uz/ru/en) and **must be verified by the us
   - Content modules: every `Record<Locale, …>` has entries for each declared locale (no missing translations).
 - **Build-output (`test:dist`, post-build):**
   - `/faq` HTML (uz + ru + en) contains a known question and its `FAQPage` JSON-LD.
-  - `/alphabet` HTML contains the reformed letters (ş, ç, ğ, ŏ, c) and Article JSON-LD.
-  - `/reform` HTML contains the spotlight section anchors.
+  - `/reform` HTML contains the spotlight section anchors and Article JSON-LD.
   - Guide HTML exists for uz + ru with `HowTo` JSON-LD; `dist/en/guide/cyrillic-to-latin.html` does **not** exist.
 - **Hydration:** preview, navigate the new pages + switch locale, no console/hydration errors.
 - Existing suites stay green.
 
 ## Out of scope (later)
 
+- **`/alphabet` 28-letter reference page** (deferred — needs the authoritative Cabinet orthography table).
 - Per-locale slugs; English versions of the two guides; a blog/news section; on-site search; user comments; the held orthography decisions (Spec-0 backlog).
 
 ## Success criteria
 
-- Five content surfaces live, each prerendered in its declared locales with correct FAQPage/Article/HowTo + BreadcrumbList and hreflang listing only available locales.
+- Four content surfaces live, each prerendered in its declared locales with correct FAQPage/Article/HowTo + BreadcrumbList and hreflang listing only available locales.
 - `llms.txt` and `sitemap.xml` include the new pages (guides uz/ru only).
 - Content reviewed and confirmed by the user; no unverified orthography asserted.
 - All tests green (unit + `test:dist`); no hydration errors; deploys unchanged.
