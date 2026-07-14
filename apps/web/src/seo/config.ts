@@ -5,14 +5,21 @@ export type { Locale }
 
 export const SITE_URL = 'https://alfavit.uz'
 
-export const PAGE_PATHS: { path: string; priority: number }[] = [
-  { path: '', priority: 1.0 },
-  { path: 'files', priority: 0.8 },
-  { path: 'apps', priority: 0.8 },
-  { path: 'developers', priority: 0.8 },
-  { path: 'reform', priority: 0.6 },
-  { path: 'privacy', priority: 0.3 },
+export const PAGE_PATHS: { path: string; priority: number; locales: readonly Locale[] }[] = [
+  { path: '', priority: 1.0, locales: LOCALES },
+  { path: 'files', priority: 0.8, locales: LOCALES },
+  { path: 'apps', priority: 0.8, locales: LOCALES },
+  { path: 'developers', priority: 0.8, locales: LOCALES },
+  { path: 'reform', priority: 0.7, locales: LOCALES },
+  { path: 'faq', priority: 0.7, locales: LOCALES },
+  { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: ['uz', 'ru'] },
+  { path: 'guide/old-latin-to-new', priority: 0.6, locales: ['uz', 'ru'] },
+  { path: 'privacy', priority: 0.3, locales: LOCALES },
 ]
+
+export function localesForPath(pagePath: string): readonly Locale[] {
+  return PAGE_PATHS.find((p) => p.path === pagePath)?.locales ?? LOCALES
+}
 
 export function localePath(locale: Locale, pagePath: string): string {
   const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
@@ -30,10 +37,10 @@ export function parsePath(pathname: string): { locale: Locale; pagePath: string 
 }
 
 export function generateSitemapXml(): string {
-  const urls = LOCALES.flatMap((locale) =>
-    PAGE_PATHS.map(({ path, priority }) => {
+  const urls = PAGE_PATHS.flatMap(({ path, priority, locales }) =>
+    locales.map((locale) => {
       const loc = SITE_URL + localePath(locale, path)
-      const alts = LOCALES
+      const alts = locales
         .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_URL + localePath(l, path)}"/>`)
         .join('\n')
       const xdefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + localePath(DEFAULT_LOCALE, path)}"/>`

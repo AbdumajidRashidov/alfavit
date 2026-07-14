@@ -1,6 +1,6 @@
 import { Head } from 'vite-react-ssg'
 import { useT } from '../i18n/useT'
-import { SITE_URL, LOCALES, localePath } from '../seo/config'
+import { SITE_URL, DEFAULT_LOCALE, localePath, localesForPath } from '../seo/config'
 import { breadcrumbLd } from '../seo/jsonld'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -24,10 +24,10 @@ export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb }: SeoProp
       <title>{title}</title>
       <meta name="description" content={desc} />
       <link rel="canonical" href={canonical} />
-      {LOCALES.map((l) => (
+      {localesForPath(pagePath).map((l) => (
         <link key={l} rel="alternate" hrefLang={l} href={SITE_URL + localePath(l, pagePath)} />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={SITE_URL + localePath('uz', pagePath)} />
+      <link rel="alternate" hrefLang="x-default" href={SITE_URL + localePath(DEFAULT_LOCALE, pagePath)} />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Alfavit" />
       <meta property="og:title" content={title} />
