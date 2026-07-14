@@ -1,16 +1,19 @@
-import type { Plugin } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { generateSitemapXml } from './config'
 
-// Writes dist/sitemap.xml after the build bundle is emitted.
+// Writes <outDir>/sitemap.xml after the build bundle is emitted.
 export function sitemapPlugin(): Plugin {
+  let config: ResolvedConfig
   return {
     name: 'alfavit-sitemap',
     apply: 'build',
+    configResolved(resolved) {
+      config = resolved
+    },
     closeBundle() {
-      const out = process.cwd().endsWith('apps/web') ? 'dist/sitemap.xml' : 'apps/web/dist/sitemap.xml'
-      writeFileSync(resolve(out), generateSitemapXml())
+      writeFileSync(resolve(config.root, config.build.outDir, 'sitemap.xml'), generateSitemapXml())
     },
   }
 }
