@@ -3,7 +3,7 @@ import { convertPlainText, transliterateDocxXml } from '../files/convert'
 
 test('convertPlainText converts Cyrillic and old-Latin', () => {
   expect(convertPlainText('салом дунё')).toBe('salom dunyo')
-  expect(convertPlainText("o'zbek")).toBe('ŏzbek')
+  expect(convertPlainText("o'zbek")).toBe('özbek')
 })
 
 test('convertPlainText preserves .srt timecodes and indices', () => {

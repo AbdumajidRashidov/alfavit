@@ -50,7 +50,7 @@ test('/apps renders the channels', () => {
 
 test('/reform renders the reform letter changes', () => {
   renderAt('/reform')
-  for (const glyph of ['Ş ş', 'Ŏ ŏ', 'Ç ç', 'Ğ ğ']) {
+  for (const glyph of ['Ş ş', 'Ö ö', 'Ç ç', 'Ğ ğ']) {
     expect(screen.getByText(glyph)).toBeInTheDocument()
   }
 })

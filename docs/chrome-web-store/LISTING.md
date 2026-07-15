@@ -18,7 +18,7 @@ Convert Uzbek text from Cyrillic or old Latin to the reformed 2026 new Latin scr
 
 **Description** (detailed, shown on the listing page)
 ```
-Alfavit converts Uzbek text into the reformed 2026 new Latin alphabet — sh → ş, ch → ç, gʻ → ğ, oʻ → ŏ, and loanword ts → c — directly in your browser.
+Alfavit converts Uzbek text into the reformed 2026 new Latin alphabet — sh → ş, ch → ç, gʻ → ğ, oʻ → ö, and loanword ts → c — directly in your browser.
 
 Two ways to use it:
 
@@ -26,8 +26,8 @@ Two ways to use it:
 • Right-click — select any text on any page and choose "Convert to new Latin." If the selection is inside an editable field, it's replaced in place; otherwise the converted text is copied to your clipboard.
 
 Alfavit understands both source scripts automatically:
-• Cyrillic (Ўзбекча → Ŏzbekça)
-• Old 1995 Latin (oʻzbek → ŏzbek)
+• Cyrillic (Ўзбекча → Özbekça)
+• Old 1995 Latin (oʻzbek → özbek)
 
 Everything runs on your device. No account, no network requests, no tracking — your text never leaves the browser.
 

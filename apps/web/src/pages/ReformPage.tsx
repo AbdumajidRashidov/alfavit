@@ -17,7 +17,7 @@ const CHANGES: Array<[string, string]> = [
   ['Sh sh', 'Ş ş'],
   ['Ch ch', 'Ç ç'],
   ['Gʻ gʻ', 'Ğ ğ'],
-  ['Oʻ oʻ', 'Ŏ ŏ'],
+  ['Oʻ oʻ', 'Ö ö'],
   ['Ts ts', 'C c'],
 ]
 

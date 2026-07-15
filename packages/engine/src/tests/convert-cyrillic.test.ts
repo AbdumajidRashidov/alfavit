@@ -3,7 +3,7 @@ import { convertCyrillicRun } from '../convert-cyrillic'
 
 test('maps unambiguous Cyrillic letters', () => {
   expect(convertCyrillicRun('салом', 0).output).toBe('salom')
-  expect(convertCyrillicRun('ўзбек', 0).output).toBe('ŏzbek')
+  expect(convertCyrillicRun('ўзбек', 0).output).toBe('özbek')
   expect(convertCyrillicRun('чой', 0).output).toBe('çoy')
   expect(convertCyrillicRun('шамол', 0).output).toBe('şamol')
 })

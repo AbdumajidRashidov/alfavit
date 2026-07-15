@@ -7,7 +7,7 @@ test('converts a mixed-script sentence and preserves foreign runs', () => {
 })
 
 test('converts old-Latin input', () => {
-  expect(transliterate("o'zbek tili").text).toBe('ŏzbek tili')
+  expect(transliterate("o'zbek tili").text).toBe('özbek tili')
 })
 
 test('collects ambiguity flags from Cyrillic runs', () => {
@@ -30,5 +30,5 @@ test('empty input yields an empty result', () => {
 test('applies dictionary override for a word embedded in a sentence', () => {
   const r = transliterate('мен цирк кўрдим')
   expect(r.text).toContain('sirk')
-  expect(r.text).toBe('men sirk kŏrdim')
+  expect(r.text).toBe('men sirk kördim')
 })

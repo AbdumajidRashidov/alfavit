@@ -11,7 +11,7 @@ export const cyrillicToLatin: Record<Locale, Guide> = {
       { heading: 'Paste the text', body: 'Paste it into the input field — Alfavit detects the script and converts it to the new Latin.' },
       { heading: 'Take the result', body: 'Copy the new-Latin result and paste it wherever you need.' },
     ],
-    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Ŏzbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
+    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Özbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
   },
   uz: {
     title: 'Kirill alifbosidan yangi lotinga oʻgirish',
@@ -22,7 +22,7 @@ export const cyrillicToLatin: Record<Locale, Guide> = {
       { heading: 'Matnni joylang', body: 'Matnni kiritish maydoniga joylang — Alfavit yozuvni avtomatik aniqlab, yangi lotinga oʻgiradi.' },
       { heading: 'Natijani oling', body: 'Yangi lotindagi natijani nusxalab, kerakli joyga qoʻying.' },
     ],
-    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Ŏzbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
+    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Özbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
   },
   ru: {
     title: 'Конвертация с кириллицы в новую латиницу',
@@ -33,6 +33,6 @@ export const cyrillicToLatin: Record<Locale, Guide> = {
       { heading: 'Вставьте текст', body: 'Вставьте текст в поле ввода — Alfavit определит письмо и преобразует его в новую латиницу.' },
       { heading: 'Заберите результат', body: 'Скопируйте результат в новой латинице и вставьте, куда нужно.' },
     ],
-    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Ŏzbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
+    examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Özbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
   },
 }

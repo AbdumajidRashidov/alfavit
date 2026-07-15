@@ -7,11 +7,11 @@ test('converts 1995 digraphs to reform letters', () => {
 })
 
 test('converts apostrophe letters', () => {
-  expect(convertOldLatin("o'zbek")).toBe('ŏzbek')
+  expect(convertOldLatin("o'zbek")).toBe('özbek')
   expect(convertOldLatin("g'alaba")).toBe('ğalaba')
 })
 
 test('preserves case', () => {
   expect(convertOldLatin('Shamol')).toBe('Şamol')
-  expect(convertOldLatin("O'zbek")).toBe('Ŏzbek')
+  expect(convertOldLatin("O'zbek")).toBe('Özbek')
 })

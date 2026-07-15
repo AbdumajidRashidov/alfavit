@@ -6,7 +6,7 @@ test('handleMessage converts Cyrillic', () => {
 })
 
 test('handleMessage converts old-Latin', () => {
-  expect(handleMessage("o'zbek", 'uz')).toBe('ŏzbek')
+  expect(handleMessage("o'zbek", 'uz')).toBe('özbek')
 })
 
 test('handleMessage returns the hint for empty input', () => {
