@@ -1,7 +1,10 @@
 import type { SourceScript } from './types'
+import { APOSTROPHE_VARIANTS } from './normalize'
 
 const CYRILLIC = /[Ѐ-ӿԀ-ԯ]/
-const LATIN = /[A-Za-zÇçŞşĞğŎŏÖöʻ']/
+// Include the apostrophe variants so an oʻ/gʻ written with a curly quote isn't
+// split into a separate "foreign" run before normalization can canonicalize it.
+const LATIN = new RegExp(`[A-Za-zÇçŞşĞğŎŏÖöʻ${APOSTROPHE_VARIANTS}]`)
 
 function classify(ch: string): SourceScript {
   if (CYRILLIC.test(ch)) return 'cyrillic'
