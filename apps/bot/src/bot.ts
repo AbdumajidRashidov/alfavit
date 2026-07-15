@@ -16,7 +16,9 @@ export function createBot(token: string, logoUrl?: string): Bot {
   bot.on('inline_query', (ctx) =>
     ctx.answerInlineQuery(
       buildInlineResults(ctx.inlineQuery.query, pickLocale(ctx.from?.language_code), logoUrl),
-      { cache_time: 0 },
+      // Conversion is deterministic, so let Telegram cache identical queries.
+      // 5 min is long enough to help yet short enough that engine fixes propagate.
+      { cache_time: 300 },
     ),
   )
 

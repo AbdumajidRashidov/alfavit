@@ -12,10 +12,16 @@ interface Env {
   LOGO_URL?: string
 }
 
+// Cache the bot across requests on a warm isolate. A fresh `new Bot()` per
+// request makes grammY call Telegram's `getMe` to initialize on every update —
+// an extra round-trip per inline keystroke. Reusing the instance means the
+// `getMe` init happens once per isolate, not once per request.
+let bot: ReturnType<typeof createBot> | undefined
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     if (!env.BOT_TOKEN) return new Response('BOT_TOKEN not configured', { status: 500 })
-    const bot = createBot(env.BOT_TOKEN, env.LOGO_URL)
+    bot ??= createBot(env.BOT_TOKEN, env.LOGO_URL)
     return webhookCallback(bot, 'cloudflare-mod')(request)
   },
 }
