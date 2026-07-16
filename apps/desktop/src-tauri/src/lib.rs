@@ -35,6 +35,11 @@ pub fn run() {
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Regular);
 
+            // Restore persisted live-transform state BEFORE building the tray, so
+            // the "Live transform" checkbox reflects the actual (possibly resumed)
+            // state instead of always rendering unchecked on launch.
+            app.state::<live::controller::LiveMode>().restore(app.handle());
+
             // Tray menu: Show / Launch at login (checkable) / Quit.
             let launch_at_login = CheckMenuItem::with_id(
                 app,
@@ -77,8 +82,11 @@ pub fn run() {
                     }
                     "live_transform" => {
                         let live = app.state::<live::controller::LiveMode>();
+                        let was_on = live.is_enabled();
                         let now_on = live.toggle(app);
-                        if !now_on && !live::guard::accessibility_granted() {
+                        // Only prompt for Accessibility when the user tried to turn
+                        // it ON and it couldn't start — never when turning it off.
+                        if !was_on && !now_on && !live::guard::accessibility_granted() {
                             // Needs permission: open the pane so the user can grant it.
                             let _ = std::process::Command::new("open")
                                 .arg("x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
@@ -101,8 +109,6 @@ pub fn run() {
                     }
                 })
                 .build(app)?;
-
-            app.state::<live::controller::LiveMode>().restore(app.handle());
 
             // Global hotkey: Option+Shift+A toggles the panel from any app.
             #[cfg(desktop)]

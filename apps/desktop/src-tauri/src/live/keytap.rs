@@ -163,7 +163,7 @@ fn on_word(app: &tauri::AppHandle, emitted: Emitted) {
 
 /// Spawn the observer thread: install a keyDown tap, feed the word buffer, and
 /// deliver finished words to `on_word`. Runs its own CFRunLoop.
-pub fn start_tap(app: tauri::AppHandle) -> TapHandle {
+pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
     let (tx, rx) = std::sync::mpsc::channel::<SendRunLoop>();
     let thread = std::thread::spawn(move || {
         let buffer = RefCell::new(WordBuffer::new());
@@ -216,8 +216,15 @@ pub fn start_tap(app: tauri::AppHandle) -> TapHandle {
                 }
                 CallbackResult::Keep
             },
-        )
-        .expect("failed to create event tap (Accessibility permission?)");
+        );
+        // Tap creation can fail if Accessibility was revoked between the
+        // caller's permission check and here. Exit the thread cleanly; the
+        // dropped sender makes the caller's rx.recv() return Err (-> None),
+        // rather than panicking the calling (tray/main) thread.
+        let tap = match tap {
+            Ok(t) => t,
+            Err(_) => return,
+        };
 
         *TAP_PORT.lock().unwrap() = Some(SendPort(tap.mach_port().as_concrete_TypeRef()));
 
@@ -232,6 +239,12 @@ pub fn start_tap(app: tauri::AppHandle) -> TapHandle {
         CFRunLoop::run_current();
     });
 
-    let runloop = rx.recv().expect("observer thread failed to start");
-    TapHandle { runloop, thread: Some(thread) }
+    match rx.recv() {
+        Ok(runloop) => Some(TapHandle { runloop, thread: Some(thread) }),
+        Err(_) => {
+            // Thread exited before sending (tap creation failed) — join and report None.
+            let _ = thread.join();
+            None
+        }
+    }
 }

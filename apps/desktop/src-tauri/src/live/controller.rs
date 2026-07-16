@@ -44,13 +44,22 @@ impl LiveMode {
         if !guard::accessibility_granted() {
             return false;
         }
-        let handle = keytap::start_tap(app.clone());
-        *self.handle.lock().unwrap() = Some(handle);
-        true
+        // start_tap returns None if the observer thread failed to come up (e.g.
+        // permission revoked in the TOCTOU window) — treat as "could not start".
+        match keytap::start_tap(app.clone()) {
+            Some(handle) => {
+                *self.handle.lock().unwrap() = Some(handle);
+                true
+            }
+            None => false,
+        }
     }
 
     fn stop(&self) {
-        if let Some(handle) = self.handle.lock().unwrap().take() {
+        // Take the handle out and drop the mutex guard BEFORE the blocking
+        // stop()/join(), so no other LiveMode call blocks on shutdown.
+        let taken = self.handle.lock().unwrap().take();
+        if let Some(handle) = taken {
             handle.stop();
         }
     }
