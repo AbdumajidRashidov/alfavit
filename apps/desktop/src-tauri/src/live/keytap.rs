@@ -80,6 +80,7 @@ use crate::live::word_buffer::{Emitted, WordBuffer};
 
 use core_foundation::base::TCFType;
 use std::sync::Mutex;
+use tauri::Manager;
 
 /// The running tap's mach port, so the callback can re-enable the tap if macOS
 /// disables it. Updated each time the tap starts.
@@ -117,12 +118,17 @@ fn event_string(event: &CGEvent) -> String {
     String::from_utf16_lossy(&buf[..n])
 }
 
-/// Called when a word is finished. Replaced/extended in Tasks 4-6.
-fn on_word(_app: &tauri::AppHandle, emitted: Emitted) {
-    eprintln!(
-        "[alfavit-live] word={:?} boundary={:?} typed_len={}",
-        emitted.word, emitted.boundary, emitted.typed_len
-    );
+/// Called when a word is finished. Task 5 adds the actual replacement.
+fn on_word(app: &tauri::AppHandle, emitted: Emitted) {
+    let app = app.clone();
+    tauri::async_runtime::spawn(async move {
+        let bridge = app.state::<crate::live::bridge::TransformBridge>();
+        if let Some(reformed) = bridge.transform(&app, emitted.word.clone()).await {
+            if reformed != emitted.word {
+                eprintln!("[alfavit-live] would replace {:?} -> {:?}", emitted.word, reformed);
+            }
+        }
+    });
 }
 
 /// Spawn the observer thread: install a keyDown tap, feed the word buffer, and

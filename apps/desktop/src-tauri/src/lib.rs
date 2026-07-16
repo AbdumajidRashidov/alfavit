@@ -24,6 +24,8 @@ pub fn run() {
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             None::<Vec<&str>>,
         ))
+        .manage(live::bridge::TransformBridge::default())
+        .invoke_handler(tauri::generate_handler![live::bridge::submit_transform])
         .setup(|app| {
             // Show BOTH a Dock icon and the menu-bar tray icon. Regular is the
             // default policy (Dock icon + Cmd-Tab presence); the tray icon below
