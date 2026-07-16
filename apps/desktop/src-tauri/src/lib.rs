@@ -102,6 +102,11 @@ pub fn run() {
                 app.global_shortcut().register(toggle)?;
             }
 
+            // TEMPORARY (Task 7 gates this behind the master toggle): start the
+            // observer at launch so detection is testable. Requires Accessibility.
+            #[cfg(target_os = "macos")]
+            live::keytap::start_tap(app.handle().clone());
+
             Ok(())
         })
         .on_window_event(|window, event| {
