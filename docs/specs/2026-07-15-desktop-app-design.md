@@ -21,8 +21,9 @@ The user's end goal is "turn it on and whatever I type anywhere converts live" �
 - **One engine:** reuses `@alfavit/engine` (workspace dependency) — conversion is byte-identical to web/API/bot/extension, including the `oʻ→ö` fix.
 
 ### Interaction model
-- App runs as a **menu-bar (accessory) app** — tray icon, **no Dock icon**.
+- App shows **both a Dock icon and a menu-bar (tray) icon** (macOS `ActivationPolicy::Regular`). (Revised 2026-07-16 from the original menu-bar-only/accessory design at the user's request after testing the first build.)
 - **Tray icon** (the Alfavit "A"): left-click toggles the panel; right-click (or menu) → Show, Launch at login (toggle), Quit.
+- **Dock icon:** clicking it reveals the panel (handled via `RunEvent::Reopen`), since the panel otherwise hides on blur.
 - **Global hotkey** (default **⌥⇧A**): toggles the panel from anywhere.
 - **Panel:** a small, frameless, always-on-top window (no traffic-light chrome), shown near the tray / screen top-right, hidden on blur or hotkey/Esc.
 
@@ -32,7 +33,7 @@ The user's end goal is "turn it on and whatever I type anywhere converts live" �
 - Tray icon + menu (Show / Launch at login / Quit).
 - Global-shortcut registration (`tauri-plugin-global-shortcut`), default ⌥⇧A, toggles panel visibility.
 - Panel window config: `decorations: false`, `alwaysOnTop: true`, `skipTaskbar: true`, `visible: false` at startup, hidden on focus-loss.
-- macOS `ActivationPolicy::Accessory` (menu-bar app, no Dock icon).
+- macOS `ActivationPolicy::Regular` (Dock icon + menu-bar tray icon); `RunEvent::Reopen` reveals the panel on Dock-icon click.
 - Launch-at-login via `tauri-plugin-autostart`.
 
 ### Frontend — `apps/desktop/src` (Vite + React + TS)
@@ -67,7 +68,7 @@ The user's end goal is "turn it on and whatever I type anywhere converts live" �
 ## Success criteria
 
 - `apps/desktop` builds a macOS `.dmg` (locally and via the CI macOS job → Release).
-- Installed app: menu-bar icon present, no Dock icon; ⌥⇧A and tray-click both toggle the panel; panel hides on blur/Esc; "Launch at login" works.
+- Installed app: both a Dock icon and a menu-bar icon present; ⌥⇧A and tray-click both toggle the panel; Dock-click reveals it; panel hides on blur/Esc; "Launch at login" works.
 - In the panel, typing/pasting Cyrillic or old-Latin shows correct new-Latin live (e.g. `oʻzbek`→`özbek`, `шаҳар`→`şahar`), matching the shared engine; Copy works; script badge correct.
 - Frontend tests green; no network requests made by the app.
 - The native-shell checklist passes on the user's Mac.

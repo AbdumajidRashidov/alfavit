@@ -37,8 +37,9 @@ Grant **Accessibility** permission when prompted so the global hotkey works.
 
 ## Acceptance checklist (run on macOS)
 
-- [ ] App launches with a menu-bar (tray) icon and **no Dock icon**.
+- [ ] App launches with **both** a Dock icon and a menu-bar (tray) icon.
 - [ ] Left-click the tray icon toggles the panel; right-click shows Show / Launch at login / Quit.
+- [ ] Clicking the Dock icon reveals the panel.
 - [ ] **⌥⇧A** toggles the panel from within any other app.
 - [ ] The panel is frameless, always-on-top, and hides when it loses focus.
 - [ ] **Esc** hides the panel.

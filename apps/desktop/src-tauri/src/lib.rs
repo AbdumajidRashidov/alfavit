@@ -23,9 +23,12 @@ pub fn run() {
             None::<Vec<&str>>,
         ))
         .setup(|app| {
-            // Menu-bar (accessory) app: tray icon only, no Dock icon.
+            // Show BOTH a Dock icon and the menu-bar tray icon. Regular is the
+            // default policy (Dock icon + Cmd-Tab presence); the tray icon below
+            // is created regardless of policy. Clicking the Dock icon is handled
+            // by the RunEvent::Reopen arm below so it reveals the panel.
             #[cfg(target_os = "macos")]
-            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+            app.set_activation_policy(tauri::ActivationPolicy::Regular);
 
             // Tray menu: Show / Launch at login (checkable) / Quit.
             let launch_at_login = CheckMenuItem::with_id(
@@ -105,6 +108,16 @@ pub fn run() {
                 let _ = window.hide();
             }
         })
-        .run(tauri::generate_context!())
-        .expect("error while running Alfavit desktop");
+        .build(tauri::generate_context!())
+        .expect("error while building Alfavit desktop")
+        .run(|app_handle, event| {
+            // Clicking the Dock icon (macOS) reveals the panel — otherwise, since
+            // the window hides on blur, a Dock click on the running app does nothing.
+            if let tauri::RunEvent::Reopen { .. } = event {
+                if let Some(w) = app_handle.get_webview_window("main") {
+                    let _ = w.show();
+                    let _ = w.set_focus();
+                }
+            }
+        });
 }
