@@ -16,11 +16,10 @@ pub fn is_secure_input() -> bool {
 
 /// Bundle id of the frontmost application, if available.
 pub fn frontmost_bundle_id() -> Option<String> {
-    unsafe {
-        let workspace = NSWorkspace::sharedWorkspace();
-        let app = workspace.frontmostApplication()?;
-        app.bundleIdentifier().map(|s| s.to_string())
-    }
+    // These objc2-app-kit calls are safe wrappers (no `unsafe` needed).
+    let workspace = NSWorkspace::sharedWorkspace();
+    let app = workspace.frontmostApplication()?;
+    app.bundleIdentifier().map(|s| s.to_string())
 }
 
 /// True when the current context must not be transformed.
