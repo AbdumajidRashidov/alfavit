@@ -1,0 +1,35 @@
+use objc2_app_kit::NSWorkspace;
+
+/// Apps where auto-transform is disabled by default (terminals mangle synthetic
+/// backspaces / take raw input).
+const DENYLIST: &[&str] = &["com.apple.Terminal", "com.googlecode.iterm2"];
+
+#[link(name = "Carbon", kind = "framework")]
+unsafe extern "C" {
+    fn IsSecureEventInputEnabled() -> bool;
+}
+
+/// True while a password/secure text field has focus anywhere on the system.
+pub fn is_secure_input() -> bool {
+    unsafe { IsSecureEventInputEnabled() }
+}
+
+/// Bundle id of the frontmost application, if available.
+pub fn frontmost_bundle_id() -> Option<String> {
+    unsafe {
+        let workspace = NSWorkspace::sharedWorkspace();
+        let app = workspace.frontmostApplication()?;
+        app.bundleIdentifier().map(|s| s.to_string())
+    }
+}
+
+/// True when the current context must not be transformed.
+pub fn is_blocked() -> bool {
+    if is_secure_input() {
+        return true;
+    }
+    match frontmost_bundle_id() {
+        Some(id) => DENYLIST.contains(&id.as_str()),
+        None => false,
+    }
+}

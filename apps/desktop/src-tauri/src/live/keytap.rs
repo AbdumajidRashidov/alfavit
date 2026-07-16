@@ -169,6 +169,10 @@ pub fn start_tap(app: tauri::AppHandle) {
                 {
                     return CallbackResult::Keep;
                 }
+                // Never observe/transform in password fields or excluded apps.
+                if crate::live::guard::is_blocked() {
+                    return CallbackResult::Keep;
+                }
                 let keycode = event.get_integer_value_field(EventField::KEYBOARD_EVENT_KEYCODE);
                 let flags = event.get_flags();
                 let has_cmd = flags.contains(CGEventFlags::CGEventFlagCommand);
