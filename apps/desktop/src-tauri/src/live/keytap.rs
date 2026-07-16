@@ -118,16 +118,24 @@ fn event_string(event: &CGEvent) -> String {
     String::from_utf16_lossy(&buf[..n])
 }
 
-/// Called when a word is finished. Task 5 adds the actual replacement.
+/// Called when a word is finished: transform via the engine, and if it changed
+/// (and the user has not kept typing), replace it in place.
 fn on_word(app: &tauri::AppHandle, emitted: Emitted) {
     let app = app.clone();
+    let generation = GENERATION.load(std::sync::atomic::Ordering::Relaxed);
     tauri::async_runtime::spawn(async move {
         let bridge = app.state::<crate::live::bridge::TransformBridge>();
-        if let Some(reformed) = bridge.transform(&app, emitted.word.clone()).await {
-            if reformed != emitted.word {
-                eprintln!("[alfavit-live] would replace {:?} -> {:?}", emitted.word, reformed);
-            }
+        let Some(reformed) = bridge.transform(&app, emitted.word.clone()).await else {
+            return;
+        };
+        if reformed == emitted.word {
+            return; // unchanged (foreign / already reformed)
         }
+        // Abort if the user kept typing during the transform round-trip.
+        if GENERATION.load(std::sync::atomic::Ordering::Relaxed) != generation {
+            return;
+        }
+        crate::live::replacer::replace_word(emitted.typed_len, &reformed, emitted.boundary);
     });
 }
 
