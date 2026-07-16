@@ -134,11 +134,11 @@ pub fn start_tap(app: tauri::AppHandle) {
             CGEventTapLocation::HID,
             CGEventTapPlacement::HeadInsertEventTap,
             CGEventTapOptions::ListenOnly,
-            vec![
-                CGEventType::KeyDown,
-                CGEventType::TapDisabledByTimeout,
-                CGEventType::TapDisabledByUserInput,
-            ],
+            // Only KeyDown is registered in the mask. The TapDisabled* sentinel
+            // values (0xFFFFFFFE/FF) must NOT go in the mask — the crate folds
+            // it via `1 << etype`, which overflows and panics. macOS delivers
+            // the disable notifications to the callback regardless of the mask.
+            vec![CGEventType::KeyDown],
             move |_proxy, etype, event| {
                 if matches!(
                     etype,
