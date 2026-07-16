@@ -49,3 +49,29 @@ Grant **Accessibility** permission when prompted so the global hotkey works.
 - [ ] "Launch at login" persists across a logout/login (login item present).
 - [ ] No network requests are made (verify in a network monitor — the app is offline).
 - [ ] `pnpm --dir apps/desktop tauri build` produces a `.dmg`; the CI job attaches one to a draft Release.
+
+## Live transform (Phase 2)
+
+Turn on **Live transform** in the tray menu and keep using your normal keyboard —
+each word you finish (with space or `.,!?;:`) in a normal text field is
+auto-replaced with reformed new-Latin, whether you typed Cyrillic or old-Latin.
+
+- Requires **Accessibility** permission (System Settings → Privacy & Security →
+  Accessibility). Toggling Live transform on the first time opens that pane.
+- **Off fully stops the observer** — nothing is watched while it is off. The
+  state persists across restarts and defaults to Off.
+- Everything is on-device; no keystrokes are stored or sent.
+- **Not transformed:** password/secure fields (always), Terminal/iTerm, and
+  words ended with Return/Tab (only space/punctuation trigger a transform).
+
+### Acceptance checklist (run on macOS)
+
+- [ ] Fresh install: Live transform is Off; typing is untouched.
+- [ ] Turning it On the first time prompts for Accessibility; after granting, typing transforms.
+- [ ] In TextEdit/Notes/a browser field: `shahar `→`şahar `, `oʻzbek `→`özbek `, `чой `→`çoy `; `hello ` unchanged.
+- [ ] Password fields are never modified.
+- [ ] Terminal is not transformed.
+- [ ] Turning it Off stops all transformation immediately.
+- [ ] On/Off state survives quit + relaunch (and stays Off if Accessibility was revoked).
+- [ ] Typing stays responsive (no lag/stutter while on).
+- [ ] The Phase 1 ⌥⇧A panel and tray still work.
