@@ -69,7 +69,7 @@ mod tests {
 use std::cell::RefCell;
 use std::sync::atomic::AtomicU64;
 
-use core_foundation::runloop::{kCFRunLoopCommonModes, CFRunLoop};
+use core_foundation::runloop::{kCFRunLoopCommonModes, CFRunLoop, CFRunLoopRef};
 use core_graphics::event::{
     CGEvent, CGEventFlags, CGEventTap, CGEventTapLocation, CGEventTapOptions,
     CGEventTapPlacement, CGEventType, CallbackResult, EventField,
@@ -87,6 +87,28 @@ use tauri::Manager;
 struct SendPort(core_foundation::mach_port::CFMachPortRef);
 unsafe impl Send for SendPort {}
 static TAP_PORT: Mutex<Option<SendPort>> = Mutex::new(None);
+
+/// Handle to a running observer thread. `stop()` ends the tap and joins.
+pub struct TapHandle {
+    runloop: SendRunLoop,
+    thread: Option<std::thread::JoinHandle<()>>,
+}
+
+struct SendRunLoop(CFRunLoopRef);
+// CFRunLoopStop is documented thread-safe; we only ever call stop() cross-thread.
+unsafe impl Send for SendRunLoop {}
+
+impl TapHandle {
+    /// Stop the observer: stop its run loop (ends `run_current`) and join.
+    pub fn stop(mut self) {
+        unsafe {
+            CFRunLoop::wrap_under_get_rule(self.runloop.0).stop();
+        }
+        if let Some(t) = self.thread.take() {
+            let _ = t.join();
+        }
+    }
+}
 
 /// Bumped on every text keystroke; the replacer (Task 5) uses it to abort a
 /// replacement if the user kept typing during the transform round-trip.
@@ -141,8 +163,9 @@ fn on_word(app: &tauri::AppHandle, emitted: Emitted) {
 
 /// Spawn the observer thread: install a keyDown tap, feed the word buffer, and
 /// deliver finished words to `on_word`. Runs its own CFRunLoop.
-pub fn start_tap(app: tauri::AppHandle) {
-    std::thread::spawn(move || {
+pub fn start_tap(app: tauri::AppHandle) -> TapHandle {
+    let (tx, rx) = std::sync::mpsc::channel::<SendRunLoop>();
+    let thread = std::thread::spawn(move || {
         let buffer = RefCell::new(WordBuffer::new());
         let tap = CGEventTap::new(
             CGEventTapLocation::HID,
@@ -202,8 +225,13 @@ pub fn start_tap(app: tauri::AppHandle) {
             .mach_port()
             .create_runloop_source(0)
             .expect("failed to create runloop source");
-        CFRunLoop::get_current().add_source(&loop_source, unsafe { kCFRunLoopCommonModes });
+        let current = CFRunLoop::get_current();
+        current.add_source(&loop_source, unsafe { kCFRunLoopCommonModes });
         tap.enable();
+        let _ = tx.send(SendRunLoop(current.as_concrete_TypeRef()));
         CFRunLoop::run_current();
     });
+
+    let runloop = rx.recv().expect("observer thread failed to start");
+    TapHandle { runloop, thread: Some(thread) }
 }

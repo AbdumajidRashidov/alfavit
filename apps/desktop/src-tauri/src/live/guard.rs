@@ -32,3 +32,13 @@ pub fn is_blocked() -> bool {
         None => false,
     }
 }
+
+#[link(name = "ApplicationServices", kind = "framework")]
+unsafe extern "C" {
+    fn AXIsProcessTrusted() -> bool;
+}
+
+/// True when this app has been granted macOS Accessibility permission.
+pub fn accessibility_granted() -> bool {
+    unsafe { AXIsProcessTrusted() }
+}

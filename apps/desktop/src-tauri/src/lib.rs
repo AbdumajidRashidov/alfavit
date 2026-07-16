@@ -25,6 +25,7 @@ pub fn run() {
             None::<Vec<&str>>,
         ))
         .manage(live::bridge::TransformBridge::default())
+        .manage(live::controller::LiveMode::default())
         .invoke_handler(tauri::generate_handler![live::bridge::submit_transform])
         .setup(|app| {
             // Show BOTH a Dock icon and the menu-bar tray icon. Regular is the
@@ -44,8 +45,16 @@ pub fn run() {
                 None::<&str>,
             )?;
             let show_i = MenuItem::with_id(app, "show", "Show", true, None::<&str>)?;
+            let live_item = CheckMenuItem::with_id(
+                app,
+                "live_transform",
+                "Live transform",
+                true,
+                app.state::<live::controller::LiveMode>().is_enabled(),
+                None::<&str>,
+            )?;
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&show_i, &launch_at_login, &quit_i])?;
+            let menu = Menu::with_items(app, &[&show_i, &live_item, &launch_at_login, &quit_i])?;
 
             TrayIconBuilder::new()
                 .icon(app.default_window_icon().unwrap().clone())
@@ -66,6 +75,16 @@ pub fn run() {
                             let _ = mgr.enable();
                         }
                     }
+                    "live_transform" => {
+                        let live = app.state::<live::controller::LiveMode>();
+                        let now_on = live.toggle(app);
+                        if !now_on && !live::guard::accessibility_granted() {
+                            // Needs permission: open the pane so the user can grant it.
+                            let _ = std::process::Command::new("open")
+                                .arg("x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
+                                .spawn();
+                        }
+                    }
                     "quit" => app.exit(0),
                     _ => {}
                 })
@@ -82,6 +101,8 @@ pub fn run() {
                     }
                 })
                 .build(app)?;
+
+            app.state::<live::controller::LiveMode>().restore(app.handle());
 
             // Global hotkey: Option+Shift+A toggles the panel from any app.
             #[cfg(desktop)]
@@ -103,11 +124,6 @@ pub fn run() {
                 )?;
                 app.global_shortcut().register(toggle)?;
             }
-
-            // TEMPORARY (Task 7 gates this behind the master toggle): start the
-            // observer at launch so detection is testable. Requires Accessibility.
-            #[cfg(target_os = "macos")]
-            live::keytap::start_tap(app.handle().clone());
 
             Ok(())
         })
