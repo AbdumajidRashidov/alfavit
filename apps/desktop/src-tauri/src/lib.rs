@@ -5,6 +5,8 @@ use tauri::{
 };
 use tauri_plugin_autostart::ManagerExt;
 
+pub mod live;
+
 // Toggle the panel: hide it if it is currently visible, otherwise show + focus.
 fn toggle_panel(window: &WebviewWindow) {
     if window.is_visible().unwrap_or(false) {
