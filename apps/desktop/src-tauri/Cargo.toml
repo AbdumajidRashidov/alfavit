@@ -1,6 +1,6 @@
 [package]
 name = "alfavit-desktop"
-version = "0.1.0"
+version = "0.1.1"
 description = "Alfavit — Uzbek script live converter"
 authors = ["Alfavit"]
 edition = "2021"
