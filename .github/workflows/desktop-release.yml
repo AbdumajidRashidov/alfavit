@@ -1,0 +1,47 @@
+name: Desktop Release
+
+on:
+  push:
+    tags: ['desktop-v*']
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build engine
+        run: pnpm --filter @alfavit/engine build
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: apps/desktop
+          # On a tag push, create a draft Release; on manual workflow_dispatch
+          # (no tag) leave tagName empty so tauri-action just builds without
+          # cutting a bogus release named after the branch.
+          tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('Alfavit Desktop {0}', github.ref_name) || '' }}
+          releaseDraft: true
+          prerelease: false
+          args: --target universal-apple-darwin
