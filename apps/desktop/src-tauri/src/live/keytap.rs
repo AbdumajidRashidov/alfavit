@@ -78,6 +78,15 @@ use foreign_types::ForeignType;
 
 use crate::live::word_buffer::{Emitted, WordBuffer};
 
+use core_foundation::base::TCFType;
+use std::sync::Mutex;
+
+/// The running tap's mach port, so the callback can re-enable the tap if macOS
+/// disables it. Updated each time the tap starts.
+struct SendPort(core_foundation::mach_port::CFMachPortRef);
+unsafe impl Send for SendPort {}
+static TAP_PORT: Mutex<Option<SendPort>> = Mutex::new(None);
+
 /// Bumped on every text keystroke; the replacer (Task 5) uses it to abort a
 /// replacement if the user kept typing during the transform round-trip.
 pub static GENERATION: AtomicU64 = AtomicU64::new(0);
@@ -89,6 +98,7 @@ unsafe extern "C" {
         actual_length: *mut libc::c_ulong,
         unicode_string: *mut u16,
     );
+    fn CGEventTapEnable(tap: core_foundation::mach_port::CFMachPortRef, enable: bool);
 }
 
 /// The unicode string a keyDown event produced (what the user typed).
@@ -103,7 +113,8 @@ fn event_string(event: &CGEvent) -> String {
             buf.as_mut_ptr(),
         );
     }
-    String::from_utf16_lossy(&buf[..actual as usize])
+    let n = (actual as usize).min(buf.len());
+    String::from_utf16_lossy(&buf[..n])
 }
 
 /// Called when a word is finished. Replaced/extended in Tasks 4-6.
@@ -123,8 +134,21 @@ pub fn start_tap(app: tauri::AppHandle) {
             CGEventTapLocation::HID,
             CGEventTapPlacement::HeadInsertEventTap,
             CGEventTapOptions::ListenOnly,
-            vec![CGEventType::KeyDown],
-            move |_proxy, _etype, event| {
+            vec![
+                CGEventType::KeyDown,
+                CGEventType::TapDisabledByTimeout,
+                CGEventType::TapDisabledByUserInput,
+            ],
+            move |_proxy, etype, event| {
+                if matches!(
+                    etype,
+                    CGEventType::TapDisabledByTimeout | CGEventType::TapDisabledByUserInput
+                ) {
+                    if let Some(p) = TAP_PORT.lock().unwrap().as_ref() {
+                        unsafe { CGEventTapEnable(p.0, true) };
+                    }
+                    return CallbackResult::Keep;
+                }
                 // Ignore our own synthetic events (marker) to avoid a loop.
                 if event.get_integer_value_field(EventField::EVENT_SOURCE_USER_DATA)
                     == ALFAVIT_MARKER
@@ -153,6 +177,8 @@ pub fn start_tap(app: tauri::AppHandle) {
             },
         )
         .expect("failed to create event tap (Accessibility permission?)");
+
+        *TAP_PORT.lock().unwrap() = Some(SendPort(tap.mach_port().as_concrete_TypeRef()));
 
         let loop_source = tap
             .mach_port()
