@@ -8,6 +8,8 @@ on:
 jobs:
   build-macos:
     runs-on: macos-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -35,8 +37,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           projectPath: apps/desktop
-          tagName: ${{ github.ref_name }}
-          releaseName: 'Alfavit Desktop ${{ github.ref_name }}'
+          # On a tag push, create a draft Release; on manual workflow_dispatch
+          # (no tag) leave tagName empty so tauri-action just builds without
+          # cutting a bogus release named after the branch.
+          tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('Alfavit Desktop {0}', github.ref_name) || '' }}
           releaseDraft: true
           prerelease: false
           args: --target universal-apple-darwin

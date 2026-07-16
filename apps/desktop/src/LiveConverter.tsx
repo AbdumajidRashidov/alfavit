@@ -12,9 +12,14 @@ export function LiveConverter() {
   const output = input ? transliterate(input).text : ''
 
   async function copy() {
-    await navigator.clipboard.writeText(output)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1200)
+    try {
+      await navigator.clipboard.writeText(output)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1200)
+    } catch {
+      // Clipboard can reject (denied permission / not focused); ignore rather
+      // than surface an unhandled rejection — just skip the "Copied" state.
+    }
   }
 
   return (
