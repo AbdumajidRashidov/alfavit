@@ -89,7 +89,7 @@ pub fn run() {
                         if !was_on && !now_on && !live::guard::accessibility_granted() {
                             // Needs permission: open the pane so the user can grant it.
                             let _ = std::process::Command::new("open")
-                                .arg("x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
+                                .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
                                 .spawn();
                         }
                     }

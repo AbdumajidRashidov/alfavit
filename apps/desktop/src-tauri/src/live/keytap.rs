@@ -203,13 +203,16 @@ pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
                 let unicode = event_string(event);
                 let key = classify(keycode, has_cmd, has_ctrl, &unicode);
 
-                match &key {
-                    crate::live::word_buffer::Key::Char(_)
-                    | crate::live::word_buffer::Key::Backspace => {
-                        GENERATION.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
-                    }
-                    _ => {}
-                }
+                // Bump on EVERY observed key (not just Char/Backspace): any
+                // subsequent keystroke — including the next space/punctuation or
+                // a nav key arriving during the transform round-trip — must abort
+                // a pending replace. Otherwise `replace_word` would backspace a
+                // now-shifted span and corrupt text on common "word, "/"word. "
+                // input. This degrades the race to a harmless missed-replace.
+                // (Note: mouse clicks that reposition the cursor are not observed,
+                // so a click mid-round-trip can still mis-target — inherent to the
+                // approach, accepted for Phase 2.)
+                GENERATION.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
 
                 if let Some(emitted) = buffer.borrow_mut().push(key) {
                     on_word(&app, emitted);
