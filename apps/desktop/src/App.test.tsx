@@ -4,11 +4,16 @@ import { App } from './App'
 import { hidePanel } from './panel'
 
 vi.mock('./panel', () => ({ hidePanel: vi.fn() }))
+vi.mock('./liveControl', () => ({
+  inTauri: () => false,
+  getLiveEnabled: vi.fn().mockResolvedValue(false),
+  setLiveEnabled: vi.fn().mockResolvedValue(false),
+}))
 
-test('mounts the live converter', () => {
+test('mounts the live-transform switch', async () => {
   render(<App />)
   expect(screen.getByRole('main')).toBeInTheDocument()
-  expect(screen.getByRole('textbox')).toBeInTheDocument()
+  expect(await screen.findByRole('switch', { name: 'Live transform' })).toBeInTheDocument()
 })
 
 test('Escape hides the panel', () => {

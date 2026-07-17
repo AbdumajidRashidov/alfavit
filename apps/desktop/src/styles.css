@@ -22,50 +22,9 @@
 html, body, #root { margin: 0; height: 100%; }
 body { background: var(--bg); color: var(--fg); }
 
-.app { height: 100%; padding: 12px; }
-.converter { display: flex; flex-direction: column; gap: 8px; height: 100%; }
-.input {
-  flex: 1 1 auto;
-  min-height: 96px;
-  resize: none;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 15px;
-  line-height: 1.4;
-  background: var(--bg);
-  color: var(--fg);
-}
-.input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-.meta { display: flex; align-items: center; justify-content: space-between; min-height: 24px; }
-.badge { font-size: 12px; color: var(--muted); }
-.badge--empty { visibility: hidden; }
-.copy {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 13px;
-  background: var(--accent);
-  color: var(--accent-fg);
-  cursor: pointer;
-}
-.copy:disabled { opacity: 0.4; cursor: default; }
-.output {
-  flex: 1 1 auto;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 15px;
-  line-height: 1.4;
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-y: auto;
-  background: var(--bg);
-}
-.hint { flex: 1 1 auto; margin: 0; padding: 8px 10px; font-size: 13px; color: var(--muted); }
+.app { height: 100%; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 
-/* Live-transform master switch, shown at the top of the panel. */
-.app { display: flex; flex-direction: column; gap: 10px; }
+/* Live-transform master switch. */
 .live { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .live-switch {
   position: relative;
@@ -91,5 +50,7 @@ body { background: var(--bg); color: var(--fg); }
   transition: transform 0.15s ease;
 }
 .live-switch--on .live-knob { transform: translateX(16px); }
-.live-label { font-size: 13px; font-weight: 600; color: var(--fg); }
+.live-label { font-size: 14px; font-weight: 600; color: var(--fg); }
 .live-hint { flex-basis: 100%; font-size: 12px; color: var(--muted); }
+
+.hint { margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
