@@ -20,7 +20,6 @@ export function Footer() {
           {hasGuides && <Link to={lp('/guide/cyrillic-to-latin')} className={cls}>{t('guides.label')}</Link>}
           <Link to={lp('/developers')} className={cls}>{t('footer.developers')}</Link>
           <a href="https://t.me/alfavit_uz_bot" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.telegram')}</a>
-          <a href="https://github.com/AbdumajidRashidov/alfavit" target="_blank" rel="noopener noreferrer" className={cls}>{t('footer.github')}</a>
         </nav>
       </div>
     </footer>
