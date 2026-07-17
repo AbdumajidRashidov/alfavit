@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Alfavit",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "identifier": "uz.alfavit.desktop",
   "build": {
     "beforeDevCommand": "pnpm dev",
@@ -16,7 +16,7 @@
         "label": "main",
         "title": "Alfavit",
         "width": 420,
-        "height": 320,
+        "height": 200,
         "resizable": false,
         "decorations": false,
         "alwaysOnTop": true,
@@ -25,11 +25,16 @@
         "center": true
       }
     ],
-    "security": { "csp": null }
+    "security": {
+      "csp": null
+    }
   },
   "bundle": {
     "active": true,
-    "targets": ["dmg", "app"],
+    "targets": [
+      "dmg",
+      "app"
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

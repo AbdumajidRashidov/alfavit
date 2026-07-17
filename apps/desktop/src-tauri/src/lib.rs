@@ -5,6 +5,8 @@ use tauri::{
 };
 use tauri_plugin_autostart::ManagerExt;
 
+pub mod live;
+
 // Toggle the panel: hide it if it is currently visible, otherwise show + focus.
 fn toggle_panel(window: &WebviewWindow) {
     if window.is_visible().unwrap_or(false) {
@@ -22,6 +24,13 @@ pub fn run() {
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             None::<Vec<&str>>,
         ))
+        .manage(live::bridge::TransformBridge::default())
+        .manage(live::controller::LiveMode::default())
+        .invoke_handler(tauri::generate_handler![
+            live::bridge::submit_transform,
+            live::controller::live_transform_enabled,
+            live::controller::set_live_transform,
+        ])
         .setup(|app| {
             // Show BOTH a Dock icon and the menu-bar tray icon. Regular is the
             // default policy (Dock icon + Cmd-Tab presence); the tray icon below
@@ -29,6 +38,11 @@ pub fn run() {
             // by the RunEvent::Reopen arm below so it reveals the panel.
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Regular);
+
+            // Restore persisted live-transform state BEFORE building the tray, so
+            // the "Live transform" checkbox reflects the actual (possibly resumed)
+            // state instead of always rendering unchecked on launch.
+            app.state::<live::controller::LiveMode>().restore(app.handle());
 
             // Tray menu: Show / Launch at login (checkable) / Quit.
             let launch_at_login = CheckMenuItem::with_id(
@@ -40,8 +54,16 @@ pub fn run() {
                 None::<&str>,
             )?;
             let show_i = MenuItem::with_id(app, "show", "Show", true, None::<&str>)?;
+            let live_item = CheckMenuItem::with_id(
+                app,
+                "live_transform",
+                "Live transform",
+                true,
+                app.state::<live::controller::LiveMode>().is_enabled(),
+                None::<&str>,
+            )?;
             let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&show_i, &launch_at_login, &quit_i])?;
+            let menu = Menu::with_items(app, &[&show_i, &live_item, &launch_at_login, &quit_i])?;
 
             TrayIconBuilder::new()
                 .icon(app.default_window_icon().unwrap().clone())
@@ -60,6 +82,19 @@ pub fn run() {
                             let _ = mgr.disable();
                         } else {
                             let _ = mgr.enable();
+                        }
+                    }
+                    "live_transform" => {
+                        let live = app.state::<live::controller::LiveMode>();
+                        let was_on = live.is_enabled();
+                        let now_on = live.toggle(app);
+                        // Only prompt for Accessibility when the user tried to turn
+                        // it ON and it couldn't start — never when turning it off.
+                        if !was_on && !now_on && !live::guard::accessibility_granted() {
+                            // Needs permission: open the pane so the user can grant it.
+                            let _ = std::process::Command::new("open")
+                                .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
+                                .spawn();
                         }
                     }
                     "quit" => app.exit(0),

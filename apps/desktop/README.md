@@ -1,8 +1,10 @@
-# Alfavit Desktop (Phase 1)
+# Alfavit Desktop
 
-A lightweight, offline macOS menu-bar app. Press **⌥⇧A** (or click the tray
-icon) to drop down a panel that live-converts Uzbek Cyrillic or old-Latin text
-to the reformed 2026 new-Latin script, using the shared `@alfavit/engine`.
+A lightweight, offline macOS menu-bar + Dock app. Press **⌥⇧A** (or click the
+Dock/tray icon) to drop down a panel holding the **Live transform** master
+switch: turn it on and the Uzbek Cyrillic or old-Latin you type anywhere is
+auto-converted to the reformed 2026 new-Latin script, using the shared
+`@alfavit/engine`. See "Live transform" below.
 
 ## Develop
 
@@ -43,9 +45,37 @@ Grant **Accessibility** permission when prompted so the global hotkey works.
 - [ ] **⌥⇧A** toggles the panel from within any other app.
 - [ ] The panel is frameless, always-on-top, and hides when it loses focus.
 - [ ] **Esc** hides the panel.
-- [ ] Typing/pasting `oʻzbek` shows `özbek`; `шаҳар` shows `şahar`; the detected-script badge is correct.
-- [ ] **Copy** copies the output; the button briefly reads "Copied".
+- [ ] The panel shows the **Live transform** switch and a one-line description (see the Live transform checklist below for behavior).
 - [ ] Follows system light/dark appearance.
 - [ ] "Launch at login" persists across a logout/login (login item present).
 - [ ] No network requests are made (verify in a network monitor — the app is offline).
 - [ ] `pnpm --dir apps/desktop tauri build` produces a `.dmg`; the CI job attaches one to a draft Release.
+
+## Live transform (Phase 2)
+
+Open the panel (Dock icon or ⌥⇧A) and flip the **Live transform** switch at the
+top, then keep using your normal keyboard — each word you finish (with space or
+`.,!?;:`) in a normal text field is auto-replaced with reformed new-Latin,
+whether you typed Cyrillic or old-Latin. (The menu-bar tray icon has the same
+toggle, but it can be hidden when the menu bar is full, so the panel switch is
+the reliable control.)
+
+- Requires **Accessibility** permission (System Settings → Privacy & Security →
+  Accessibility). Toggling Live transform on the first time opens that pane.
+- **Off fully stops the observer** — nothing is watched while it is off. The
+  state persists across restarts and defaults to Off.
+- Everything is on-device; no keystrokes are stored or sent.
+- **Not transformed:** password/secure fields (always), Terminal/iTerm, and
+  words ended with Return/Tab (only space/punctuation trigger a transform).
+
+### Acceptance checklist (run on macOS)
+
+- [ ] Fresh install: the panel's Live transform switch is Off; typing is untouched.
+- [ ] Flipping the panel switch On the first time prompts for Accessibility; after granting, typing transforms.
+- [ ] In TextEdit/Notes/a browser field: `shahar `→`şahar `, `oʻzbek `→`özbek `, `чой `→`çoy `; `hello ` unchanged.
+- [ ] Password fields are never modified.
+- [ ] Terminal is not transformed.
+- [ ] Turning it Off stops all transformation immediately.
+- [ ] On/Off state survives quit + relaunch (and stays Off if Accessibility was revoked).
+- [ ] Typing stays responsive (no lag/stutter while on).
+- [ ] The Phase 1 ⌥⇧A panel and tray still work.

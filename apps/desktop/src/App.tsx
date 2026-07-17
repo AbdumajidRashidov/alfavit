@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { LiveConverter } from './LiveConverter'
+import { LiveToggle } from './LiveToggle'
 import { hidePanel } from './panel'
 
 export function App() {
@@ -13,7 +13,12 @@ export function App() {
 
   return (
     <main className="app">
-      <LiveConverter />
+      <LiveToggle />
+      <p className="hint">
+        Type anywhere — Uzbek Cyrillic or old-Latin becomes reformed new-Latin as
+        you go. Works in most text fields; password fields and terminals are left
+        alone.
+      </p>
     </main>
   )
 }

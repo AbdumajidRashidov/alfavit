@@ -1,6 +1,6 @@
 [package]
 name = "alfavit-desktop"
-version = "0.1.1"
+version = "0.2.0"
 description = "Alfavit — Uzbek script live converter"
 authors = ["Alfavit"]
 edition = "2021"
@@ -16,3 +16,10 @@ tauri-build = { version = "2", features = [] }
 tauri = { version = "2", features = ["tray-icon"] }
 tauri-plugin-global-shortcut = "2"
 tauri-plugin-autostart = "2"
+core-graphics = "0.25"
+core-foundation = "0.10"
+foreign-types = "0.5"
+libc = "0.2"
+objc2-app-kit = "0.3"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["sync", "time"] }
