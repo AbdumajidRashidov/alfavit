@@ -10,6 +10,7 @@ const ITEMS: { key: TranslationKey; to: string }[] = [
   { key: 'nav.files', to: '/files' },
   { key: 'nav.apps', to: '/apps' },
   { key: 'nav.reform', to: '/reform' },
+  { key: 'nav.alphabet', to: '/alphabet' },
   { key: 'nav.developers', to: '/developers' },
 ]
 

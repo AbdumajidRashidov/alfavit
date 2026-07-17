@@ -2,10 +2,11 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
 
-test('dist/sitemap.xml has all 24 locale URLs', () => {
+test('dist/sitemap.xml has all 27 locale URLs', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(24)
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(27)
   expect(xml).toContain('<loc>https://alfavit.uz/ru/files</loc>')
+  expect(xml).toContain('<loc>https://alfavit.uz/en/alphabet</loc>')
   expect(xml).toContain('hreflang="x-default"')
 })
 
