@@ -27,3 +27,8 @@ test('shows the tutuq belgisi note', () => {
   renderWithLocale(<AlphabetPage />, '/en')
   expect(screen.getByText(/Tutuq belgisi/)).toBeInTheDocument()
 })
+
+test('shows the loanword note', () => {
+  renderWithLocale(<AlphabetPage />, '/en')
+  expect(screen.getByText(/In loanwords/)).toBeInTheDocument()
+})

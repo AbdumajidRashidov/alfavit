@@ -19,8 +19,9 @@ test("each letter's Cyrillic transliterates to its Latin via the engine (no drif
   }
 })
 
-test('Cyrillic е (letter E) is position-dependent in the engine', () => {
-  expect(['e', 'ye']).toContain(transliterate('е').text)
+test('Cyrillic е is position-dependent: ye word-initially, e after a consonant', () => {
+  expect(transliterate('е').text).toBe('ye') // word-initial
+  expect(transliterate('бе').text).toBe('be') // after a consonant -> e
 })
 
 test('the four changed letters are marked and carry an old form', () => {

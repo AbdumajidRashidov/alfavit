@@ -98,7 +98,7 @@ export const translations = {
     'alphabet.changedLabel': 'Changed',
     'alphabet.tutuq.label': 'Tutuq belgisi (ʼ)',
     'alphabet.tutuq.note': 'The apostrophe sign — separates vowels and marks a glottal stop. It is not one of the 28 letters.',
-    'alphabet.loanword.note': 'In loanwords, ts becomes c (for example, tsement → cement).',
+    'alphabet.loanword.note': 'In loanwords, the sound ts is written with the single letter c.',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -197,7 +197,7 @@ export const translations = {
     'alphabet.changedLabel': 'Oʻzgargan',
     'alphabet.tutuq.label': 'Tutuq belgisi (ʼ)',
     'alphabet.tutuq.note': 'Tutuq belgisi — unlilarni ajratadi va boʻgʻiz toʻxtamini bildiradi. U 28 harf tarkibiga kirmaydi.',
-    'alphabet.loanword.note': 'Oʻzlashma soʻzlarda ts harfi c bilan yoziladi (masalan, tsement → cement).',
+    'alphabet.loanword.note': 'Oʻzlashma soʻzlarda ts tovushi bitta c harfi bilan yoziladi.',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -296,7 +296,7 @@ export const translations = {
     'alphabet.changedLabel': 'Изменена',
     'alphabet.tutuq.label': 'Тутук белгиси (ʼ)',
     'alphabet.tutuq.note': 'Знак апострофа — разделяет гласные и обозначает гортанную смычку. Не входит в число 28 букв.',
-    'alphabet.loanword.note': 'В заимствованиях ts передаётся как c (например, tsement → cement).',
+    'alphabet.loanword.note': 'В заимствованиях звук ts передаётся одной буквой c.',
   },
 } as const
 
