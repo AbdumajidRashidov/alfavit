@@ -54,11 +54,22 @@ const GROUPS: Group[] = [
   },
 ]
 
-const BTN = 'shrink-0 rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]'
+const BTN = 'rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]'
 
 export function Channels() {
   const { t } = useT()
   const lp = useLocalePath()
+
+  // The call-to-action for a card: download / open link, or a "Coming soon"
+  // label. `full` makes it a full-width block (used by stacked feature cards).
+  const cta = (item: Item, full: boolean) => {
+    const cls = full ? `${BTN} block w-full text-center` : `${BTN} shrink-0`
+    if (!item.live || !item.href)
+      return <span className={full ? 'text-sm text-muted' : 'shrink-0 text-sm text-muted'}>{t('status.soon')}</span>
+    if (item.download) return <a href={item.href} download className={cls}>{t('channels.download')}</a>
+    if (item.href.startsWith('/')) return <Link to={lp(item.href)} className={cls}>{t('channels.open')}</Link>
+    return <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{t('channels.open')}</a>
+  }
 
   return (
     <section id="channels" className="bg-background">
@@ -73,43 +84,44 @@ export function Channels() {
             <div key={group.labelKey}>
               <h3 className="text-sm font-medium uppercase tracking-wider text-muted">{t(group.labelKey)}</h3>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {group.items.map((item, i) => (
-                  <motion.div
-                    key={item.nameKey}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.4, delay: i * 0.04 }}
-                    className="flex items-center justify-between gap-4 rounded-2xl border border-black/10 p-5 transition-colors hover:border-black/25"
-                  >
-                    <div className="flex items-start gap-4">
+                {group.items.map((item, i) => {
+                  const header = (
+                    <div className="flex items-center gap-3">
                       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-black/[0.04] text-foreground">
                         <item.Icon className="h-6 w-6" />
                       </span>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-foreground">{t(item.nameKey)}</span>
-                          {item.badge === 'new' && (
-                            <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-medium text-foreground">
-                              {t('channels.badge.new')}
-                            </span>
-                          )}
-                        </div>
-                        {item.descKey && <p className="mt-1 text-sm text-muted">{t(item.descKey)}</p>}
-                        {item.noteKey && <p className="mt-1 text-xs text-muted/80">{t(item.noteKey)}</p>}
-                      </div>
+                      <span className="font-medium text-foreground">{t(item.nameKey)}</span>
+                      {item.badge === 'new' && (
+                        <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-medium text-foreground">
+                          {t('channels.badge.new')}
+                        </span>
+                      )}
                     </div>
-                    {!item.live || !item.href ? (
-                      <span className="shrink-0 text-sm text-muted">{t('status.soon')}</span>
-                    ) : item.download ? (
-                      <a href={item.href} download className={BTN}>{t('channels.download')}</a>
-                    ) : item.href.startsWith('/') ? (
-                      <Link to={lp(item.href)} className={BTN}>{t('channels.open')}</Link>
-                    ) : (
-                      <a href={item.href} target="_blank" rel="noopener noreferrer" className={BTN}>{t('channels.open')}</a>
-                    )}
-                  </motion.div>
-                ))}
+                  )
+                  return (
+                    <motion.div
+                      key={item.nameKey}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{ duration: 0.4, delay: i * 0.04 }}
+                      className={`rounded-2xl border border-black/10 p-5 transition-colors hover:border-black/25 ${
+                        item.descKey ? 'flex flex-col gap-3' : 'flex items-center justify-between gap-4'
+                      }`}
+                    >
+                      {header}
+                      {item.descKey ? (
+                        <>
+                          <p className="text-sm leading-relaxed text-muted">{t(item.descKey)}</p>
+                          {item.noteKey && <p className="text-xs leading-relaxed text-muted/80">{t(item.noteKey)}</p>}
+                          {cta(item, true)}
+                        </>
+                      ) : (
+                        cta(item, false)
+                      )}
+                    </motion.div>
+                  )
+                })}
               </div>
             </div>
           ))}
