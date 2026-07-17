@@ -52,9 +52,12 @@ Grant **Accessibility** permission when prompted so the global hotkey works.
 
 ## Live transform (Phase 2)
 
-Turn on **Live transform** in the tray menu and keep using your normal keyboard —
-each word you finish (with space or `.,!?;:`) in a normal text field is
-auto-replaced with reformed new-Latin, whether you typed Cyrillic or old-Latin.
+Open the panel (Dock icon or ⌥⇧A) and flip the **Live transform** switch at the
+top, then keep using your normal keyboard — each word you finish (with space or
+`.,!?;:`) in a normal text field is auto-replaced with reformed new-Latin,
+whether you typed Cyrillic or old-Latin. (The menu-bar tray icon has the same
+toggle, but it can be hidden when the menu bar is full, so the panel switch is
+the reliable control.)
 
 - Requires **Accessibility** permission (System Settings → Privacy & Security →
   Accessibility). Toggling Live transform on the first time opens that pane.
@@ -66,8 +69,8 @@ auto-replaced with reformed new-Latin, whether you typed Cyrillic or old-Latin.
 
 ### Acceptance checklist (run on macOS)
 
-- [ ] Fresh install: Live transform is Off; typing is untouched.
-- [ ] Turning it On the first time prompts for Accessibility; after granting, typing transforms.
+- [ ] Fresh install: the panel's Live transform switch is Off; typing is untouched.
+- [ ] Flipping the panel switch On the first time prompts for Accessibility; after granting, typing transforms.
 - [ ] In TextEdit/Notes/a browser field: `shahar `→`şahar `, `oʻzbek `→`özbek `, `чой `→`çoy `; `hello ` unchanged.
 - [ ] Password fields are never modified.
 - [ ] Terminal is not transformed.
