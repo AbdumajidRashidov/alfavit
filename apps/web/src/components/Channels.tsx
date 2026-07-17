@@ -79,6 +79,7 @@ export function Channels() {
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.4, delay: i * 0.04 }}
                     className="flex items-center justify-between gap-4 rounded-2xl border border-black/10 p-5 transition-colors hover:border-black/25"
                   >
                     <div className="flex items-start gap-4">
