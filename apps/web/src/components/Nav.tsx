@@ -5,13 +5,13 @@ import { useLocalePath } from '../i18n/useLocalePath'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import type { TranslationKey } from '../i18n/translations'
 
+// Convert, Developers, and Telegram live in the footer (and the CTA/logo already
+// reach the converter), so the top nav stays lean.
 const ITEMS: { key: TranslationKey; to: string }[] = [
-  { key: 'nav.convert', to: '/' },
   { key: 'nav.files', to: '/files' },
   { key: 'nav.apps', to: '/apps' },
   { key: 'nav.reform', to: '/reform' },
   { key: 'nav.alphabet', to: '/alphabet' },
-  { key: 'nav.developers', to: '/developers' },
 ]
 
 const CTA = 'rounded-full bg-foreground px-6 py-2.5 text-sm text-background transition-transform hover:scale-[1.03]'
@@ -40,9 +40,6 @@ export function Nav() {
               {t(key)}
             </NavLink>
           ))}
-          <a href="https://t.me/alfavit_uz_bot" target="_blank" rel="noopener noreferrer" className="text-muted transition-colors hover:text-foreground">
-            {t('nav.telegram')}
-          </a>
         </div>
 
         <div className="flex items-center gap-4">
@@ -71,9 +68,6 @@ export function Nav() {
               {t(key)}
             </NavLink>
           ))}
-          <a href="https://t.me/alfavit_uz_bot" target="_blank" rel="noopener noreferrer" onClick={close} className="text-muted">
-            {t('nav.telegram')}
-          </a>
           <Link to={lp('/')} onClick={close} className={`${CTA} self-start`}>{t('nav.cta')}</Link>
         </div>
       )}

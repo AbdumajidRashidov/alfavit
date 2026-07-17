@@ -22,7 +22,11 @@ test('renders logo, route links, and localized CTA', () => {
   renderNav()
   expect(screen.getByText(/Alfavit/)).toBeInTheDocument()
   expect(screen.getByRole('link', { name: 'Boshlash' })).toBeInTheDocument()
-  expect(screen.getByRole('link', { name: 'Dasturchilar' })).toHaveAttribute('href', '/developers')
+  expect(screen.getByRole('link', { name: 'Islohot' })).toHaveAttribute('href', '/reform')
+  // Convert, Developers, and Telegram were moved to the footer — not in the nav.
+  expect(screen.queryByRole('link', { name: 'Oʻgirish' })).toBeNull()
+  expect(screen.queryByRole('link', { name: 'Dasturchilar' })).toBeNull()
+  expect(screen.queryByRole('link', { name: 'Telegram' })).toBeNull()
 })
 
 test('switching language navigates and re-localizes', async () => {
