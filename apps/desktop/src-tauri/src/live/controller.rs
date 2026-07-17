@@ -1,6 +1,6 @@
 use std::sync::Mutex;
 
-use tauri::Manager;
+use tauri::{AppHandle, Manager, State};
 
 use crate::live::guard;
 use crate::live::keytap::{self, TapHandle};
@@ -77,10 +77,45 @@ impl LiveMode {
         }
     }
 
+    /// Explicitly set the switch on/off (used by the in-panel toggle). Returns
+    /// the resulting enabled state (false if On could not start for lack of
+    /// permission).
+    pub fn set(&self, app: &tauri::AppHandle, on: bool) -> bool {
+        if on {
+            let started = if self.is_enabled() { true } else { self.start(app) };
+            save_enabled(app, started);
+            started
+        } else {
+            self.stop();
+            save_enabled(app, false);
+            false
+        }
+    }
+
     /// On launch: if it was On last time and permission is still granted, resume.
     pub fn restore(&self, app: &tauri::AppHandle) {
         if config_enabled(app) && guard::accessibility_granted() {
             self.start(app);
         }
     }
+}
+
+/// Current live-transform state, so the panel toggle reflects reality on open.
+#[tauri::command]
+pub fn live_transform_enabled(live: State<LiveMode>) -> bool {
+    live.is_enabled()
+}
+
+/// Set live transform on/off from the UI; returns the resulting state. If the
+/// user asked to turn it on but Accessibility isn't granted, opens the pane so
+/// they can grant it (then toggle again).
+#[tauri::command]
+pub fn set_live_transform(on: bool, app: AppHandle, live: State<LiveMode>) -> bool {
+    let now_on = live.set(&app, on);
+    if on && !now_on && !guard::accessibility_granted() {
+        let _ = std::process::Command::new("open")
+            .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
+            .spawn();
+    }
+    now_on
 }

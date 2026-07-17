@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { LiveConverter } from './LiveConverter'
+import { LiveToggle } from './LiveToggle'
 import { hidePanel } from './panel'
 
 export function App() {
@@ -13,6 +14,7 @@ export function App() {
 
   return (
     <main className="app">
+      <LiveToggle />
       <LiveConverter />
     </main>
   )

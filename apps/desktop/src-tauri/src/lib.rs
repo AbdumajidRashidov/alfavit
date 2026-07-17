@@ -26,7 +26,11 @@ pub fn run() {
         ))
         .manage(live::bridge::TransformBridge::default())
         .manage(live::controller::LiveMode::default())
-        .invoke_handler(tauri::generate_handler![live::bridge::submit_transform])
+        .invoke_handler(tauri::generate_handler![
+            live::bridge::submit_transform,
+            live::controller::live_transform_enabled,
+            live::controller::set_live_transform,
+        ])
         .setup(|app| {
             // Show BOTH a Dock icon and the menu-bar tray icon. Regular is the
             // default policy (Dock icon + Cmd-Tab presence); the tray icon below
