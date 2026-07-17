@@ -16,7 +16,7 @@ export const LETTERS: AlphabetLetter[] = [
   { id: 'A', latin: 'A a', old: 'A a', cyrillic: 'А а', example: 'ata' },
   { id: 'B', latin: 'B b', old: 'B b', cyrillic: 'Б б', example: 'bola' },
   { id: 'D', latin: 'D d', old: 'D d', cyrillic: 'Д д', example: 'daraxt' },
-  { id: 'E', latin: 'E e', old: 'E e', cyrillic: 'Э э', example: 'ertak' },
+  { id: 'E', latin: 'E e', old: 'E e', cyrillic: 'Е е', example: 'ertak' },
   { id: 'F', latin: 'F f', old: 'F f', cyrillic: 'Ф ф', example: 'fikr' },
   { id: 'G', latin: 'G g', old: 'G g', cyrillic: 'Г г', example: 'gul' },
   { id: 'H', latin: 'H h', old: 'H h', cyrillic: 'Ҳ ҳ', example: 'hosil' },
