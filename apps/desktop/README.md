@@ -1,8 +1,10 @@
-# Alfavit Desktop (Phase 1)
+# Alfavit Desktop
 
-A lightweight, offline macOS menu-bar app. Press **⌥⇧A** (or click the tray
-icon) to drop down a panel that live-converts Uzbek Cyrillic or old-Latin text
-to the reformed 2026 new-Latin script, using the shared `@alfavit/engine`.
+A lightweight, offline macOS menu-bar + Dock app. Press **⌥⇧A** (or click the
+Dock/tray icon) to drop down a panel holding the **Live transform** master
+switch: turn it on and the Uzbek Cyrillic or old-Latin you type anywhere is
+auto-converted to the reformed 2026 new-Latin script, using the shared
+`@alfavit/engine`. See "Live transform" below.
 
 ## Develop
 
@@ -43,8 +45,7 @@ Grant **Accessibility** permission when prompted so the global hotkey works.
 - [ ] **⌥⇧A** toggles the panel from within any other app.
 - [ ] The panel is frameless, always-on-top, and hides when it loses focus.
 - [ ] **Esc** hides the panel.
-- [ ] Typing/pasting `oʻzbek` shows `özbek`; `шаҳар` shows `şahar`; the detected-script badge is correct.
-- [ ] **Copy** copies the output; the button briefly reads "Copied".
+- [ ] The panel shows the **Live transform** switch and a one-line description (see the Live transform checklist below for behavior).
 - [ ] Follows system light/dark appearance.
 - [ ] "Launch at login" persists across a logout/login (login item present).
 - [ ] No network requests are made (verify in a network monitor — the app is offline).
