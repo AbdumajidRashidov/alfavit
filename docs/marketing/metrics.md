@@ -6,9 +6,10 @@ One goal: daily users across web, bot, extension and Mac app. Everything below i
 
 | | Value | Where |
 |--|-------|-------|
-| Site visitors/day, 7-day average before launch | ___ | Cloudflare dashboard → Analytics & Logs → Web Analytics → alfavit.uz → Last 7 days → Visits ÷ 7 |
-| Bot requests/day, 7-day average | ___ | Cloudflare dashboard → Workers & Pages → alfavit-bot → Metrics → Requests (Last 7 days) ÷ 7 |
-| API requests/day, 7-day average | ___ | Workers & Pages → alfavit-api → Metrics → Requests (Last 7 days) ÷ 7 |
+| Site unique visitors/day (zone HTTP analytics; Web Analytics is not enabled for alfavit.uz) | 69–148 per day over the last 30 days, ~90–100 typical; 148 on 10 Sep; 1.95k unique visitors in 30 days | Cloudflare dashboard → alfavit.uz → Analytics & Logs → Traffic → Unique Visitors (free plan shows 24 h / 7 d / 30 d) |
+| Site requests, 30 days | 40.01k (bots and scanners included; 24 h by country: UK 1,286 · UZ 1,181 · US 513) | same page → Requests |
+| Bot invocations, last 7 days | 15 (10 were uncaught exceptions from non-Telegram GET traffic — fixed 10 Sep 23:50, worker now answers 405/400) | Workers & Pages → alfavit-bot → Metrics → Last 7 days |
+| API invocations, last 7 days | 313, 0 errors (272 from a single Sydney source, i.e. a monitor or crawler; real usage ≈ 40) | Workers & Pages → alfavit-api → Metrics → Last 7 days |
 | GitHub stars / forks | 0 / 0 | github.com/AbdumajidRashidov/alfavit — public since 10 Sep 2026, ~21:50 Tashkent |
 | GitHub traffic, last 14 days | 0 views, 1 clone (our own) | `gh api repos/AbdumajidRashidov/alfavit/traffic/views` and `…/traffic/clones` |
 | npm weekly downloads, engine / sdk | 0 / 0 | published 10 Sep 2026, 22:33 Tashkent; api.npmjs.org indexes downloads after about a day |
