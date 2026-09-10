@@ -1,11 +1,22 @@
 {
   "name": "@alfavit/engine",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Dependency-free transliteration engine for the 2026 Uzbek Latin alphabet: Cyrillic and 1995 Latin → new Latin (ş ç ö ğ), with ambiguity flags.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbdumajidRashidov/alfavit.git",
+    "directory": "packages/engine"
+  },
+  "homepage": "https://alfavit.uz/developers",
+  "keywords": ["uzbek", "transliteration", "cyrillic", "latin", "alphabet", "2026", "o'zbek", "alifbo"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" } },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
   "files": ["dist"],
+  "sideEffects": false,
+  "publishConfig": { "access": "public" },
   "scripts": {
     "test": "vitest run",
     "build": "tsc -p tsconfig.json"

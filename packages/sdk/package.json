@@ -1,11 +1,22 @@
 {
   "name": "@alfavit/sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "Zero-dependency client for the Alfavit transliteration API (api.alfavit.uz): Uzbek Cyrillic / old Latin → the 2026 Latin alphabet.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbdumajidRashidov/alfavit.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://alfavit.uz/developers",
+  "keywords": ["uzbek", "transliteration", "alfavit", "api", "client", "alphabet"],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" } },
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
   "files": ["dist"],
+  "sideEffects": false,
+  "publishConfig": { "access": "public" },
   "scripts": { "build": "tsc -p tsconfig.json", "test": "vitest run" },
   "devDependencies": { "typescript": "^5.5.0", "vitest": "^2.0.0" }
 }
