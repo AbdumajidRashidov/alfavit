@@ -19,3 +19,4 @@ jobs:
       - run: pnpm test   # turbo run test (unit tests; engine built first via ^build)
       - run: pnpm build  # turbo run build (type-check + emit, incl. web dist)
       - run: pnpm --dir apps/web test:dist  # build-output assertions against fresh dist
+      - run: pnpm --dir packages/engine test:dist  # published engine must import under plain Node ESM

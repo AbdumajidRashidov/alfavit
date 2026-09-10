@@ -1,6 +1,6 @@
-import { normalizeApostrophes } from './normalize'
-import { applyCase } from './case'
-import { OLD_LATIN_DIGRAPHS } from './mappings/old-latin'
+import { normalizeApostrophes } from './normalize.js'
+import { applyCase } from './case.js'
+import { OLD_LATIN_DIGRAPHS } from './mappings/old-latin.js'
 
 export function convertOldLatin(text: string): string {
   const src = normalizeApostrophes(text)

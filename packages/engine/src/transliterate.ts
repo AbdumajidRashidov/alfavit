@@ -1,9 +1,9 @@
-import { segment } from './detect'
-import { convertOldLatin } from './convert-old-latin'
-import { convertCyrillicRun } from './convert-cyrillic'
-import { lookupException } from './dictionary'
-import type { Segment, TransliterateOptions, TransliterateResult } from './types'
-import { emptyResult } from './types'
+import { segment } from './detect.js'
+import { convertOldLatin } from './convert-old-latin.js'
+import { convertCyrillicRun } from './convert-cyrillic.js'
+import { lookupException } from './dictionary.js'
+import type { Segment, TransliterateOptions, TransliterateResult } from './types.js'
+import { emptyResult } from './types.js'
 
 export function transliterate(
   input: string,

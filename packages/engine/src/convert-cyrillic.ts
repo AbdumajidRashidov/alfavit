@@ -1,6 +1,6 @@
-import { applyCase } from './case'
-import { CYRILLIC_MAP } from './mappings/cyrillic'
-import type { AmbiguityFlag } from './types'
+import { applyCase } from './case.js'
+import { CYRILLIC_MAP } from './mappings/cyrillic.js'
+import type { AmbiguityFlag } from './types.js'
 
 const CYRILLIC_VOWELS = new Set([...'аеёиоуўэюяАЕЁИОУЎЭЮЯ'])
 

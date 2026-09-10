@@ -1,5 +1,5 @@
-import type { SourceScript } from './types'
-import { APOSTROPHE_VARIANTS } from './normalize'
+import type { SourceScript } from './types.js'
+import { APOSTROPHE_VARIANTS } from './normalize.js'
 
 const CYRILLIC = /[Ѐ-ӿԀ-ԯ]/
 // Include the apostrophe variants so an oʻ/gʻ written with a curly quote isn't

@@ -19,7 +19,8 @@
   "publishConfig": { "access": "public" },
   "scripts": {
     "test": "vitest run",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test:dist": "tsc -p tsconfig.json && vitest run --config vitest.dist.config.ts"
   },
   "devDependencies": {
     "typescript": "^5.5.0",
