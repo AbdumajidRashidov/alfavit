@@ -13,3 +13,5 @@ apps/extension/dist/
 docs/marketing/private/
 # raw screen recordings from record-demo.sh (large; only the built GIF/stills are committed)
 docs/marketing/assets/raw/
+# built MP4s are hosted on Telegram, not in git
+docs/marketing/assets/*.mp4
