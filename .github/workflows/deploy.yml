@@ -67,7 +67,11 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # wrangler 4.x needs Node >= 22. On Node 20 wrangler-action's version
+          # check fails, so it falls back to `npm i wrangler` inside apps/api,
+          # which npm cannot do (workspace:* deps). With Node 22 it finds the
+          # pnpm-installed 4.110.0 and skips the install.
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       # Build the engine (and type-check the api); wrangler bundles the Worker →

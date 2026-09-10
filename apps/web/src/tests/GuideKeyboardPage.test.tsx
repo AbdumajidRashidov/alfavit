@@ -17,6 +17,11 @@ test('renders the title, five steps and the four letter buttons', () => {
   expect(screen.getByText(/Turkish Q layout is the practical choice/)).toBeInTheDocument()
 })
 
+test('warns that the Turkish keyboard brings Turkish autocorrect', () => {
+  renderWithLocale(<GuideKeyboardPage />, '/en')
+  expect(screen.getByText(/Turkish autocorrect and predictions, which will fight Uzbek words/)).toBeInTheDocument()
+})
+
 test('clicking a letter copies its lowercase form', async () => {
   const user = userEvent.setup()
   renderWithLocale(<GuideKeyboardPage />, '/en')
