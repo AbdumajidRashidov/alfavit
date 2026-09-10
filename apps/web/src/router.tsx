@@ -10,6 +10,7 @@ import { AlphabetPage } from './pages/AlphabetPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { GuideCyrillicPage } from './pages/GuideCyrillicPage'
 import { GuideOldLatinPage } from './pages/GuideOldLatinPage'
+import { GuideKeyboardPage } from './pages/GuideKeyboardPage'
 import { localesForPath, type Locale } from './seo/config'
 
 interface PageDef { path: string; Component: ComponentType; index?: boolean }
@@ -24,6 +25,7 @@ const PAGES: PageDef[] = [
   { path: 'privacy', Component: PrivacyPage },
   { path: 'guide/cyrillic-to-latin', Component: GuideCyrillicPage },
   { path: 'guide/old-latin-to-new', Component: GuideOldLatinPage },
+  { path: 'guide/keyboard', Component: GuideKeyboardPage },
 ]
 
 function childrenFor(locale: Locale): RouteRecord[] {

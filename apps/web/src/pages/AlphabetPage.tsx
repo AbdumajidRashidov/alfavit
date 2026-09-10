@@ -86,6 +86,9 @@ export function AlphabetPage() {
           <h2 className="font-medium text-foreground">{t('alphabet.tutuq.label')}</h2>
           <p className="mt-1 text-sm text-muted">{t('alphabet.tutuq.note')}</p>
           <p className="mt-3 text-sm text-muted">{t('alphabet.loanword.note')}</p>
+          <p className="mt-3 text-sm">
+            <Link to={lp('/guide/keyboard')} className="text-muted underline hover:text-foreground">{t('guides.keyboard')} →</Link>
+          </p>
         </div>
 
         <p className="mt-12 text-sm text-muted">

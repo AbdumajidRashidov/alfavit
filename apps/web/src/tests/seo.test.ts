@@ -35,6 +35,14 @@ test('localesForPath: all current pages exist in all three locales', () => {
   expect(localesForPath('unknown')).toEqual(['uz', 'ru', 'en'])
 })
 
+test('keyboard guide is in PAGE_PATHS for all locales and in the sitemap', () => {
+  expect(localesForPath('guide/keyboard')).toEqual(['uz', 'ru', 'en'])
+  const xml = generateSitemapXml()
+  expect(xml).toContain('<loc>https://alfavit.uz/guide/keyboard</loc>')
+  expect(xml).toContain('<loc>https://alfavit.uz/ru/guide/keyboard</loc>')
+  expect(xml).toContain('<loc>https://alfavit.uz/en/guide/keyboard</loc>')
+})
+
 test('sitemap includes all locales for guides', () => {
   const xml = generateSitemapXml()
   expect(xml).toContain('<loc>https://alfavit.uz/guide/cyrillic-to-latin</loc>')

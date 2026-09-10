@@ -17,6 +17,7 @@ The 2026 reform replaced the 1995 digraphs and apostrophe-letters with single le
 - [The 2026 reform](https://alfavit.uz/reform): what changed, letter by letter
 - [Cyrillic → new Latin guide](https://alfavit.uz/guide/cyrillic-to-latin): step-by-step
 - [Old Latin → new Latin guide](https://alfavit.uz/guide/old-latin-to-new): step-by-step
+- [How to type ş ç ö ğ](https://alfavit.uz/guide/keyboard): keyboard layouts and shortcuts for the four new letters on Mac, Windows, iPhone, Android
 - [Files](https://alfavit.uz/files): convert .txt, .srt, and .docx files in-browser
 - [Apps & channels](https://alfavit.uz/apps): web app, Telegram bot, browser extension, public API
 - [Developers](https://alfavit.uz/developers): free public transliteration API, no key required

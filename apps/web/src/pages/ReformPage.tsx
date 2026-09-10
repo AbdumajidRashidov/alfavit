@@ -108,6 +108,9 @@ export function ReformPage() {
               <Link to={lp('/guide/old-latin-to-new')} className="font-serif text-2xl text-foreground transition-colors hover:text-muted">
                 {t('guides.oldlatin')} →
               </Link>
+              <Link to={lp('/guide/keyboard')} className="font-serif text-2xl text-foreground transition-colors hover:text-muted">
+                {t('guides.keyboard')} →
+              </Link>
             </div>
           </>
         )}

@@ -103,6 +103,9 @@ export const translations = {
     'reform.updated': 'Updated 10 September 2026',
     'reform.ngNote': 'The combination ng is no longer listed as a separate letter; it stays in spelling as n + g.',
     'news.senate': '10 September: the Senate approved the 28-letter alphabet. What changes →',
+    'meta.guide.keyboard.title': 'How to type Ş, Ç, Ö, Ğ — Alfavit',
+    'meta.guide.keyboard.desc': 'Type the four new Uzbek letters on Mac, Windows, iPhone and Android: copy buttons, keyboard layouts, shortcuts — or let Alfavit convert as you type.',
+    'guides.keyboard': 'How to type ş ç ö ğ',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -206,6 +209,9 @@ export const translations = {
     'reform.updated': '2026-yil 10-sentabrda yangilandi',
     'reform.ngNote': 'ng birikmasi endi alifboda alohida harf sifatida berilmaydi; imloda n + g tarzida yoziladi.',
     'news.senate': '10-sentabr: Senat 28 harfli yangi alifboni maʼqulladi. Nima oʻzgaradi →',
+    'meta.guide.keyboard.title': 'Ş, Ç, Ö, Ğ harflarini qanday yozish — Alfavit',
+    'meta.guide.keyboard.desc': 'Yangi toʻrt harfni Mac, Windows, iPhone va Android da yozish: nusxalash tugmalari, klaviatura joylashuvlari, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
+    'guides.keyboard': 'ş ç ö ğ harflarini yozish',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -309,6 +315,9 @@ export const translations = {
     'reform.updated': 'Обновлено 10 сентября 2026 года',
     'reform.ngNote': 'Сочетание ng больше не считается отдельной буквой; в написании остаётся как n + g.',
     'news.senate': '10 сентября: Сенат одобрил алфавит из 28 букв. Что меняется →',
+    'meta.guide.keyboard.title': 'Как набирать Ş, Ç, Ö, Ğ — Alfavit',
+    'meta.guide.keyboard.desc': 'Четыре новые узбекские буквы на Mac, Windows, iPhone и Android: кнопки копирования, раскладки, сочетания клавиш — или пусть Alfavit конвертирует по мере ввода.',
+    'guides.keyboard': 'Как набирать ş ç ö ğ',
   },
 } as const
 
