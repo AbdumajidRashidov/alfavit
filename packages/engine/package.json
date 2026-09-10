@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AbdumajidRashidov/alfavit.git",
+    "url": "git+https://github.com/AbdumajidRashidov/alfavit.git",
     "directory": "packages/engine"
   },
   "homepage": "https://alfavit.uz/developers",
