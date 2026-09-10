@@ -1,6 +1,6 @@
 {
   "name": "@alfavit/engine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dependency-free transliteration engine for the 2026 Uzbek Latin alphabet: Cyrillic and 1995 Latin → new Latin (ş ç ö ğ), with ambiguity flags.",
   "license": "MIT",
   "repository": {

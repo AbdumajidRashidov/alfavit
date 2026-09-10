@@ -11,6 +11,8 @@ const CORPUS: Array<[string, string]> = [
   ['Ёзув', 'Yozuv'],
   ['Ер', 'Yer'],
   ['Япония', 'Yaponiya'],
+  ["e'tibor", 'eʼtibor'], //  tutuq belgisi stays U+02BC, never U+02BB
+  ['эътибор', 'eʼtibor'], //  the Cyrillic hard sign lands on the same sign
 ]
 
 test.each(CORPUS)('golden: %s → %s', (input, expected) => {
