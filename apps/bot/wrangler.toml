@@ -10,3 +10,8 @@ LOGO_URL = "https://alfavit.uz/logo.png"
 
 # BOT_TOKEN is a secret — do NOT put it here. Set it with:
 #   pnpm --dir apps/bot exec wrangler secret put BOT_TOKEN
+
+# Workers Logs (free tier): makes handler errors readable in the dashboard
+# under Workers & Pages → alfavit-bot → Observability.
+[observability]
+enabled = true
