@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Hero } from '../components/Hero'
+import { NewsStrip } from '../components/NewsStrip'
 import { Converter } from '../components/Converter'
 import { Seo } from '../components/Seo'
 import { useT } from '../i18n/useT'
@@ -19,6 +20,7 @@ export function HomePage() {
   return (
     <>
       <Seo titleKey="meta.home.title" descKey="meta.home.desc" pagePath="" jsonLd={softwareAppLd} />
+      <NewsStrip />
       <Hero />
       <Converter />
       <section className="mx-auto max-w-5xl px-6 pb-24">

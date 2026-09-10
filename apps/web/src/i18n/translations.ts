@@ -102,6 +102,7 @@ export const translations = {
     'reform.timelineLabel': 'Timeline',
     'reform.updated': 'Updated 10 September 2026',
     'reform.ngNote': 'The combination ng is no longer listed as a separate letter; it stays in spelling as n + g.',
+    'news.senate': '10 September: the Senate approved the 28-letter alphabet. What changes →',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -204,6 +205,7 @@ export const translations = {
     'reform.timelineLabel': 'Bosqichlar',
     'reform.updated': '2026-yil 10-sentabrda yangilandi',
     'reform.ngNote': 'ng birikmasi endi alifboda alohida harf sifatida berilmaydi; imloda n + g tarzida yoziladi.',
+    'news.senate': '10-sentabr: Senat 28 harfli yangi alifboni maʼqulladi. Nima oʻzgaradi →',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -306,6 +308,7 @@ export const translations = {
     'reform.timelineLabel': 'Хронология',
     'reform.updated': 'Обновлено 10 сентября 2026 года',
     'reform.ngNote': 'Сочетание ng больше не считается отдельной буквой; в написании остаётся как n + g.',
+    'news.senate': '10 сентября: Сенат одобрил алфавит из 28 букв. Что меняется →',
   },
 } as const
 
