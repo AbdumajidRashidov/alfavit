@@ -4,6 +4,14 @@ import { useT } from '../i18n/useT'
 import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 
+const SHARE_URL = 'https://alfavit.uz/?utm_source=share&utm_medium=telegram&utm_campaign=senate-2026-09'
+const SECONDARY_BTN = 'rounded-full border border-black/15 px-5 py-2 text-sm text-foreground transition-colors hover:border-black/40'
+
+/** Telegram's share endpoint: pre-fills a message with the converted text + our link. */
+export function telegramShareHref(text: string): string {
+  return `https://t.me/share/url?url=${encodeURIComponent(SHARE_URL)}&text=${encodeURIComponent(text)}`
+}
+
 export function Converter() {
   const { t } = useT()
   const [input, setInput] = useState('')
@@ -14,6 +22,16 @@ export function Converter() {
     await navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
+  }
+
+  // Native share sheet where the browser has one (mostly mobile); Telegram's share link elsewhere.
+  const canShare = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
+  const share = async () => {
+    try {
+      await navigator.share({ text, url: SHARE_URL })
+    } catch {
+      /* user dismissed the share sheet */
+    }
   }
 
   const scriptKey = `script.${detectedScript}` as TranslationKey
@@ -37,14 +55,21 @@ export function Converter() {
           />
         </div>
         <div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <label className="text-sm text-muted">{t('converter.outputLabel')}</label>
-            <button
-              onClick={copy}
-              className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
-            >
-              {copied ? t('converter.copied') : t('converter.copy')}
-            </button>
+            <div className="flex items-center gap-2">
+              {text && (canShare ? (
+                <button type="button" onClick={share} className={SECONDARY_BTN}>{t('converter.share')}</button>
+              ) : (
+                <a href={telegramShareHref(text)} target="_blank" rel="noopener noreferrer" className={SECONDARY_BTN}>{t('converter.share')}</a>
+              ))}
+              <button
+                onClick={copy}
+                className="rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]"
+              >
+                {copied ? t('converter.copied') : t('converter.copy')}
+              </button>
+            </div>
           </div>
           <div
             data-testid="output"

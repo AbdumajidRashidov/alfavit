@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi } from 'vitest'
 import { renderWithLocale } from './renderApp'
-import { Converter } from '../components/Converter'
+import { Converter, telegramShareHref } from '../components/Converter'
 
 function renderConverter() {
   return renderWithLocale(<Converter />)
@@ -27,4 +27,17 @@ test('Copy button writes output to clipboard', async () => {
   Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
   await user.click(screen.getByRole('button', { name: /Copy|Nusxa|Копировать/ }))
   expect(writeText).toHaveBeenCalledWith('çoy')
+})
+
+test('Share link appears with output and opens Telegram share with the text', async () => {
+  const user = userEvent.setup()
+  renderConverter()
+  expect(screen.queryByRole('link', { name: /Share|Ulashish|Поделиться/ })).not.toBeInTheDocument()
+  await user.type(screen.getByRole('textbox'), 'чой')
+  await screen.findByText('çoy')
+  const link = screen.getByRole('link', { name: /Share|Ulashish|Поделиться/ })
+  expect(link).toHaveAttribute('href', telegramShareHref('çoy'))
+  expect(link.getAttribute('href')).toContain('https://t.me/share/url?url=')
+  expect(link.getAttribute('href')).toContain(encodeURIComponent('çoy'))
+  expect(link).toHaveAttribute('target', '_blank')
 })
