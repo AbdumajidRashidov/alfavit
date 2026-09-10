@@ -1,7 +1,7 @@
 # Alfavit
 
 Convert Uzbek text from **Cyrillic** or the **old 1995 Latin** into the reformed
-**2026 new Latin** script (`sh→ş`, `ch→ç`, `gʻ→ğ`, `oʻ→ö`, loanword `ts→c`).
+**2026 new Latin** script (`sh→ş`, `ch→ç`, `gʻ→ğ`, `oʻ→ö`).
 
 A Turborepo + pnpm monorepo: one transliteration engine, many channels.
 

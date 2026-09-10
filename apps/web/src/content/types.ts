@@ -17,3 +17,8 @@ export interface Guide {
   steps: { heading: string; body: string }[]
   examples: [string, string][]
 }
+
+export interface TimelineItem {
+  date: string
+  body: string
+}

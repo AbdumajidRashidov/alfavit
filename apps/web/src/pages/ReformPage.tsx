@@ -4,12 +4,17 @@ import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
 import { spotlights } from '../content/reform'
 import { faq } from '../content/faq'
+import { timeline } from '../content/timeline'
 import { articleLd, faqPageLd } from '../seo/jsonld'
 import { SITE_URL, localePath, localesForPath } from '../seo/config'
 
 const SOURCES: Array<[string, string]> = [
-  ['gazeta.uz', 'https://www.gazeta.uz/en/2026/07/09/alphabet/'],
-  ['kun.uz', 'https://kun.uz/news/2026/07/07/ozbekistonda-alifbo-islohoti-boyicha-qonun-qabul-qilindi-4cf07b'],
+  ['gazeta.uz — Senate approval, 10 Sep 2026', 'https://www.gazeta.uz/oz/2026/09/10/uzb-alphabet/'],
+  ['spot.uz — Senate approval, 10 Sep 2026', 'https://www.spot.uz/oz/2026/09/10/uzbek-alphabet'],
+  ['daryo.uz — Senate approval, 10 Sep 2026', 'https://daryo.uz/fxq5yS_DR'],
+  ['zamin.uz — textbook timeline to 2031', 'https://zamin.uz/en/uzbekistan/220841-major-change-in-schools-all-textbooks-to-be-transferred-to-the-new-alphabet-by-2031.html'],
+  ['gazeta.uz — law adopted, 7 Jul 2026', 'https://www.gazeta.uz/en/2026/07/09/alphabet/'],
+  ['kun.uz — law adopted, 7 Jul 2026', 'https://kun.uz/news/2026/07/07/ozbekistonda-alifbo-islohoti-boyicha-qonun-qabul-qilindi-4cf07b'],
   ['Wikipedia', 'https://en.wikipedia.org/wiki/Uzbek_alphabet'],
 ]
 
@@ -18,7 +23,6 @@ const CHANGES: Array<[string, string]> = [
   ['Ch ch', 'Ç ç'],
   ['Gʻ gʻ', 'Ğ ğ'],
   ['Oʻ oʻ', 'Ö ö'],
-  ['Ts ts', 'C c'],
 ]
 
 export function ReformPage() {
@@ -39,6 +43,7 @@ export function ReformPage() {
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('reform.title')}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{t('reform.intro')}</p>
+        <p className="mt-3 text-sm text-muted">{t('reform.updated')}</p>
 
         <h2 className="mt-12 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.changesLabel')}</h2>
         <div className="mt-4 divide-y divide-black/10 rounded-2xl border border-black/10">
@@ -50,6 +55,8 @@ export function ReformPage() {
             </div>
           ))}
         </div>
+
+        <p className="mt-3 text-sm text-muted">{t('reform.ngNote')}</p>
 
         <h2 className="mt-16 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.spotlightsLabel')}</h2>
         <div className="mt-4 space-y-10">
@@ -67,6 +74,16 @@ export function ReformPage() {
             </div>
           ))}
         </div>
+
+        <h2 className="mt-16 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.timelineLabel')}</h2>
+        <ol className="mt-4 divide-y divide-black/10 border-t border-black/10">
+          {timeline[locale].map((item) => (
+            <li key={item.date} className="grid gap-1 py-4 sm:grid-cols-[12rem_1fr] sm:gap-6">
+              <span className="font-medium text-foreground">{item.date}</span>
+              <span className="leading-relaxed text-muted">{item.body}</span>
+            </li>
+          ))}
+        </ol>
 
         <p className="mt-16 leading-relaxed text-foreground">{t('reform.law')}</p>
         <p className="mt-4 leading-relaxed text-muted">{t('reform.why')}</p>
