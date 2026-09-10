@@ -19,46 +19,58 @@ interface Item {
 }
 interface Group { labelKey: TranslationKey; items: Item[] }
 
-const GROUPS: Group[] = [
-  {
-    labelKey: 'channels.group.desktop',
-    items: [
-      {
-        nameKey: 'channels.mac.name',
-        Icon: AppleIcon,
-        live: true,
-        href: '/download/Alfavit.dmg',
-        download: true,
-        descKey: 'channels.mac.desc',
-        noteKey: 'channels.mac.note',
-        badge: 'new',
-      },
-      { nameKey: 'channels.windows.name', Icon: WindowsIcon },
-    ],
-  },
-  {
-    labelKey: 'channels.group.mobile',
-    items: [
-      { nameKey: 'channels.ios.name', Icon: AppleIcon },
-      { nameKey: 'channels.android.name', Icon: AndroidIcon },
-    ],
-  },
-  {
-    labelKey: 'channels.group.more',
-    items: [
-      { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true, href: '/' },
-      { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
-      { nameKey: 'channels.extension.name', Icon: PuzzleIcon },
-      { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '/developers' },
-    ],
-  },
-]
+/** Chrome Web Store listing URL. Stays null until Google approves the extension;
+ * paste the store URL here to flip the card from "Coming soon" to a live "Open" link. */
+export const EXTENSION_STORE_URL: string | null = null
+
+function buildGroups(extensionStoreUrl: string | null): Group[] {
+  return [
+    {
+      labelKey: 'channels.group.desktop',
+      items: [
+        {
+          nameKey: 'channels.mac.name',
+          Icon: AppleIcon,
+          live: true,
+          href: '/download/Alfavit.dmg',
+          download: true,
+          descKey: 'channels.mac.desc',
+          noteKey: 'channels.mac.note',
+          badge: 'new',
+        },
+        { nameKey: 'channels.windows.name', Icon: WindowsIcon },
+      ],
+    },
+    {
+      labelKey: 'channels.group.mobile',
+      items: [
+        { nameKey: 'channels.ios.name', Icon: AppleIcon },
+        { nameKey: 'channels.android.name', Icon: AndroidIcon },
+      ],
+    },
+    {
+      labelKey: 'channels.group.more',
+      items: [
+        { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true, href: '/' },
+        { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
+        {
+          nameKey: 'channels.extension.name',
+          Icon: PuzzleIcon,
+          live: extensionStoreUrl !== null,
+          href: extensionStoreUrl ?? undefined,
+        },
+        { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '/developers' },
+      ],
+    },
+  ]
+}
 
 const BTN = 'rounded-full bg-foreground px-5 py-2 text-sm text-background transition-transform hover:scale-[1.03]'
 
-export function Channels() {
+export function Channels({ extensionStoreUrl = EXTENSION_STORE_URL }: { extensionStoreUrl?: string | null } = {}) {
   const { t } = useT()
   const lp = useLocalePath()
+  const groups = buildGroups(extensionStoreUrl)
 
   // The call-to-action for a card: download / open link, or a "Coming soon"
   // label. `full` makes it a full-width block (used by stacked feature cards).
@@ -80,7 +92,7 @@ export function Channels() {
         </Reveal>
 
         <div className="mt-16 space-y-12">
-          {GROUPS.map((group) => (
+          {groups.map((group) => (
             <div key={group.labelKey}>
               <h3 className="text-sm font-medium uppercase tracking-wider text-muted">{t(group.labelKey)}</h3>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">

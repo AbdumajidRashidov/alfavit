@@ -1,6 +1,6 @@
 # Chrome Web Store listing — Alfavit
 
-Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.1.0.zip`.
+Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.1.1.zip`.
 
 ---
 
@@ -18,7 +18,7 @@ Convert Uzbek text from Cyrillic or old Latin to the reformed 2026 new Latin scr
 
 **Description** (detailed, shown on the listing page)
 ```
-Alfavit converts Uzbek text into the reformed 2026 new Latin alphabet — sh → ş, ch → ç, gʻ → ğ, oʻ → ö, and loanword ts → c — directly in your browser.
+Alfavit converts Uzbek text into the reformed 2026 new Latin alphabet — sh → ş, ch → ç, gʻ → ğ, oʻ → ö — directly in your browser.
 
 Two ways to use it:
 
@@ -31,7 +31,9 @@ Alfavit understands both source scripts automatically:
 
 Everything runs on your device. No account, no network requests, no tracking — your text never leaves the browser.
 
-Part of the Alfavit platform, which also offers a web app, a Telegram bot, file conversion, and a public API.
+Part of the Alfavit platform, which also offers a web app, a Telegram bot, file conversion, a macOS app, and a public API.
+
+Uzbekistan's Senate approved the 28-letter alphabet on 10 September 2026 — Alfavit converts your text to it today.
 ```
 
 **Category:** Productivity
@@ -58,9 +60,13 @@ Alfavit converts Uzbek text from Cyrillic or old Latin script into the reformed 
 
 **Privacy policy URL**
 ```
-https://alfavit-web.pages.dev/privacy
+https://alfavit.uz/privacy
 ```
-> A minimal privacy page is required because we declare a single purpose. See `PRIVACY.md` in this folder for the copy — publish it at the URL above (a `/privacy` route in the web app) before submitting.
+
+**Website**
+```
+https://alfavit.uz
+```
 
 ---
 
@@ -68,7 +74,7 @@ https://alfavit-web.pages.dev/privacy
 
 | Asset | Requirement | File |
 |-------|-------------|------|
-| Package | .zip, manifest at root | `alfavit-extension-v0.1.0.zip` |
+| Package | .zip, manifest at root | `alfavit-extension-v0.1.1.zip` |
 | Store icon | 128×128 PNG | `../../apps/extension/public/icons/128.png` |
 | Screenshot(s) | 1280×800 PNG, ≥1 required | `screenshots/01-popup.png`, `screenshots/02-context-menu.png` |
 | Small promo tile | 440×280 PNG (optional) | `screenshots/promo-440x280.png` |
@@ -78,12 +84,12 @@ https://alfavit-web.pages.dev/privacy
 ## Submission checklist
 
 - [ ] Create a Chrome Web Store developer account ($5 one-time fee)
-- [ ] Publish the privacy page at `https://alfavit-web.pages.dev/privacy`
-- [ ] Upload `alfavit-extension-v0.1.0.zip`
+- [x] Privacy page live at `https://alfavit.uz/privacy`
+- [ ] Upload `alfavit-extension-v0.1.1.zip`
 - [ ] Paste name, summary, description (above)
 - [ ] Upload store icon + screenshots
 - [ ] Fill single purpose + permission justifications + data disclosures
 - [ ] Set category = Productivity, visibility = Public
 - [ ] Submit for review (typically a few days)
-- [ ] On approval: flip the `channels.extension` card in `apps/web/src/components/Channels.tsx` to `live: true` with the Web Store `href`
+- [ ] On approval: paste the Web Store URL into `EXTENSION_STORE_URL` in `apps/web/src/components/Channels.tsx` (the card flips from "Coming soon" to a live "Open" link)
 ```

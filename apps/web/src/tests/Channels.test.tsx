@@ -30,3 +30,11 @@ test('renders groups, platforms, and CTAs with macOS live for download', () => {
   // Four remain Coming soon: Windows, iOS, Android, extension.
   expect(screen.getAllByText('Coming soon')).toHaveLength(4)
 })
+
+test('extension card goes live when a store URL is provided', () => {
+  const url = 'https://chromewebstore.google.com/detail/alfavit/abcdefghijklmnop'
+  renderWithLocale(<Channels extensionStoreUrl={url} />, '/en')
+  const openHrefs = screen.getAllByRole('link', { name: 'Open' }).map((a) => a.getAttribute('href'))
+  expect(openHrefs).toContain(url)
+  expect(screen.getAllByText('Coming soon')).toHaveLength(3)
+})
