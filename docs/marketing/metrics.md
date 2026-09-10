@@ -2,14 +2,18 @@
 
 One goal: daily users across web, bot, extension and Mac app. Everything below is free to read and takes 30 minutes a week.
 
-## Baseline (fill in on launch day)
+## Baseline (10 September 2026, 23:19 Tashkent — evening of the Senate vote, before any outreach)
 
 | | Value | Where |
 |--|-------|-------|
-| Site visitors/day, 7-day average before launch | | Cloudflare dashboard → alfavit.uz → Web Analytics |
-| Bot requests/day, 7-day average | | Cloudflare dashboard → Workers & Pages → alfavit-bot → Metrics → Requests |
-| API requests/day, 7-day average | | Workers & Pages → alfavit-api → Metrics |
-| GitHub stars | 0 | github.com/AbdumajidRashidov/alfavit |
+| Site visitors/day, 7-day average before launch | ___ | Cloudflare dashboard → Analytics & Logs → Web Analytics → alfavit.uz → Last 7 days → Visits ÷ 7 |
+| Bot requests/day, 7-day average | ___ | Cloudflare dashboard → Workers & Pages → alfavit-bot → Metrics → Requests (Last 7 days) ÷ 7 |
+| API requests/day, 7-day average | ___ | Workers & Pages → alfavit-api → Metrics → Requests (Last 7 days) ÷ 7 |
+| GitHub stars / forks | 0 / 0 | github.com/AbdumajidRashidov/alfavit — public since 10 Sep 2026, ~21:50 Tashkent |
+| GitHub traffic, last 14 days | 0 views, 1 clone (our own) | `gh api repos/AbdumajidRashidov/alfavit/traffic/views` and `…/traffic/clones` |
+| npm weekly downloads, engine / sdk | 0 / 0 | published 10 Sep 2026, 22:33 Tashkent; api.npmjs.org indexes downloads after about a day |
+
+The three Cloudflare rows need your login: read them from the dashboard and fill the blanks, or authorize the Cloudflare observability connector in Claude once so the weekly review can pull them automatically.
 
 ## KPIs
 

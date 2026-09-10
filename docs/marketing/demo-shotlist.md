@@ -16,13 +16,17 @@ Tap the result. The sent message reads `Toşkent şahar hokimligi` with the "via
 Type slowly: `O'zbekiston sharqida choy ichildi`
 It becomes `Özbekiston şarqida çoy içildi` as you type. Keep the menu-bar icon in frame if possible.
 
-## Recording and export (all free)
+## Recording and export
 
-1. macOS Screenshot toolbar (⇧⌘5) → *Record Selected Portion* → a 1280×800 region. Record each clip separately; retake until the typing looks natural.
-2. Trim in QuickTime (⌘T) to ~5 s each. Keep the three `.mov` files.
-3. Join and export: QuickTime → *Edit → Add Clip to End*, then *File → Export As → 1080p* → `alfavit-demo.mp4` (this is the press version).
-4. GIF: open the MP4 in **Gifski** (free, App Store) → 15 fps, quality 80, width 960 → `alfavit-demo.gif`. Target ≤ 8 MB; if larger, drop to 12 fps or width 800.
-5. Two still frames for posts: pause the MP4 on the converter result and on the Telegram "via" stamp, ⇧⌘4 each → `still-web.png`, `still-telegram.png`.
+Run the recorder. It counts you in, records each clip from a window you select with the crosshair, and builds everything with ffmpeg:
+
+```bash
+bash docs/marketing/record-demo.sh
+```
+
+Re-record one clip with `--clip 2`; rebuild from the existing clips with `--build`. It preloads the text for clips 1 and 2 on your clipboard (⌘V), offers to update the installed Mac app to the version the site ships before clip 3, and writes `alfavit-demo.mp4`, `alfavit-demo.gif` (kept ≤ 8 MB) and the two stills into `assets/`. Raw clips stay in `assets/raw/`, which is gitignored. The first run asks for Screen Recording permission for your terminal app; grant it, restart the terminal, run again.
+
+Manual fallback: ⇧⌘5 → Record Selected Portion for each clip, trim in QuickTime, join with Add Clip to End, export at 1080p; GIF via Gifski at 15 fps and 960 px wide.
 
 ## Where files go
 
