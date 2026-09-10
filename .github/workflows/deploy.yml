@@ -77,6 +77,16 @@ jobs:
       # Build the engine (and type-check the api); wrangler bundles the Worker →
       # @alfavit/engine, which must have its dist/ present to resolve.
       - run: pnpm exec turbo run build --filter=@alfavit/api
+      # apps/api serves the api.alfavit.uz custom domain, so wrangler asserts a
+      # ZONE route (/zones/<id>/workers/routes) after uploading the script. The
+      # web and bot jobs never do, which is why this job alone can fail on
+      # permissions. CLOUDFLARE_API_TOKEN must carry, beyond the account-level
+      # Workers Scripts + Pages the others need:
+      #   Zone > Workers Routes > Edit, with Zone Resources including alfavit.uz
+      # An "Authentication error [code: 10000]" here, a few lines below a
+      # successful "Uploaded alfavit-api", is that missing scope — not a
+      # wrangler or Node version problem. Zone > DNS > Edit is NOT required.
+      # See docs/deployment.md § CI API token scopes.
       - name: Deploy API to Cloudflare Workers
         if: env.CF_TOKEN != ''
         uses: cloudflare/wrangler-action@v3

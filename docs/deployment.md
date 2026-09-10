@@ -71,48 +71,109 @@ since a bot can't do both at once.
 ## 3. Public API → Cloudflare Workers (`api.alfavit.uz`)
 
 Config lives in `apps/api/wrangler.toml`. Unlike the bot, it serves a **custom
-domain** on the `alfavit.uz` zone, so wrangler asserts a zone route on every
-deploy — that is the one thing needing a zone-scoped token (below).
+domain** on the `alfavit.uz` zone:
+
+```toml
+routes = [
+  { pattern = "api.alfavit.uz", custom_domain = true },
+]
+```
+
+That one block is the whole reason this job needs a broader token than the other
+two. `wrangler deploy` uploads the script with an *account*-scoped call, then
+asserts the route with a *zone*-scoped one.
 
 CI deploys it; to deploy by hand from `apps/api`: `pnpm exec wrangler deploy`.
 
 ### CI API token scopes
 
-`CLOUDFLARE_API_TOKEN` must carry the permissions of the **Edit Cloudflare
-Workers** template. Create it at
-[dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
-→ **Create Token** → **Edit Cloudflare Workers** (or **Custom token** with the
-same rows):
+`CLOUDFLARE_API_TOKEN` is shared by all three jobs, so it must cover all three.
+Minimum permissions:
 
 | Scope | Permission | Needed for |
 | --- | --- | --- |
-| Account | Workers Scripts — **Edit** | uploading any Worker (bot, API) |
-| Zone | Workers Routes — **Edit** | the `api.alfavit.uz` custom domain |
+| Account | Workers Scripts — **Edit** | uploading either Worker (bot, API) |
+| Zone | Workers Routes — **Edit** | the `api.alfavit.uz` custom domain ← the one CI is missing |
+| Account | Cloudflare Pages — **Edit** | the `web` job |
 | Account | Account Settings — **Read** | account lookup |
-| User | User Details — **Read** | `wrangler whoami` during deploy |
-| Account | Cloudflare Pages — **Edit** | the web job |
+| User | User Details — **Read** | `wrangler whoami`; only used to print diagnostics |
 
 Under **Zone Resources**, include the `alfavit.uz` zone (or all zones on the
-account). A token without **Zone → Workers Routes → Edit** still *uploads* the
-Worker, then fails at the end of the job with:
+account). Without that, a zone permission is granted over nothing.
+
+Two things that are *not* required, both of which look plausible and cost time:
+
+- **Zone → DNS → Edit.** For a custom domain Cloudflare creates the DNS record
+  and issues the certificate [on your behalf][cf-custom-domains], server-side —
+  the token never makes a DNS call of its own. Cloudflare's own
+  [Edit Cloudflare Workers template][cf-template] omits DNS deliberately.
+- **A newer wrangler, or a different Node version.** Already ruled out; see the
+  failure signature below.
+
+[cf-custom-domains]: https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
+[cf-template]: https://developers.cloudflare.com/fundamentals/api/reference/template/
+
+### The failure signature
+
+A token with Workers Scripts but no Workers Routes **uploads the Worker and then
+fails**, so the job is red while the code is live:
 
 ```
-A request to the Cloudflare API (/zones/<zone-id>/workers/routes) failed.
+Uploaded alfavit-api (3.28 sec)          ← upload succeeded, account scope is fine
+✘ [ERROR] A request to the Cloudflare API (/zones/<zone-id>/workers/routes) failed.
   Authentication error [code: 10000]
 ```
 
-That is the failure mode to recognize: a red `api` job whose log says
-`Uploaded alfavit-api` a few lines above the error. The code is live and the
-already-provisioned custom domain keeps serving — only the route re-assertion
-failed — so the red mark is real but not an outage. **Do not chase it as a
-wrangler or Node version problem.** Re-scope the token, then re-run the job.
+Read the path in the error, not the summary: `/zones/…/` means a zone permission
+is missing. The `Are you missing the User->User Details->Read permission?` line
+that follows is wrangler's post-mortem `whoami`, not the cause — chasing it
+leads nowhere.
 
-After minting a replacement, update the repo secret (owner-only — the value must
-never be pasted into a file or a chat):
+Because `api.alfavit.uz` is already provisioned, the live endpoint keeps serving
+through this failure; only the re-assertion is refused. Real red mark, no outage.
+
+### Fixing it (owner-only)
+
+Fastest path — **edit the existing token**, do not mint a new one:
+
+1. [dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. On the token CI uses → **⋯** → **Edit**
+3. Add permission **Zone · Workers Routes · Edit**
+4. Set **Zone Resources** to include `alfavit.uz`
+5. **Continue to summary** → **Save**
+6. Re-run the failed job: `gh run rerun <run-id> --failed`
+
+Editing permissions leaves the token *value* unchanged (only **Roll** issues a
+new secret), so the `CLOUDFLARE_API_TOKEN` repo secret needs no update and the
+green `web`/`bot` jobs keep working.
+
+If you do mint a fresh token instead: the **Edit Cloudflare Workers** template
+is a good base but **does not include Cloudflare Pages — Edit**, so a
+template-only token deploys the API and breaks the currently-green `web` job.
+Add the Pages row, then update the secret (the value must never be pasted into a
+file or a chat):
 
 ```bash
 gh secret set CLOUDFLARE_API_TOKEN
 ```
+
+### Alternative: keep zone permissions out of CI
+
+If granting CI a zone-level permission is unwelcome, attach the custom domain
+**once** by hand and let CI only push code:
+
+1. Cloudflare dashboard → **Workers & Pages** → `alfavit-api` → **Settings** →
+   **Domains & Routes** → **Add** → **Custom domain** → `api.alfavit.uz`
+2. Delete the `routes = [ … ]` block from `apps/api/wrangler.toml`
+
+Deploys then need only **Account → Workers Scripts → Edit**, the same scope the
+bot uses, and the api job stops touching the zone API entirely.
+
+**Tradeoff:** the domain binding stops being declarative. It no longer lives in
+the repo, cannot be reproduced by a clone-and-deploy, and a rebuild of the
+Worker in a fresh account would come up with no custom domain and no error
+saying so. Prefer the token fix if you can; take this if you would rather the
+domain be a one-time manual fact than a CI permission.
 
 ---
 
