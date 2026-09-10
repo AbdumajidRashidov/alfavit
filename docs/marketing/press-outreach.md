@@ -4,15 +4,17 @@ Goal: three or more mentions in 30 days, at least one from Gazeta, Kun.uz, Spot 
 
 ## Targets
 
-| Outlet | Lang | Their 10 Sep article(s) | Contact | Angle | Status | Sent | Reply |
-|--------|------|------------------------|---------|-------|--------|------|-------|
-| Gazeta.uz | uz, ru | `gazeta.uz/oz/2026/09/10/uzb-alphabet/` · `…/keyboard-uzb/` · `…/oav-alifbo/` | `info@gazeta.uz` · Telegram `t.me/gazetauz_ozb` (verified) | The unnamed "programs" now have a name; keyboard pain solved today; media must switch — here is the files/API tool | | | |
-| Spot.uz | uz, ru | `spot.uz/oz/2026/09/10/alphabet` (keyboard) · `…/uzbek-alphabet` | `info@spot.uz` · Telegram `t.me/spotuz_uz` (verified) | Business/tech reader: open-source engine, API for companies, Mac app for typing | | | |
-| Kun.uz | uz | `kun.uz/news/2026/07/07/ozbekistonda-alifbo-islohoti-boyicha-qonun-qabul-qilindi-4cf07b` (July) | editorial email from site footer (verify) · Telegram channel | Mass audience: "how do I write in the new alphabet today" | | | |
-| Daryo.uz | uz | `daryo.uz/fxq5yS_DR` | editorial email from site footer (verify) · Telegram channel | Same as Kun; offer the keyboard guide as a service piece | | | |
-| Zamin.uz | uz, en | textbooks-by-2031 piece (10 Sep) | contact page (verify) | Schools and teachers: printable alphabet, converter for worksheets | | | |
-| UzDaily.uz | en, ru | Senate approval piece | contact page (verify) | International/business readers: API, open source | | | |
-| Podrobno.uz | ru | Senate approval piece | contact page (verify) | Russian-speaking readers: Cyrillic → new Latin in one paste | | | |
+| Outlet | Lang | Their 10 Sep article(s) | Contact | Angle |
+|--------|------|------------------------|---------|-------|
+| Gazeta.uz | uz, ru | `gazeta.uz/oz/2026/09/10/uzb-alphabet/` · `…/keyboard-uzb/` · `…/oav-alifbo/` | `info@gazeta.uz` · Telegram `t.me/gazetauz_ozb` (verified) | The unnamed "programs" now have a name; keyboard pain solved today; media must switch — here is the files/API tool |
+| Spot.uz | uz, ru | `spot.uz/oz/2026/09/10/alphabet` (keyboard) · `…/uzbek-alphabet` | `info@spot.uz` · Telegram `t.me/spotuz_uz` (verified) | Business/tech reader: open-source engine, API for companies, Mac app for typing |
+| Kun.uz | uz | `kun.uz/news/2026/07/07/ozbekistonda-alifbo-islohoti-boyicha-qonun-qabul-qilindi-4cf07b` (July) | editorial email from site footer (verify) · Telegram channel | Mass audience: "how do I write in the new alphabet today" |
+| Daryo.uz | uz | `daryo.uz/fxq5yS_DR` | editorial email from site footer (verify) · Telegram channel | Same as Kun; offer the keyboard guide as a service piece |
+| Zamin.uz | uz, en | textbooks-by-2031 piece (10 Sep) | contact page (verify) | Schools and teachers: printable alphabet, converter for worksheets |
+| UzDaily.uz | en, ru | Senate approval piece | contact page (verify) | International/business readers: API, open source |
+| Podrobno.uz | ru | Senate approval piece | contact page (verify) | Russian-speaking readers: Cyrillic → new Latin in one paste |
+
+Track sends and replies in `private/trackers.md` — it is gitignored, so journalist names and answers stay on your machine and out of the public repo.
 
 Send order: Gazeta and Spot first (verified contacts, strongest hook), then Kun and Daryo the same morning, Zamin/UzDaily/Podrobno the next day.
 
@@ -126,6 +128,6 @@ Abdumajid Rashidov
 ## When a piece runs
 
 1. Thank the journalist by reply; ask nothing more.
-2. Add the URL to the tracker and to `metrics.md` → press mentions.
+2. Add the URL to `private/trackers.md` and to `metrics.md` → press mentions.
 3. Post the article in your Telegram channel with one line of thanks (no UTM needed; it is their link).
 4. Check Cloudflare Web Analytics → Referrers the next day; note the number in the weekly review.

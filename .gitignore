@@ -8,3 +8,6 @@ dist
 # local Claude Code preview config (machine-specific)
 .claude/launch.json
 apps/extension/dist/
+
+# marketing trackers: journalist replies and outreach notes stay off GitHub
+docs/marketing/private/

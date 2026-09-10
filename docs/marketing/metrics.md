@@ -23,7 +23,7 @@ One goal: daily users across web, bot, extension and Mac app. Everything below i
 | Extension installs | Chrome Web Store developer dashboard → Stats | 300 within 30 days of approval | Store approval can take 1–3 weeks; the clock starts at approval |
 | GitHub stars | Repo page | 50 | Mostly from Show HN and Habr |
 | npm downloads | npmjs.com/package/@alfavit/engine → weekly downloads | Non-zero and rising | Vanity metric unless a project depends on it; note who |
-| Press mentions | `press-outreach.md` tracker | ≥ 3, at least one of Gazeta / Kun / Spot / Daryo | Link each mention; check the referrer shows up |
+| Press mentions | `private/trackers.md` (gitignored) | ≥ 3, at least one of Gazeta / Kun / Spot / Daryo | Link each mention; check the referrer shows up |
 | Mac downloads | not counted this cycle | — | Static asset; revisit with a counted `/download` route after 30 days |
 
 ## Weekly review (Mondays, 30 minutes)

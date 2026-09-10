@@ -50,6 +50,7 @@ Deep links work the same way, e.g. `https://alfavit.uz/guide/keyboard?utm_source
 | [`content-calendar.md`](content-calendar.md) | Weeks 2–8: one guide page per week with its target query and promotion post |
 | [`demo-shotlist.md`](demo-shotlist.md) | The 15-second demo GIF: three clips, export settings |
 | [`metrics.md`](metrics.md) | KPIs, where each number lives, 30-day targets, weekly review template |
+| `private/trackers.md` | Gitignored. Your send and reply log for press, communities and developer posts, so journalist replies never reach the public repo |
 
 ## Owner checklist for launch day
 

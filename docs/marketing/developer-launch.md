@@ -70,8 +70,4 @@ For the npm README top and the dev.to variant:
 
 ## Tracker
 
-| Date | Venue | URL | Comments answered | Stars / downloads after 7 days |
-|------|-------|-----|-------------------|-------------------------------|
-| | Show HN | | | |
-| | Habr | | | |
-| | dev.to | | | |
+Log Show HN, Habr and dev.to in `private/trackers.md` (gitignored): date, URL, comments answered, stars and downloads after 7 days.

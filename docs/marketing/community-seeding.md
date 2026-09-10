@@ -66,6 +66,4 @@ https://alfavit.uz/files?utm_source=telegram&utm_medium=post&utm_campaign=senate
 
 ## Tracker
 
-| Date | Venue | Message | Admin OK? | Replies | Notes / bugs filed |
-|------|-------|---------|-----------|---------|--------------------|
-| | | | | | |
+Log every post in `private/trackers.md` (gitignored). Columns: Date · Venue · Message · Admin OK? · Replies · Notes / bugs filed.
