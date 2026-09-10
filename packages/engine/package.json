@@ -20,7 +20,8 @@
   "scripts": {
     "test": "vitest run",
     "build": "tsc -p tsconfig.json",
-    "test:dist": "tsc -p tsconfig.json && vitest run --config vitest.dist.config.ts"
+    "test:dist": "tsc -p tsconfig.json && vitest run --config vitest.dist.config.ts",
+    "prepublishOnly": "pnpm build && pnpm test:dist"
   },
   "devDependencies": {
     "typescript": "^5.5.0",
