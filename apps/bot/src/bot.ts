@@ -1,6 +1,6 @@
 import { Bot } from 'grammy'
 import type { UserFromGetMe } from 'grammy/types'
-import { handleMessage, buildInlineResults } from './handlers'
+import { handleMessage, buildInlineResults, buildReplyKeyboard } from './handlers'
 import { pickLocale, strings } from './i18n'
 
 // The bot's identity, hardcoded so grammY never calls Telegram's getMe to
@@ -44,8 +44,13 @@ export function createBot(token: string, logoUrl?: string): Bot {
   )
 
   bot.on('message:text', (ctx) => {
-    if (ctx.message.text.startsWith('/')) return // ignore other commands
-    return ctx.reply(handleMessage(ctx.message.text, pickLocale(ctx.from?.language_code)))
+    const text = ctx.message.text
+    if (text.startsWith('/')) return // ignore other commands
+    const locale = pickLocale(ctx.from?.language_code)
+    const converted = handleMessage(text, locale)
+    // No keyboard on the empty-input hint: there is nothing to share.
+    const reply_markup = text.trim() ? buildReplyKeyboard(converted, locale) : undefined
+    return ctx.reply(converted, { reply_markup })
   })
 
   return bot

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { handleMessage, buildInlineResults, MAX_INPUT } from '../handlers'
+import { handleMessage, buildInlineResults, buildReplyKeyboard, INLINE_QUERY_MAX, MAX_INPUT } from '../handlers'
 
 test('handleMessage converts Cyrillic', () => {
   expect(handleMessage('салом дунё', 'uz')).toBe('salom dunyo')
@@ -38,4 +38,22 @@ test('buildInlineResults sets the thumbnail when a logo URL is given', () => {
 
 test('buildInlineResults omits the thumbnail when no logo URL is given', () => {
   expect((buildInlineResults('чой', 'uz')[0] as { thumbnail_url?: string }).thumbnail_url).toBeUndefined()
+})
+
+test('buildReplyKeyboard offers Share (inline, prefilled) and the site link for short results', () => {
+  const kb = buildReplyKeyboard('çoy', 'uz')
+  expect(kb.inline_keyboard).toHaveLength(2)
+  const share = kb.inline_keyboard[0][0] as { text: string; switch_inline_query_chosen_chat: { query: string; allow_group_chats?: boolean } }
+  expect(share.text).toBe('Ulashish')
+  expect(share.switch_inline_query_chosen_chat.query).toBe('çoy')
+  expect(share.switch_inline_query_chosen_chat.allow_group_chats).toBe(true)
+  const site = kb.inline_keyboard[1][0] as { text: string; url: string }
+  expect(site.text).toBe('alfavit.uz')
+  expect(site.url).toContain('https://alfavit.uz/?utm_source=bot')
+})
+
+test('buildReplyKeyboard drops Share above the inline-query limit', () => {
+  const kb = buildReplyKeyboard('a'.repeat(INLINE_QUERY_MAX + 1), 'en')
+  expect(kb.inline_keyboard).toHaveLength(1)
+  expect(kb.inline_keyboard[0][0].text).toBe('alfavit.uz')
 })

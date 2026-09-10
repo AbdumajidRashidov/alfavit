@@ -8,19 +8,19 @@ const META: Record<Locale, Meta> = {
     start: 'Botni ishga tushirish',
     help: 'Qanday ishlashini koʻrsatish',
     short: 'Oʻzbek matnini yangi lotin alifbosiga oʻgiradi.',
-    description: 'Kirill yoki eski lotindagi oʻzbek matnini 2026-yilgi yangi lotin alifbosiga oʻgiraman. Menga matn yuboring yoki istalgan chatda ichki (inline) rejimda foydalaning.',
+    description: 'Kirill yoki eski lotindagi oʻzbek matnini 2026-yilgi yangi lotin alifbosiga oʻgiraman. Menga matn yuboring yoki istalgan chatda ichki (inline) rejimda foydalaning. Fayllar, Chrome kengaytmasi va Mac ilovasi: alfavit.uz',
   },
   ru: {
     start: 'Запустить бота',
     help: 'Как пользоваться',
     short: 'Конвертирует узбекский текст в новую латиницу.',
-    description: 'Конвертирую узбекский текст с кириллицы или старой латиницы в новую латиницу 2026 года. Отправьте мне текст или используйте инлайн-режим в любом чате.',
+    description: 'Конвертирую узбекский текст с кириллицы или старой латиницы в новую латиницу 2026 года. Отправьте мне текст или используйте инлайн-режим в любом чате. Файлы, расширение Chrome и приложение для Mac: alfavit.uz',
   },
   en: {
     start: 'Start the bot',
     help: 'Show how it works',
     short: 'Converts Uzbek text to the new Latin script.',
-    description: 'I convert Uzbek text from Cyrillic or old Latin into the reformed 2026 Latin script. Send me text, or use inline mode in any chat.',
+    description: 'I convert Uzbek text from Cyrillic or old Latin into the reformed 2026 Latin script. Send me text, or use inline mode in any chat. Files, Chrome extension and Mac app: alfavit.uz',
   },
 }
 

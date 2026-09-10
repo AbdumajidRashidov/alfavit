@@ -9,7 +9,8 @@
     "test": "vitest run",
     "cf:dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "setup:webhook": "tsx src/setup.ts"
+    "setup:webhook": "tsx src/setup.ts",
+    "setup:config": "tsx src/setup-config.ts"
   },
   "dependencies": {
     "@alfavit/engine": "workspace:*",
