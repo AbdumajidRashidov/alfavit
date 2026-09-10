@@ -1,11 +1,17 @@
 # Alfavit — Deployment (all on Cloudflare)
 
-Two deployables, two Cloudflare products:
+Three deployables, two Cloudflare products:
 
 - **Web app** (`apps/web`, static SPA) → **Cloudflare Pages**
 - **Telegram bot** (`apps/bot`, webhook) → **Cloudflare Workers**
+- **Public API** (`apps/api`, `api.alfavit.uz`) → **Cloudflare Workers**
 
-Both have a generous free tier and a global edge network with good Central-Asia reach.
+All have a generous free tier and a global edge network with good Central-Asia reach.
+
+CI deploys all three on a push to `main` (`.github/workflows/deploy.yml`), using
+the repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. See
+[CI API token scopes](#ci-api-token-scopes) — the API job needs a zone-level
+permission the other two do not.
 
 ---
 
@@ -62,10 +68,62 @@ since a bot can't do both at once.
 
 ---
 
+## 3. Public API → Cloudflare Workers (`api.alfavit.uz`)
+
+Config lives in `apps/api/wrangler.toml`. Unlike the bot, it serves a **custom
+domain** on the `alfavit.uz` zone, so wrangler asserts a zone route on every
+deploy — that is the one thing needing a zone-scoped token (below).
+
+CI deploys it; to deploy by hand from `apps/api`: `pnpm exec wrangler deploy`.
+
+### CI API token scopes
+
+`CLOUDFLARE_API_TOKEN` must carry the permissions of the **Edit Cloudflare
+Workers** template. Create it at
+[dash.cloudflare.com/profile/api-tokens](https://dash.cloudflare.com/profile/api-tokens)
+→ **Create Token** → **Edit Cloudflare Workers** (or **Custom token** with the
+same rows):
+
+| Scope | Permission | Needed for |
+| --- | --- | --- |
+| Account | Workers Scripts — **Edit** | uploading any Worker (bot, API) |
+| Zone | Workers Routes — **Edit** | the `api.alfavit.uz` custom domain |
+| Account | Account Settings — **Read** | account lookup |
+| User | User Details — **Read** | `wrangler whoami` during deploy |
+| Account | Cloudflare Pages — **Edit** | the web job |
+
+Under **Zone Resources**, include the `alfavit.uz` zone (or all zones on the
+account). A token without **Zone → Workers Routes → Edit** still *uploads* the
+Worker, then fails at the end of the job with:
+
+```
+A request to the Cloudflare API (/zones/<zone-id>/workers/routes) failed.
+  Authentication error [code: 10000]
+```
+
+That is the failure mode to recognize: a red `api` job whose log says
+`Uploaded alfavit-api` a few lines above the error. The code is live and the
+already-provisioned custom domain keeps serving — only the route re-assertion
+failed — so the red mark is real but not an outage. **Do not chase it as a
+wrangler or Node version problem.** Re-scope the token, then re-run the job.
+
+After minting a replacement, update the repo secret (owner-only — the value must
+never be pasted into a file or a chat):
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN
+```
+
+---
+
 ## Notes
 
 - **Secrets:** `BOT_TOKEN` is a Worker secret (and lives in the gitignored `.env`
   for local runs). `.env` and `.env.*` are gitignored repo-wide.
 - **Rotate** the bot token after early testing (it was shared in chat during setup).
-- The engine and both channels share one monorepo build graph; `pnpm turbo run build`
-  builds all three.
+- The engine and all channels share one monorepo build graph; `pnpm turbo run build`
+  builds them together.
+- **The macOS app is not deployed by CI.** It bundles the engine's compiled
+  output at build time and has no auto-update channel, so an engine fix reaches
+  Mac users only via a rebuilt `.dmg` rehosted at
+  `apps/web/public/download/Alfavit.dmg`. See `apps/desktop/README.md`.
