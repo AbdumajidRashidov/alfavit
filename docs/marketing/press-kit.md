@@ -87,8 +87,9 @@ Cyrillic examples: Ўзбекча → Özbekça · Тошкент шаҳри →
 | Social card | `apps/web/public/og.png` (live at `https://alfavit.uz/og.png`) | 1200×630 |
 | Extension screenshots | `docs/chrome-web-store/screenshots/01-popup.png`, `02-context-menu.png` | 1280×800 |
 | Promo tile | `docs/chrome-web-store/screenshots/promo-440x280.png` | 440×280 |
-| Demo, web clip (ready) | `docs/marketing/assets/alfavit-demo-web.gif` (960 px, 15 fps), `still-web.png`; MP4 `alfavit-demo-web.mp4` is on disk only — post it to Telegram and paste the link here: `<link>` | 5.6 s |
-| Demo, full three clips | `docs/marketing/assets/alfavit-demo.gif` + `still-telegram.png`, produced by `record-demo.sh` once clips 2 and 3 are recorded | ≤ 8 MB |
+| Demo (ready): web converter + Telegram inline | `docs/marketing/assets/alfavit-demo.gif` (11 s, 960 px), stills `still-web.png`, `still-telegram.png`; MP4 `alfavit-demo.mp4` is on disk only — post it to Telegram and paste the link here: `<link>` | 11 s |
+| Demo, web clip only | `docs/marketing/assets/alfavit-demo-web.gif` (5.6 s, cropped to the converter) — for posts where a short loop works better | 5.6 s |
+| Demo, Mac live transform (clip 3) | not yet recorded; `bash docs/marketing/record-demo.sh --clip 3` adds it and rebuilds `alfavit-demo.*` as the three-clip version | — |
 
 ## Contact
 

@@ -79,7 +79,9 @@ build() {
       -an -c:v libx264 -crf 20 -preset medium "$dst"
     printf "file '%s'\n" "$dst" >> "$list"
   done
-  ffmpeg -y -loglevel error -f concat -safe 0 -i "$list" -c copy "$OUT/alfavit-demo.mp4"
+  # Re-encode the join: stream-copying clips from different sources (Playwright webm,
+  # screencapture) yields a file that plays only one of them.
+  ffmpeg -y -loglevel error -f concat -safe 0 -i "$list" -c:v libx264 -crf 20 -preset medium -pix_fmt yuv420p -r 30 -an "$OUT/alfavit-demo.mp4"
 
   # GIF: two-pass palette; shrink until it fits Telegram/GitHub limits (≤ 8 MB)
   local fps=15 width=960 size
