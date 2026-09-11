@@ -106,11 +106,7 @@ push is what makes the design safe.
      `dwExtraInfo == ALFAVIT_MARKER`. Injected input from other tools
      (AutoHotkey remaps, remote desktop) still counts as typing, matching the
      Mac, which also ignores only its own marker.
-   - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win). Caps Lock
-     is tracked by the hook itself — seeded once from `GetKeyState` on the
-     hook thread at start, then flipped on each observed Caps Lock press —
-     because `GetKeyState` only reflects a thread's own input queue and the
-     hook thread never reads key messages.
+   - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win).
    - Translate to text with `ToUnicodeEx` against the **foreground window's
      keyboard layout** (`GetKeyboardLayout(GetWindowThreadProcessId(
      GetForegroundWindow()))`), passing the `1 << 2` flag ("do not change
@@ -119,6 +115,11 @@ push is what makes the design safe.
    - `GENERATION.fetch_add(1)` on every observed key (same rule as macOS).
    - Push `{vk, modifiers, text}` onto an `mpsc` channel; return
      `CallNextHookEx`.
+   - Caps Lock key events (down and up) are also fed to a tracker: Caps Lock
+     is tracked by the hook itself — seeded once from `GetKeyState` on the
+     hook thread at start, then flipped on each observed Caps Lock press —
+     because `GetKeyState` only reflects a thread's own input queue and the
+     hook thread never reads key messages.
 3. Sends its thread id back to the caller once the hook is installed; if
    `SetWindowsHookExW` fails, the thread exits, the sender drops, and
    `start_tap` returns `None`.
@@ -195,13 +196,14 @@ elevated and the word stays as typed.
   input language on Alt+Shift alone but not when a third key joins the
   chord, so the two should coexist. Uzbek users switch layouts constantly,
   so this is an explicit tester checklist item.
-- **Tray-click blur race.** On Windows, clicking the tray icon can blur the
-  panel (hiding it via the `Focused(false)` handler) before the click event
-  arrives, whose toggle then shows it again — the panel would never close
-  from the tray. The blur handler ignores a blur that arrives within a short
-  window (250 ms) after a tray click, recorded in an `AtomicU64` timestamp
-  by the tray-click handler. Gated to Windows (`#[cfg(target_os =
-  "windows")]`) so macOS behaviour is untouched.
+- **Tray-click blur race.** On Windows the tray belongs to Explorer, so
+  clicking the icon blurs the panel *first*: the `Focused(false)` handler
+  hides it, and the click's toggle that follows would show it again — the
+  panel could never be closed from the tray. The blur handler records when
+  it hid the panel; a tray click arriving within 250 ms of that is the same
+  gesture and does not toggle. Gated to Windows (`#[cfg(target_os =
+  "windows")]`) so macOS, where the status item belongs to our app and no
+  blur occurs, is untouched.
 - **Platform config files.** Tauri merges `tauri.macos.conf.json` and
   `tauri.windows.conf.json` over `tauri.conf.json` on each platform. Bundle
   targets move out of the base file: macOS keeps `["dmg", "app"]` and its

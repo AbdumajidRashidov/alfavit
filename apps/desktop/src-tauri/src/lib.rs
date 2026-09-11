@@ -7,6 +7,41 @@ use tauri_plugin_autostart::ManagerExt;
 
 pub mod live;
 
+/// Windows only: clicking the tray icon blurs the panel first (Explorer owns the
+/// tray), so the `Focused(false)` handler hides it before the click's toggle
+/// runs — which would immediately re-show it. Remember when a blur hid the
+/// panel; a tray click inside the grace window is the same gesture: no toggle.
+/// The predicate is pure and tested everywhere; only the call sites are Windows-only.
+#[allow(dead_code)]
+mod tray_blur {
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    pub const GRACE_MS: u64 = 250;
+    static HIDDEN_BY_BLUR_MS: AtomicU64 = AtomicU64::new(0);
+
+    fn now_ms() -> u64 {
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map(|d| d.as_millis() as u64)
+            .unwrap_or(0)
+    }
+
+    /// True when a click at `now_ms` follows a blur-hide at `hidden_ms` closely
+    /// enough to be the same gesture.
+    pub fn swallowed(now_ms: u64, hidden_ms: u64) -> bool {
+        now_ms.saturating_sub(hidden_ms) < GRACE_MS
+    }
+
+    pub fn note_hidden() {
+        HIDDEN_BY_BLUR_MS.store(now_ms(), Ordering::Relaxed);
+    }
+
+    pub fn click_follows_blur() -> bool {
+        swallowed(now_ms(), HIDDEN_BY_BLUR_MS.load(Ordering::Relaxed))
+    }
+}
+
 // Toggle the panel: hide it if it is currently visible, otherwise show + focus.
 fn toggle_panel(window: &WebviewWindow) {
     if window.is_visible().unwrap_or(false) {
@@ -105,6 +140,11 @@ pub fn run() {
                         ..
                     } = event
                     {
+                        // Windows: the click's own blur already hid the panel — done.
+                        #[cfg(target_os = "windows")]
+                        if tray_blur::click_follows_blur() {
+                            return;
+                        }
                         if let Some(w) = tray.app_handle().get_webview_window("main") {
                             toggle_panel(&w);
                         }
@@ -139,6 +179,8 @@ pub fn run() {
             // Hide the panel when it loses focus (e.g. the user clicks elsewhere).
             if let tauri::WindowEvent::Focused(false) = event {
                 let _ = window.hide();
+                #[cfg(target_os = "windows")]
+                tray_blur::note_hidden();
             }
         })
         .build(tauri::generate_context!())
@@ -157,4 +199,26 @@ pub fn run() {
             #[cfg(not(target_os = "macos"))]
             let _ = (app_handle, event);
         });
+}
+
+#[cfg(test)]
+mod tray_blur_tests {
+    use super::tray_blur::{swallowed, GRACE_MS};
+
+    #[test]
+    fn click_right_after_blur_hide_is_swallowed() {
+        assert!(swallowed(1_000, 900));
+        assert!(swallowed(1_000, 1_000 - GRACE_MS + 1));
+    }
+
+    #[test]
+    fn click_after_the_grace_window_toggles() {
+        assert!(!swallowed(1_000, 1_000 - GRACE_MS));
+        assert!(!swallowed(5_000, 0));
+    }
+
+    #[test]
+    fn clock_going_backwards_does_not_underflow() {
+        assert!(swallowed(100, 200));
+    }
 }
