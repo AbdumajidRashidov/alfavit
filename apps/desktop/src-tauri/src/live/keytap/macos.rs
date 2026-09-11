@@ -1,9 +1,5 @@
 use crate::live::word_buffer::Key;
 
-/// Marker stamped on our own synthetic events (EVENT_SOURCE_USER_DATA) so the
-/// tap can ignore them and avoid a feedback loop.
-pub const ALFAVIT_MARKER: i64 = 0x0A1F_A710;
-
 /// Map a raw key event to an abstract `Key`. Pure — unit-tested.
 /// macOS virtual keycodes: Delete=51, Return=36, Tab=48, Escape=53,
 /// KeypadEnter=76, arrows=123..=126, Home/End/PageUp/PageDown/etc=115..=121.
@@ -67,7 +63,6 @@ mod tests {
 }
 
 use std::cell::RefCell;
-use std::sync::atomic::AtomicU64;
 
 use core_foundation::runloop::{kCFRunLoopCommonModes, CFRunLoop, CFRunLoopRef};
 use core_graphics::event::{
@@ -76,11 +71,11 @@ use core_graphics::event::{
 };
 use foreign_types::ForeignType;
 
-use crate::live::word_buffer::{Emitted, WordBuffer};
+use crate::live::word_buffer::WordBuffer;
+use super::{dispatch_word, ALFAVIT_MARKER, GENERATION};
 
 use core_foundation::base::TCFType;
 use std::sync::Mutex;
-use tauri::Manager;
 
 /// The running tap's mach port, so the callback can re-enable the tap if macOS
 /// disables it. Updated each time the tap starts.
@@ -110,10 +105,6 @@ impl TapHandle {
     }
 }
 
-/// Bumped on every text keystroke; the replacer (Task 5) uses it to abort a
-/// replacement if the user kept typing during the transform round-trip.
-pub static GENERATION: AtomicU64 = AtomicU64::new(0);
-
 unsafe extern "C" {
     fn CGEventKeyboardGetUnicodeString(
         event: core_graphics::sys::CGEventRef,
@@ -138,27 +129,6 @@ fn event_string(event: &CGEvent) -> String {
     }
     let n = (actual as usize).min(buf.len());
     String::from_utf16_lossy(&buf[..n])
-}
-
-/// Called when a word is finished: transform via the engine, and if it changed
-/// (and the user has not kept typing), replace it in place.
-fn on_word(app: &tauri::AppHandle, emitted: Emitted) {
-    let app = app.clone();
-    let generation = GENERATION.load(std::sync::atomic::Ordering::Relaxed);
-    tauri::async_runtime::spawn(async move {
-        let bridge = app.state::<crate::live::bridge::TransformBridge>();
-        let Some(reformed) = bridge.transform(&app, emitted.word.clone()).await else {
-            return;
-        };
-        if reformed == emitted.word {
-            return; // unchanged (foreign / already reformed)
-        }
-        // Abort if the user kept typing during the transform round-trip.
-        if GENERATION.load(std::sync::atomic::Ordering::Relaxed) != generation {
-            return;
-        }
-        crate::live::replacer::replace_word(emitted.typed_len, &reformed, emitted.boundary);
-    });
 }
 
 /// Spawn the observer thread: install a keyDown tap, feed the word buffer, and
@@ -215,7 +185,7 @@ pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
                 GENERATION.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
 
                 if let Some(emitted) = buffer.borrow_mut().push(key) {
-                    on_word(&app, emitted);
+                    dispatch_word(&app, emitted, GENERATION.load(std::sync::atomic::Ordering::Relaxed));
                 }
                 CallbackResult::Keep
             },

@@ -42,3 +42,11 @@ unsafe extern "C" {
 pub fn accessibility_granted() -> bool {
     unsafe { AXIsProcessTrusted() }
 }
+
+/// Open the Accessibility pane so the user can grant the permission the
+/// observer needs. Called only after an attempt to turn Live transform on failed.
+pub fn open_permission_settings() {
+    let _ = std::process::Command::new("open")
+        .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
+        .spawn();
+}

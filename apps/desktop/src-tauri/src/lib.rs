@@ -92,9 +92,7 @@ pub fn run() {
                         // it ON and it couldn't start — never when turning it off.
                         if !was_on && !now_on && !live::guard::accessibility_granted() {
                             // Needs permission: open the pane so the user can grant it.
-                            let _ = std::process::Command::new("open")
-                                .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
-                                .spawn();
+                            live::guard::open_permission_settings();
                         }
                     }
                     "quit" => app.exit(0),
@@ -148,11 +146,15 @@ pub fn run() {
         .run(|app_handle, event| {
             // Clicking the Dock icon (macOS) reveals the panel — otherwise, since
             // the window hides on blur, a Dock click on the running app does nothing.
+            // `RunEvent::Reopen` only exists on macOS; Windows has no Dock.
+            #[cfg(target_os = "macos")]
             if let tauri::RunEvent::Reopen { .. } = event {
                 if let Some(w) = app_handle.get_webview_window("main") {
                     let _ = w.show();
                     let _ = w.set_focus();
                 }
             }
+            #[cfg(not(target_os = "macos"))]
+            let _ = (app_handle, event);
         });
 }
