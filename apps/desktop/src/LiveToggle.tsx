@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getLiveEnabled, setLiveEnabled } from './liveControl'
+import { isWindows } from './platform'
 
 /** In-panel master switch for system-wide live transform. Reflects the Rust
  *  observer's state and turns it on/off. Rendered at the top of the panel so
@@ -16,7 +17,7 @@ export function LiveToggle() {
     const next = !on
     const result = await setLiveEnabled(next)
     setOn(result)
-    // Tried to enable but it didn't turn on => Accessibility not granted yet.
+    // Tried to enable but it didn't turn on => macOS: Accessibility not granted; Windows: hook failed to install.
     setNeedsPermission(next && !result)
   }
 
@@ -35,7 +36,9 @@ export function LiveToggle() {
       <span className="live-label">Live transform · {on ? 'On' : 'Off'}</span>
       {needsPermission && (
         <span className="live-hint" data-testid="live-hint">
-          Enable Alfavit in System Settings → Accessibility, then toggle again.
+          {isWindows()
+            ? "Couldn't start live transform. Try again or restart Alfavit."
+            : 'Enable Alfavit in System Settings → Accessibility, then toggle again.'}
         </span>
       )}
     </div>

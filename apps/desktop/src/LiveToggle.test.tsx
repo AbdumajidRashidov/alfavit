@@ -27,5 +27,24 @@ test('shows the permission hint when enabling fails', async () => {
   render(<LiveToggle />)
   const sw = await screen.findByRole('switch', { name: 'Live transform' })
   await user.click(sw)
-  expect(screen.getByTestId('live-hint')).toBeInTheDocument()
+  expect(screen.getByTestId('live-hint')).toHaveTextContent(/System Settings → Accessibility/)
+})
+
+test('on Windows the failure hint does not mention macOS Accessibility', async () => {
+  const ua = navigator.userAgent
+  Object.defineProperty(navigator, 'userAgent', {
+    value: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Edg/128.0',
+    configurable: true,
+  })
+  try {
+    vi.mocked(control.setLiveEnabled).mockResolvedValue(false)
+    const user = userEvent.setup()
+    render(<LiveToggle />)
+    await user.click(await screen.findByRole('switch', { name: 'Live transform' }))
+    const hint = screen.getByTestId('live-hint')
+    expect(hint).toHaveTextContent("Couldn't start live transform. Try again or restart Alfavit.")
+    expect(hint).not.toHaveTextContent(/Accessibility/)
+  } finally {
+    Object.defineProperty(navigator, 'userAgent', { value: ua, configurable: true })
+  }
 })
