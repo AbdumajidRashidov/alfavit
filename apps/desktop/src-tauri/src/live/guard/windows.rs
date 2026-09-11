@@ -3,6 +3,7 @@
 //! controls with ES_PASSWORD and WinUI PasswordBox all report `IsPassword`.
 //! Terminal apps are excluded by executable name.
 use std::cell::RefCell;
+use std::time::{Duration, Instant};
 
 use windows::core::{BOOL, PWSTR};
 use windows::Win32::Foundation::{CloseHandle, HWND};
@@ -16,11 +17,20 @@ use windows::Win32::UI::Accessibility::{CUIAutomation, IUIAutomation};
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, GetWindowThreadProcessId};
 
 use super::win_denylist::is_denylisted;
+use super::win_verdict_cache::VerdictCache;
+
+/// How long a UI Automation password verdict is reused. UIA is a cross-process
+/// call: asking on every keystroke would lag fast typing (aborting replacements)
+/// and keep browsers in accessibility mode. 250 ms is far below the time
+/// between a click into a password field and the first word boundary.
+const PASSWORD_VERDICT_TTL: Duration = Duration::from_millis(250);
 
 thread_local! {
     /// One UI Automation client per thread: COM objects are apartment-bound,
     /// and `is_blocked` only ever runs on the observer's worker thread.
     static UIA: RefCell<Option<IUIAutomation>> = const { RefCell::new(None) };
+    /// Cached password verdict, reused for `PASSWORD_VERDICT_TTL`.
+    static PASSWORD_VERDICT: RefCell<VerdictCache> = const { RefCell::new(VerdictCache::new(PASSWORD_VERDICT_TTL)) };
 }
 
 fn uia() -> Option<IUIAutomation> {
@@ -76,12 +86,13 @@ pub fn frontmost_exe() -> Option<String> {
     }
 }
 
-/// True when the current context must not be observed or transformed.
+/// True when the current context must not be observed or transformed. The
+/// cheap executable-name check runs first; the UI Automation verdict is cached.
 pub fn is_blocked() -> bool {
-    if is_secure_input() {
+    if frontmost_exe().map(|path| is_denylisted(&path)).unwrap_or(false) {
         return true;
     }
-    frontmost_exe().map(|path| is_denylisted(&path)).unwrap_or(false)
+    PASSWORD_VERDICT.with(|cache| cache.borrow_mut().get(Instant::now(), is_secure_input))
 }
 
 /// A low-level keyboard hook needs no permission on Windows.

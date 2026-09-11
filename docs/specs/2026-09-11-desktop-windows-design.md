@@ -84,7 +84,7 @@ Decisions:
 user keystroke
   → hook thread  (WH_KEYBOARD_LL callback: skip own events, read modifiers,
                   ToUnicodeEx, bump GENERATION, enqueue, CallNextHookEx)
-  → worker thread (guard::is_blocked? → classify → WordBuffer::push)
+  → worker thread (guard::is_blocked? [denylist, then cached UIA] → classify → WordBuffer::push)
   → on_word       (same as macOS: TransformBridge → JS engine → replacer)
   → replacer      (one SendInput batch: backspaces + reformed word + boundary)
 ```
@@ -165,7 +165,14 @@ elevated and the word stays as typed.
     `PasswordBox` all set it. Windows has no system-wide secure-input flag,
     so this is best-effort by design and the README says so. The COM
     apartment is initialised once on the worker thread; the
-    `IUIAutomation` instance is created once and reused.
+    `IUIAutomation` instance is created once and reused. The verdict is
+    cached for 250 ms per worker thread and the cheap executable-name check
+    runs first: UI Automation is a cross-process call, so asking on every
+    keystroke would lag fast typing (aborting replacements via `GENERATION`)
+    and keep browsers in accessibility mode. Within that window, keystrokes
+    after a click into a password field may be buffered in memory; a
+    replacement there would need a boundary character typed within 250 ms of
+    the click.
   - **Denylisted app:** the foreground window's process executable name
     (`GetForegroundWindow` → `GetWindowThreadProcessId` → `OpenProcess` →
     `QueryFullProcessImageNameW`, file name compared case-insensitively) is

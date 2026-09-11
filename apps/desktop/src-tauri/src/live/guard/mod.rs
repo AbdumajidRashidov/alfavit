@@ -1,6 +1,7 @@
 //! Safety exclusions: never observe or rewrite in password fields or terminal
 //! apps, and report/handle the OS permission the observer needs.
 pub mod win_denylist;
+pub mod win_verdict_cache;
 
 #[cfg(target_os = "macos")]
 mod macos;
