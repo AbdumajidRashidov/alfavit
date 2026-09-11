@@ -43,7 +43,7 @@ https://alfavit.uz/?utm_source=telegram&utm_medium=post&utm_campaign=senate-2026
 ## 3. LinkedIn — en
 
 ```
-Today Uzbekistan's Senate approved the new 28-letter Latin alphabet. Four letters change: sh → ş, ch → ç, oʻ → ö, gʻ → ğ.
+On 10 September Uzbekistan's Senate approved the new 28-letter Latin alphabet. Four letters change: sh → ş, ch → ç, oʻ → ö, gʻ → ğ.
 
 I have been waiting for this since July, when the Legislative Chamber passed the law and I shipped Alfavit — a converter for the new alphabet — in the same week.
 
@@ -63,7 +63,30 @@ If you write Uzbek, or know someone who does: https://alfavit.uz/?utm_source=lin
 Feedback and bug reports very welcome — this is a one-person project built for the transition.
 ```
 
-## 4. LinkedIn — ru
+## 4. LinkedIn — uz
+
+```
+Kecha Oʻzbekiston Senati 28 harfli yangi lotin alifbosini maʼqulladi. Toʻrt harf oʻzgaradi: sh → ş, ch → ç, oʻ → ö, gʻ → ğ.
+
+Men buni iyuldan beri kutgandim: oʻshanda Qonunchilik palatasi qonunni qabul qildi va men aynan oʻsha hafta Alfavitni ishga tushirdim.
+
+Nega bu texnik jihatdan muhim: eski oʻ va gʻ — harf va apostrof edi, apostrofni esa oʻndan ortiq usulda yozish mumkin. Shu sababli qidiruv, sayt manzillari va maʼlumotlar bazalari buzilardi. Bugungi klaviaturada ö yozish uchun oltitagacha tugma bosish kerak. Islohot aynan shu muammoni hal qilmoqda, Alfavit esa aynan oʻtish davri uchun bor.
+
+Alfavit bugun nima qila oladi:
+• Veb-oʻgirgich (uz/ru/en) — brauzerda ishlaydi, hech narsa yuklanmaydi
+• Telegram bot — istalgan chatda ichki (inline) rejimda
+• Chrome kengaytmasi — oʻng tugma → oʻgirish
+• Mac ilovasi — istalgan dasturda yozayotganingizda oʻgiradi
+• .docx/.txt/.srt fayllar va bepul ochiq API
+
+Dvigatel ochiq kodli (MIT) va npm da: tahririyatlar, nashriyotlar va davlat jamoalari uni oʻz tizimlarida ishlatishi mumkin.
+
+Oʻzbekcha yozsangiz yoki yozadigan tanishingiz boʻlsa: https://alfavit.uz/?utm_source=linkedin&utm_medium=post&utm_campaign=senate-2026-09
+
+Fikringizni va xatolar haqidagi xabarlarni mamnuniyat bilan kutaman — bu oʻtish davri uchun bir kishi qilgan loyiha.
+```
+
+## 5. LinkedIn — ru
 
 ```
 Сегодня Сенат Узбекистана одобрил новый латинский алфавит из 28 букв. Меняются четыре буквы: sh → ş, ch → ç, oʻ → ö, gʻ → ğ.
@@ -89,13 +112,13 @@ Feedback and bug reports very welcome — this is a one-person project built for
 ## 5. X thread — en (5 posts)
 
 ```
-1/ Uzbekistan's Senate just approved a new 28-letter Latin alphabet. Four letters change: sh → ş, ch → ç, oʻ → ö, gʻ → ğ. Here is why that is a software story as much as a language story 🧵
+1/ This week Uzbekistan's Senate approved a new 28-letter Latin alphabet. Four letters change: sh → ş, ch → ç, oʻ → ö, gʻ → ğ. Here is why that is a software story as much as a language story 🧵
 
 2/ The old oʻ and gʻ were a letter + an apostrophe, and people typed that apostrophe 10+ different ways. Same word, different bytes. Search, URLs, dictionaries and databases all broke on it. Typing ö today takes up to six keystrokes.
 
 3/ I built Alfavit in July, the week parliament passed the law: a converter that takes Cyrillic or old Latin and outputs the new alphabet, on-device. Web, Telegram (inline in any chat), Chrome extension, a Mac app that converts as you type, files, API.
 
-4/ Until today no other public converter targeted the new alphabet. The engine handles the position-dependent e/ye rule, every apostrophe variant, mixed scripts — and flags ambiguities instead of guessing.
+4/ No other public converter targets the new alphabet yet. The engine handles the position-dependent e/ye rule, every apostrophe variant, mixed scripts — and flags ambiguities instead of guessing.
 
 5/ It is free and open source (MIT), on npm as @alfavit/engine. Try it: https://alfavit.uz/?utm_source=x&utm_medium=post&utm_campaign=senate-2026-09 — and if you build for Uzbek text, the repo is https://github.com/AbdumajidRashidov/alfavit
 ```
