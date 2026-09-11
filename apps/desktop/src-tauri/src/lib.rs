@@ -12,7 +12,7 @@ pub mod live;
 /// runs — which would immediately re-show it. Remember when a blur hid the
 /// panel; a tray click inside the grace window is the same gesture: no toggle.
 /// The predicate is pure and tested everywhere; only the call sites are Windows-only.
-#[allow(dead_code)]
+#[cfg_attr(not(target_os = "windows"), allow(dead_code))]
 mod tray_blur {
     use std::sync::atomic::{AtomicU64, Ordering};
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -152,7 +152,7 @@ pub fn run() {
                 })
                 .build(app)?;
 
-            // Global hotkey: Option+Shift+A toggles the panel from any app.
+            // Global hotkey: Option+Shift+A (Alt+Shift+A on Windows) toggles the panel from any app.
             #[cfg(desktop)]
             {
                 use tauri_plugin_global_shortcut::{

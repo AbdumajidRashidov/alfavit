@@ -84,7 +84,7 @@ Decisions:
 user keystroke
   → hook thread  (WH_KEYBOARD_LL callback: skip own events, read modifiers,
                   ToUnicodeEx, bump GENERATION, enqueue, CallNextHookEx)
-  → worker thread (guard::is_blocked? [denylist, then cached UIA] → classify → WordBuffer::push)
+  → worker thread (guard::is_blocked? [denylist, then cached UIA] → blocked: clear word | else classify → WordBuffer::push)
   → on_word       (same as macOS: TransformBridge → JS engine → replacer)
   → replacer      (one SendInput batch: backspaces + reformed word + boundary)
 ```
@@ -106,6 +106,11 @@ push is what makes the design safe.
      `dwExtraInfo == ALFAVIT_MARKER`. Injected input from other tools
      (AutoHotkey remaps, remote desktop) still counts as typing, matching the
      Mac, which also ignores only its own marker.
+   - Pure modifier and lock keys (Shift, Ctrl, Alt, Win, Caps Lock, Num Lock,
+     Scroll Lock) are not observed as keystrokes and do not bump
+     `GENERATION` — macOS never sees them either, since `FlagsChanged` is
+     outside its tap mask — so the Shift before `!`, or the Cyrillic comma
+     (Shift+`.`), does not clear the word.
    - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win).
    - Translate to text with `ToUnicodeEx` against the **foreground window's
      keyboard layout** (`GetKeyboardLayout(GetWindowThreadProcessId(
@@ -116,26 +121,31 @@ push is what makes the design safe.
    - Push `{vk, modifiers, text}` onto an `mpsc` channel; return
      `CallNextHookEx`.
    - Caps Lock key events (down and up) are also fed to a tracker, seeded
-     once from `GetKeyState` on the hook thread at start, then flipped on
-     each observed Caps Lock press — because `GetKeyState` only reflects a
-     thread's own input queue and the hook thread never reads key messages.
+     once from `GetKeyState` on the UI thread that turns the switch on (it
+     pumps input, so its key state is current) and handed to the hook
+     thread, then flipped on each observed Caps Lock press — because
+     `GetKeyState` only reflects a thread's own input queue and the hook
+     thread never reads key messages.
 3. Sends its thread id back to the caller once the hook is installed; if
    `SetWindowsHookExW` fails, the thread exits, the sender drops, and
    `start_tap` returns `None`.
 
 The **worker thread** drains the channel in order: `guard::is_blocked()` →
 `classify()` → `WordBuffer::push()` → `on_word()` (shared code, unchanged).
-Running the guard on the worker preserves the Mac's "never observe in a
-password field" semantics, since a blocked key is dropped before it reaches
-the buffer.
+A blocked key is dropped **and clears the word buffer**: the first characters
+typed into a password field can arrive before the cached verdict flips, and
+they must never survive into the next field. (macOS skips without clearing —
+its secure-input flag is instantaneous, so nothing is ever buffered there.)
 
 `TapHandle::stop()` posts `WM_QUIT` to the hook thread, which unhooks and
-exits; dropping the channel sender ends the worker; both threads are joined.
-The shared channel is tagged with the epoch of the `start_tap` that installed
+exits, and joins it. Dropping the channel sender ends the worker, which is
+**not** joined: `stop()` runs on the UI thread, and the worker may be inside a
+UI Automation call that marshals to that same thread — joining would
+deadlock. The shared channel is tagged with the epoch of the `start_tap` that installed
 it, so a `stop()` that overlaps a newer `start_tap` (the controller releases
 its lock before the blocking stop) tears down only its own observer.
 
-### 2. Windows `classify(vk, ctrl, alt, win, text) -> Key`
+### 2. Windows `classify(vk, Modifiers { ctrl, alt, win }, text) -> Key`
 
 - Ctrl held without Alt, or Win held → `Reset` (a shortcut, not text).
 - Ctrl **and** Alt together is AltGr, which produces characters on many
@@ -204,9 +214,9 @@ elevated and the word stays as typed.
   "windows")]`) so macOS, where the status item belongs to our app and no
   blur occurs, is untouched.
 - **Platform config files.** Tauri merges `tauri.macos.conf.json` and
-  `tauri.windows.conf.json` over `tauri.conf.json` on each platform. Bundle
-  targets move out of the base file: macOS keeps `["dmg", "app"]` and its
-  ad-hoc `signingIdentity`; Windows sets `["nsis"]` with
+  `tauri.windows.conf.json` over `tauri.conf.json` on each platform. The base
+  file keeps the macOS targets `["dmg", "app"]` and ad-hoc `signingIdentity`;
+  `tauri.windows.conf.json` replaces the targets array with `["nsis"]` with
   `installMode: "currentUser"` (no UAC prompt, keeps the app un-elevated) and
   the default WebView2 `downloadBootstrapper` mode (Windows 10/11 usually
   have WebView2 already). No MSI: it needs WiX and per-machine install and
@@ -285,6 +295,7 @@ Every failure degrades to "no transform", never to corrupted text:
 | UI Automation unavailable / focused element unreadable | treated as not a password field; transform proceeds (best-effort guard) |
 | Engine round-trip > 500 ms, or any key during it | replacement aborted via `GENERATION` (existing rule) |
 | `SendInput` inserts fewer events than requested (elevated window) | nothing retried; word stays as typed |
+| Worker lags a foreground change (slow UIA call, busy machine) | the guard verdict for a few keys applies to the window the user has left — wrong verdict, no corruption |
 | Windows silently removes the hook | switch still reads On (hook bookkeeping only); Off→On reinstalls. Documented limit |
 
 ## Testing

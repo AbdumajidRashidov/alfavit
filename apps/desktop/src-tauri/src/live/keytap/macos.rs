@@ -132,7 +132,7 @@ fn event_string(event: &CGEvent) -> String {
 }
 
 /// Spawn the observer thread: install a keyDown tap, feed the word buffer, and
-/// deliver finished words to `on_word`. Runs its own CFRunLoop.
+/// deliver finished words to `dispatch_word`. Runs its own CFRunLoop.
 pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
     let (tx, rx) = std::sync::mpsc::channel::<SendRunLoop>();
     let thread = std::thread::spawn(move || {

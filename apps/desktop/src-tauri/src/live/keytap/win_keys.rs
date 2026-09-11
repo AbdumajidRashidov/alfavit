@@ -1,6 +1,6 @@
 //! Windows virtual-key → `Key` mapping. Pure and platform-independent so the
 //! tests run on every host; the hook (`windows.rs`) feeds it real events.
-use crate::live::word_buffer::Key;
+use crate::live::word_buffer::{Emitted, Key, WordBuffer};
 
 pub const VK_BACK: u32 = 0x08;
 pub const VK_TAB: u32 = 0x09;
@@ -55,11 +55,33 @@ pub fn classify(vk: u32, mods: Modifiers, text: &str) -> Key {
     }
 }
 
+/// One worker step. A blocked keystroke (password field, denylisted app)
+/// clears the word instead of merely being skipped: the first characters
+/// typed into a password field can arrive before the guard's cached verdict
+/// flips, and they must never survive into the next field. macOS skips
+/// without clearing — its secure-input flag is instantaneous, so nothing is
+/// ever buffered there.
+pub fn step(buffer: &mut WordBuffer, blocked: bool, vk: u32, mods: Modifiers, text: &str) -> Option<Emitted> {
+    if blocked {
+        buffer.push(Key::Reset);
+        return None;
+    }
+    buffer.push(classify(vk, mods, text))
+}
+
+/// Pure modifier and lock keys. Windows delivers a key-down for each of them;
+/// they never produce text and must not reset the word — otherwise the Shift
+/// before `!`, or the Cyrillic comma (Shift+`.`), would wipe the word right
+/// before its boundary. macOS never sees them (FlagsChanged is outside the tap).
+pub fn is_modifier_vk(vk: u32) -> bool {
+    matches!(vk, 0x10..=0x12 | 0x14 | 0x5B | 0x5C | 0x90 | 0x91 | 0xA0..=0xA5)
+}
+
 /// Caps Lock toggle state, tracked from observed key events. `GetKeyState`
 /// only reflects a thread's own input queue and the hook thread never reads
-/// key messages, so the toggle is seeded once from the OS when the hook
-/// thread starts (a new thread's key state is a copy of the global state at
-/// that moment) and then flipped on each Caps Lock press. A held key
+/// key messages, so the toggle is seeded once from `GetKeyState` on the UI
+/// thread that turns the switch on (it pumps input, so its key state is
+/// current) and then flipped on each Caps Lock press. A held key
 /// auto-repeats; only the first key-down of a press toggles.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct CapsLock {
@@ -192,5 +214,40 @@ mod tests {
         caps.observe(false); // release
         caps.observe(true); // second press
         assert!(!caps.is_on());
+    }
+
+    #[test]
+    fn blocked_key_clears_the_word() {
+        let mut buf = WordBuffer::new();
+        for c in ['s', 'a', 'l'] {
+            assert!(step(&mut buf, false, 0, NONE, &c.to_string()).is_none());
+        }
+        assert!(step(&mut buf, true, 0x50, NONE, "p").is_none()); // first password char, blocked
+        for c in ['o', 'm'] {
+            step(&mut buf, false, 0, NONE, &c.to_string());
+        }
+        let out = step(&mut buf, false, 0x20, NONE, " ").unwrap();
+        assert_eq!(out.word, "om");
+        assert_eq!(out.typed_len, 2);
+    }
+
+    #[test]
+    fn step_emits_on_boundary_like_classify() {
+        let mut buf = WordBuffer::new();
+        step(&mut buf, false, 0x58, NONE, "ч");
+        step(&mut buf, false, 0x4A, NONE, "о");
+        step(&mut buf, false, 0x51, NONE, "й");
+        let out = step(&mut buf, false, 0xBC, NONE, ",").unwrap();
+        assert_eq!(out, Emitted { word: "чой".into(), boundary: ',', typed_len: 3 });
+    }
+
+    #[test]
+    fn modifier_and_lock_keys_are_not_keystrokes() {
+        for vk in [0x10, 0x11, 0x12, 0x14, 0x5B, 0x5C, 0x90, 0x91, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5] {
+            assert!(is_modifier_vk(vk), "vk {vk:#x}");
+        }
+        assert!(!is_modifier_vk(0x41)); // A
+        assert!(!is_modifier_vk(VK_BACK));
+        assert!(!is_modifier_vk(0x20)); // Space
     }
 }

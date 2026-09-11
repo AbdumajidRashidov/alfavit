@@ -19,7 +19,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     WH_KEYBOARD_LL, WM_KEYDOWN, WM_QUIT, WM_SYSKEYDOWN,
 };
 
-use super::win_keys::{classify, keystroke_text, CapsLock, Modifiers};
+use super::win_keys::{is_modifier_vk, keystroke_text, step, CapsLock, Modifiers};
 use super::{dispatch_word, ALFAVIT_MARKER, GENERATION};
 use crate::live::word_buffer::WordBuffer;
 
@@ -55,11 +55,14 @@ thread_local! {
     static CAPS: Cell<CapsLock> = const { Cell::new(CapsLock::seeded(false)) };
 }
 
-/// Handle to a running observer. `stop()` ends both threads and joins them.
+/// Handle to a running observer. `stop()` ends the hook thread and joins it;
+/// the worker is detached and exits when the channel closes — it is never
+/// joined, because `stop()` runs on the UI thread and the worker may be
+/// inside a UI Automation call that marshals to that same thread (joining
+/// would deadlock).
 pub struct TapHandle {
     hook_thread_id: u32,
     hook: Option<JoinHandle<()>>,
-    worker: Option<JoinHandle<()>>,
     epoch: u64,
 }
 
@@ -75,9 +78,6 @@ impl TapHandle {
         // Dropping the sender ends the worker's `for ev in rx` loop — but only
         // if it is still ours: a concurrent start_tap may have replaced it.
         clear_sender(self.epoch);
-        if let Some(t) = self.worker.take() {
-            let _ = t.join();
-        }
     }
 }
 
@@ -151,7 +151,9 @@ unsafe extern "system" fn hook_proc(ncode: i32, wparam: WPARAM, lparam: LPARAM) 
             // Ignore only OUR synthetic events (marker). Other tools' injected input
             // (AutoHotkey remaps, remote desktop) still counts as typing, as on macOS.
             let ours = (kb.flags.0 & LLKHF_INJECTED.0) != 0 && kb.dwExtraInfo == ALFAVIT_MARKER as usize;
-            if !ours {
+            // Modifier/lock keys produce no text and must not reset the word (macOS
+            // never sees them either).
+            if !ours && !is_modifier_vk(kb.vkCode) {
                 observe(kb);
             }
         }
@@ -163,12 +165,8 @@ unsafe extern "system" fn hook_proc(ncode: i32, wparam: WPARAM, lparam: LPARAM) 
 fn worker(app: tauri::AppHandle, rx: mpsc::Receiver<Observed>) {
     let mut buffer = WordBuffer::new();
     for ev in rx {
-        // Never observe/transform in password fields or excluded apps (buffer untouched, as on macOS).
-        if crate::live::guard::is_blocked() {
-            continue;
-        }
-        let key = classify(ev.vk, ev.mods, &ev.text);
-        if let Some(emitted) = buffer.push(key) {
+        let blocked = crate::live::guard::is_blocked();
+        if let Some(emitted) = step(&mut buffer, blocked, ev.vk, ev.mods, &ev.text) {
             dispatch_word(&app, emitted, ev.generation);
         }
     }
@@ -181,7 +179,11 @@ pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
     let (ready_tx, ready_rx) = mpsc::channel::<u32>();
     let epoch = EPOCH.fetch_add(1, Ordering::Relaxed) + 1;
     *SENDER.lock().unwrap() = Some((epoch, tx));
-    DEAD_PENDING.with(|d| d.set(false));
+
+    // Caps Lock seed for the tracker: read on this (UI) thread, which pumps
+    // input and so has a current key state; the hook thread never reads key
+    // messages. SAFETY: GetKeyState has no preconditions.
+    let caps_seed = (unsafe { GetKeyState(VK_CAPITAL.0 as i32) } & 1) != 0;
 
     let hook = std::thread::spawn(move || {
         // SAFETY: standard hook installation + message loop on this thread; the
@@ -191,10 +193,7 @@ pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
             let Ok(hhook) = SetWindowsHookExW(WH_KEYBOARD_LL, Some(hook_proc), Some(hmod.into()), 0) else {
                 return;
             };
-            // A new thread's key state is a copy of the global state at the
-            // moment it is created, so this is a valid one-time seed even
-            // though this thread never reads key messages afterward.
-            CAPS.with(|c| c.set(CapsLock::seeded((GetKeyState(VK_CAPITAL.0 as i32) & 1) != 0)));
+            CAPS.with(|c| c.set(CapsLock::seeded(caps_seed)));
             let _ = ready_tx.send(GetCurrentThreadId());
             let mut msg = MSG::default();
             // Runs the hook until stop() posts WM_QUIT (0) or GetMessageW errors (-1);
@@ -211,6 +210,7 @@ pub fn start_tap(app: tauri::AppHandle) -> Option<TapHandle> {
         clear_sender(epoch);
         return None;
     };
-    let worker = std::thread::spawn(move || worker(app, rx));
-    Some(TapHandle { hook_thread_id, hook: Some(hook), worker: Some(worker), epoch })
+    // Detached: it exits when the channel closes (see stop()).
+    std::thread::spawn(move || worker(app, rx));
+    Some(TapHandle { hook_thread_id, hook: Some(hook), epoch })
 }
