@@ -115,11 +115,10 @@ push is what makes the design safe.
    - `GENERATION.fetch_add(1)` on every observed key (same rule as macOS).
    - Push `{vk, modifiers, text}` onto an `mpsc` channel; return
      `CallNextHookEx`.
-   - Caps Lock key events (down and up) are also fed to a tracker: Caps Lock
-     is tracked by the hook itself — seeded once from `GetKeyState` on the
-     hook thread at start, then flipped on each observed Caps Lock press —
-     because `GetKeyState` only reflects a thread's own input queue and the
-     hook thread never reads key messages.
+   - Caps Lock key events (down and up) are also fed to a tracker, seeded
+     once from `GetKeyState` on the hook thread at start, then flipped on
+     each observed Caps Lock press — because `GetKeyState` only reflects a
+     thread's own input queue and the hook thread never reads key messages.
 3. Sends its thread id back to the caller once the hook is installed; if
    `SetWindowsHookExW` fails, the thread exits, the sender drops, and
    `start_tap` returns `None`.

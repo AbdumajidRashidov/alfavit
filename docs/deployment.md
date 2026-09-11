@@ -184,7 +184,9 @@ domain be a one-time manual fact than a CI permission.
 - **Rotate** the bot token after early testing (it was shared in chat during setup).
 - The engine and all channels share one monorepo build graph; `pnpm turbo run build`
   builds them together.
-- **The macOS app is not deployed by CI.** It bundles the engine's compiled
-  output at build time and has no auto-update channel, so an engine fix reaches
-  Mac users only via a rebuilt `.dmg` rehosted at
-  `apps/web/public/download/Alfavit.dmg`. See `apps/desktop/README.md`.
+- **The desktop apps are not deployed by CI.** They bundle the engine's
+  compiled output at build time and have no auto-update channel, so an engine
+  fix reaches Mac and Windows users only via rebuilt installers rehosted at
+  `apps/web/public/download/Alfavit.dmg` and
+  `apps/web/public/download/Alfavit-Setup.exe` (a `desktop-v*` tag builds
+  both into one draft Release). See `apps/desktop/README.md`.
