@@ -109,7 +109,7 @@ Fikringizni va xatolar haqidagi xabarlarni mamnuniyat bilan kutaman — bu oʻti
 Обратная связь и баг-репорты очень приветствуются — проект делает один человек, для переходного периода.
 ```
 
-## 5. X thread — en (5 posts)
+## 6. X thread — en (5 posts)
 
 ```
 1/ This week Uzbekistan's Senate approved a new 28-letter Latin alphabet. Four letters change: sh → ş, ch → ç, oʻ → ö, gʻ → ğ. Here is why that is a software story as much as a language story 🧵
@@ -123,7 +123,23 @@ Fikringizni va xatolar haqidagi xabarlarni mamnuniyat bilan kutaman — bu oʻti
 5/ It is free and open source (MIT), on npm as @alfavit/engine. Try it: https://alfavit.uz/?utm_source=x&utm_medium=post&utm_campaign=senate-2026-09 — and if you build for Uzbek text, the repo is https://github.com/AbdumajidRashidov/alfavit
 ```
 
-## 6. r/Uzbekistan — en
+## 7. X thread — uz (5 posts)
+
+Each post verified under 280 characters with links counted at 23.
+
+```
+1/ Bu hafta Oʻzbekiston Senati 28 harfli yangi lotin alifbosini maʼqulladi. Toʻrt harf oʻzgaradi: sh → ş, ch → ç, oʻ → ö, gʻ → ğ. Bu faqat til emas, dasturiy taʼminot haqidagi ham hikoya. Nega ekanini aytaman 🧵
+
+2/ Eski oʻ va gʻ — harf va apostrof edi, apostrofni esa odamlar 10 dan ortiq xil usulda yozardi. Bir soʻz, turli baytlar. Qidiruv, URL manzillar, lugʻatlar va maʼlumotlar bazalari shunda buzilardi. Bugun ö yozish uchun oltitagacha tugma bosiladi.
+
+3/ Alfavitni iyulda, parlament qonunni qabul qilgan hafta yasadim: kirill yoki eski lotinni yangi alifboga oʻgiradi, qurilmangizning oʻzida. Veb, Telegram (istalgan chatda inline), Chrome kengaytmasi, yozayotganda oʻgiruvchi Mac ilovasi, fayllar, API.
+
+4/ Hozircha boshqa hech bir ommaviy konvertor yangi alifboni nishonga olmagan. Dvigatel kirill «е» oʻrniga qarab e yoki ye boʻlishini hisobga oladi, apostrofning har qanday variantini taniydi, aralash matnni ajratadi va shubhali joylarni belgilaydi.
+
+5/ Bepul va ochiq kodli (MIT), npm da @alfavit/engine. Sinab koʻring: https://alfavit.uz/?utm_source=x&utm_medium=post&utm_campaign=senate-2026-09 — oʻzbek matni bilan ishlasangiz, repo: https://github.com/AbdumajidRashidov/alfavit
+```
+
+## 8. r/Uzbekistan — en
 
 **Title:** `Senate approved the new alphabet today — I built a free converter (web, Telegram, Chrome, Mac) and would like your bug reports`
 
@@ -140,7 +156,7 @@ How to type ş ç ö ğ on your phone or laptop: https://alfavit.uz/guide/keyboa
 Disclosure: I made this. It is free and has no ads.
 ```
 
-## 7. Comment under a news article (uz / ru, ≤ 300 chars)
+## 9. Comment under a news article (uz / ru, ≤ 300 chars)
 
 Use once per article, only where comments are open. One link, no hashtags, say you built it.
 
@@ -154,7 +170,7 @@ Yangi alifboga oʻtkazish uchun bepul vosita bor: alfavit.uz — kirill yoki esk
 Есть бесплатный конвертер в новый алфавит: alfavit.uz — вставьте текст на кириллице или старой латинице, получите ş ç ö ğ мгновенно. Работает и в Telegram (@alfavit_uz_bot). Сделал сам, код открыт — если найдёте ошибку, напишите.
 ```
 
-## 8. Reference
+## 10. Reference
 
 - Site news strip (live): uz «10-sentabr: Senat 28 harfli yangi alifboni maʼqulladi. Nima oʻzgaradi →» · ru «10 сентября: Сенат одобрил алфавит из 28 букв. Что меняется →» · en "10 September: the Senate approved the 28-letter alphabet. What changes →"
 - Social card shown on every shared link: `https://alfavit.uz/og.png` (1200×630)
