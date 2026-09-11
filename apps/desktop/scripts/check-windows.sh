@@ -32,4 +32,4 @@ chmod +x "$shim_dir/llvm-rc"
 
 export RC_x86_64_pc_windows_msvc="$shim_dir/llvm-rc"
 export CC_x86_64_pc_windows_msvc=clang
-exec cargo check --target "$TARGET" --tests "$@"
+cargo check --target "$TARGET" --tests "$@"
