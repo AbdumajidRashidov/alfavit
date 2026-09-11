@@ -113,9 +113,7 @@ pub fn live_transform_enabled(live: State<LiveMode>) -> bool {
 pub fn set_live_transform(on: bool, app: AppHandle, live: State<LiveMode>) -> bool {
     let now_on = live.set(&app, on);
     if on && !now_on && !guard::accessibility_granted() {
-        let _ = std::process::Command::new("open")
-            .arg("x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_Accessibility")
-            .spawn();
+        guard::open_permission_settings();
     }
     now_on
 }
