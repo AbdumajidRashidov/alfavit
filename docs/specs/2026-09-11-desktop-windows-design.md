@@ -107,10 +107,10 @@ push is what makes the design safe.
      (AutoHotkey remaps, remote desktop) still counts as typing, matching the
      Mac, which also ignores only its own marker.
    - Pure modifier and lock keys (Shift, Ctrl, Alt, Win, Caps Lock, Num Lock,
-     Scroll Lock) are not observed as keystrokes and do not bump
-     `GENERATION` — macOS never sees them either, since `FlagsChanged` is
+     Scroll Lock) are not observed as keystrokes and are not enqueued —
+     macOS never sees them either, since `FlagsChanged` is
      outside its tap mask — so the Shift before `!`, or the Cyrillic comma
-     (Shift+`.`), does not clear the word.
+     (Shift+`.`), does not clear the word. Ctrl, Alt and Win presses do still bump `GENERATION`, so a replacement pending during the engine round-trip is aborted rather than injected as Ctrl+Backspace (word delete) or Alt+Backspace (undo); Shift and the lock keys do not, because a Shift right after a space is how the next word's capital is typed.
    - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win).
    - Translate to text with `ToUnicodeEx` against the **foreground window's
      keyboard layout** (`GetKeyboardLayout(GetWindowThreadProcessId(

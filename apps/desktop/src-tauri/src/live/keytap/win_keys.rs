@@ -77,6 +77,16 @@ pub fn is_modifier_vk(vk: u32) -> bool {
     matches!(vk, 0x10..=0x12 | 0x14 | 0x5B | 0x5C | 0x90 | 0x91 | 0xA0..=0xA5)
 }
 
+/// Modifiers whose presence changes what an injected Backspace does:
+/// Ctrl+Backspace deletes a word, Alt+Backspace is Undo in Win32 edit
+/// controls, Win combos are system shortcuts. A press of one during the
+/// engine round-trip must abort the pending replacement (by bumping
+/// `GENERATION`). Shift and the lock keys are harmless and must not abort —
+/// a Shift right after a space is how the next word's capital is typed.
+pub fn aborts_pending_replacement(vk: u32) -> bool {
+    matches!(vk, 0x11 | 0x12 | 0x5B | 0x5C | 0xA2..=0xA5)
+}
+
 /// Caps Lock toggle state, tracked from observed key events. `GetKeyState`
 /// only reflects a thread's own input queue and the hook thread never reads
 /// key messages, so the toggle is seeded once from `GetKeyState` on the UI
@@ -249,5 +259,15 @@ mod tests {
         assert!(!is_modifier_vk(0x41)); // A
         assert!(!is_modifier_vk(VK_BACK));
         assert!(!is_modifier_vk(0x20)); // Space
+    }
+
+    #[test]
+    fn ctrl_alt_win_abort_a_pending_replacement_but_shift_and_locks_do_not() {
+        for vk in [0x11, 0x12, 0x5B, 0x5C, 0xA2, 0xA3, 0xA4, 0xA5] {
+            assert!(aborts_pending_replacement(vk), "vk {vk:#x}");
+        }
+        for vk in [0x10, 0xA0, 0xA1, 0x14, 0x90, 0x91] {
+            assert!(!aborts_pending_replacement(vk), "vk {vk:#x}");
+        }
     }
 }

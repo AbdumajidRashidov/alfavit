@@ -19,7 +19,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     WH_KEYBOARD_LL, WM_KEYDOWN, WM_QUIT, WM_SYSKEYDOWN,
 };
 
-use super::win_keys::{is_modifier_vk, keystroke_text, step, CapsLock, Modifiers};
+use super::win_keys::{aborts_pending_replacement, is_modifier_vk, keystroke_text, step, CapsLock, Modifiers};
 use super::{dispatch_word, ALFAVIT_MARKER, GENERATION};
 use crate::live::word_buffer::WordBuffer;
 
@@ -153,8 +153,19 @@ unsafe extern "system" fn hook_proc(ncode: i32, wparam: WPARAM, lparam: LPARAM) 
             let ours = (kb.flags.0 & LLKHF_INJECTED.0) != 0 && kb.dwExtraInfo == ALFAVIT_MARKER as usize;
             // Modifier/lock keys produce no text and must not reset the word (macOS
             // never sees them either).
-            if !ours && !is_modifier_vk(kb.vkCode) {
-                observe(kb);
+            if !ours {
+                if is_modifier_vk(kb.vkCode) {
+                    // Modifier/lock keys produce no text and must not reset the word
+                    // (macOS never sees them). But Ctrl/Alt/Win pressed during the
+                    // engine round-trip must still abort the pending replacement, or
+                    // the injected Backspace lands as Ctrl+Backspace (word delete) /
+                    // Alt+Backspace (undo). Shift and the lock keys are left alone.
+                    if aborts_pending_replacement(kb.vkCode) {
+                        GENERATION.fetch_add(1, Ordering::Relaxed);
+                    }
+                } else {
+                    observe(kb);
+                }
             }
         }
     }
