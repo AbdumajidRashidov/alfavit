@@ -107,6 +107,11 @@ Cyrillic or old-Latin. (The tray menu has the same toggle.)
   Lock state is read once when the switch is turned on and then tracked from
   key presses, so a Caps Lock change made on the lock screen or in an
   Administrator prompt is not seen until you toggle Live transform Off and On.
+  The password check's answer is reused for a quarter of a second, so the
+  first characters typed right after clicking or tabbing into a password
+  field are seen before Alfavit notices the field; they are discarded and
+  never typed anywhere, but a space or punctuation typed within that quarter
+  second could trigger a rewrite in the field.
 
 ### Acceptance checklist — live transform (both platforms)
 
@@ -121,7 +126,8 @@ Cyrillic or old-Latin. (The tray menu has the same toggle.)
 
 #### Windows-specific checks
 
-- [ ] Caps Lock on: type an uppercase word plus a space (e.g. `ЧОЙ `) — the replacement keeps uppercase (`ÇOY `), never lowercase.
+- [ ] Caps Lock already on *before* switching Live transform on: type `ЧОЙ ` — the replacement is `ÇOY `, never lowercase.
+- [ ] Switch Live transform on first, then press Caps Lock and type `ЧОЙ ` — `ÇOY `; press Caps Lock again and type `чой ` — `çoy `.
 - [ ] Toggle Live transform Off then On several times quickly (tray and panel) — transforms still fire afterwards, and Task Manager shows no Alfavit CPU use while idle.
 - [ ] Type a long sentence at full speed in Chrome and in Word — every word boundary still transforms; note whether Chrome's memory use jumps (see Known limits).
 - [ ] Type a word and its space, then switch Live transform Off within a second — no replacement lands after the switch is Off.
@@ -131,3 +137,9 @@ Cyrillic or old-Latin. (The tray menu has the same toggle.)
 - [ ] Password fields in three kinds of app — a browser login form, a classic Windows dialog (e.g. Credential Manager), and a Settings/WinUI sign-in — are never modified.
 - [ ] Windows Terminal, cmd and PowerShell never receive backspaces.
 - [ ] In a program running as Administrator (e.g. an elevated Command Prompt or Notepad started as admin), typing leaves the word exactly as typed — no partial deletion.
+- [ ] Shifted punctuation: `shahar!`, `javob:` and, on the Cyrillic layout where comma is Shift+`.`, `чой,` all transform.
+- [ ] Password at speed: Tab from a username field into the password field and start typing immediately; then click into a normal field and type one word plus a space — nothing is deleted there and no password fragment appears.
+- [ ] Keyboard-only Off: with the panel open, Tab to the Live transform switch and press Space to turn it Off; repeat ten times — the panel never freezes.
+- [ ] Panel hidden: transforms still fire while the panel is closed (it hides when it loses focus).
+- [ ] Mouse field switch: type half a word in one field, click into another field with the mouse, finish a word there — note what happens (known limit: the replacement may target the wrong span).
+- [ ] Alt+Shift+A with three or more layouts installed, including an IME (e.g. Japanese): no language switch, no doubled characters.
