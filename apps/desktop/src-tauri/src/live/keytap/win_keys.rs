@@ -55,6 +55,40 @@ pub fn classify(vk: u32, mods: Modifiers, text: &str) -> Key {
     }
 }
 
+/// Caps Lock toggle state, tracked from observed key events. `GetKeyState`
+/// only reflects a thread's own input queue and the hook thread never reads
+/// key messages, so the toggle is seeded once from the OS when the hook
+/// thread starts (a new thread's key state is a copy of the global state at
+/// that moment) and then flipped on each Caps Lock press. A held key
+/// auto-repeats; only the first key-down of a press toggles.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct CapsLock {
+    on: bool,
+    held: bool,
+}
+
+impl CapsLock {
+    pub const fn seeded(on: bool) -> Self {
+        Self { on, held: false }
+    }
+
+    pub fn is_on(self) -> bool {
+        self.on
+    }
+
+    /// Feed every Caps Lock key event: `down` is true for key-down, false for key-up.
+    pub fn observe(&mut self, down: bool) {
+        if down {
+            if !self.held {
+                self.on = !self.on;
+                self.held = true;
+            }
+        } else {
+            self.held = false;
+        }
+    }
+}
+
 /// The text a keystroke produced, given `ToUnicodeEx`'s return value `n` and
 /// its buffer. A dead key (`n < 0`) produces nothing and poisons the next key:
 /// we do not track composition, so that key's real character is unknown and it
@@ -139,5 +173,24 @@ mod tests {
         assert_eq!(keystroke_text(1, &buf, &mut dead), ""); // composed char unknown → no text
         assert!(!dead);
         assert_eq!(keystroke_text(1, &buf, &mut dead), "a"); // back to normal
+    }
+
+    #[test]
+    fn caps_lock_seed_is_reported() {
+        assert!(CapsLock::seeded(true).is_on());
+        assert!(!CapsLock::seeded(false).is_on());
+    }
+
+    #[test]
+    fn caps_lock_toggles_once_per_press_despite_auto_repeat() {
+        let mut caps = CapsLock::seeded(false);
+        caps.observe(true); // press
+        assert!(caps.is_on());
+        caps.observe(true); // auto-repeat while held
+        caps.observe(true);
+        assert!(caps.is_on());
+        caps.observe(false); // release
+        caps.observe(true); // second press
+        assert!(!caps.is_on());
     }
 }

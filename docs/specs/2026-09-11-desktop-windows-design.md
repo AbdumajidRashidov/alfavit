@@ -106,8 +106,11 @@ push is what makes the design safe.
      `dwExtraInfo == ALFAVIT_MARKER`. Injected input from other tools
      (AutoHotkey remaps, remote desktop) still counts as typing, matching the
      Mac, which also ignores only its own marker.
-   - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win) and Caps
-     Lock with `GetKeyState`.
+   - Read modifiers with `GetAsyncKeyState` (Shift, Ctrl, Alt, Win). Caps Lock
+     is tracked by the hook itself — seeded once from `GetKeyState` on the
+     hook thread at start, then flipped on each observed Caps Lock press —
+     because `GetKeyState` only reflects a thread's own input queue and the
+     hook thread never reads key messages.
    - Translate to text with `ToUnicodeEx` against the **foreground window's
      keyboard layout** (`GetKeyboardLayout(GetWindowThreadProcessId(
      GetForegroundWindow()))`), passing the `1 << 2` flag ("do not change
@@ -128,6 +131,9 @@ the buffer.
 
 `TapHandle::stop()` posts `WM_QUIT` to the hook thread, which unhooks and
 exits; dropping the channel sender ends the worker; both threads are joined.
+The shared channel is tagged with the epoch of the `start_tap` that installed
+it, so a `stop()` that overlaps a newer `start_tap` (the controller releases
+its lock before the blocking stop) tears down only its own observer.
 
 ### 2. Windows `classify(vk, ctrl, alt, win, text) -> Key`
 
