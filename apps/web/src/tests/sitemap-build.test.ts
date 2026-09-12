@@ -17,3 +17,12 @@ test('dist/llms.txt and robots.txt are present', () => {
   expect(robots).toContain('GPTBot')
   expect(robots).toContain('Sitemap: https://alfavit.uz/sitemap.xml')
 })
+
+test('dist/sitemap.xml declares the chart image on every alphabet URL', () => {
+  const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
+  expect(xml).toContain('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')
+  // One per locale, and only on the alphabet pages.
+  expect((xml.match(/<image:loc>/g) ?? []).length).toBe(3)
+  expect(xml).toContain('<image:loc>https://alfavit.uz/chart/lotin-alifbosi-jadvali-2026.png</image:loc>')
+  expect(xml).toContain('<image:loc>https://alfavit.uz/chart/uzbekskiy-alfavit-2026.png</image:loc>')
+})

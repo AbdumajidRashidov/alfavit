@@ -32,3 +32,18 @@ test('every page carries Organization + WebSite schema', () => {
   expect(ru).toContain('"@type":"Organization"')
   expect(ru).toContain('"@type":"BreadcrumbList"')
 })
+
+test('the alphabet page ships the chart image and its ImageObject schema', () => {
+  const html = dist('alphabet.html')
+  // Prerendered, not client-rendered: Google Images should not have to execute
+  // JavaScript to find the one image on the page.
+  expect(html).toContain('src="/chart/lotin-alifbosi-jadvali-2026.png"')
+  expect(html).toContain('loading="lazy"')
+  expect(html).toContain('"@type":"ImageObject"')
+  expect(html).toContain('"acquireLicensePage":"https://alfavit.uz/alphabet"')
+  // Intrinsic dimensions must be present or the lazy image shifts the page.
+  expect(html).toMatch(/width="1270"[^>]*height="1796"|height="1796"[^>]*width="1270"/)
+
+  const en = dist('en/alphabet.html')
+  expect(en).toContain('src="/chart/uzbek-latin-alphabet-2026.png"')
+})

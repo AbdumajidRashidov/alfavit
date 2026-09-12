@@ -1,4 +1,5 @@
 import { LOCALES, DEFAULT_LOCALE, type Locale } from '../i18n/translations'
+import { chartPng } from '../content/chart'
 
 export { LOCALES, DEFAULT_LOCALE }
 export type { Locale }
@@ -45,8 +46,15 @@ export function generateSitemapXml(): string {
         .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_URL + localePath(l, path)}"/>`)
         .join('\n')
       const xdefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + localePath(DEFAULT_LOCALE, path)}"/>`
-      return `  <url>\n    <loc>${loc}</loc>\n${alts}\n${xdefault}\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`
+      // The alphabet chart is the one image worth crawling; declaring it here is
+      // how Google Images finds it without waiting to render the page. Google
+      // reads only <image:loc> — caption, title and license were retired in 2022.
+      const image =
+        path === 'alphabet'
+          ? `\n    <image:image>\n      <image:loc>${SITE_URL + chartPng(locale)}</image:loc>\n    </image:image>`
+          : ''
+      return `  <url>\n    <loc>${loc}</loc>\n${alts}\n${xdefault}\n    <priority>${priority.toFixed(1)}</priority>${image}\n  </url>`
     }),
   )
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join('\n')}\n</urlset>\n`
 }

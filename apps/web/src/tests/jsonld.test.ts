@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { faqPageLd, howToLd, articleLd } from '../seo/jsonld'
+import { faqPageLd, howToLd, articleLd, imageObjectLd } from '../seo/jsonld'
 
 test('faqPageLd builds a FAQPage with one Question per item', () => {
   const ld = faqPageLd([{ q: 'A?', a: 'B.' }, { q: 'C?', a: 'D.' }]) as any
@@ -18,4 +18,26 @@ test('articleLd builds an Article', () => {
   const ld = articleLd('H', 'D', 'https://alfavit.uz/reform') as any
   expect(ld['@type']).toBe('Article')
   expect(ld).toMatchObject({ headline: 'H', description: 'D', url: 'https://alfavit.uz/reform' })
+})
+
+test('imageObjectLd carries the licence fields Google Images needs for a badge', () => {
+  const ld = imageObjectLd({
+    contentUrl: 'https://alfavit.uz/chart/x.png',
+    name: 'N',
+    description: 'D',
+    width: 1270,
+    height: 1796,
+    acquireLicensePage: 'https://alfavit.uz/alphabet',
+  }) as any
+  expect(ld['@type']).toBe('ImageObject')
+  expect(ld).toMatchObject({
+    contentUrl: 'https://alfavit.uz/chart/x.png',
+    width: 1270,
+    height: 1796,
+    acquireLicensePage: 'https://alfavit.uz/alphabet',
+    creditText: 'alfavit.uz',
+  })
+  // Both are required for the licensable badge; a bare ImageObject gets nothing.
+  expect(ld.license).toMatch(/^https:\/\//)
+  expect(ld.acquireLicensePage).toMatch(/^https:\/\//)
 })

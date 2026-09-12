@@ -58,6 +58,39 @@ export function howToLd(name: string, steps: { heading: string; body: string }[]
   }
 }
 
+/**
+ * Describes the printable alphabet chart for Google Images.
+ *
+ * Unlike FAQPage and HowTo — both retired as rich results in 2023 — image
+ * metadata still earns a visible badge, and the licence fields are what make a
+ * result eligible for it. The chart is part of the repo, so the licence is the
+ * repo's MIT.
+ */
+export function imageObjectLd(opts: {
+  contentUrl: string
+  name: string
+  description: string
+  width: number
+  height: number
+  acquireLicensePage: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    contentUrl: opts.contentUrl,
+    url: opts.contentUrl,
+    name: opts.name,
+    description: opts.description,
+    width: opts.width,
+    height: opts.height,
+    license: 'https://github.com/AbdumajidRashidov/alfavit/blob/main/LICENSE',
+    acquireLicensePage: opts.acquireLicensePage,
+    creditText: 'alfavit.uz',
+    copyrightNotice: 'Abdumajid Rashidov',
+    creator: { '@type': 'Organization', name: 'Alfavit' },
+  }
+}
+
 export function articleLd(headline: string, description: string, url: string) {
   return {
     '@context': 'https://schema.org',
