@@ -6,7 +6,9 @@ import { useT } from '../i18n/useT'
 import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
 
-const SHARE_URL = 'https://alfavit.uz/?utm_source=share&utm_medium=telegram&utm_campaign=senate-2026-09'
+/** Shared from the in-product share button, so medium is `button` — `telegram`
+ * is a utm_source, never a utm_medium. See docs/marketing/README.md:20-22. */
+export const SHARE_URL = 'https://alfavit.uz/?utm_source=share&utm_medium=button&utm_campaign=senate-2026-09'
 const SECONDARY_BTN = 'rounded-full border border-black/15 px-5 py-2 text-sm text-foreground transition-colors hover:border-black/40'
 
 /** Telegram's share endpoint: pre-fills a message with the converted text + our link. */
