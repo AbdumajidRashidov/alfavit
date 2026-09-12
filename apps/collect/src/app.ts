@@ -44,6 +44,13 @@ async function write(
   })
 }
 
+/** The only two redirect targets. A map, not string interpolation, so a crafted
+ * platform value cannot become an open redirect. */
+export const INSTALLERS: Record<string, string> = {
+  mac: '/download/Alfavit.dmg',
+  win: '/download/Alfavit-Setup.exe',
+}
+
 export function createApp() {
   const app = new Hono<{ Bindings: Bindings }>()
 
@@ -63,6 +70,19 @@ export function createApp() {
   })
 
   app.all('/e', (c) => c.text('', 405))
+
+  app.get('/dl/:platform', async (c) => {
+    const platform = c.req.param('platform')
+    const target = INSTALLERS[platform]
+    if (!target) return c.text('', 404)
+
+    const parsed = parseBeacon({ e: 'download', u: c.req.url, r: c.req.header('referer') ?? '', d: platform })
+    if (parsed) {
+      const country = (c.req.raw as Request & { cf?: { country?: string } }).cf?.country ?? 'XX'
+      await write(c, parsed, country)
+    }
+    return c.redirect(target, 302)
+  })
 
   return app
 }
