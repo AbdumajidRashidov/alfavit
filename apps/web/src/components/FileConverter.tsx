@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { convertFile, UnsupportedFormatError } from '../files'
+import { track } from '../analytics/track'
 import { useT } from '../i18n/useT'
 
 type Status = 'idle' | 'busy' | 'done' | 'error'
@@ -16,6 +17,8 @@ export function FileConverter() {
     setError('')
     try {
       const { blob, filename } = await convertFile(file)
+      // Extension only — never the filename, which is the user's content.
+      track('file_convert', file.name.toLowerCase().endsWith('.docx') ? 'docx' : 'txt')
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
