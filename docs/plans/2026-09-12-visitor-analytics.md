@@ -2,6 +2,33 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+## Execution status — 12 September 2026
+
+| Task | State |
+|---|---|
+| 1 Scaffold + session hash | done — 7 tests |
+| **2 Route precedence gate** | **BLOCKED — owner step.** Needs `wrangler login`; no session on this machine. |
+| 3 Beacon parsing | done — 9 tests |
+| 4 `POST /e` | done — 9 tests |
+| 5 `/dl/*` downloads | done — 6 tests |
+| 6 `track()` helper | done — 8 tests |
+| 7 Pageview hook | done — 3 tests |
+| 8 Converter events | done — 5 tests, incl. the privacy guarantee |
+| 9 Files / installers / outbound | done — 4 tests + existing suite updated |
+| 10 `pnpm metrics` | done — fails cleanly without credentials; **unexercised against live data** |
+| 11 CI job + docs | done |
+| **12 Deploy and verify** | **BLOCKED — owner step.** Needs the Task 2 gate, then `SESSION_SECRET`. |
+
+All 9 packages build; 199 tests pass. Nothing is deployed.
+
+**Deviation from the plan, Task 8:** the plan called `reportUse(detectedScript)`
+using the rendered value, which lags one keystroke behind and would have reported
+`foreign` for the first character of every session. Implemented as
+`reportUse(detectScript(value))` off the new textarea value instead. The test
+caught it.
+
+---
+
 **Goal:** Count what visitors actually do on alfavit.uz — transliterate, convert files, copy, download, click out — attributed to the campaign that sent them, without transmitting a single character of their text.
 
 **Architecture:** A fourth Worker (`apps/collect`) receives `sendBeacon` posts on the same-origin route `alfavit.uz/e` and writes one Analytics Engine data point per event. It also serves `/dl/mac` and `/dl/win`, which count a download and then 302 to the static installer. A ~40-line client helper fires the beacons. A dependency-free Node script reads the data back through the Analytics Engine SQL API and prints the weekly review block.
