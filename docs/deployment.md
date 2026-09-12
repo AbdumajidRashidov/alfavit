@@ -189,6 +189,13 @@ Routes (`apps/collect/wrangler.toml`):
 - `alfavit.uz/e` — `POST` only; one Analytics Engine data point per beacon
 - `alfavit.uz/dl/*` — counts a download, then 302s to the static installer
 
+**Prerequisite, once per account:** Analytics Engine must be enabled at
+[dash → Workers → Analytics Engine](https://dash.cloudflare.com/?to=/:account/workers/analytics-engine).
+Without it, `wrangler deploy` fails at upload with `You need to enable Analytics
+Engine … [code: 10089]` — the binding is correct, the account flag is missing.
+After enabling, allow ~1 minute for the flag to propagate; deploys attempted
+immediately afterwards still fail with the same error.
+
 One secret, set once:
 
 ```bash

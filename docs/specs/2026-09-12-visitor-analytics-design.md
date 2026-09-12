@@ -172,21 +172,30 @@ year-over-year questions, and this year's launch window will age out around Dece
 it is the durable record. `pnpm metrics` must print something worth pasting, because
 pasting it is what makes the data survive.
 
-## Open question, with a decided fallback
+## Resolved: Worker routes beat Pages (verified 2026-09-12)
 
-Whether a Worker route on `alfavit.uz/e` takes precedence over the Pages project serving
-the same hostname is **not documented** anywhere in Cloudflare's Workers routing, Pages
-routing, Pages custom-domain or serving-pages docs. It is expected to work, but it is
-being treated as unproven.
+The spec's one unproven assumption is now proven. `alfavit-collect` deployed with
+routes `alfavit.uz/e` and `alfavit.uz/dl/*` on a hostname Cloudflare Pages serves,
+and **the Worker takes precedence** while Pages continues to serve everything else:
 
-**Step 1 of implementation is an empirical check**, before any client code is written:
-deploy a stub `apps/collect` on the route, confirm `GET /e` hits the Worker and that
-`/`, `/apps` and `/download/Alfavit.dmg` still serve from Pages unchanged.
+| Request | Result |
+|---|---|
+| `GET /e` | 405 — Worker (405 is our own method guard) |
+| `POST /e` | 204 — data point written |
+| `POST /e` with an unknown event | 400 — rejected |
+| `GET /dl/mac` | 302 → `/download/Alfavit.dmg` |
+| `GET /dl/win` | 302 → `/download/Alfavit-Setup.exe` |
+| `GET /dl/nonsense` | 404 — not an open redirect |
+| `/`, `/apps`, `/alphabet`, `/guide/keyboard`, `/ru/alphabet`, `/privacy` | 200 — Pages, unchanged |
+| `/download/Alfavit.dmg` | 200, 6,669,342 bytes — unchanged |
 
-**If it fails, fall back to approach B** — a Pages Function at `apps/web/functions/e.ts`,
-with the CI `wrangler-action` moved to `workingDirectory: apps/web`. The event schema,
-privacy rules, client helper and read path are all unchanged by that switch; only the
-collector's home and its deploy job differ. The fallback is a half-day, not a redesign.
+The Pages Functions fallback is therefore **not needed** and can be disregarded.
+
+**One prerequisite the spec missed:** Analytics Engine must be enabled per account
+in the dashboard before any Worker can bind to it. Deploying without it fails at
+upload with `code: 10089`, and the account flag takes roughly a minute to
+propagate — two deploys failed after enabling before the third succeeded. Recorded
+in `docs/deployment.md`.
 
 ## Success criteria
 
