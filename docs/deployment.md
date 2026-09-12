@@ -217,6 +217,41 @@ durable record, not the dataset.
 
 ---
 
+## www → apex redirect (dashboard, not in the repo)
+
+`www.alfavit.uz` used to serve a full duplicate of the site with a 200, splitting
+the analytics host dimension. It now 301s to the apex, via a **zone Redirect Rule**
+created from Cloudflare's "Redirect from WWW to root" template:
+
+| | |
+| --- | --- |
+| Where | alfavit.uz → Rules → Overview → Redirect Rules |
+| Name | `Redirect from WWW to root [Template]` |
+| Match | URI Full wildcard `https://www.*` |
+| Action | 301 to `wildcard_replace(http.request.full_uri, r"https://www.*", r"https://${1}")` |
+| Preserve query string | **on** |
+
+**`_redirects` cannot do this.** Cloudflare Pages' `_redirects` file matches paths
+only; domain-level redirects are explicitly unsupported. Do not try to move this
+rule into `apps/web/public/_redirects` — it will silently do nothing.
+
+**Preserve query string is not optional.** With it off, a tagged link like
+`www.alfavit.uz/?utm_source=gazeta&utm_medium=press` lands on a bare `alfavit.uz/`
+and the UTM parameters are gone, which silently breaks the attribution the whole
+event pipeline exists to provide. It is off by default in the template.
+
+On deploy Cloudflare warns *"This rule may not apply to your traffic — your DNS
+configuration may not be proxying traffic for www."* That is a false positive here:
+`www` is bound as a Pages custom domain and is already proxied. Choose **Ignore and
+deploy rule anyway**, not "Create a new proxied DNS record" — the latter adds a DNS
+record that can collide with the existing Pages binding.
+
+Like the domain binding in § 3, this is a one-time manual fact rather than a
+declarative one: a clone-and-deploy into a fresh account comes up without it and
+says nothing.
+
+---
+
 ## Notes
 
 - **Secrets:** `BOT_TOKEN` is a Worker secret (and lives in the gitignored `.env`
