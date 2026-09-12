@@ -92,7 +92,7 @@ Cyrillic or old-Latin. (The tray menu has the same toggle.)
 - **Windows** needs no permission. Text typed into a program running **as
   Administrator** cannot be rewritten by a normal-privilege app; the word stays
   as typed.
-- **Off fully stops the observer** — nothing is watched while it is off. The
+- **Off stops the observer** — nothing typed after the switch is off is watched (a word finished in the last moment before switching Off may still be replaced). The
   state persists across restarts and defaults to Off.
 - Everything is on-device; no keystrokes are stored or sent.
 - **Not transformed:** password/secure fields (macOS: always; Windows:
@@ -130,7 +130,7 @@ Cyrillic or old-Latin. (The tray menu has the same toggle.)
 - [ ] Switch Live transform on first, then press Caps Lock and type `ЧОЙ ` — `ÇOY `; press Caps Lock again and type `чой ` — `çoy `.
 - [ ] Toggle Live transform Off then On several times quickly (tray and panel) — transforms still fire afterwards, and Task Manager shows no Alfavit CPU use while idle.
 - [ ] Type a long sentence at full speed in Chrome and in Word — every word boundary still transforms; note whether Chrome's memory use jumps (see Known limits).
-- [ ] Type a word and its space, then switch Live transform Off within a second — no replacement lands after the switch is Off.
+- [ ] Type a word and its space, then switch Live transform Off within a second — at most that one word is replaced; nothing typed after the switch is Off is touched.
 - [ ] With a not-responding (hung) window in the foreground, toggling Live transform Off still returns promptly (no panel freeze).
 - [ ] On a layout with AltGr characters (e.g. Polish `ą` via AltGr+A), those letters are buffered as text and the word still transforms.
 - [ ] On a dead-key layout (e.g. United States-International): type `´` then `e` — the composed `é` is left alone and no replacement is attempted for that word.

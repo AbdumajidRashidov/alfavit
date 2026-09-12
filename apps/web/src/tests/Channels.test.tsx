@@ -8,7 +8,7 @@ beforeEach(() => {
   Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
 })
 
-test('renders groups, platforms, and CTAs with macOS live for download', () => {
+test('renders groups, platforms, and CTAs with macOS and Windows live for download', () => {
   renderWithLocale(<Channels />, '/en')
   for (const label of ['Desktop', 'Mobile', 'More ways']) {
     expect(screen.getByText(label)).toBeInTheDocument()
@@ -16,19 +16,20 @@ test('renders groups, platforms, and CTAs with macOS live for download', () => {
   for (const name of ['macOS', 'Windows', 'iOS', 'Android', 'Web app', 'Telegram bot', 'Browser extension', 'API & SDK']) {
     expect(screen.getByText(name)).toBeInTheDocument()
   }
-  // macOS is now live: a Download link to the hosted universal dmg.
-  const dl = screen.getByRole('link', { name: 'Download' })
-  expect(dl).toHaveAttribute('href', '/download/Alfavit.dmg')
-  // macOS shows the New badge + the live-transform description.
-  expect(screen.getByText('New')).toBeInTheDocument()
-  expect(screen.getByText(/converts to new-Latin/i)).toBeInTheDocument()
+  // macOS and Windows are live: two Download links to the hosted installers.
+  const downloads = screen.getAllByRole('link', { name: 'Download' }).map((a) => a.getAttribute('href'))
+  expect(downloads).toEqual(['/download/Alfavit.dmg', '/download/Alfavit-Setup.exe'])
+  // Both desktop cards show the New badge + the live-transform description.
+  expect(screen.getAllByText('New')).toHaveLength(2)
+  expect(screen.getAllByText(/converts to new-Latin/i)).toHaveLength(2)
+  expect(screen.getByText(/SmartScreen/)).toBeInTheDocument()
   // Three "Open" links remain: Web (/en), Telegram (external), API (/en/developers).
   const openHrefs = screen.getAllByRole('link', { name: 'Open' }).map((a) => a.getAttribute('href'))
   expect(openHrefs).toContain('/en')
   expect(openHrefs).toContain('https://t.me/alfavit_uz_bot')
   expect(openHrefs).toContain('/en/developers')
-  // Four remain Coming soon: Windows, iOS, Android, extension.
-  expect(screen.getAllByText('Coming soon')).toHaveLength(4)
+  // Three remain Coming soon: iOS, Android, extension.
+  expect(screen.getAllByText('Coming soon')).toHaveLength(3)
 })
 
 test('extension card goes live when a store URL is provided', () => {
@@ -36,5 +37,5 @@ test('extension card goes live when a store URL is provided', () => {
   renderWithLocale(<Channels extensionStoreUrl={url} />, '/en')
   const openHrefs = screen.getAllByRole('link', { name: 'Open' }).map((a) => a.getAttribute('href'))
   expect(openHrefs).toContain(url)
-  expect(screen.getAllByText('Coming soon')).toHaveLength(3)
+  expect(screen.getAllByText('Coming soon')).toHaveLength(2)
 })

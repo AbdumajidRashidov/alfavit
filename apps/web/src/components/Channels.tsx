@@ -38,7 +38,16 @@ function buildGroups(extensionStoreUrl: string | null): Group[] {
           noteKey: 'channels.mac.note',
           badge: 'new',
         },
-        { nameKey: 'channels.windows.name', Icon: WindowsIcon },
+        {
+          nameKey: 'channels.windows.name',
+          Icon: WindowsIcon,
+          live: true,
+          href: '/download/Alfavit-Setup.exe',
+          download: true,
+          descKey: 'channels.windows.desc',
+          noteKey: 'channels.windows.note',
+          badge: 'new',
+        },
       ],
     },
     {
