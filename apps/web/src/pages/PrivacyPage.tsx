@@ -32,6 +32,14 @@ export function PrivacyPage() {
               data, does not fingerprint your device, and does not track you across
               other sites. We run no advertising and no other third-party trackers.
             </p>
+            <p className="mt-3">
+              We also count a few actions on this site ourselves — that a page was
+              viewed, that a conversion happened, that a file was converted, that an
+              installer was downloaded, that a link out was clicked. These are counts
+              only. The text you type is never sent, never stored, and never leaves
+              your browser. There are no cookies, and no identifier that follows you
+              from one day to the next.
+            </p>
           </div>
 
           <div>

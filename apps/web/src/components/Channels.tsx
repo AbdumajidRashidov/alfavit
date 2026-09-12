@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Reveal } from './Reveal'
+import { track } from '../analytics/track'
 import type { TranslationKey } from '../i18n/translations'
 import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon } from './icons'
 
@@ -16,6 +17,8 @@ interface Item {
   descKey?: TranslationKey
   noteKey?: TranslationKey
   badge?: 'new'
+  /** Tag for the outbound event fired when an external link is clicked. */
+  trackAs?: 'bot' | 'extension' | 'github' | 'npm'
 }
 interface Group { labelKey: TranslationKey; items: Item[] }
 
@@ -32,7 +35,7 @@ function buildGroups(extensionStoreUrl: string | null): Group[] {
           nameKey: 'channels.mac.name',
           Icon: AppleIcon,
           live: true,
-          href: '/download/Alfavit.dmg',
+          href: '/dl/mac',
           download: true,
           descKey: 'channels.mac.desc',
           noteKey: 'channels.mac.note',
@@ -42,7 +45,7 @@ function buildGroups(extensionStoreUrl: string | null): Group[] {
           nameKey: 'channels.windows.name',
           Icon: WindowsIcon,
           live: true,
-          href: '/download/Alfavit-Setup.exe',
+          href: '/dl/win',
           download: true,
           descKey: 'channels.windows.desc',
           noteKey: 'channels.windows.note',
@@ -61,12 +64,13 @@ function buildGroups(extensionStoreUrl: string | null): Group[] {
       labelKey: 'channels.group.more',
       items: [
         { nameKey: 'channels.web.name', Icon: GlobeIcon, live: true, href: '/' },
-        { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot' },
+        { nameKey: 'channels.telegram.name', Icon: TelegramIcon, live: true, href: 'https://t.me/alfavit_uz_bot', trackAs: 'bot' },
         {
           nameKey: 'channels.extension.name',
           Icon: PuzzleIcon,
           live: extensionStoreUrl !== null,
           href: extensionStoreUrl ?? undefined,
+          trackAs: 'extension',
         },
         { nameKey: 'channels.api.name', Icon: CodeIcon, live: true, href: '/developers' },
       ],
@@ -89,7 +93,17 @@ export function Channels({ extensionStoreUrl = EXTENSION_STORE_URL }: { extensio
       return <span className={full ? 'text-sm text-muted' : 'shrink-0 text-sm text-muted'}>{t('status.soon')}</span>
     if (item.download) return <a href={item.href} download className={cls}>{t('channels.download')}</a>
     if (item.href.startsWith('/')) return <Link to={lp(item.href)} className={cls}>{t('channels.open')}</Link>
-    return <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>{t('channels.open')}</a>
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cls}
+        onClick={() => { if (item.trackAs) track('outbound', item.trackAs) }}
+      >
+        {t('channels.open')}
+      </a>
+    )
   }
 
   return (

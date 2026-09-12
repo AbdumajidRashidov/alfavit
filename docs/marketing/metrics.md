@@ -6,7 +6,7 @@ One goal: daily users across web, bot, extension and Mac app. Everything below i
 
 | | Value | Where |
 |--|-------|-------|
-| Site unique visitors/day (zone HTTP analytics; Web Analytics is not enabled for alfavit.uz) | 69–148 per day over the last 30 days, ~90–100 typical; 148 on 10 Sep; 1.95k unique visitors in 30 days | Cloudflare dashboard → alfavit.uz → Analytics & Logs → Traffic → Unique Visitors (free plan shows 24 h / 7 d / 30 d) |
+| Zone "unique visitors"/day (**bots included — not real visitors**, see the correction below) | 69–148 per day over the last 30 days; 1.95k in 30 days | Cloudflare dashboard → alfavit.uz → Analytics & Logs → Traffic → Unique Visitors |
 | Site requests, 30 days | 40.01k (bots and scanners included; 24 h by country: UK 1,286 · UZ 1,181 · US 513) | same page → Requests |
 | Bot invocations, last 7 days | 15 (10 were uncaught exceptions from non-Telegram GET traffic — fixed 10 Sep 23:50, worker now answers 405/400) | Workers & Pages → alfavit-bot → Metrics → Last 7 days |
 | API invocations, last 7 days | 313, 0 errors (272 from a single Sydney source, i.e. a monitor or crawler; real usage ≈ 40) | Workers & Pages → alfavit-api → Metrics → Last 7 days |
@@ -14,7 +14,33 @@ One goal: daily users across web, bot, extension and Mac app. Everything below i
 | GitHub traffic, last 14 days | 0 views, 1 clone (our own) | `gh api repos/AbdumajidRashidov/alfavit/traffic/views` and `…/traffic/clones` |
 | npm weekly downloads, engine / sdk | 0 / 0 | published 10 Sep 2026, 22:33 Tashkent; api.npmjs.org indexes downloads after about a day |
 
-The three Cloudflare rows need your login: read them from the dashboard and fill the blanks, or authorize the Cloudflare observability connector in Claude once so the weekly review can pull them automatically.
+### Correction, 12 September 2026
+
+This baseline originally said *"Web Analytics is not enabled for alfavit.uz."*
+**It has been since mid-July.** The visitor row above was read from zone HTTP
+analytics, which counts bots, scanners and `api.alfavit.uz` alongside people —
+and overstated real traffic by roughly 10x. The row is kept, relabelled, because
+the launch narrative referenced it.
+
+The real numbers, from Web Analytics on 12 September:
+
+| Window | Visits | Page views |
+|--|--|--|
+| 24 hours | 54 | 112 |
+| 7 days | 383 | 706 |
+| 21 days | 500 *(rounded)* | 980 *(rounded)* |
+
+So pre-launch traffic was **~8–10 visits/day**, not 69–148, and post-launch is
+**~55/day** — a real 5–6x step change, honestly measured. Compare Web Analytics
+to Web Analytics; never mix the two sources in one trend.
+
+Audience at that point (7 days): Uzbekistan 81%, mobile 66%, Android over iOS
+3:1, and `t.co` the single largest referrer at 37% — ahead of direct (27%) and
+Google (23%).
+
+From the first `pnpm metrics` run onward, the numbers below come from our own
+event pipeline. Analytics Engine keeps three months, so the pasted weekly blocks
+at the bottom of this file are the durable record — not the dataset.
 
 ## KPIs
 
@@ -29,7 +55,8 @@ The three Cloudflare rows need your login: read them from the dashboard and fill
 | GitHub stars | Repo page | 50 | Mostly from Show HN and Habr |
 | npm downloads | npmjs.com/package/@alfavit/engine → weekly downloads | Non-zero and rising | Vanity metric unless a project depends on it; note who |
 | Press mentions | `private/trackers.md` (gitignored) | ≥ 3, at least one of Gazeta / Kun / Spot / Daryo | Link each mention; check the referrer shows up |
-| Mac downloads | not counted this cycle | — | Static asset; revisit with a counted `/download` route after 30 days |
+| Installer downloads | `pnpm metrics` → Downloads | any non-zero split by platform | Counted at `/dl/mac` and `/dl/win`; 66% of traffic is mobile, so expect small absolute numbers |
+| Converter use rate | `pnpm metrics` → % of visits that transliterated | establish a baseline, then improve it | The one number that says whether this is a tool or a page people glance at |
 
 ## Weekly review (Mondays, 30 minutes)
 

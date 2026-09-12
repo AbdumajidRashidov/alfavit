@@ -4,8 +4,10 @@ import { LanguageProvider } from '../i18n/LanguageProvider'
 import { Nav } from './Nav'
 import { Footer } from './Footer'
 import { organizationLd, websiteLd } from '../seo/jsonld'
+import { useTrackPageview } from '../analytics/useTrackPageview'
 
 export function RootLayout() {
+  useTrackPageview()
   return (
     <LanguageProvider>
       <Head>
