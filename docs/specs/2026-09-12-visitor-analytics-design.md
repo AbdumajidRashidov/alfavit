@@ -149,10 +149,44 @@ The session-hash secret is a Worker secret (`wrangler secret put SESSION_SECRET`
 - Analytics for the extension, the bot, or the API.
 - Guide-page promotion — this spec measures the problem, it does not fix it.
 
-## To confirm during implementation
+## Verified limits (checked 2026-09-12)
 
-- Exact Analytics Engine free-tier write/read limits and the per-data-point caps on `blobs` / `doubles` / total size. Current volume (~700 page views/week) is orders of magnitude below any published limit, but the numbers go in the implementation plan verified, not remembered.
-- Whether a Worker route on `alfavit.uz/e` cleanly takes precedence over the Pages project on the same hostname. Expected, documented, but worth proving on a preview before the main deploy.
+| Limit | Value | Headroom at current volume |
+|---|---|---|
+| Data points written, free plan | 100,000/day | ~112 page views/day; at 6 events/visit, under 1% |
+| Read queries, free plan | 10,000/day | one `pnpm metrics` run is a handful |
+| Blobs per data point | 20 | schema uses 10 |
+| Doubles per data point | 20 | schema uses 1 |
+| Indexes per data point | 1 | schema uses 1 |
+| Total blob size per request | 16 KB | nowhere near |
+| Index length | 96 bytes | event names are short |
+| Data points per Worker invocation | 250 | 1 |
+| **Retention** | **3 months** | see below |
+
+Cloudflare states it is not currently billing for Analytics Engine, so the paid tiers
+(10M writes / 1M reads per month included) are not in play either way.
+
+**Retention is the one that bites.** Three months means the SQL API cannot answer
+year-over-year questions, and this year's launch window will age out around December
+2026. The weekly review in `docs/marketing/metrics.md` is therefore not just a ritual —
+it is the durable record. `pnpm metrics` must print something worth pasting, because
+pasting it is what makes the data survive.
+
+## Open question, with a decided fallback
+
+Whether a Worker route on `alfavit.uz/e` takes precedence over the Pages project serving
+the same hostname is **not documented** anywhere in Cloudflare's Workers routing, Pages
+routing, Pages custom-domain or serving-pages docs. It is expected to work, but it is
+being treated as unproven.
+
+**Step 1 of implementation is an empirical check**, before any client code is written:
+deploy a stub `apps/collect` on the route, confirm `GET /e` hits the Worker and that
+`/`, `/apps` and `/download/Alfavit.dmg` still serve from Pages unchanged.
+
+**If it fails, fall back to approach B** — a Pages Function at `apps/web/functions/e.ts`,
+with the CI `wrangler-action` moved to `workingDirectory: apps/web`. The event schema,
+privacy rules, client helper and read path are all unchanged by that switch; only the
+collector's home and its deploy job differ. The fallback is a half-day, not a redesign.
 
 ## Success criteria
 
