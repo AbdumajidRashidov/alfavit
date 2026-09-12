@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { detectScript } from '@alfavit/engine'
 import { useTransliterate } from '../hooks/useTransliterate'
+import { track } from '../analytics/track'
 import { useT } from '../i18n/useT'
 import { Reveal } from './Reveal'
 import type { TranslationKey } from '../i18n/translations'
@@ -18,8 +20,18 @@ export function Converter() {
   const { text, detectedScript } = useTransliterate(input)
   const [copied, setCopied] = useState(false)
 
+  // One transliterate event per visit, not one per keystroke: the question is
+  // "did this visitor use the converter", not "how fast do they type".
+  const reported = useRef(false)
+  const reportUse = (script: string) => {
+    if (reported.current) return
+    reported.current = true
+    track('transliterate', script)
+  }
+
   const copy = async () => {
     await navigator.clipboard.writeText(text)
+    track('copy')
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
@@ -51,7 +63,14 @@ export function Converter() {
             className="mt-3 w-full h-64 rounded-2xl border border-black/10 p-4 font-sans text-lg outline-none focus:border-black/30"
             placeholder={t('converter.placeholder')}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value
+              setInput(value)
+              // Detect from the new value, not the rendered `detectedScript`, which
+              // still reflects the previous keystroke and would report 'foreign'
+              // for the very first character typed.
+              if (value.trim() !== '') reportUse(detectScript(value))
+            }}
           />
         </div>
         <div>
