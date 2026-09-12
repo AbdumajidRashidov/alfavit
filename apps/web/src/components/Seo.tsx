@@ -7,6 +7,12 @@ import type { TranslationKey } from '../i18n/translations'
 interface SeoProps {
   titleKey: TranslationKey
   descKey: TranslationKey
+  /**
+   * Overrides descKey. For /status, whose meta description has to follow the
+   * legal stage: a fixed string there would put "awaiting the President's
+   * signature" in the search snippet on the day the page itself says signed.
+   */
+  desc?: string
   pagePath: string // locale-agnostic page path, e.g. '' | 'faq' | 'guide/cyrillic-to-latin'
   jsonLd?: object | object[]
   breadcrumb?: boolean
@@ -24,10 +30,10 @@ function crumbNameFrom(title: string): string {
   return title.replace(/\s*[|—–-]\s*Alfavit\s*$/u, '').trim() || title
 }
 
-export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb, breadcrumbName }: SeoProps) {
+export function Seo({ titleKey, descKey, desc: descOverride, pagePath, jsonLd, breadcrumb, breadcrumbName }: SeoProps) {
   const { t, locale } = useT()
   const title = t(titleKey)
-  const desc = t(descKey)
+  const desc = descOverride ?? t(descKey)
   const canonical = SITE_URL + localePath(locale, pagePath)
   const crumb = breadcrumb ? breadcrumbLd(breadcrumbName ?? crumbNameFrom(title), canonical) : null
   return (
