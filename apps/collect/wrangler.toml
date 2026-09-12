@@ -1,0 +1,13 @@
+name = "alfavit-collect"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Paths on the alfavit.uz zone. Pages serves everything else on this hostname.
+routes = [
+  { pattern = "alfavit.uz/e", zone_name = "alfavit.uz" },
+  { pattern = "alfavit.uz/dl/*", zone_name = "alfavit.uz" },
+]
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "alfavit_events"

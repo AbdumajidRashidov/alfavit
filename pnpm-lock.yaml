@@ -62,6 +62,25 @@ importers:
         specifier: ^3.80.0
         version: 3.114.17(@cloudflare/workers-types@4.20260702.1)
 
+  apps/collect:
+    dependencies:
+      hono:
+        specifier: ^4.6.0
+        version: 4.12.29
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240909.0
+        version: 4.20260702.1
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@22.20.1)(jsdom@25.0.1)
+      wrangler:
+        specifier: ^4.36.0
+        version: 4.110.0(@cloudflare/workers-types@4.20260702.1)
+
   apps/desktop:
     dependencies:
       '@alfavit/engine':
