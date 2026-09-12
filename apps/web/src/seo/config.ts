@@ -1,5 +1,6 @@
 import { LOCALES, DEFAULT_LOCALE, type Locale } from '../i18n/translations'
 import { chartPng } from '../content/chart'
+import { CHECKED_ON } from '../content/status'
 
 export { LOCALES, DEFAULT_LOCALE }
 export type { Locale }
@@ -30,7 +31,9 @@ export const PAGE_PATHS: PageDef[] = [
   { path: '', priority: 1.0, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
   { path: 'alphabet', priority: 0.9, locales: LOCALES, published: '2026-07-17', updated: '2026-09-13' },
   { path: 'reform', priority: 0.8, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
-  { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: '2026-09-13' },
+  // /status is re-dated every time the status is re-verified, not when the
+  // code changes: CHECKED_ON is what actually makes the page newer.
+  { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
   { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-09-10' },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },

@@ -29,6 +29,8 @@ export function StatusPage() {
       <Seo
         titleKey="meta.status.title"
         descKey="meta.status.desc"
+        // Stage-aware, and the date in the snippet is itself a reason to click.
+        desc={`${copy.headline} ${t('status.checked')} ${CHECKED_ON}.`}
         pagePath="status"
         breadcrumb
         breadcrumbName={t('status.title')}
