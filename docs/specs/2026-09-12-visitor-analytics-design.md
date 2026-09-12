@@ -1,7 +1,7 @@
 # Visitor Analytics — First-Party Event Pipeline
 
 **Date:** 2026-09-12
-**Status:** Design — awaiting owner review. Implementation plan to follow.
+**Status:** Design approved. Implementation plan: [`docs/plans/2026-09-12-visitor-analytics.md`](../plans/2026-09-12-visitor-analytics.md).
 **Supersedes in part:** [2026-07-15 Privacy-Respecting Analytics](2026-07-15-privacy-analytics-design.md) (that spec stands; this adds an event layer beside it)
 
 ## Goal
