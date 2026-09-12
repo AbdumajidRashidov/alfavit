@@ -145,7 +145,7 @@ The session-hash secret is a Worker secret (`wrangler secret put SESSION_SECRET`
 
 - **A metrics dashboard.** Script first; revisit once it's clear which numbers get checked weekly.
 - **The hero video.** `apps/web/src/components/Hero.tsx:4` hardcodes `d8j0ntlcm91z4.cloudfront.net/user_38xzZ…/hf_20260328_….mp4`. It is the LCP element at 2,852ms, sits on a third-party bucket outside your control, and sends every visitor's IP to that CDN on a site that promises no third-party trackers. Real problem, separate work.
-- **`www.alfavit.uz` returns 200 instead of redirecting to the apex** (8 of 383 visits). Canonical tags point at the apex so SEO is safe, but it splits the dashboard. One line in `_redirects`, separate work.
+- **`www.alfavit.uz` returns 200 instead of redirecting to the apex** (8 of 383 visits). Canonical tags point at the apex so SEO is safe, but it splits the dashboard. **Correction (12 Sep):** this spec originally called it "one line in `_redirects`" — that is wrong. Cloudflare Pages `_redirects` explicitly does **not** support domain-level redirects, only paths. The real options are a zone Redirect Rule (dashboard) or a Worker route; separate work either way.
 - Analytics for the extension, the bot, or the API.
 - Guide-page promotion — this spec measures the problem, it does not fix it.
 
