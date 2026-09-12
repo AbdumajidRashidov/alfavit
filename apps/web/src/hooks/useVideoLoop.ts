@@ -8,17 +8,24 @@ export function computeVideoOpacity(currentTime: number, duration: number, fade 
   return 1
 }
 
-export function useVideoLoop() {
+/**
+ * `enabled` must be a dependency, not just an early return: the <video> mounts
+ * after the first render (useHeroVideo decides on the client), so an effect keyed
+ * on [] would run once against a null ref and never start playback.
+ *
+ * Reduced-motion is no longer checked here — useHeroVideo decides, and those
+ * clients get the poster image instead of a video that never plays. One decision,
+ * one place.
+ */
+export function useVideoLoop(enabled = true) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [opacity, setOpacity] = useState(0)
 
   useEffect(() => {
     const video = videoRef.current
-    if (!video) return
+    if (!enabled || !video) return
     let raf = 0
     let restartTimer: ReturnType<typeof setTimeout> | undefined
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    if (reduce) { setOpacity(1); return }
 
     const tick = () => {
       setOpacity(computeVideoOpacity(video.currentTime, video.duration))
@@ -36,7 +43,7 @@ export function useVideoLoop() {
       if (restartTimer) clearTimeout(restartTimer)
       video.removeEventListener('ended', onEnded)
     }
-  }, [])
+  }, [enabled])
 
   return { videoRef, opacity }
 }
