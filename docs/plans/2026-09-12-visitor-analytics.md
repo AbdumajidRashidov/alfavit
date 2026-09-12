@@ -7,7 +7,7 @@
 | Task | State |
 |---|---|
 | 1 Scaffold + session hash | done — 7 tests |
-| **2 Route precedence gate** | **BLOCKED — owner step.** Needs `wrangler login`; no session on this machine. |
+| 2 Route precedence gate | **PASSED** — Worker beats Pages; verified in production. Fallback not needed. |
 | 3 Beacon parsing | done — 9 tests |
 | 4 `POST /e` | done — 9 tests |
 | 5 `/dl/*` downloads | done — 6 tests |
@@ -15,11 +15,11 @@
 | 7 Pageview hook | done — 3 tests |
 | 8 Converter events | done — 5 tests, incl. the privacy guarantee |
 | 9 Files / installers / outbound | done — 4 tests + existing suite updated |
-| 10 `pnpm metrics` | done — fails cleanly without credentials; **unexercised against live data** |
+| 10 `pnpm metrics` | done — **still unexercised against live data**; needs a read token |
 | 11 CI job + docs | done |
-| **12 Deploy and verify** | **BLOCKED — owner step.** Needs the Task 2 gate, then `SESSION_SECRET`. |
+| 12 Deploy and verify | collector **deployed and live**; `SESSION_SECRET` set; 8 test beacons accepted and landing in `alfavit_events`. Web app not yet deployed — ships on merge to main. |
 
-All 9 packages build; 199 tests pass. Nothing is deployed.
+All 9 packages build; 199 tests pass. The collector is live on `alfavit.uz/e` and `/dl/*`; the web app's tracking code ships on merge to main.
 
 **Deviation from the plan, Task 8:** the plan called `reportUse(detectedScript)`
 using the rendered value, which lags one keystroke behind and would have reported
