@@ -26,3 +26,35 @@ test('dist/sitemap.xml declares the chart image on every alphabet URL', () => {
   expect(xml).toContain('<image:loc>https://alfavit.uz/chart/lotin-alifbosi-jadvali-2026.png</image:loc>')
   expect(xml).toContain('<image:loc>https://alfavit.uz/chart/uzbekskiy-alfavit-2026.png</image:loc>')
 })
+
+test('every sitemap URL carries a lastmod, and none points at the 404', () => {
+  const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
+  expect((xml.match(/<lastmod>/g) ?? []).length).toBe(30)
+  // An inaccurate or missing lastmod makes Google stop trusting the file.
+  for (const d of xml.match(/<lastmod>([^<]+)<\/lastmod>/g) ?? []) {
+    const date = d.replace(/<\/?lastmod>/g, '')
+    expect(date).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+    expect(new Date(date).getTime()).not.toBeNaN()
+  }
+  expect(xml).not.toContain('/404')
+})
+
+test('priority follows search value: /alphabet outranks /files', () => {
+  const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
+  const priorityOf = (loc: string) =>
+    Number(
+      new RegExp(`<loc>${loc}</loc>[\\s\\S]*?<priority>([\\d.]+)</priority>`).exec(xml)?.[1] ?? '0',
+    )
+  expect(priorityOf('https://alfavit.uz/alphabet')).toBeGreaterThan(
+    priorityOf('https://alfavit.uz/files'),
+  )
+  expect(priorityOf('https://alfavit.uz/reform')).toBeGreaterThan(
+    priorityOf('https://alfavit.uz/developers'),
+  )
+})
+
+test('dist/llms.txt states when it was last updated and that the law is unsigned', () => {
+  const llms = readFileSync(resolve(__dirname, '../../dist/llms.txt'), 'utf-8')
+  expect(llms).toMatch(/Last updated: \d{4}-\d{2}-\d{2}/)
+  expect(llms).toContain('passed but not yet in force')
+})

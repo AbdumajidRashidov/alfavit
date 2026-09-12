@@ -47,3 +47,33 @@ test('the alphabet page ships the chart image and its ImageObject schema', () =>
   const en = dist('en/alphabet.html')
   expect(en).toContain('src="/chart/uzbek-latin-alphabet-2026.png"')
 })
+
+test('content pages carry both dates and a script-qualified language', () => {
+  const html = dist('alphabet.html')
+  expect(html).toContain('"datePublished":"2026-07-17"')
+  expect(html).toContain('"dateModified":"2026-09-13"')
+  expect(html).toContain('"inLanguage":"uz-Latn"')
+  expect(dist('ru/reform.html')).toContain('"inLanguage":"ru"')
+  expect(dist('en/reform.html')).toContain('"inLanguage":"en"')
+})
+
+test('the breadcrumb names the page, not the whole title', () => {
+  const html = dist('alphabet.html')
+  expect(html).toContain('"name":"Oʻzbek alifbosi","item":"https://alfavit.uz/alphabet"')
+  // The old bug: the full <title>, site suffix and all, as the second crumb.
+  expect(html).not.toContain('"name":"Oʻzbek alifbosi (2026) — toʻliq yangilangan lotin jadvali | Alfavit"')
+})
+
+test('the alphabet is published as a DefinedTermSet, one term per letter', () => {
+  const html = dist('alphabet.html')
+  expect(html).toContain('"@type":"DefinedTermSet"')
+  expect((html.match(/"@type":"DefinedTerm"/g) ?? []).length).toBe(28)
+  expect(html).toContain('"name":"Ş ş"')
+})
+
+test('404.html is built, noindex, and free of canonical or hreflang', () => {
+  const html = dist('404.html')
+  expect(html).toContain('name="robots" content="noindex, follow"')
+  expect(html).not.toContain('rel="canonical"')
+  expect(html).not.toContain('hreflang=')
+})

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
-import { SITE_URL, localePath } from '../seo/config'
-import { articleLd, imageObjectLd } from '../seo/jsonld'
+import { SITE_URL, localePath, pageDates } from '../seo/config'
+import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
 import { LETTERS, SOUNDS } from '../content/alphabet'
 import { CHART_WIDTH, CHART_HEIGHT, chartPng, chartPdf } from '../content/chart'
 import { track } from '../analytics/track'
@@ -25,8 +25,23 @@ export function AlphabetPage() {
         descKey="meta.alphabet.desc"
         pagePath="alphabet"
         breadcrumb
+        breadcrumbName={t('alphabet.title')}
         jsonLd={[
-          articleLd(t('alphabet.title'), t('alphabet.intro'), url),
+          articleLd(t('alphabet.title'), t('alphabet.intro'), url, { ...pageDates('alphabet'), locale }),
+          definedTermSetLd(
+            t('alphabet.title'),
+            url,
+            LETTERS.map((L) => ({
+              term: L.latin,
+              // Everything the table row says, in one sentence a model can quote.
+              description: [
+                `${t('alphabet.col.old')}: ${L.old}`,
+                `${t('alphabet.col.cyrillic')}: ${L.cyrillic}`,
+                `${t('alphabet.col.sound')}: ${sounds[L.id]}`,
+                `${t('alphabet.col.example')}: ${L.example}${L.exampleOld ? ` (${L.exampleOld})` : ''}`,
+              ].join('; '),
+            })),
+          ),
           imageObjectLd({
             contentUrl: SITE_URL + chartPng(locale),
             name: t('alphabet.title'),

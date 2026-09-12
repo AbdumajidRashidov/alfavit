@@ -1,4 +1,4 @@
-import { SITE_URL } from './config'
+import { SITE_URL, type Locale } from './config'
 
 export const organizationLd = {
   '@context': 'https://schema.org',
@@ -91,13 +91,57 @@ export function imageObjectLd(opts: {
   }
 }
 
-export function articleLd(headline: string, description: string, url: string) {
+/**
+ * `dates` is not optional by accident. This site's subject is a law that has
+ * not finished passing, so "when was this last true?" is the question every
+ * reader and every model has. An Article with no datePublished/dateModified
+ * gives them nothing to go on.
+ */
+export function articleLd(
+  headline: string,
+  description: string,
+  url: string,
+  meta: { published: string; updated: string; locale: Locale },
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline,
     description,
     url,
+    datePublished: meta.published,
+    dateModified: meta.updated,
+    // The default locale writes Uzbek in Latin script, which is the whole
+    // point of the site; the tag has to say so, or 'uz' reads as ambiguous
+    // now that both scripts are in use.
+    inLanguage: meta.locale === 'uz' ? 'uz-Latn' : meta.locale,
     publisher: { '@type': 'Organization', name: 'Alfavit' },
+  }
+}
+
+/**
+ * The 28 letters as structured data.
+ *
+ * The letter table is the site's most-cited asset and, until now, existed only
+ * as visual HTML. DefinedTermSet is the schema.org type for exactly this — a
+ * glossary of terms — and gives an assistant answering "what is Uzbek ş?" the
+ * mapping without having to parse a table out of markup.
+ */
+export function definedTermSetLd(
+  name: string,
+  url: string,
+  terms: { term: string; description: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    name,
+    url,
+    hasDefinedTerm: terms.map((t) => ({
+      '@type': 'DefinedTerm',
+      name: t.term,
+      description: t.description,
+      inDefinedTermSet: url,
+    })),
   }
 }

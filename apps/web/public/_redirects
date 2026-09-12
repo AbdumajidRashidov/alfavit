@@ -1,1 +1,5 @@
-/*    /index.html   200
+# Intentionally no SPA catch-all.
+# All 30 routes are prerendered and Cloudflare Pages resolves clean URLs to
+# them directly; a `/* /index.html 200` rule would instead answer every typo
+# and stale link with the homepage under a 200, which is a soft 404.
+# Unmatched paths now fall through to dist/404.html with a real 404 status.

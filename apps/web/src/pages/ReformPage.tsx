@@ -6,7 +6,7 @@ import { spotlights } from '../content/reform'
 import { faq } from '../content/faq'
 import { timeline } from '../content/timeline'
 import { articleLd, faqPageLd } from '../seo/jsonld'
-import { SITE_URL, localePath, localesForPath } from '../seo/config'
+import { SITE_URL, localePath, localesForPath, pageDates } from '../seo/config'
 
 const SOURCES: Array<[string, string]> = [
   ['gazeta.uz — Senate approval, 10 Sep 2026', 'https://www.gazeta.uz/oz/2026/09/10/uzb-alphabet/'],
@@ -37,8 +37,12 @@ export function ReformPage() {
         titleKey="meta.reform.title"
         descKey="meta.reform.desc"
         pagePath="reform"
-        jsonLd={[articleLd(t('reform.title'), t('reform.intro'), url), faqPageLd(faq[locale])]}
+        jsonLd={[
+          articleLd(t('reform.title'), t('reform.intro'), url, { ...pageDates('reform'), locale }),
+          faqPageLd(faq[locale]),
+        ]}
         breadcrumb
+        breadcrumbName={t('reform.title')}
       />
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('reform.title')}</h1>
