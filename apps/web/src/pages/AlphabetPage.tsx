@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
-import { SITE_URL, localePath } from '../seo/config'
-import { articleLd } from '../seo/jsonld'
+import { SITE_URL, localePath, pageDates } from '../seo/config'
+import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
 import { LETTERS, SOUNDS } from '../content/alphabet'
+import { CHART_WIDTH, CHART_HEIGHT, chartPng, chartPdf } from '../content/chart'
+import { track } from '../analytics/track'
 
 export function AlphabetPage() {
   const { t, locale } = useT()
@@ -23,11 +25,47 @@ export function AlphabetPage() {
         descKey="meta.alphabet.desc"
         pagePath="alphabet"
         breadcrumb
-        jsonLd={[articleLd(t('alphabet.title'), t('alphabet.intro'), url)]}
+        breadcrumbName={t('alphabet.title')}
+        jsonLd={[
+          articleLd(t('alphabet.title'), t('alphabet.intro'), url, { ...pageDates('alphabet'), locale }),
+          definedTermSetLd(
+            t('alphabet.title'),
+            url,
+            LETTERS.map((L) => ({
+              term: L.latin,
+              // Everything the table row says, in one sentence a model can quote.
+              description: [
+                `${t('alphabet.col.old')}: ${L.old}`,
+                `${t('alphabet.col.cyrillic')}: ${L.cyrillic}`,
+                `${t('alphabet.col.sound')}: ${sounds[L.id]}`,
+                `${t('alphabet.col.example')}: ${L.example}${L.exampleOld ? ` (${L.exampleOld})` : ''}`,
+              ].join('; '),
+            })),
+          ),
+          imageObjectLd({
+            contentUrl: SITE_URL + chartPng(locale),
+            name: t('alphabet.title'),
+            description: t('alphabet.chart.alt'),
+            width: CHART_WIDTH,
+            height: CHART_HEIGHT,
+            acquireLicensePage: url,
+          }),
+        ]}
       />
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('alphabet.title')}</h1>
         <p className="mt-4 text-base text-muted">{t('alphabet.intro')}</p>
+
+        {/* "alifboda nechta harf bor" and its Russian and English variants draw
+            ~120 impressions a quarter. The page answered it in passing; this
+            answers it under its own heading, in the first sentence, which is
+            what a snippet or a model will lift. Deliberately a section here and
+            not a page of its own -- a second URL for the same intent would
+            compete with this one. */}
+        <section id="nechta-harf" className="mt-12 rounded-xl border border-black/10 p-5">
+          <h2 className="font-medium text-foreground">{t('alphabet.count.heading')}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{t('alphabet.count.body')}</p>
+        </section>
 
         <table className="mt-12 hidden w-full text-left sm:table">
           <thead>
@@ -81,6 +119,43 @@ export function AlphabetPage() {
             </div>
           ))}
         </div>
+
+        {/* Deliberately below the table and lazy: a 1270px-wide chart placed
+            above the fold would become the Largest Contentful Paint element and
+            undo the font work. Google indexes it either way. */}
+        <section className="mt-16">
+          <h2 className="font-medium text-foreground">{t('alphabet.chart.heading')}</h2>
+          <figure className="mt-4">
+            <img
+              src={chartPng(locale)}
+              alt={t('alphabet.chart.alt')}
+              width={CHART_WIDTH}
+              height={CHART_HEIGHT}
+              loading="lazy"
+              decoding="async"
+              className="w-full rounded-xl border border-black/10"
+            />
+            <figcaption className="mt-3 text-sm text-muted">{t('alphabet.chart.caption')}</figcaption>
+          </figure>
+          <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <a
+              href={chartPng(locale)}
+              download
+              onClick={() => track('download', 'chart-png')}
+              className="underline text-muted hover:text-foreground"
+            >
+              {t('alphabet.chart.png')} ↓
+            </a>
+            <a
+              href={chartPdf(locale)}
+              download
+              onClick={() => track('download', 'chart-pdf')}
+              className="underline text-muted hover:text-foreground"
+            >
+              {t('alphabet.chart.pdf')} ↓
+            </a>
+          </p>
+        </section>
 
         <div className="mt-12 rounded-xl border border-black/10 p-5">
           <h2 className="font-medium text-foreground">{t('alphabet.tutuq.label')}</h2>

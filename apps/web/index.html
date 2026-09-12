@@ -6,6 +6,12 @@
     <meta name="theme-color" content="#f2f1ec" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- The two faces every page paints with: Inter for body, Instrument Serif
+         for the h1. Same origin, so these start before the CSS has parsed.
+         Everything else (latin-ext for ş ğ, cyrillic) swaps in via
+         unicode-range. -->
+    <link rel="preload" href="/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/instrument-serif-400-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>

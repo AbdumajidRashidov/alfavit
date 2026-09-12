@@ -6,7 +6,7 @@ import { spotlights } from '../content/reform'
 import { faq } from '../content/faq'
 import { timeline } from '../content/timeline'
 import { articleLd, faqPageLd } from '../seo/jsonld'
-import { SITE_URL, localePath, localesForPath } from '../seo/config'
+import { SITE_URL, localePath, localesForPath, pageDates } from '../seo/config'
 
 const SOURCES: Array<[string, string]> = [
   ['gazeta.uz — Senate approval, 10 Sep 2026', 'https://www.gazeta.uz/oz/2026/09/10/uzb-alphabet/'],
@@ -37,12 +37,21 @@ export function ReformPage() {
         titleKey="meta.reform.title"
         descKey="meta.reform.desc"
         pagePath="reform"
-        jsonLd={[articleLd(t('reform.title'), t('reform.intro'), url), faqPageLd(faq[locale])]}
+        jsonLd={[
+          articleLd(t('reform.title'), t('reform.intro'), url, { ...pageDates('reform'), locale }),
+          faqPageLd(faq[locale]),
+        ]}
         breadcrumb
+        breadcrumbName={t('reform.title')}
       />
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('reform.title')}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{t('reform.intro')}</p>
+        <p className="mt-6 text-sm">
+          <Link to={lp('/status')} className="underline text-muted hover:text-foreground">
+            {t('status.title')} →
+          </Link>
+        </p>
         <p className="mt-3 text-sm text-muted">{t('reform.updated')}</p>
 
         <h2 className="mt-12 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.changesLabel')}</h2>

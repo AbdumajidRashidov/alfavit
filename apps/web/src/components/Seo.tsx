@@ -10,14 +10,26 @@ interface SeoProps {
   pagePath: string // locale-agnostic page path, e.g. '' | 'faq' | 'guide/cyrillic-to-latin'
   jsonLd?: object | object[]
   breadcrumb?: boolean
+  /** Short name for the breadcrumb trail. Defaults to the title minus its site suffix. */
+  breadcrumbName?: string
 }
 
-export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb }: SeoProps) {
+/**
+ * A breadcrumb should read like a trail, not repeat the <title>. Titles here end
+ * in "| Alfavit" or "— Alfavit", which made the second crumb say
+ * "Oʻzbek alifbosi (2026) — toʻliq yangilangan lotin jadvali | Alfavit" directly
+ * after a crumb already called "Alfavit".
+ */
+function crumbNameFrom(title: string): string {
+  return title.replace(/\s*[|—–-]\s*Alfavit\s*$/u, '').trim() || title
+}
+
+export function Seo({ titleKey, descKey, pagePath, jsonLd, breadcrumb, breadcrumbName }: SeoProps) {
   const { t, locale } = useT()
   const title = t(titleKey)
   const desc = t(descKey)
   const canonical = SITE_URL + localePath(locale, pagePath)
-  const crumb = breadcrumb ? breadcrumbLd(title, canonical) : null
+  const crumb = breadcrumb ? breadcrumbLd(breadcrumbName ?? crumbNameFrom(title), canonical) : null
   return (
     <Head>
       <html lang={locale} />
