@@ -177,6 +177,39 @@ domain be a one-time manual fact than a CI permission.
 
 ---
 
+## 4. Event collector → Cloudflare Workers (`alfavit.uz/e`, `/dl/*`)
+
+`apps/collect` receives event beacons from the web app and counts installer
+downloads. Unlike the API it claims **no custom domain** — it attaches to two
+paths on the `alfavit.uz` zone that Cloudflare Pages otherwise serves, so it
+needs the same **Zone · Workers Routes · Edit** scope the API job needs.
+
+Routes (`apps/collect/wrangler.toml`):
+
+- `alfavit.uz/e` — `POST` only; one Analytics Engine data point per beacon
+- `alfavit.uz/dl/*` — counts a download, then 302s to the static installer
+
+One secret, set once:
+
+```bash
+cd apps/collect && pnpm exec wrangler secret put SESSION_SECRET
+```
+
+Any long random string. It salts the daily session hash, so visits can be
+grouped without storing anything about the visitor; rotating it simply starts a
+new grouping window.
+
+**Reading the data** needs a separate, **read-only** token (Account · Account
+Analytics · Read) in your local environment as `CLOUDFLARE_ANALYTICS_TOKEN`,
+alongside `CLOUDFLARE_ACCOUNT_ID`. Then `pnpm metrics`. It is deliberately not a
+CI secret — nothing in CI reads analytics.
+
+Analytics Engine retains **three months**. The weekly block `pnpm metrics`
+prints is meant to be pasted into `docs/marketing/metrics.md`; that paste is the
+durable record, not the dataset.
+
+---
+
 ## Notes
 
 - **Secrets:** `BOT_TOKEN` is a Worker secret (and lives in the gitignored `.env`
