@@ -56,6 +56,17 @@ export function AlphabetPage() {
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('alphabet.title')}</h1>
         <p className="mt-4 text-base text-muted">{t('alphabet.intro')}</p>
 
+        {/* "alifboda nechta harf bor" and its Russian and English variants draw
+            ~120 impressions a quarter. The page answered it in passing; this
+            answers it under its own heading, in the first sentence, which is
+            what a snippet or a model will lift. Deliberately a section here and
+            not a page of its own -- a second URL for the same intent would
+            compete with this one. */}
+        <section id="nechta-harf" className="mt-12 rounded-xl border border-black/10 p-5">
+          <h2 className="font-medium text-foreground">{t('alphabet.count.heading')}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted">{t('alphabet.count.body')}</p>
+        </section>
+
         <table className="mt-12 hidden w-full text-left sm:table">
           <thead>
             <tr className="text-sm uppercase tracking-wider text-muted">

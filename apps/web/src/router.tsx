@@ -12,6 +12,7 @@ import { GuideCyrillicPage } from './pages/GuideCyrillicPage'
 import { GuideOldLatinPage } from './pages/GuideOldLatinPage'
 import { GuideKeyboardPage } from './pages/GuideKeyboardPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { StatusPage } from './pages/StatusPage'
 import { localesForPath, type Locale } from './seo/config'
 
 interface PageDef { path: string; Component: ComponentType; index?: boolean }
@@ -23,6 +24,7 @@ const PAGES: PageDef[] = [
   { path: 'developers', Component: DevelopersPage },
   { path: 'reform', Component: ReformPage },
   { path: 'alphabet', Component: AlphabetPage },
+  { path: 'status', Component: StatusPage },
   { path: 'privacy', Component: PrivacyPage },
   { path: 'guide/cyrillic-to-latin', Component: GuideCyrillicPage },
   { path: 'guide/old-latin-to-new', Component: GuideOldLatinPage },

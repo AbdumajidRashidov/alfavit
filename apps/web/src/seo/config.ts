@@ -30,6 +30,7 @@ export const PAGE_PATHS: PageDef[] = [
   { path: '', priority: 1.0, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
   { path: 'alphabet', priority: 0.9, locales: LOCALES, published: '2026-07-17', updated: '2026-09-13' },
   { path: 'reform', priority: 0.8, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
+  { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: '2026-09-13' },
   { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-09-10' },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },

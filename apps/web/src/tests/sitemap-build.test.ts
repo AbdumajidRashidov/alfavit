@@ -2,11 +2,12 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
 
-test('dist/sitemap.xml has all 30 locale URLs', () => {
+test('dist/sitemap.xml has all 33 locale URLs', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(30)
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(33)
   expect(xml).toContain('<loc>https://alfavit.uz/ru/files</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/en/alphabet</loc>')
+  expect(xml).toContain('<loc>https://alfavit.uz/ru/status</loc>')
   expect(xml).toContain('hreflang="x-default"')
 })
 
@@ -29,7 +30,7 @@ test('dist/sitemap.xml declares the chart image on every alphabet URL', () => {
 
 test('every sitemap URL carries a lastmod, and none points at the 404', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect((xml.match(/<lastmod>/g) ?? []).length).toBe(30)
+  expect((xml.match(/<lastmod>/g) ?? []).length).toBe(33)
   // An inaccurate or missing lastmod makes Google stop trusting the file.
   for (const d of xml.match(/<lastmod>([^<]+)<\/lastmod>/g) ?? []) {
     const date = d.replace(/<\/?lastmod>/g, '')

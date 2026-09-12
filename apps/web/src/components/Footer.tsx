@@ -18,6 +18,7 @@ export function Footer() {
         <nav className="flex gap-6 font-sans text-sm text-muted">
           <Link to={lp('/')} className={cls}>{t('nav.convert')}</Link>
           <Link to={lp('/reform')} className={cls}>{t('footer.reform')}</Link>
+          <Link to={lp('/status')} className={cls}>{t('status.title')}</Link>
           <Link to={lp('/alphabet')} className={cls}>{t('footer.alphabet')}</Link>
           {hasGuides && <Link to={lp('/guide/cyrillic-to-latin')} className={cls}>{t('guides.label')}</Link>}
           <Link to={lp('/developers')} className={cls}>{t('footer.developers')}</Link>

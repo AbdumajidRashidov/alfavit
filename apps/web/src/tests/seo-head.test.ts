@@ -77,3 +77,23 @@ test('404.html is built, noindex, and free of canonical or hreflang', () => {
   expect(html).not.toContain('rel="canonical"')
   expect(html).not.toContain('hreflang=')
 })
+
+test('/status answers the question in the markup and declares the law not in force', () => {
+  const html = dist('status.html')
+  expect(html).toContain('Yoʻq — qonun qabul qilingan, ammo hali imzolanmagan.')
+  expect(html).toContain('"@type":"Legislation"')
+  expect(html).toContain('"legislationLegalForce":"https://schema.org/NotInForce"')
+  expect(html).toContain('"legislationDate":"2026-07-07"')
+  expect(html).toContain('rel="canonical" href="https://alfavit.uz/status"')
+
+  // Localised, not just the default locale prerendered three times.
+  expect(dist('en/status.html')).toContain('Not yet — the law has passed, but it has not been signed.')
+  expect(dist('ru/status.html')).toContain('Нет — закон принят, но ещё не подписан.')
+})
+
+test('the alphabet page answers the letter-count query under its own heading', () => {
+  const html = dist('alphabet.html')
+  expect(html).toContain('id="nechta-harf"')
+  expect(html).toContain('Oʻzbek alifbosida nechta harf bor?')
+  expect(dist('en/alphabet.html')).toContain('How many letters are in the Uzbek alphabet?')
+})

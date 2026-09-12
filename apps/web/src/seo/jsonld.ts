@@ -120,6 +120,35 @@ export function articleLd(
 }
 
 /**
+ * The reform as a piece of legislation.
+ *
+ * `legislationLegalForce` is the whole point: schema.org's ELI vocabulary has a
+ * standard, machine-readable way to say "this law has not taken effect yet",
+ * which is exactly what people are asking when they search "alifbo
+ * yangilandimi". Better to state it in a vocabulary built for the question than
+ * to leave a model inferring it from prose.
+ */
+export function legislationLd(opts: {
+  name: string
+  description: string
+  url: string
+  adoptedOn: string
+  legalForce: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Legislation',
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    legislationDate: opts.adoptedOn,
+    legislationPassedBy: { '@type': 'GovernmentOrganization', name: 'Oliy Majlis' },
+    legislationJurisdiction: { '@type': 'AdministrativeArea', name: 'Uzbekistan' },
+    legislationLegalForce: opts.legalForce,
+  }
+}
+
+/**
  * The 28 letters as structured data.
  *
  * The letter table is the site's most-cited asset and, until now, existed only

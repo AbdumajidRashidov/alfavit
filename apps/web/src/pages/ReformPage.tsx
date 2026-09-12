@@ -47,6 +47,11 @@ export function ReformPage() {
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('reform.title')}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{t('reform.intro')}</p>
+        <p className="mt-6 text-sm">
+          <Link to={lp('/status')} className="underline text-muted hover:text-foreground">
+            {t('status.title')} →
+          </Link>
+        </p>
         <p className="mt-3 text-sm text-muted">{t('reform.updated')}</p>
 
         <h2 className="mt-12 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.changesLabel')}</h2>

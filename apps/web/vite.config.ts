@@ -1,9 +1,10 @@
 import { defineConfig, configDefaults } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import { sitemapPlugin } from './src/seo/sitemapPlugin'
+import { statusFreshnessPlugin } from './src/seo/statusFreshnessPlugin'
 
 export default defineConfig({
-  plugins: [react(), sitemapPlugin()],
+  plugins: [react(), sitemapPlugin(), statusFreshnessPlugin()],
   test: {
     environment: 'jsdom',
     globals: true,
