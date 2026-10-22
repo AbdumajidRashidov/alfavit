@@ -38,7 +38,8 @@ export function FileConverter() {
 
   return (
     <section id="files" className="mx-auto max-w-3xl px-6 py-24">
-      <h2 className="font-serif text-3xl sm:text-5xl text-foreground">{t('file.title')}</h2>
+      {/* The page's H1: /files is this component's only home. */}
+      <h1 className="font-serif text-3xl sm:text-5xl text-foreground">{t('file.title')}</h1>
       <p className="mt-3 text-sm text-muted">{t('file.instruction')}</p>
 
       <label className="mt-8 block cursor-pointer rounded-2xl border border-dashed border-black/20 p-8 text-center text-muted hover:border-black/40">

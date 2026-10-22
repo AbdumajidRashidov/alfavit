@@ -43,7 +43,7 @@ export const translations = {
     'channels.ios.name': 'iOS',
     'channels.android.name': 'Android',
     'status.soon': 'Coming soon',
-    'file.title': 'Convert a file',
+    'file.title': 'Convert a Word document to the new Uzbek alphabet',
     'file.instruction': 'Your file is converted in your browser — nothing is uploaded.',
     'file.choose': 'Choose a file (.txt, .srt, .docx)',
     'file.convert': 'Convert & download',
@@ -69,8 +69,8 @@ export const translations = {
     'footer.telegram': 'Telegram',
     'meta.home.title': 'New Uzbek alphabet converter — Cyrillic and old Latin | Alfavit',
     'meta.home.desc': 'Free new Uzbek alphabet converter: turn Cyrillic or old-Latin Uzbek into the 2026 alphabet (Ö, Ğ, Ş, Ç) instantly. Your text never leaves your device.',
-    'meta.files.title': 'Convert files — Alfavit',
-    'meta.files.desc': 'Convert .txt, .srt, and .docx files to the new Uzbek Latin — in your browser, nothing uploaded.',
+    'meta.files.title': 'Word document to the new Uzbek alphabet — .docx, .txt, .srt | Alfavit',
+    'meta.files.desc': 'Convert a Word document (.docx), .txt or .srt subtitles to the new Uzbek alphabet (Ö, Ğ, Ş, Ç) in your browser — nothing is uploaded.',
     'meta.apps.title': 'Apps & channels — Alfavit',
     'meta.apps.desc': 'Get Alfavit as a web app, Telegram bot, browser extension, and public API — one engine, every platform.',
     'meta.dev.title': 'API & SDK — Alfavit',
@@ -173,7 +173,8 @@ export const translations = {
     'channels.ios.name': 'iOS',
     'channels.android.name': 'Android',
     'status.soon': 'Tez orada',
-    'file.title': 'Faylni oʻgirish',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'file.title': 'Word hujjatini yangi alifboga oʻgirish',
     'file.instruction': 'Fayl brauzeringizda oʻgiriladi — hech narsa yuklanmaydi.',
     'file.choose': 'Fayl tanlang (.txt, .srt, .docx)',
     'file.convert': 'Oʻgirish va yuklab olish',
@@ -201,8 +202,9 @@ export const translations = {
     'meta.home.title': 'Yangi alifbo konvertori — kirill va eski lotindan | Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.home.desc': 'Bepul yangi alifbo konvertori: oʻzbek matnini kirill yoki eski lotindan 2026-yilgi yangi alifboga (Ö, Ğ, Ş, Ç) bir zumda oʻgiring. Matn qurilmangizdan chiqmaydi.',
-    'meta.files.title': 'Fayllarni oʻgirish — Alfavit',
-    'meta.files.desc': '.txt, .srt va .docx fayllarni yangi oʻzbek lotiniga oʻgiring — brauzeringizda, hech narsa yuklanmaydi.',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.files.title': 'Word hujjatini yangi alifboga oʻgirish — .docx, .txt, .srt | Alfavit',
+    'meta.files.desc': 'Word hujjati (.docx), .txt yoki .srt subtitrlarni yangi alifboga (Ö, Ğ, Ş, Ç) brauzeringizda oʻgiring — hech narsa yuklanmaydi.',
     'meta.apps.title': 'Ilovalar va kanallar — Alfavit',
     'meta.apps.desc': 'Alfavit — veb ilova, Telegram bot, brauzer kengaytmasi va ochiq API. Bir tizim, har bir platforma.',
     'meta.dev.title': 'API va SDK — Alfavit',
@@ -310,7 +312,8 @@ export const translations = {
     'channels.ios.name': 'iOS',
     'channels.android.name': 'Android',
     'status.soon': 'Скоро',
-    'file.title': 'Конвертировать файл',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'file.title': 'Перевести документ Word на новый узбекский алфавит',
     'file.instruction': 'Файл конвертируется в браузере — ничего не загружается.',
     'file.choose': 'Выберите файл (.txt, .srt, .docx)',
     'file.convert': 'Конвертировать и скачать',
@@ -338,8 +341,9 @@ export const translations = {
     'meta.home.title': 'Конвертер в новый узбекский алфавит — с кириллицы и латиницы | Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.home.desc': 'Бесплатный конвертер нового узбекского алфавита: переводите текст с кириллицы или старой латиницы на алфавит 2026 года (Ö, Ğ, Ş, Ç) мгновенно. Текст не покидает устройство.',
-    'meta.files.title': 'Конвертация файлов — Alfavit',
-    'meta.files.desc': 'Конвертируйте файлы .txt, .srt и .docx в новую узбекскую латиницу — в браузере, ничего не загружается.',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.files.title': 'Документ Word на новый узбекский алфавит — .docx, .txt, .srt | Alfavit',
+    'meta.files.desc': 'Переведите документ Word (.docx), .txt или субтитры .srt на новый узбекский алфавит (Ö, Ğ, Ş, Ç) в браузере — ничего не загружается.',
     'meta.apps.title': 'Приложения и каналы — Alfavit',
     'meta.apps.desc': 'Alfavit — веб-приложение, Telegram-бот, расширение браузера и публичный API. Один движок, все платформы.',
     'meta.dev.title': 'API и SDK — Alfavit',
