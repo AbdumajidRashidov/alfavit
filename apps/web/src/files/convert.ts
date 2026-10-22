@@ -33,13 +33,20 @@ const BREAKS: Record<string, string> = {
   endnoteReference: ' ',
 }
 
+const NAMED_REFS: Record<string, string> = { lt: '<', gt: '>', quot: '"', apos: "'", amp: '&' }
+
+// Reads text the way an XML parser does. Some generators write every non-ASCII
+// letter as a numeric reference (&#1058; or &#x422; for Т), so those are read
+// too. One pass, so &amp;#1058; stays the text "&#1058;". A raw CR or CR LF
+// reads as LF; only &#13; is a real CR.
 function xmlUnescape(s: string): string {
   return s
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&amp;/g, '&') // must be last
+    .replace(/\r\n?/g, '\n')
+    .replace(/&(?:(lt|gt|quot|apos|amp)|#(\d+)|#x([0-9a-fA-F]+));/g, (ref, name?: string, dec?: string, hex?: string) => {
+      if (name !== undefined) return NAMED_REFS[name]
+      const code = dec !== undefined ? parseInt(dec, 10) : parseInt(hex!, 16)
+      return code <= 0x10ffff ? String.fromCodePoint(code) : ref // out of range: not XML, left alone
+    })
 }
 
 function xmlEscape(s: string): string {
@@ -47,6 +54,7 @@ function xmlEscape(s: string): string {
     .replace(/&/g, '&amp;') // must be first
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
+    .replace(/\r/g, '&#13;') // written raw, a CR would read back as LF
 }
 
 /** A run's text, or a word break (no `run`), within one paragraph. */
