@@ -23,3 +23,21 @@ test('ch in an Uzbek word is still ç', () => {
 test('foreign names without w or a bare c are still converted until the spelling rules are out (E3)', () => {
   expect(t('Shakespeare')).toBe('Şakespeare')
 })
+
+// Review of 049926c: a foreign word with an Uzbek suffix kept the suffix's
+// apostrophe as written, so U+02BB and ’ reached the output.
+test.each([
+  ['Facebook’da', 'Facebookʼda'],
+  ['Twitterʻda', 'Twitterʼda'],
+  ['Washington’da', 'Washingtonʼda'],
+])('%s: the suffix after a foreign word still converts', (input, expected) => {
+  expect(t(input)).toBe(expected)
+  expect(t(input)).not.toContain('ʻ')
+})
+
+test('the flag covers the foreign word, not its suffix, and an apostrophe alone raises none', () => {
+  expect(transliterate('Washington’da').flags).toEqual([
+    { start: 0, end: 10, chosen: 'Washington', alternatives: ['Waşington'], reason: 'foreign-word' },
+  ])
+  expect(transliterate('Facebookʻda').flags).toEqual([])
+})

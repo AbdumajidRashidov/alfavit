@@ -3,6 +3,7 @@ import { convertOldLatin } from './convert-old-latin.js'
 import { convertCyrillicRun } from './convert-cyrillic.js'
 import { lookupException, matchSHStem } from './dictionary.js'
 import { findProtectedSpans } from './protect.js'
+import { APOSTROPHE_VARIANTS } from './normalize.js'
 import type { AmbiguityFlag, Segment, TransliterateOptions, TransliterateResult } from './types.js'
 import { emptyResult } from './types.js'
 
@@ -13,6 +14,14 @@ import { emptyResult } from './types.js'
 export function isForeignLatinWord(word: string): boolean {
   const lower = word.toLowerCase()
   return lower.includes('w') || /c(?!h)/.test(lower)
+}
+
+const APOSTROPHES = new Set([...APOSTROPHE_VARIANTS, 'ʻ', 'ʼ'])
+
+/** Index of the first apostrophe variant in `word`, or its length if none. */
+function firstApostrophe(word: string): number {
+  for (let i = 0; i < word.length; i++) if (APOSTROPHES.has(word[i])) return i
+  return word.length
 }
 
 /** Converts text that holds no protected span, run by run. `offset` is where
@@ -40,12 +49,16 @@ function convertText(text: string, offset: number, segments: Segment[], flags: A
         segments.push({ source: run.text, output, script: run.script, start: run.start, end: run.end })
         continue
       }
-      if (isForeignLatinWord(run.text)) {
-        const converted = convertOldLatin(run.text)
-        if (converted !== run.text) {
-          flags.push({ start: run.start, end: run.end, chosen: run.text, alternatives: [converted], reason: 'foreign-word' })
+      // Only the word before an apostrophe is judged: in Facebook’da the "’da"
+      // is an Uzbek suffix, and its apostrophe still has to become the tutuq.
+      const head = run.text.slice(0, firstApostrophe(run.text))
+      if (isForeignLatinWord(head)) {
+        const converted = convertOldLatin(head)
+        if (converted !== head) {
+          flags.push({ start: run.start, end: run.start + head.length, chosen: head, alternatives: [converted], reason: 'foreign-word' })
         }
-        segments.push({ source: run.text, output: run.text, script: run.script, start: run.start, end: run.end })
+        const output = head + convertOldLatin(run.text.slice(head.length))
+        segments.push({ source: run.text, output, script: run.script, start: run.start, end: run.end })
         continue
       }
       const output = convertOldLatin(run.text)
