@@ -22,7 +22,7 @@ detectScript("o'zbek") // 'old-latin'
   - `options.source`: `'auto' | 'cyrillic' | 'old-latin'` (default `'auto'`; the script is detected per run of text, so mixed input works)
   - `options.onAmbiguity`: `'first' | 'flag'`
   - `segments`: `{ source, output, script, start, end }[]` — one per run of text; `foreign` runs pass through unchanged
-  - `flags`: `{ start, end, chosen, alternatives, reason }[]` — positions where more than one spelling is possible. Reasons include `cyrillic-e-position` (е → e or ye depending on position) and `cyrillic-ts` (ц → s, with c as the alternative)
+  - `flags`: `{ start, end, chosen, alternatives, reason }[]` — positions where more than one spelling is possible. Reasons include `cyrillic-e-position` (е → e or ye depending on position) and `cyrillic-ts` (ц → s, with c as the alternative), and `foreign-word`: a word with letters Uzbek doesn't use (w, or a c outside "ch") is left as written, with its converted form offered as the alternative
 - `detectScript(text) → 'cyrillic' | 'old-latin' | 'foreign'`
 - `version`
 
