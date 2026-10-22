@@ -5,7 +5,7 @@ import { Seo } from '../components/Seo'
 import { Converter } from '../components/Converter'
 import { kirill } from '../content/kirill'
 import { SITE_URL, localePath, pageDates } from '../seo/config'
-import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
+import { articleLd, imageObjectLd, definedTermSetLd, faqPageLd } from '../seo/jsonld'
 import { LETTERS, SOUNDS } from '../content/alphabet'
 import { CHART_WIDTH, CHART_HEIGHT, chartPng, chartPdf } from '../content/chart'
 import { track } from '../analytics/track'
@@ -15,6 +15,14 @@ export function AlphabetPage() {
   const lp = useLocalePath()
   const url = SITE_URL + localePath(locale, 'alphabet')
   const sounds = SOUNDS[locale]
+  // What people search after "how many letters". Visible sections and the
+  // FAQPage below come from the same keys, so the schema can't claim a
+  // question the page doesn't show.
+  const qa = [
+    { q: t('alphabet.qa.adopted.q'), a: t('alphabet.qa.adopted.a'), id: 'qachon-qabul-qilingan' },
+    { q: t('alphabet.qa.old.q'), a: t('alphabet.qa.old.a'), id: 'eski-lotin-alifbosi' },
+    { q: t('alphabet.qa.typeO.q'), a: t('alphabet.qa.typeO.a'), id: 'o-harfini-yozish' },
+  ]
   const Badge = () => (
     <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-medium text-foreground">
       {t('alphabet.changedLabel')}
@@ -44,6 +52,7 @@ export function AlphabetPage() {
               ].join('; '),
             })),
           ),
+          faqPageLd([{ q: t('alphabet.count.heading'), a: t('alphabet.count.body') }, ...qa]),
           imageObjectLd({
             contentUrl: SITE_URL + chartPng(locale),
             name: t('alphabet.title'),
@@ -166,6 +175,18 @@ export function AlphabetPage() {
             </a>
           </p>
         </section>
+
+        {qa.map(({ q, a, id }) => (
+          <section key={id} id={id} className="mt-12 rounded-xl border border-black/10 p-5">
+            <h2 className="font-medium text-foreground">{q}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted">{a}</p>
+            {id === 'o-harfini-yozish' && (
+              <p className="mt-3 text-sm">
+                <Link to={lp('/guide/keyboard')} className="text-muted underline hover:text-foreground">{t('guides.keyboard')} →</Link>
+              </p>
+            )}
+          </section>
+        ))}
 
         <div className="mt-12 rounded-xl border border-black/10 p-5">
           <h2 className="font-medium text-foreground">{t('alphabet.tutuq.label')}</h2>

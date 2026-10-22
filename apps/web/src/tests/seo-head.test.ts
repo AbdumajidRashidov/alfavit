@@ -144,3 +144,12 @@ test('/kirill is prerendered as Uzbek Cyrillic', () => {
   // One page, no translations: hreflang alternates would point only at itself.
   expect(html).not.toContain('hreflang=')
 })
+
+test('/alphabet FAQPage carries exactly the visible questions', () => {
+  const html = dist('alphabet.html')
+  const m = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(\{"@context":"https:\/\/schema.org","@type":"FAQPage".*?)<\/script>/)
+  expect(m).not.toBeNull()
+  const qs = JSON.parse(m![1]).mainEntity.map((e: { name: string }) => e.name)
+  expect(qs).toHaveLength(4)
+  for (const q of qs) expect(html).toContain(`>${q}</h2>`)
+})
