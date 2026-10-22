@@ -56,3 +56,9 @@ test('the Cyrillic guide shows a Cyrillic example to paste', () => {
   const { container } = renderWithLocale(<GuideCyrillicPage />, '/')
   expect(container.querySelector('#converter-input')!.getAttribute('placeholder')).toMatch(/[Ѐ-ӿ]/)
 })
+
+// /kirill exists at the root only; the Cyrillic guide is where Cyrillic readers arrive.
+test.each(['/', '/ru', '/en'])('the Cyrillic guide at %s links to /kirill', (path) => {
+  const { container } = renderWithLocale(<GuideCyrillicPage />, path)
+  expect(container.querySelector('a[href="/kirill"]')).not.toBeNull()
+})

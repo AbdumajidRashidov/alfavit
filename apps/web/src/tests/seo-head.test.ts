@@ -164,3 +164,16 @@ test.each([
   expect(html).toContain(`"contentUrl":"https://alfavit.uz/chart/${png}"`)
   expect(html).toContain('"caption":')
 })
+
+// Week-2 review: the guides and /files put their whole <title> into the
+// breadcrumb trail ("… — onlayn konvertor | Alfavit").
+test.each(['guide/cyrillic-to-latin.html', 'guide/old-latin-to-new.html', 'guide/keyboard.html', 'files.html', 'ru/files.html'])(
+  '%s names its breadcrumb with a short label',
+  (file) => {
+    const html = dist(file)
+    const m = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(\{"@context":"https:\/\/schema.org","@type":"BreadcrumbList".*?)<\/script>/)
+    expect(m).not.toBeNull()
+    const name = JSON.parse(m![1]).itemListElement[1].name as string
+    expect(name).not.toMatch(/Alfavit|\||—/)
+  },
+)

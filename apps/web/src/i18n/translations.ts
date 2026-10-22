@@ -46,6 +46,7 @@ export const translations = {
     'file.title': 'Convert a Word document to the new Uzbek alphabet',
     'file.instruction': 'Your file is converted in your browser — nothing is uploaded.',
     'file.choose': 'Choose a file (.txt, .srt, .docx)',
+    'file.docHint': 'An old .doc file? Open it in Word and save it as .docx first.',
     'file.convert': 'Convert & download',
     'file.converting': 'Converting…',
     'file.done': 'Done — your download should start.',
@@ -186,6 +187,8 @@ export const translations = {
     'file.title': 'Word hujjatini yangi alifboga oʻgirish',
     'file.instruction': 'Fayl brauzeringizda oʻgiriladi — hech narsa yuklanmaydi.',
     'file.choose': 'Fayl tanlang (.txt, .srt, .docx)',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'file.docHint': 'Eski .doc faylmi? Uni Word’da ochib, avval .docx sifatida saqlang.',
     'file.convert': 'Oʻgirish va yuklab olish',
     'file.converting': 'Oʻgirilmoqda…',
     'file.done': 'Tayyor — yuklab olish boshlanadi.',
@@ -336,6 +339,8 @@ export const translations = {
     'file.title': 'Перевести документ Word на новый узбекский алфавит',
     'file.instruction': 'Файл конвертируется в браузере — ничего не загружается.',
     'file.choose': 'Выберите файл (.txt, .srt, .docx)',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'file.docHint': 'Старый файл .doc? Откройте его в Word и сначала сохраните как .docx.',
     'file.convert': 'Конвертировать и скачать',
     'file.converting': 'Конвертация…',
     'file.done': 'Готово — загрузка начнётся.',

@@ -5,6 +5,7 @@ import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from './Seo'
 import { Converter } from './Converter'
 import { ChartFigure } from './ChartFigure'
+import { kirill } from '../content/kirill'
 import { howToLd, chartImageLd } from '../seo/jsonld'
 import { SITE_URL, localePath } from '../seo/config'
 import type { Guide } from '../content/types'
@@ -21,9 +22,13 @@ interface GuidePageProps {
   converterExample?: string
   /** Shows the printable chart, for pages that draw chart-image searches (the keyboard guide). */
   chart?: boolean
+  /** A short label for the breadcrumb trail, instead of the full title. */
+  crumbKey?: TranslationKey
+  /** Links /kirill (root only, Uzbek Cyrillic), for the Cyrillic guide. */
+  kirillLink?: boolean
 }
 
-export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false, converterExample, chart = false }: GuidePageProps) {
+export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false, converterExample, chart = false, crumbKey, kirillLink = false }: GuidePageProps) {
   const { t, locale } = useT()
   const lp = useLocalePath()
   const [copied, setCopied] = useState<string | null>(null)
@@ -38,7 +43,7 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
     <>
       <Seo titleKey={titleKey} descKey={descKey} pagePath={pagePath} jsonLd={chart
           ? [howToLd(guide.title, guide.steps), chartImageLd({ locale, name: t('alphabet.title'), description: t('alphabet.chart.alt'), caption: t('alphabet.chart.caption'), pageUrl: SITE_URL + localePath(locale, pagePath) })]
-          : howToLd(guide.title, guide.steps)} breadcrumb />
+          : howToLd(guide.title, guide.steps)} breadcrumb breadcrumbName={crumbKey ? t(crumbKey) : undefined} />
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground">{guide.title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{guide.intro}</p>
@@ -79,6 +84,13 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
         {converter && (
           <p className="mt-8 text-sm">
             <Link to={lp('/guide/tricky-cases')} className="text-muted underline hover:text-foreground">{t('guides.tricky')} →</Link>
+            {kirillLink && (
+              <>
+                {' · '}
+                {/* /kirill exists at the root only, so no locale prefix. */}
+                <Link to="/kirill" lang="uz-Cyrl" className="text-muted underline hover:text-foreground">{kirill.linkFromAlphabet} →</Link>
+              </>
+            )}
           </p>
         )}
 
