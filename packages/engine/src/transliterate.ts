@@ -1,7 +1,7 @@
 import { segment } from './detect.js'
 import { convertOldLatin } from './convert-old-latin.js'
 import { convertCyrillicRun } from './convert-cyrillic.js'
-import { lookupException } from './dictionary.js'
+import { lookupException, matchSHStem } from './dictionary.js'
 import { findProtectedSpans } from './protect.js'
 import type { AmbiguityFlag, Segment, TransliterateOptions, TransliterateResult } from './types.js'
 import { emptyResult } from './types.js'
@@ -24,7 +24,11 @@ function convertText(text: string, offset: number, segments: Segment[], flags: A
     }
 
     if (run.script === 'old-latin') {
-      const output = convertOldLatin(run.text)
+      // s + h, not ş, for listed words (Ishoq, mushaf); the rest of the word converts as usual.
+      const stem = matchSHStem(run.text)
+      const output = stem
+        ? stem.output + convertOldLatin(run.text.slice(stem.sourceLength))
+        : convertOldLatin(run.text)
       segments.push({ source: run.text, output, script: run.script, start: run.start, end: run.end })
     } else {
       const { output, flags: runFlags } = convertCyrillicRun(run.text, run.start)
