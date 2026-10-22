@@ -28,6 +28,39 @@ export const MAX_AGE_DAYS = 45
 export const ADOPTED_ON = '2026-07-07'
 export const SENATE_APPROVED_ON = '2026-09-10'
 
+/** Signed and officially published the same day: national legislation database,
+ * 21.10.2026, No. 03/26/1184/1063 (https://lex.uz/uz/docs/8548754). */
+export const SIGNED_ON = '2026-10-21'
+export const LAW_URL = 'https://lex.uz/uz/docs/8548754'
+/** The law's number as lex.uz writes it in each language. */
+export const LAW_NUMBER: Record<Locale, string> = { uz: 'OʻRQ-1184', ru: 'ЗРУ-1184', en: 'LRU-1184' }
+
+/** Article 4: "rasmiy eʼlon qilingan kundan eʼtiboran olti oy oʻtgach kuchga kiradi" —
+ * six months after official publication on 21 October 2026. */
+export const IN_FORCE_ON = '2027-04-22'
+export const IN_FORCE_LABEL: Record<Locale, string> = {
+  uz: '2027-yil 22-aprel',
+  ru: '22 апреля 2027 года',
+  en: '22 April 2027',
+}
+
+/** "When does it take effect?" — the question that follows "has it changed?".
+ * Drafts in uz and ru, pending the owner's check like the rest of this file. */
+export const WHEN_IN_FORCE: Record<Locale, { q: string; a: string }> = {
+  uz: {
+    q: 'Yangi alifbo qachon kuchga kiradi?',
+    a: 'Yangi alifbo 2027-yil 22-apreldan kuchga kiradi: OʻRQ-1184-son qonun 2026-yil 21-oktabrda rasmiy eʼlon qilingan va eʼlon qilinganidan olti oy oʻtib kuchga kiradi.',
+  },
+  ru: {
+    q: 'Когда вступит в силу новый алфавит?',
+    a: 'Новый алфавит вступает в силу 22 апреля 2027 года: закон ЗРУ-1184 официально опубликован 21 октября 2026 года и вступает в силу через шесть месяцев после опубликования.',
+  },
+  en: {
+    q: 'When does the new alphabet take effect?',
+    a: 'The new alphabet takes effect on 22 April 2027: Law No. LRU-1184 was officially published on 21 October 2026 and enters into force six months after publication.',
+  },
+}
+
 /** schema.org LegalForceStatus for the current stage. */
 export function legalForce(stage: ReformStage = STAGE): string {
   return stage === 'in-force' ? 'https://schema.org/InForce' : 'https://schema.org/NotInForce'
@@ -58,16 +91,16 @@ export const STATUS_COPY: Record<ReformStage, Record<Locale, StatusCopy>> = {
   },
   signed: {
     uz: {
-      headline: 'Ha — Prezident qonunni imzoladi.',
-      body: 'Qonun 2026-yil 21-oktabrda imzolandi. U oʻtish davri tugagach toʻliq kuchga kiradi; amaldagi alifboda berilgan hujjatlar kuchini saqlaydi.',
+      headline: 'Ha — qonun imzolandi. Yangi alifbo 2027-yil 22-apreldan kuchga kiradi.',
+      body: 'Prezident OʻRQ-1184-son qonunni 2026-yil 21-oktabrda imzoladi va u shu kuni rasmiy eʼlon qilindi. Qonun eʼlon qilinganidan olti oy oʻtib kuchga kiradi. Amaldagi alifboda berilgan hujjatlar, milliy valyuta va qimmatli qogʻozlar kuchini saqlaydi.',
     },
     ru: {
-      headline: 'Да — Президент подписал закон.',
-      body: 'Закон подписан 21 октября 2026 года. Он вступит в полную силу по окончании переходного периода; документы на прежнем алфавите остаются действительными.',
+      headline: 'Да — закон подписан. Новый алфавит вступает в силу 22 апреля 2027 года.',
+      body: 'Президент подписал закон ЗРУ-1184 21 октября 2026 года, и в тот же день он был официально опубликован. Закон вступает в силу через шесть месяцев после опубликования. Документы, национальная валюта и ценные бумаги на прежнем алфавите остаются действительными.',
     },
     en: {
-      headline: 'Yes — the President has signed the law.',
-      body: 'The law was signed on 21 October 2026. It takes full effect once the transition period ends; documents issued in the previous alphabet remain valid.',
+      headline: 'Yes — the law is signed. The new alphabet takes effect on 22 April 2027.',
+      body: 'The President signed Law No. LRU-1184 on 21 October 2026, and it was officially published the same day. It enters into force six months after publication. Documents, banknotes and securities issued in the previous alphabet remain valid.',
     },
   },
   'in-force': {

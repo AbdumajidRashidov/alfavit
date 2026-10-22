@@ -29,12 +29,12 @@ export interface PageDef {
  */
 export const PAGE_PATHS: PageDef[] = [
   { path: '', priority: 1.0, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
-  { path: 'alphabet', priority: 0.9, locales: LOCALES, published: '2026-07-17', updated: '2026-09-13' },
+  { path: 'alphabet', priority: 0.9, locales: LOCALES, published: '2026-07-17', updated: '2026-10-22' },
   { path: 'reform', priority: 0.8, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
   // /status is re-dated every time the status is re-verified, not when the
   // code changes: CHECKED_ON is what actually makes the page newer.
   { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
-  { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-09-10' },
+  { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-22' },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
   { path: 'apps', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
@@ -45,8 +45,8 @@ export const PAGE_PATHS: PageDef[] = [
 
 /**
  * Publication dates for a page. The reform's legal status is still moving —
- * the law awaits the President's signature — so both Google and the language
- * models answering questions about it need to see which version is current.
+ * signed on 21 October 2026, in force from 22 April 2027 — so both Google and the
+ * language models answering questions about it need to see which version is current.
  */
 export function pageDates(pagePath: string): { published: string; updated: string } {
   const page = PAGE_PATHS.find((p) => p.path === pagePath)

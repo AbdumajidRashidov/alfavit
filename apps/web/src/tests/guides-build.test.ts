@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
+import { keyboard } from '../content/guides/keyboard'
 
 const dist = (p: string) => readFileSync(resolve(__dirname, '../../dist', p), 'utf-8')
 
@@ -14,10 +15,10 @@ test('cyrillic guide built for uz + ru + en with HowTo schema', () => {
 
 test('keyboard guide built for uz + ru + en with HowTo schema', () => {
   const uz = dist('guide/keyboard.html')
-  expect(uz).toContain('Ş, Ç, Ö, Ğ harflarini qanday yozish')
+  expect(uz).toContain(keyboard.uz.title)
   expect(uz).toContain('"@type":"HowTo"')
-  expect(dist('ru/guide/keyboard.html')).toContain('Как набирать буквы Ş, Ç, Ö, Ğ')
-  expect(dist('en/guide/keyboard.html')).toContain('How to type Ş, Ç, Ö, Ğ')
+  expect(dist('ru/guide/keyboard.html')).toContain(keyboard.ru.title)
+  expect(dist('en/guide/keyboard.html')).toContain(keyboard.en.title)
 })
 
 test('old-latin guide built for uz + ru + en', () => {

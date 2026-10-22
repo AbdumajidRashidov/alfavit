@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
+import { pageDates } from '../seo/config'
 import { STAGE, STATUS_COPY, legalForce } from '../content/status'
 
 // Requires `pnpm --dir apps/web build` to have run (see the step below).
@@ -51,8 +52,10 @@ test('the alphabet page ships the chart image and its ImageObject schema', () =>
 
 test('content pages carry both dates and a script-qualified language', () => {
   const html = dist('alphabet.html')
-  expect(html).toContain('"datePublished":"2026-07-17"')
-  expect(html).toContain('"dateModified":"2026-09-13"')
+  // Read from PAGE_PATHS, so a content change that re-dates the page does not
+  // fail a correct build.
+  expect(html).toContain(`"datePublished":"${pageDates('alphabet').published}"`)
+  expect(html).toContain(`"dateModified":"${pageDates('alphabet').updated}"`)
   expect(html).toContain('"inLanguage":"uz-Latn"')
   expect(dist('ru/reform.html')).toContain('"inLanguage":"ru"')
   expect(dist('en/reform.html')).toContain('"inLanguage":"en"')
@@ -86,7 +89,17 @@ test('/status answers the question in the markup and declares its legal force', 
   expect(html).toContain(STATUS_COPY[STAGE].uz.headline)
   expect(html).toContain('"@type":"Legislation"')
   expect(html).toContain(`"legislationLegalForce":"${legalForce()}"`)
-  expect(html).toContain('"legislationDate":"2026-07-07"')
+  // Once signed, the schema's date is the signing date and it carries the law's number.
+  if (STAGE === 'awaiting-signature') {
+    expect(html).toContain('"legislationDate":"2026-07-07"')
+  } else {
+    expect(html).toContain('"legislationDate":"2026-10-21"')
+    expect(html).toContain('"legislationIdentifier":"OʻRQ-1184"')
+    expect(html).toContain('"sameAs":"https://lex.uz/uz/docs/8548754"')
+    // The in-force date is in the prerendered HTML, not only in the client-side countdown.
+    expect(html).toContain('datetime="2027-04-22"')
+    expect(html).toContain('Yangi alifbo qachon kuchga kiradi?')
+  }
   expect(html).toContain('rel="canonical" href="https://alfavit.uz/status"')
 
   // Localised, not just the default locale prerendered three times.

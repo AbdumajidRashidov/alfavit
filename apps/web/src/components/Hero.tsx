@@ -37,6 +37,8 @@ export function Hero() {
       )}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/80 via-background/40 to-background" />
       <div className="relative z-10 mx-auto flex w-full flex-col items-center px-6 pt-16 pb-28 text-center">
+        {/* The phrase people search for ("yangi alifbo konvertor"), above the brand headline. */}
+        <p className="animate-fade-rise mb-6 text-sm uppercase tracking-[0.2em] text-muted">{t('hero.kicker')}</p>
         <h1 className="animate-fade-rise font-serif font-normal text-foreground text-5xl sm:text-7xl md:text-8xl max-w-7xl leading-[0.95] tracking-[-2.46px]">
           {t('hero.headlinePre')}<em className="italic text-muted">{t('hero.headlineEm')}</em>{t('hero.headlinePost')}
         </h1>

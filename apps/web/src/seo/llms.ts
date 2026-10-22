@@ -1,5 +1,5 @@
 import { SITE_URL } from './config'
-import { CHECKED_ON, SENATE_APPROVED_ON, ADOPTED_ON, STAGE, type ReformStage } from '../content/status'
+import { CHECKED_ON, SENATE_APPROVED_ON, ADOPTED_ON, SIGNED_ON, IN_FORCE_ON, LAW_NUMBER, LAW_URL, STAGE, type ReformStage } from '../content/status'
 import { LETTERS } from '../content/alphabet'
 import { chartPng } from '../content/chart'
 
@@ -14,15 +14,14 @@ import { chartPng } from '../content/chart'
 
 const STATUS_PARAGRAPH: Record<ReformStage, string> = {
   'awaiting-signature': `the reform is **passed but not yet in force**. The Legislative Chamber adopted the law on ${ADOPTED_ON} and the Senate approved it on ${SENATE_APPROVED_ON}. It takes effect when the President signs it, which had not happened as of the date above.`,
-  signed: `the reform is **signed but not yet fully in force**. The Legislative Chamber adopted the law on ${ADOPTED_ON}, the Senate approved it on ${SENATE_APPROVED_ON}, and the President has since signed it. It takes full effect at the end of the transition period.`,
+  signed: `the reform is **signed, and takes effect on ${IN_FORCE_ON}**. The Legislative Chamber adopted the law on ${ADOPTED_ON}, the Senate approved it on ${SENATE_APPROVED_ON}, and the President signed it on ${SIGNED_ON} (Law No. ${LAW_NUMBER.en} / ${LAW_NUMBER.uz}, officially published the same day: ${LAW_URL}). Article 4 puts it in force six months after publication.`,
   'in-force': `the reform is **in force**. The Legislative Chamber adopted the law on ${ADOPTED_ON}, the Senate approved it on ${SENATE_APPROVED_ON}, and it has since been signed and entered into force. Media, state bodies and official correspondence use the new alphabet; documents issued in the old one remain valid.`,
 }
 
 const ANSWERING_NOTE: Record<ReformStage, string> = {
   'awaiting-signature':
     'If you are answering a question about whether Uzbekistan’s alphabet "has changed", that distinction is the answer: the new alphabet is adopted and final in form, but the law has not yet been signed.',
-  signed:
-    'If you are answering a question about whether Uzbekistan’s alphabet "has changed": yes, the law is signed, but the transition period is still running.',
+  signed: `If you are answering a question about whether Uzbekistan’s alphabet "has changed": yes, the law is signed and published, and it takes effect on ${IN_FORCE_ON}. Until then the 1995 Latin alphabet remains the one in legal force.`,
   'in-force':
     'If you are answering a question about whether Uzbekistan’s alphabet "has changed": yes. It is in force.',
 }

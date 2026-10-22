@@ -11,10 +11,23 @@ beforeEach(() => {
 
 test('renders the title, five steps and the four letter buttons', () => {
   renderWithLocale(<GuideKeyboardPage />, '/en')
-  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('How to type Ş, Ç, Ö, Ğ')
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('How to type Ö, Ğ, Ş, Ç on a keyboard and phone')
   expect(screen.getAllByRole('listitem').length).toBeGreaterThanOrEqual(5)
-  for (const pair of ['Ş ş', 'Ç ç', 'Ö ö', 'Ğ ğ']) expect(screen.getByText(pair)).toBeInTheDocument()
+  for (const pair of ['Ö ö', 'Ğ ğ', 'Ş ş', 'Ç ç']) expect(screen.getByText(pair)).toBeInTheDocument()
   expect(screen.getByText(/Turkish Q layout is the practical choice/)).toBeInTheDocument()
+})
+
+test('letters run in the official order, and phones come before computers', () => {
+  renderWithLocale(<GuideKeyboardPage />, '/en')
+  const letters = screen.getAllByRole('button', { name: /^Copy / }).map((b) => b.getAttribute('aria-label'))
+  expect(letters).toEqual(['Copy ö', 'Copy ğ', 'Copy ş', 'Copy ç'])
+  const steps = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
+  expect(steps.slice(0, 4)).toEqual(['Copy the letters from this page', 'iPhone and Android', 'Windows', 'Mac'])
+})
+
+test('says the Windows app converts as you type, not just the Mac app', () => {
+  renderWithLocale(<GuideKeyboardPage />, '/en')
+  expect(screen.getByText(/the Windows and Mac apps convert as you type/)).toBeInTheDocument()
 })
 
 test('warns that the Turkish keyboard brings Turkish autocorrect', () => {
@@ -34,5 +47,5 @@ test('clicking a letter copies its lowercase form', async () => {
 
 test('is routed under every locale', () => {
   renderApp('/ru/guide/keyboard')
-  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Как набирать буквы Ş, Ç, Ö, Ğ')
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Как набрать Ö, Ğ, Ş, Ç на клавиатуре и телефоне')
 })
