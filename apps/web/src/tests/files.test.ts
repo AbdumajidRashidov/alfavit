@@ -38,6 +38,21 @@ test('convertDocx transliterates footnotes and endnotes', async () => {
   expect(await rt.file('word/endnotes.xml')!.async('string')).toBe(notes('endnote', 'Toşkent şahri'))
 })
 
+test('convertDocx transliterates comment text and leaves comment attributes as they are', async () => {
+  // Word's comments part: each comment's paragraph starts with its annotation mark.
+  const comments = (text: string) =>
+    '<w:comments><w:comment w:id="0" w:author="Абдумажид" w:date="2026-10-23T10:00:00Z" w:initials="А">'
+    + '<w:p><w:pPr><w:pStyle w:val="CommentText"/></w:pPr><w:r><w:rPr><w:rStyle w:val="CommentReference"/></w:rPr><w:annotationRef/></w:r>'
+    + `<w:r><w:t>${text}</w:t></w:r></w:p></w:comment></w:comments>`
+  const zip = new JSZip()
+  zip.file('word/document.xml', '<w:document><w:body><w:p><w:r><w:t>Қонун</w:t></w:r></w:p></w:body></w:document>')
+  zip.file('word/comments.xml', comments('Шу бандни текширинг'))
+  const bytes = await zip.generateAsync({ type: 'uint8array' })
+
+  const rt = await JSZip.loadAsync(await convertDocx(bytes))
+  expect(await rt.file('word/comments.xml')!.async('string')).toBe(comments('Şu bandni tekşiring'))
+})
+
 test('convertFile converts a .txt File and names the download', async () => {
   const file = new File(['салом'], 'note.txt', { type: 'text/plain' })
   const { blob, filename } = await convertFile(file)
