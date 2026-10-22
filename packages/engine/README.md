@@ -26,6 +26,11 @@ detectScript("o'zbek") // 'old-latin'
 - `detectScript(text) → 'cyrillic' | 'old-latin' | 'foreign'`
 - `version`
 
+## 0.2.1
+
+- Cyrillic е after ҳ, қ and ғ is e, not ye (`ҳеч` → `heç`, was `hyeç`); е after a capital Ъ is ye.
+- All-caps Cyrillic words stay all caps when a letter becomes two (`ЁШЛАР` → `YOŞLAR`, was `YoŞLAR`), and so do listed exceptions (`ЦИРК` → `SIRK`).
+
 ## 0.2.0
 
 - Web addresses, domains, emails and @handles pass through unchanged (`shahar.uz` no longer becomes `şahar.uz`).

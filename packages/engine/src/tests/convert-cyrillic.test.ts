@@ -40,3 +40,36 @@ test('flag positions are absolute with offset', () => {
   const r = convertCyrillicRun('ер', 7)
   expect(r.flags[0]).toMatchObject({ start: 7, end: 8 })
 })
+
+// Final review of week 3: ҳ, қ and ғ fall outside а-я, so е after them was
+// read as word-initial (ҳеч → hyeç), and uppercase Ъ was not seen as the sign.
+test.each([
+  ['ҳеч', 'heç'],
+  ['Ҳеч', 'Heç'],
+  ['ақе', 'aqe'],
+  ['ағе', 'ağe'],
+  ['СЪЕЗД', 'SʼYEZD'],
+])('е after ҳ, қ, ғ and Ъ: %s → %s', (input, expected) => {
+  expect(convertCyrillicRun(input, 0).output).toBe(expected)
+})
+
+// An all-caps word keeps every letter a capital: ЁШЛАР is YOŞLAR, not YoŞLAR.
+test.each([
+  ['ЁШЛАР', 'YOŞLAR'],
+  ['ЯНГИ', 'YANGI'],
+  ['ЮРИДИК', 'YURIDIK'],
+  ['ЕВРОПА', 'YEVROPA'],
+  ['ПОЕЗД', 'POYEZD'],
+  ['ҲЕЧ', 'HEÇ'],
+  ['ОИЛАЯ', 'OILAYA'],
+])('all-caps %s → %s', (input, expected) => {
+  expect(convertCyrillicRun(input, 0).output).toBe(expected)
+})
+
+test.each([
+  ['Ёшлар', 'Yoşlar'],
+  ['Я', 'Ya'],
+  ['Я ВА СЕН', 'Ya VA SEN'],
+])('a capital beside lowercase or alone stays title case: %s → %s', (input, expected) => {
+  expect(convertCyrillicRun(input, 0).output).toBe(expected)
+})

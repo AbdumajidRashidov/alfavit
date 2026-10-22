@@ -19,6 +19,6 @@ test('exported version matches package.json', () => {
   expect(version).toBe(pkg.version)
 })
 
-test('this release is 0.2.0', () => {
-  expect(version).toBe('0.2.0')
+test('this release is 0.2.1', () => {
+  expect(version).toBe('0.2.1')
 })
