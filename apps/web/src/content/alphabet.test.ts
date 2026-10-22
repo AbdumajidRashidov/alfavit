@@ -2,9 +2,10 @@ import { expect, test } from 'vitest'
 import { transliterate } from '@alfavit/engine'
 import { LETTERS, SOUNDS } from './alphabet'
 
-test('there are 28 letters in the confirmed order', () => {
+test('there are 28 letters in the order of the law', () => {
+  // OʻRQ-1184, Article 1: Ğ after G, Ö after O, Ş and Ç after S.
   expect(LETTERS).toHaveLength(28)
-  expect(LETTERS.map((l) => l.id).join('')).toBe('ABDEFGHIJKLMNOPQRSTUVXYZÖĞŞÇ')
+  expect(LETTERS.map((l) => l.id).join('')).toBe('ABDEFGĞHIJKLMNOÖPQRSŞÇTUVXYZ')
 })
 
 test("each letter's Cyrillic transliterates to its Latin via the engine (no drift)", () => {
@@ -26,7 +27,7 @@ test('Cyrillic е is position-dependent: ye word-initially, e after a consonant'
 
 test('the four changed letters are marked and carry an old form', () => {
   const changed = LETTERS.filter((l) => l.changed).map((l) => l.id)
-  expect(changed).toEqual(['Ö', 'Ğ', 'Ş', 'Ç'])
+  expect(changed).toEqual(['Ğ', 'Ö', 'Ş', 'Ç'])
   for (const L of LETTERS.filter((l) => l.changed)) {
     expect(L.exampleOld, `${L.id} exampleOld`).toBeTruthy()
     expect(L.old).not.toBe(L.latin)

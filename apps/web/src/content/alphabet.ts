@@ -10,8 +10,10 @@ export interface AlphabetLetter {
   changed?: boolean
 }
 
-// Order confirmed by the user (native speaker). Letter/old/cyrillic values are
-// grounded against @alfavit/engine's CYRILLIC_MAP (see alphabet.test.ts).
+// Order follows the law: the table in Article 1 of OʻRQ-1184 (lex.uz/uz/docs/8548754)
+// puts Ğ after G, Ö after O, and Ş, Ç after S. Switched to it on 22 Oct 2026 at the
+// owner's request; the 1995 order had the changed letters at the end. Letter/old/
+// cyrillic values are grounded against @alfavit/engine's CYRILLIC_MAP (see alphabet.test.ts).
 export const LETTERS: AlphabetLetter[] = [
   { id: 'A', latin: 'A a', old: 'A a', cyrillic: 'А а', example: 'ata' },
   { id: 'B', latin: 'B b', old: 'B b', cyrillic: 'Б б', example: 'bola' },
@@ -19,6 +21,7 @@ export const LETTERS: AlphabetLetter[] = [
   { id: 'E', latin: 'E e', old: 'E e', cyrillic: 'Е е', example: 'ertak' },
   { id: 'F', latin: 'F f', old: 'F f', cyrillic: 'Ф ф', example: 'fikr' },
   { id: 'G', latin: 'G g', old: 'G g', cyrillic: 'Г г', example: 'gul' },
+  { id: 'Ğ', latin: 'Ğ ğ', old: 'Gʻ gʻ', cyrillic: 'Ғ ғ', example: 'ğalaba', exampleOld: 'gʻalaba', changed: true },
   { id: 'H', latin: 'H h', old: 'H h', cyrillic: 'Ҳ ҳ', example: 'hosil' },
   { id: 'I', latin: 'I i', old: 'I i', cyrillic: 'И и', example: 'ikki' },
   { id: 'J', latin: 'J j', old: 'J j', cyrillic: 'Ж ж', example: 'jahon' },
@@ -27,20 +30,19 @@ export const LETTERS: AlphabetLetter[] = [
   { id: 'M', latin: 'M m', old: 'M m', cyrillic: 'М м', example: 'maktab' },
   { id: 'N', latin: 'N n', old: 'N n', cyrillic: 'Н н', example: 'non' },
   { id: 'O', latin: 'O o', old: 'O o', cyrillic: 'О о', example: 'olma' },
+  { id: 'Ö', latin: 'Ö ö', old: 'Oʻ oʻ', cyrillic: 'Ў ў', example: 'köl', exampleOld: 'koʻl', changed: true },
   { id: 'P', latin: 'P p', old: 'P p', cyrillic: 'П п', example: 'palov' },
   { id: 'Q', latin: 'Q q', old: 'Q q', cyrillic: 'Қ қ', example: 'qalam' },
   { id: 'R', latin: 'R r', old: 'R r', cyrillic: 'Р р', example: 'rang' },
   { id: 'S', latin: 'S s', old: 'S s', cyrillic: 'С с', example: 'salom' },
+  { id: 'Ş', latin: 'Ş ş', old: 'Sh sh', cyrillic: 'Ш ш', example: 'şahar', exampleOld: 'shahar', changed: true },
+  { id: 'Ç', latin: 'Ç ç', old: 'Ch ch', cyrillic: 'Ч ч', example: 'çoy', exampleOld: 'choy', changed: true },
   { id: 'T', latin: 'T t', old: 'T t', cyrillic: 'Т т', example: 'tuz' },
   { id: 'U', latin: 'U u', old: 'U u', cyrillic: 'У у', example: 'uy' },
   { id: 'V', latin: 'V v', old: 'V v', cyrillic: 'В в', example: 'vaqt' },
   { id: 'X', latin: 'X x', old: 'X x', cyrillic: 'Х х', example: 'xona' },
   { id: 'Y', latin: 'Y y', old: 'Y y', cyrillic: 'Й й', example: 'yil' },
   { id: 'Z', latin: 'Z z', old: 'Z z', cyrillic: 'З з', example: 'zar' },
-  { id: 'Ö', latin: 'Ö ö', old: 'Oʻ oʻ', cyrillic: 'Ў ў', example: 'köl', exampleOld: 'koʻl', changed: true },
-  { id: 'Ğ', latin: 'Ğ ğ', old: 'Gʻ gʻ', cyrillic: 'Ғ ғ', example: 'ğalaba', exampleOld: 'gʻalaba', changed: true },
-  { id: 'Ş', latin: 'Ş ş', old: 'Sh sh', cyrillic: 'Ш ш', example: 'şahar', exampleOld: 'shahar', changed: true },
-  { id: 'Ç', latin: 'Ç ç', old: 'Ch ch', cyrillic: 'Ч ч', example: 'çoy', exampleOld: 'choy', changed: true },
 ]
 
 // Per-letter pronunciation hint, keyed by id. Drafts — user-verified before merge.
