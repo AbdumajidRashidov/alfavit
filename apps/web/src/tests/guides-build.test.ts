@@ -29,3 +29,10 @@ test('old-latin guide built for uz + ru + en', () => {
   expect(dist('ru/guide/old-latin-to-new.html')).toContain(oldLatinToNew.ru.title)
   expect(dist('en/guide/old-latin-to-new.html')).toContain(oldLatinToNew.en.title)
 })
+
+test('tricky-cases guide is prerendered with inputs as typed', () => {
+  const html = dist('guide/tricky-cases.html')
+  expect(html).toContain('o’zbek')
+  expect(html).toContain('www.shahar.uz')
+  expect(html).toContain('Facebookʼda')
+})

@@ -70,6 +70,12 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
 
         {guide.note && <p className="mt-8 text-sm leading-relaxed text-muted">{guide.note}</p>}
 
+        {converter && (
+          <p className="mt-8 text-sm">
+            <Link to={lp('/guide/tricky-cases')} className="text-muted underline hover:text-foreground">{t('guides.tricky')} →</Link>
+          </p>
+        )}
+
         <div className="mt-12 rounded-2xl border border-black/10 p-6">
           <div className="flex flex-col gap-2 font-mono text-sm">
             {guide.examples.map(([from, to]) => (

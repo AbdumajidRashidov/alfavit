@@ -69,6 +69,7 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 - [The 2026 reform](${SITE_URL}/reform): what changed, letter by letter, with sources and the legislative timeline
 - [Cyrillic → new Latin](${SITE_URL}/guide/cyrillic-to-latin): converter, with step-by-step instructions
 - [Old Latin → new Latin](${SITE_URL}/guide/old-latin-to-new): converter, with step-by-step instructions
+- [Tricky cases](${SITE_URL}/guide/tricky-cases): what letter-by-letter conversion gets wrong — s+h words, apostrophe variants, the tutuq, capitals, Cyrillic е and ц, addresses, foreign words — with Alfavit's output for each
 - [How to type Ö, Ğ, Ş, Ç](${SITE_URL}/guide/keyboard): the keyboard to add, the keys and the shortcuts for the four new letters on Android, iPhone, Windows and Mac
 - [Янги ўзбек алифбоси](${SITE_URL}/kirill): the converter and the four changed letters, written in Uzbek Cyrillic for readers of the Cyrillic script
 - [Files](${SITE_URL}/files): convert .txt, .srt, and .docx files in-browser

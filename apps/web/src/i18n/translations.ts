@@ -124,6 +124,9 @@ export const translations = {
     'reform.updated': 'Updated 22 October 2026',
     'reform.ngNote': 'The combination ng is no longer listed as a separate letter; it stays in spelling as n + g.',
     'news.senate': 'The President signed the alphabet law on 21 October 2026. What changes and when →',
+    'meta.guide.tricky.title': 'Tricky cases when converting to the new Uzbek alphabet — Alfavit',
+    'meta.guide.tricky.desc': 'Ishoq or Işoq? o’zbek typed with a curly quote? www.shahar.uz? How Alfavit handles what a letter-by-letter swap gets wrong, with live examples.',
+    'guides.tricky': 'Tricky cases',
     'meta.guide.keyboard.title': 'How to type Ö, Ğ, Ş, Ç on a keyboard and phone — Alfavit',
     'meta.guide.keyboard.desc': 'Type the four new Uzbek letters Ö, Ğ, Ş, Ç on Android, iPhone, Windows and Mac: the keyboard to add, the keys, the shortcuts — or let Alfavit convert as you type.',
     'guides.keyboard': 'How to type ö ğ ş ç',
@@ -261,6 +264,10 @@ export const translations = {
     'reform.ngNote': 'ng birikmasi endi alifboda alohida harf sifatida berilmaydi; imloda n + g tarzida yoziladi.',
     'news.senate': 'Prezident alifbo toʻgʻrisidagi qonunni 2026-yil 21-oktabrda imzoladi. Nima va qachon oʻzgaradi →',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.tricky.title': 'Yangi alifboga oʻgirish: qiyin holatlar — Alfavit',
+    'meta.guide.tricky.desc': 'Ishoq yoki Işoq? Egri tirnoqli o’zbek? www.shahar.uz? Harfma-harf almashtirish xato qiladigan holatlarni Alfavit qanday hal qilishi — misollar bilan.',
+    'guides.tricky': 'Qiyin holatlar',
     'meta.guide.keyboard.title': 'Ö, Ğ, Ş, Ç harflarini klaviatura va telefonda qanday yozish — Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.desc': 'Yangi alifbodagi Ö, Ğ, Ş, Ç harflarini Android, iPhone, Windows va Mac klaviaturasida yozish: qaysi klaviaturani qoʻshish, qaysi tugmalar, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
@@ -400,6 +407,10 @@ export const translations = {
     'reform.ngNote': 'Сочетание ng больше не считается отдельной буквой; в написании остаётся как n + g.',
     'news.senate': 'Президент подписал закон об алфавите 21 октября 2026 года. Что и когда меняется →',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.tricky.title': 'Сложные случаи перевода на новый узбекский алфавит — Alfavit',
+    'meta.guide.tricky.desc': 'Ishoq или Işoq? o’zbek с «кудрявой» кавычкой? www.shahar.uz? Как Alfavit справляется там, где побуквенная замена ошибается, — на примерах.',
+    'guides.tricky': 'Сложные случаи',
     'meta.guide.keyboard.title': 'Как набрать Ö, Ğ, Ş, Ç на клавиатуре и телефоне — Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.desc': 'Новые узбекские буквы Ö, Ğ, Ş, Ç на Android, iPhone, Windows и Mac: какую раскладку добавить, какие клавиши, сочетания — или пусть Alfavit конвертирует по мере ввода.',

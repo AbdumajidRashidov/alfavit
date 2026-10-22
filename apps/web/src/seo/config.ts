@@ -36,6 +36,7 @@ export const PAGE_PATHS: PageDef[] = [
   { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
   // Uzbek Cyrillic, root only: no ru or en version, so no alternates.
   { path: 'kirill', priority: 0.7, locales: ['uz'], published: '2026-10-22', updated: '2026-10-22' },
+  { path: 'guide/tricky-cases', priority: 0.6, locales: LOCALES, published: '2026-10-22', updated: '2026-10-22' },
   { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-22' },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
