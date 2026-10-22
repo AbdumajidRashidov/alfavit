@@ -35,8 +35,8 @@ export const PAGE_PATHS: PageDef[] = [
   // code changes: CHECKED_ON is what actually makes the page newer.
   { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
   { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-22' },
-  { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
-  { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
+  { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
+  { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
   { path: 'apps', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
   { path: 'files', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
   { path: 'developers', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },

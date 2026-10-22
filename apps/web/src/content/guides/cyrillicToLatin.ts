@@ -3,7 +3,7 @@ import type { Locale } from '../../seo/config'
 
 export const cyrillicToLatin: Record<Locale, Guide> = {
   en: {
-    title: 'Convert Cyrillic to the new Latin',
+    title: 'Convert Uzbek Cyrillic to the new Latin',
     intro: 'Convert Uzbek text from Cyrillic to the reformed 2026 new Latin in seconds — free and on your device.',
     steps: [
       { heading: 'Copy your text', body: 'Select and copy your Cyrillic text.' },
@@ -14,7 +14,8 @@ export const cyrillicToLatin: Record<Locale, Guide> = {
     examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Özbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
   },
   uz: {
-    title: 'Kirill alifbosidan yangi lotinga oʻgirish',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    title: 'Kirilldan yangi lotinga oʻgirish',
     intro: 'Kirilldagi oʻzbek matnini 2026-yilgi yangi lotin yozuviga bir necha soniyada oʻgiring — bepul va qurilmangizda.',
     steps: [
       { heading: 'Matnni nusxalang', body: 'Kirilldagi matningizni belgilab, nusxalab oling.' },
@@ -25,7 +26,8 @@ export const cyrillicToLatin: Record<Locale, Guide> = {
     examples: [['Салом дунё', 'Salom dunyo'], ['Ўзбекча матн', 'Özbekça matn'], ['шаҳар, чой', 'şahar, çoy']],
   },
   ru: {
-    title: 'Конвертация с кириллицы в новую латиницу',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    title: 'Перевод узбекского текста с кириллицы на новую латиницу',
     intro: 'Преобразуйте узбекский текст с кириллицы в новую латиницу 2026 года за несколько секунд — бесплатно и на вашем устройстве.',
     steps: [
       { heading: 'Скопируйте текст', body: 'Выделите и скопируйте текст на кириллице.' },

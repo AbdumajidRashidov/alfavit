@@ -5,5 +5,5 @@ import { cyrillicToLatin } from '../content/guides/cyrillicToLatin'
 export function GuideCyrillicPage() {
   const { locale } = useT()
   const guide = cyrillicToLatin[locale]
-  return <GuidePage guide={guide} pagePath="guide/cyrillic-to-latin" titleKey="meta.guide.cyrillic.title" descKey="meta.guide.cyrillic.desc" />
+  return <GuidePage guide={guide} pagePath="guide/cyrillic-to-latin" titleKey="meta.guide.cyrillic.title" descKey="meta.guide.cyrillic.desc" converter />
 }

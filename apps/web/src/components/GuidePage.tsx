@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from './Seo'
+import { Converter } from './Converter'
 import { howToLd } from '../seo/jsonld'
 import type { Guide } from '../content/types'
 import type { TranslationKey } from '../i18n/translations'
@@ -12,9 +13,11 @@ interface GuidePageProps {
   pagePath: string
   titleKey: TranslationKey
   descKey: TranslationKey
+  /** Puts the converter right under the intro: people reach these pages to convert, not to read first. */
+  converter?: boolean
 }
 
-export function GuidePage({ guide, pagePath, titleKey, descKey }: GuidePageProps) {
+export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false }: GuidePageProps) {
   const { t } = useT()
   const lp = useLocalePath()
   const [copied, setCopied] = useState<string | null>(null)
@@ -31,6 +34,8 @@ export function GuidePage({ guide, pagePath, titleKey, descKey }: GuidePageProps
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground">{guide.title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{guide.intro}</p>
+
+        {converter && <Converter compact />}
 
         {guide.letters && (
           <div data-testid="letters" className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">

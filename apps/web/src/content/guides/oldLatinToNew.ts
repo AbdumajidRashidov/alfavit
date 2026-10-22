@@ -3,7 +3,7 @@ import type { Locale } from '../../seo/config'
 
 export const oldLatinToNew: Record<Locale, Guide> = {
   en: {
-    title: 'Old Latin (1995) to the new Latin',
+    title: 'Convert old Latin to the new Uzbek alphabet',
     intro: 'Convert 1995 old-Latin digraphs and apostrophe-letters to the reformed 2026 new Latin.',
     steps: [
       { heading: 'Copy the old-Latin text', body: 'Copy text that uses forms like sh, ch, gʻ, oʻ.' },
@@ -14,7 +14,8 @@ export const oldLatinToNew: Record<Locale, Guide> = {
     examples: [['oʻzbek', 'özbek'], ['gʻalaba', 'ğalaba'], ['shahar', 'şahar'], ['choy', 'çoy']],
   },
   uz: {
-    title: 'Eski (1995) lotindan yangi lotinga',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    title: 'Eski lotindan yangi alifboga oʻgirish',
     intro: '1995-yilgi lotin yozuvidagi qoʻsh harflar va apostrofli harflarni 2026-yilgi yangi lotinga oʻgiring.',
     steps: [
       { heading: 'Eski lotin matnini nusxalang', body: 'sh, ch, gʻ, oʻ kabi shakllar ishlatilgan matningizni nusxalang.' },
@@ -25,7 +26,8 @@ export const oldLatinToNew: Record<Locale, Guide> = {
     examples: [['oʻzbek', 'özbek'], ['gʻalaba', 'ğalaba'], ['shahar', 'şahar'], ['choy', 'çoy']],
   },
   ru: {
-    title: 'Со старой латиницы (1995) на новую',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    title: 'Со старой латиницы на новый узбекский алфавит',
     intro: 'Преобразуйте диграфы и буквы с апострофом образца 1995 года в новую латиницу 2026 года.',
     steps: [
       { heading: 'Скопируйте старый текст', body: 'Скопируйте текст с формами sh, ch, gʻ, oʻ.' },
