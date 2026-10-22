@@ -1,6 +1,6 @@
 import { transliterateDocxXml } from './convert'
 
-const XML_PART = /^word\/(document|header\d*|footer\d*)\.xml$/
+const XML_PART = /^word\/(document|header\d*|footer\d*|footnotes|endnotes)\.xml$/
 
 export async function convertDocx(bytes: Uint8Array): Promise<ArrayBuffer> {
   const { default: JSZip } = await import('jszip')
