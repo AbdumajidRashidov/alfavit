@@ -1,6 +1,6 @@
 # Chrome Web Store listing — Alfavit
 
-Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.1.1.zip`.
+Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.2.0.zip`.
 
 ---
 
@@ -74,7 +74,7 @@ https://alfavit.uz
 
 | Asset | Requirement | File |
 |-------|-------------|------|
-| Package | .zip, manifest at root | `alfavit-extension-v0.1.1.zip` |
+| Package | .zip, manifest at root | `alfavit-extension-v0.2.0.zip` |
 | Store icon | 128×128 PNG | `../../apps/extension/public/icons/128.png` |
 | Screenshot(s) | 1280×800 PNG, ≥1 required | `screenshots/01-popup.png`, `screenshots/02-context-menu.png` |
 | Small promo tile | 440×280 PNG (optional) | `screenshots/promo-440x280.png` |
@@ -85,7 +85,7 @@ https://alfavit.uz
 
 - [ ] Create a Chrome Web Store developer account ($5 one-time fee)
 - [x] Privacy page live at `https://alfavit.uz/privacy`
-- [ ] Upload `alfavit-extension-v0.1.1.zip`
+- [ ] Upload `alfavit-extension-v0.2.0.zip`
 - [ ] Paste name, summary, description (above)
 - [ ] Upload store icon + screenshots
 - [ ] Fill single purpose + permission justifications + data disclosures
