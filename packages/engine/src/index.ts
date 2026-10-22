@@ -1,4 +1,4 @@
-export const version = '0.2.0'
+export const version = '0.2.1'
 export { transliterate } from './transliterate.js'
 export { detectScript } from './detect.js'
 export type {

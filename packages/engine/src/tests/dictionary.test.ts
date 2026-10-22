@@ -10,3 +10,7 @@ test('returns override for a known exception, preserving lead case', () => {
 test('returns undefined for unknown words', () => {
   expect(lookupException('салом')).toBeUndefined()
 })
+
+test('an all-caps exception stays all caps', () => {
+  expect(lookupException('ЦИРК')).toBe('SIRK')
+})

@@ -144,3 +144,36 @@ test('/kirill is prerendered as Uzbek Cyrillic', () => {
   // One page, no translations: hreflang alternates would point only at itself.
   expect(html).not.toContain('hreflang=')
 })
+
+test('/alphabet FAQPage carries exactly the visible questions', () => {
+  const html = dist('alphabet.html')
+  const m = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(\{"@context":"https:\/\/schema.org","@type":"FAQPage".*?)<\/script>/)
+  expect(m).not.toBeNull()
+  const qs = JSON.parse(m![1]).mainEntity.map((e: { name: string }) => e.name)
+  expect(qs).toHaveLength(4)
+  for (const q of qs) expect(html).toContain(`>${q}</h2>`)
+})
+
+test.each([
+  ['en/reform.html', 'uzbek-latin-alphabet-2026.png'],
+  ['guide/keyboard.html', 'lotin-alifbosi-jadvali-2026.png'],
+  ['alphabet.html', 'lotin-alifbosi-jadvali-2026.png'],
+])('%s declares the chart ImageObject for its language', (file, png) => {
+  const html = dist(file)
+  expect(html).toContain('"@type":"ImageObject"')
+  expect(html).toContain(`"contentUrl":"https://alfavit.uz/chart/${png}"`)
+  expect(html).toContain('"caption":')
+})
+
+// Week-2 review: the guides and /files put their whole <title> into the
+// breadcrumb trail ("… — onlayn konvertor | Alfavit").
+test.each(['guide/cyrillic-to-latin.html', 'guide/old-latin-to-new.html', 'guide/keyboard.html', 'files.html', 'ru/files.html'])(
+  '%s names its breadcrumb with a short label',
+  (file) => {
+    const html = dist(file)
+    const m = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(\{"@context":"https:\/\/schema.org","@type":"BreadcrumbList".*?)<\/script>/)
+    expect(m).not.toBeNull()
+    const name = JSON.parse(m![1]).itemListElement[1].name as string
+    expect(name).not.toMatch(/Alfavit|\||—/)
+  },
+)

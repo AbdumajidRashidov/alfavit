@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ChartFigure } from '../components/ChartFigure'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
@@ -6,7 +7,7 @@ import { spotlights } from '../content/reform'
 import { faq } from '../content/faq'
 import { timeline } from '../content/timeline'
 import { SOURCES } from '../content/sources'
-import { articleLd, faqPageLd } from '../seo/jsonld'
+import { chartImageLd, articleLd, faqPageLd } from '../seo/jsonld'
 import { SITE_URL, localePath, localesForPath, pageDates } from '../seo/config'
 
 const CHANGES: Array<[string, string]> = [
@@ -31,6 +32,7 @@ export function ReformPage() {
         jsonLd={[
           articleLd(t('reform.title'), t('reform.intro'), url, { ...pageDates('reform'), locale }),
           faqPageLd(faq[locale]),
+          chartImageLd({ locale, name: t('alphabet.title'), description: t('alphabet.chart.alt'), caption: t('alphabet.chart.caption'), pageUrl: url }),
         ]}
         breadcrumb
         breadcrumbName={t('reform.title')}
@@ -57,6 +59,8 @@ export function ReformPage() {
         </div>
 
         <p className="mt-3 text-sm text-muted">{t('reform.ngNote')}</p>
+
+        <ChartFigure />
 
         <h2 className="mt-16 text-sm font-medium uppercase tracking-wider text-muted">{t('reform.spotlightsLabel')}</h2>
         <div className="mt-4 space-y-10">

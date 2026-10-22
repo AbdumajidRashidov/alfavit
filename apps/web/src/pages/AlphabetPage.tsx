@@ -5,16 +5,23 @@ import { Seo } from '../components/Seo'
 import { Converter } from '../components/Converter'
 import { kirill } from '../content/kirill'
 import { SITE_URL, localePath, pageDates } from '../seo/config'
-import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
+import { articleLd, chartImageLd, definedTermSetLd, faqPageLd } from '../seo/jsonld'
+import { ChartFigure } from '../components/ChartFigure'
 import { LETTERS, SOUNDS } from '../content/alphabet'
-import { CHART_WIDTH, CHART_HEIGHT, chartPng, chartPdf } from '../content/chart'
-import { track } from '../analytics/track'
 
 export function AlphabetPage() {
   const { t, locale } = useT()
   const lp = useLocalePath()
   const url = SITE_URL + localePath(locale, 'alphabet')
   const sounds = SOUNDS[locale]
+  // What people search after "how many letters". Visible sections and the
+  // FAQPage below come from the same keys, so the schema can't claim a
+  // question the page doesn't show.
+  const qa = [
+    { q: t('alphabet.qa.adopted.q'), a: t('alphabet.qa.adopted.a'), id: 'qachon-qabul-qilingan' },
+    { q: t('alphabet.qa.old.q'), a: t('alphabet.qa.old.a'), id: 'eski-lotin-alifbosi' },
+    { q: t('alphabet.qa.typeO.q'), a: t('alphabet.qa.typeO.a'), id: 'o-harfini-yozish' },
+  ]
   const Badge = () => (
     <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-medium text-foreground">
       {t('alphabet.changedLabel')}
@@ -44,14 +51,8 @@ export function AlphabetPage() {
               ].join('; '),
             })),
           ),
-          imageObjectLd({
-            contentUrl: SITE_URL + chartPng(locale),
-            name: t('alphabet.title'),
-            description: t('alphabet.chart.alt'),
-            width: CHART_WIDTH,
-            height: CHART_HEIGHT,
-            acquireLicensePage: url,
-          }),
+          faqPageLd([{ q: t('alphabet.count.heading'), a: t('alphabet.count.body') }, ...qa]),
+          chartImageLd({ locale, name: t('alphabet.title'), description: t('alphabet.chart.alt'), caption: t('alphabet.chart.caption'), pageUrl: url }),
         ]}
       />
       <section className="mx-auto max-w-3xl px-6 py-24">
@@ -130,42 +131,20 @@ export function AlphabetPage() {
           ))}
         </div>
 
-        {/* Deliberately below the table and lazy: a 1270px-wide chart placed
-            above the fold would become the Largest Contentful Paint element and
-            undo the font work. Google indexes it either way. */}
-        <section className="mt-16">
-          <h2 className="font-medium text-foreground">{t('alphabet.chart.heading')}</h2>
-          <figure className="mt-4">
-            <img
-              src={chartPng(locale)}
-              alt={t('alphabet.chart.alt')}
-              width={CHART_WIDTH}
-              height={CHART_HEIGHT}
-              loading="lazy"
-              decoding="async"
-              className="w-full rounded-xl border border-black/10"
-            />
-            <figcaption className="mt-3 text-sm text-muted">{t('alphabet.chart.caption')}</figcaption>
-          </figure>
-          <p className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <a
-              href={chartPng(locale)}
-              download
-              onClick={() => track('download', 'chart-png')}
-              className="underline text-muted hover:text-foreground"
-            >
-              {t('alphabet.chart.png')} ↓
-            </a>
-            <a
-              href={chartPdf(locale)}
-              download
-              onClick={() => track('download', 'chart-pdf')}
-              className="underline text-muted hover:text-foreground"
-            >
-              {t('alphabet.chart.pdf')} ↓
-            </a>
-          </p>
-        </section>
+        {/* Below the table and lazy, so it never becomes the LCP element. */}
+        <ChartFigure />
+
+        {qa.map(({ q, a, id }) => (
+          <section key={id} id={id} className="mt-12 rounded-xl border border-black/10 p-5">
+            <h2 className="font-medium text-foreground">{q}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted">{a}</p>
+            {id === 'o-harfini-yozish' && (
+              <p className="mt-3 text-sm">
+                <Link to={lp('/guide/keyboard')} className="text-muted underline hover:text-foreground">{t('guides.keyboard')} →</Link>
+              </p>
+            )}
+          </section>
+        ))}
 
         <div className="mt-12 rounded-xl border border-black/10 p-5">
           <h2 className="font-medium text-foreground">{t('alphabet.tutuq.label')}</h2>

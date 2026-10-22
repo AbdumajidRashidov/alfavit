@@ -7,6 +7,7 @@ import { spotlights } from '../content/reform'
 import { keyboard } from '../content/guides/keyboard'
 import { faq } from '../content/faq'
 import type { FaqItem } from '../content/types'
+import { translations } from '../i18n/translations'
 
 /**
  * Generates dist/llms-full.txt: the full text of the pages language models
@@ -32,6 +33,12 @@ export function generateLlmsFullTxt(): string {
 
   const changes = spotlights.en
     .map((s) => `### ${s.from} → ${s.to}\n\n${s.body}\n\n${s.examples.map(([from, to]) => `- ${from} → ${to}`).join('\n')}`)
+    .join('\n\n')
+
+  // The three questions /alphabet answers under its table, as on the page.
+  const en = translations.en
+  const answers = (['adopted', 'old', 'typeO'] as const)
+    .map((id) => `### ${en[`alphabet.qa.${id}.q`]}\n\n${en[`alphabet.qa.${id}.a`]}`)
     .join('\n\n')
 
   const guide = keyboard.en
@@ -64,6 +71,8 @@ ${LETTERS.length} letters and one apostrophe sign (tutuq belgisi, ʼ), in the or
 | Latin (2026) | Old Latin (1995) | Cyrillic | Sound | Example |
 |---|---|---|---|---|
 ${rows}
+
+${answers}
 
 ## What changed
 

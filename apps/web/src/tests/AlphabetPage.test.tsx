@@ -48,3 +48,12 @@ test('offers the converter right under the intro, ahead of the letter count and 
   expect(follows(input, count)).toBe(true)
   expect(follows(count, table)).toBe(true)
 })
+
+test('the alphabet page answers when, what before, and how to type Ö — visibly', () => {
+  renderWithLocale(<AlphabetPage />, '/en')
+  for (const q of [/When was the Latin alphabet adopted/i, /old Latin alphabet/i, /type Ö/i]) {
+    expect(screen.getByRole('heading', { level: 2, name: q })).toBeInTheDocument()
+  }
+  expect(screen.getByText(/931-XII/)).toBeInTheDocument()
+  expect(screen.getByText(/71-I/)).toBeInTheDocument()
+})

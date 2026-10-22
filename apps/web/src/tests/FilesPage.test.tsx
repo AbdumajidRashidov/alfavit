@@ -9,3 +9,8 @@ test('/files has one H1, and it names Word documents', () => {
   expect(h1s).toHaveLength(1)
   expect(h1s[0]).toHaveTextContent('Word document')
 })
+
+test('/files tells people with an old .doc file what to do', () => {
+  const { container } = renderWithLocale(<FilesPage />, '/en')
+  expect(container.textContent).toMatch(/\.doc(?!x)/)
+})

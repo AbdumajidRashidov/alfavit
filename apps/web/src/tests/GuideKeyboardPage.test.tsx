@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { expect, test, vi, beforeEach } from 'vitest'
 import { renderWithLocale, renderApp } from './renderApp'
 import { GuideKeyboardPage } from '../pages/GuideKeyboardPage'
+import { keyboard } from '../content/guides/keyboard'
+import { translations, LOCALES } from '../i18n/translations'
 
 beforeEach(() => {
   localStorage.clear()
@@ -48,4 +50,12 @@ test('clicking a letter copies its lowercase form', async () => {
 test('is routed under every locale', () => {
   renderApp('/ru/guide/keyboard')
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Как набрать Ö, Ğ, Ş, Ç на клавиатуре и телефоне')
+})
+
+// Final review of week 3: on the Turkish Q layout the key where i usually sits
+// types a dotless ı, so every place that recommends it says where the dotted i is.
+test.each(LOCALES)('in %s, every Turkish-keyboard step and the /alphabet answer warn about the dotless ı', (locale) => {
+  const [, phone, windows, mac] = keyboard[locale].steps
+  for (const step of [phone, windows, mac]) expect(step.body).toContain('ı')
+  expect(translations[locale]['alphabet.qa.typeO.a']).toContain('ı')
 })

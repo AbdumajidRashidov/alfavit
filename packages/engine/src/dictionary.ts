@@ -1,4 +1,5 @@
 import { convertCyrillicRun } from './convert-cyrillic.js'
+import { isAllCaps } from './case.js'
 import { APOSTROPHE_VARIANTS } from './normalize.js'
 
 // Curated overrides. Keys are lowercase source words (Cyrillic or old-Latin).
@@ -10,6 +11,7 @@ export const EXCEPTIONS: Record<string, string> = {
 export function lookupException(word: string): string | undefined {
   const hit = EXCEPTIONS[word.toLowerCase()]
   if (hit === undefined) return undefined
+  if (isAllCaps(word)) return hit.toUpperCase()
   const isUpper = word[0] !== word[0].toLowerCase()
   return isUpper ? hit[0].toUpperCase() + hit.slice(1) : hit
 }
