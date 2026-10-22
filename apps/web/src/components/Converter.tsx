@@ -27,8 +27,24 @@ export function telegramShareHref(text: string): string {
  * shorter boxes, the old-Latin example, and no fade-in — it sits above the
  * fold, and the fade starts at opacity 0 until hydration.
  */
-export function Converter({ compact = false }: { compact?: boolean }) {
+type ConverterStrings = Partial<Record<'heading' | 'inputLabel' | 'outputLabel' | 'copy' | 'copied' | 'share', string>>
+
+/** The example text in Uzbek Cyrillic; converts to the same output as EXAMPLE. */
+export const CYRILLIC_EXAMPLE = 'Ўзбекистон, Тошкент, чўл, тоғ'
+
+export function Converter({
+  compact = false,
+  example,
+  strings,
+}: {
+  compact?: boolean
+  /** Placeholder for the compact converter; defaults to the old-Latin example. */
+  example?: string
+  /** Label overrides, for a page whose language isn't the UI locale (/kirill). */
+  strings?: ConverterStrings
+}) {
   const { t } = useT()
+  const s = (key: keyof ConverterStrings) => strings?.[key] ?? t(`converter.${key}`)
   const [input, setInput] = useState('')
   const { text, detectedScript } = useTransliterate(input)
   const [copied, setCopied] = useState(false)
@@ -65,8 +81,8 @@ export function Converter({ compact = false }: { compact?: boolean }) {
   // Narrower in the card so Поделиться + Копировать fit side by side on a 320px phone.
   const pad = compact ? 'px-3' : 'px-5'
 
-  const inputLabel = <label htmlFor="converter-input" className="text-sm text-muted">{t('converter.inputLabel')}</label>
-  const outputLabel = <label className="text-sm text-muted">{t('converter.outputLabel')}</label>
+  const inputLabel = <label htmlFor="converter-input" className="text-sm text-muted">{s('inputLabel')}</label>
+  const outputLabel = <label className="text-sm text-muted">{s('outputLabel')}</label>
   const badge = input && (
     <span data-testid="detected-badge" className={compact ? 'text-xs text-muted' : 'ml-3 text-xs text-muted'}>
       {t('converter.detected')}: {t(scriptKey)}
@@ -76,7 +92,7 @@ export function Converter({ compact = false }: { compact?: boolean }) {
     <textarea
       id="converter-input"
       className={`mt-3 w-full ${box} border border-black/10 p-4 font-sans outline-none focus:border-black/30`}
-      placeholder={compact ? EXAMPLE : t('converter.placeholder')}
+      placeholder={compact ? (example ?? EXAMPLE) : t('converter.placeholder')}
       value={input}
       onChange={(e) => {
         const value = e.target.value
@@ -91,15 +107,15 @@ export function Converter({ compact = false }: { compact?: boolean }) {
   const buttons = (
     <div className="flex items-center gap-2">
       {text && (canShare ? (
-        <button type="button" onClick={share} className={`${SECONDARY_BTN} ${pad}`}>{t('converter.share')}</button>
+        <button type="button" onClick={share} className={`${SECONDARY_BTN} ${pad}`}>{s('share')}</button>
       ) : (
-        <a href={telegramShareHref(text)} target="_blank" rel="noopener noreferrer" className={`${SECONDARY_BTN} ${pad}`}>{t('converter.share')}</a>
+        <a href={telegramShareHref(text)} target="_blank" rel="noopener noreferrer" className={`${SECONDARY_BTN} ${pad}`}>{s('share')}</a>
       ))}
       <button
         onClick={copy}
         className={`rounded-full bg-foreground ${pad} py-2 text-sm text-background transition-transform hover:scale-[1.03]`}
       >
-        {copied ? t('converter.copied') : t('converter.copy')}
+        {copied ? s('copied') : s('copy')}
       </button>
     </div>
   )
@@ -108,7 +124,7 @@ export function Converter({ compact = false }: { compact?: boolean }) {
       data-testid="output"
       role="status"
       aria-live="polite"
-      aria-label={t('converter.outputLabel')}
+      aria-label={s('outputLabel')}
       className={`mt-3 w-full ${box} overflow-auto bg-black/[0.03] p-4 font-sans whitespace-pre-wrap`}
     >
       {compact && input === '' ? <span aria-hidden="true" className="text-muted">{EXAMPLE_RESULT}</span> : text}
@@ -121,7 +137,7 @@ export function Converter({ compact = false }: { compact?: boolean }) {
     // fixed-height lines below their box, so nothing on the page moves.
     return (
       <section aria-labelledby="converter-heading" className="mt-12 rounded-xl border border-black/10 p-5">
-        <h2 id="converter-heading" className="font-medium text-foreground">{t('converter.heading')}</h2>
+        <h2 id="converter-heading" className="font-medium text-foreground">{s('heading')}</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="min-w-0">
             {inputLabel}

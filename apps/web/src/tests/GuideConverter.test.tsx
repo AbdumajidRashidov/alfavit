@@ -40,3 +40,19 @@ test("a conversion on the guide is reported with the guide's path", async () => 
   expect(body).not.toHaveProperty('text')
   window.history.pushState({}, '', '/')
 })
+
+// Review of aceb175: with the converter on the page, the guide still sent
+// people to the home page (step 2 and the closing button).
+test.each([
+  ['/en', GuideCyrillicPage], ['/', GuideCyrillicPage], ['/ru', GuideCyrillicPage],
+  ['/en', GuideOldLatinPage], ['/', GuideOldLatinPage], ['/ru', GuideOldLatinPage],
+])('at %s the guide keeps visitors on the page', (path, Page) => {
+  const { container } = renderWithLocale(<Page />, path)
+  expect(container.textContent).not.toMatch(/home page|bosh sahifa|главной странице/i)
+  expect(container.querySelector('a[href="/"], a[href="/en"], a[href="/ru"]')).toBeNull()
+})
+
+test('the Cyrillic guide shows a Cyrillic example to paste', () => {
+  const { container } = renderWithLocale(<GuideCyrillicPage />, '/')
+  expect(container.querySelector('#converter-input')!.getAttribute('placeholder')).toMatch(/[Ѐ-ӿ]/)
+})

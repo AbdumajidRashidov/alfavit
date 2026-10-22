@@ -15,9 +15,11 @@ interface GuidePageProps {
   descKey: TranslationKey
   /** Puts the converter right under the intro: people reach these pages to convert, not to read first. */
   converter?: boolean
+  /** Placeholder text for that converter (e.g. a Cyrillic sample on the Cyrillic guide). */
+  converterExample?: string
 }
 
-export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false }: GuidePageProps) {
+export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false, converterExample }: GuidePageProps) {
   const { t } = useT()
   const lp = useLocalePath()
   const [copied, setCopied] = useState<string | null>(null)
@@ -35,7 +37,7 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground">{guide.title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{guide.intro}</p>
 
-        {converter && <Converter compact />}
+        {converter && <Converter compact example={converterExample} />}
 
         {guide.letters && (
           <div data-testid="letters" className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -80,9 +82,12 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
           </div>
         </div>
 
-        <Link to={lp('/')} className="mt-10 inline-flex rounded-full bg-foreground px-6 py-2.5 text-sm text-background transition-transform hover:scale-[1.03]">
-          {t('nav.cta')}
-        </Link>
+        {/* With the converter on the page, a button to the home page would send people away from it. */}
+        {!converter && (
+          <Link to={lp('/')} className="mt-10 inline-flex rounded-full bg-foreground px-6 py-2.5 text-sm text-background transition-transform hover:scale-[1.03]">
+            {t('nav.cta')}
+          </Link>
+        )}
       </section>
     </>
   )
