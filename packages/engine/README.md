@@ -28,7 +28,7 @@ detectScript("o'zbek") // 'old-latin'
 
 ## Design notes
 
-Old-Latin input is normalized first: every apostrophe variant used for oʻ/gʻ (ʻ ʼ ' ‘ ’ `) is recognized. Conversion is deterministic and offline — no network, no locale data, no dependencies. ESM only.
+Old-Latin input is normalized first: every apostrophe variant used for oʻ/gʻ (ʻ ʼ ' ‘ ’ `) is recognized. Web addresses, domains, emails and @handles pass through unchanged, so `shahar.uz` keeps working. Conversion is deterministic and offline — no network, no locale data, no dependencies. ESM only.
 
 Run the tests with `pnpm test`.
 
