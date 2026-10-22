@@ -2,6 +2,11 @@ import { describe, expect, test } from 'vitest'
 import { LOCALES } from '../i18n/translations'
 import {
   CHECKED_ON,
+  IN_FORCE_LABEL,
+  IN_FORCE_ON,
+  LAW_NUMBER,
+  SIGNED_ON,
+  WHEN_IN_FORCE,
   MAX_AGE_DAYS,
   STAGE,
   STATUS_COPY,
@@ -45,6 +50,28 @@ describe('reform status', () => {
     // typo'd future date.
     expect(age).toBeGreaterThanOrEqual(-1)
     expect(age).toBeLessThanOrEqual(MAX_AGE_DAYS)
+  })
+})
+
+describe('entry into force', () => {
+  test('the law was published on signing day and takes effect six months later', () => {
+    // OʻRQ-1184, Article 4: in force six months after official publication
+    // (national legislation database, 21.10.2026). Gazeta and UzDaily give 22 April 2027.
+    expect(SIGNED_ON).toBe('2026-10-21')
+    expect(IN_FORCE_ON).toBe('2027-04-22')
+  })
+
+  test('every locale states the date and the law number', () => {
+    for (const locale of LOCALES) {
+      expect(WHEN_IN_FORCE[locale].q, locale).toMatch(/\?$/)
+      expect(WHEN_IN_FORCE[locale].a, locale).toContain(LAW_NUMBER[locale])
+      expect(WHEN_IN_FORCE[locale].a, locale).toContain('2027')
+      expect(IN_FORCE_LABEL[locale], locale).toContain('2027')
+    }
+  })
+
+  test('the signed headline gives the date, so a snippet alone answers "when"', () => {
+    for (const locale of LOCALES) expect(STATUS_COPY.signed[locale].headline, locale).toContain('22')
   })
 })
 

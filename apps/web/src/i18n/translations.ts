@@ -11,6 +11,7 @@ export const translations = {
     'hero.headlinePre': "Your words, in Uzbekistan's ",
     'hero.headlineEm': 'new alphabet.',
     'hero.headlinePost': '',
+    'hero.kicker': 'New Uzbek alphabet converter',
     'hero.desc': 'Instantly convert Uzbek text from Cyrillic or the old Latin into the reformed 2026 Latin script — free, in your browser, nothing uploaded.',
     'converter.inputLabel': 'Cyrillic or old Latin',
     'converter.outputLabel': 'New Latin',
@@ -66,8 +67,8 @@ export const translations = {
     'footer.reform': 'The reform',
     'footer.developers': 'Developers',
     'footer.telegram': 'Telegram',
-    'meta.home.title': 'Alfavit — Uzbek new Latin converter',
-    'meta.home.desc': 'Convert Uzbek from Cyrillic or old Latin to the reformed 2026 new Latin — free, instant, on-device.',
+    'meta.home.title': 'New Uzbek alphabet converter — Cyrillic and old Latin | Alfavit',
+    'meta.home.desc': 'Free new Uzbek alphabet converter: turn Cyrillic or old-Latin Uzbek into the 2026 alphabet (Ö, Ğ, Ş, Ç) instantly. Your text never leaves your device.',
     'meta.files.title': 'Convert files — Alfavit',
     'meta.files.desc': 'Convert .txt, .srt, and .docx files to the new Uzbek Latin — in your browser, nothing uploaded.',
     'meta.apps.title': 'Apps & channels — Alfavit',
@@ -109,10 +110,12 @@ export const translations = {
     'alphabet.chart.pdf': 'A4 PDF',
     'notfound.title': 'Page not found',
     'notfound.body': 'That address does not exist on alfavit.uz. It may have been a typo, or a link that has moved.',
-    'meta.status.title': 'Has the Uzbek alphabet changed yet? — Alfavit',
+    'meta.status.title': 'When does the new Uzbek alphabet take effect? Has it changed? — Alfavit',
     'meta.status.desc': 'Whether Uzbekistan\u2019s 2026 alphabet reform is in force: the law passed the Senate on 10 September 2026 and awaits the President\u2019s signature. Checked and dated.',
     'status.title': 'Has the alphabet changed yet?',
     'status.checked': 'Status checked on',
+    'status.inForceOn': 'Takes effect:',
+    'status.daysLeft': '{n} days to go',
     'status.timeline': 'How it got here, and what happens next',
     'status.sources': 'Sources',
     'alphabet.count.heading': 'How many letters are in the Uzbek alphabet?',
@@ -121,10 +124,11 @@ export const translations = {
     'reform.updated': 'Updated 22 October 2026',
     'reform.ngNote': 'The combination ng is no longer listed as a separate letter; it stays in spelling as n + g.',
     'news.senate': 'The President signed the alphabet law on 21 October 2026. What changes and when →',
-    'meta.guide.keyboard.title': 'How to type Ş, Ç, Ö, Ğ — Alfavit',
-    'meta.guide.keyboard.desc': 'Type the four new Uzbek letters on Mac, Windows, iPhone and Android: copy buttons, keyboard layouts, shortcuts — or let Alfavit convert as you type.',
-    'guides.keyboard': 'How to type ş ç ö ğ',
+    'meta.guide.keyboard.title': 'How to type Ö, Ğ, Ş, Ç on a keyboard and phone — Alfavit',
+    'meta.guide.keyboard.desc': 'Type the four new Uzbek letters Ö, Ğ, Ş, Ç on Android, iPhone, Windows and Mac: the keyboard to add, the keys, the shortcuts — or let Alfavit convert as you type.',
+    'guides.keyboard': 'How to type ö ğ ş ç',
     'converter.share': 'Share',
+    'converter.heading': 'Convert your text to the new alphabet',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -136,6 +140,8 @@ export const translations = {
     'hero.headlinePre': 'Soʻzlaringiz — Oʻzbekistonning ',
     'hero.headlineEm': 'yangi alifbosida.',
     'hero.headlinePost': '',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'hero.kicker': 'Yangi alifbo konvertori',
     'hero.desc': 'Oʻzbek matnini kirill yoki eski lotindan 2026-yilgi yangilangan lotin yozuviga bir zumda oʻgiring — bepul, brauzeringizda, hech narsa yuklanmaydi.',
     'converter.inputLabel': 'Kirill yoki eski lotin',
     'converter.outputLabel': 'Yangi lotin',
@@ -191,8 +197,10 @@ export const translations = {
     'footer.reform': 'Islohot',
     'footer.developers': 'Dasturchilar',
     'footer.telegram': 'Telegram',
-    'meta.home.title': 'Alfavit — yangi lotin yozuvi oʻgirgichi',
-    'meta.home.desc': 'Oʻzbek matnini kirill yoki eski lotindan 2026-yilgi yangi lotinga oʻgiring — bepul, bir zumda, qurilmangizda.',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.home.title': 'Yangi alifbo konvertori — kirill va eski lotindan | Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.home.desc': 'Bepul yangi alifbo konvertori: oʻzbek matnini kirill yoki eski lotindan 2026-yilgi yangi alifboga (Ö, Ğ, Ş, Ç) bir zumda oʻgiring. Matn qurilmangizdan chiqmaydi.',
     'meta.files.title': 'Fayllarni oʻgirish — Alfavit',
     'meta.files.desc': '.txt, .srt va .docx fayllarni yangi oʻzbek lotiniga oʻgiring — brauzeringizda, hech narsa yuklanmaydi.',
     'meta.apps.title': 'Ilovalar va kanallar — Alfavit',
@@ -233,10 +241,14 @@ export const translations = {
     'alphabet.chart.pdf': 'A4 PDF',
     'notfound.title': 'Sahifa topilmadi',
     'notfound.body': 'Bu manzil alfavit.uz saytida mavjud emas. Xato yozilgan yoki havola oʻzgargan boʻlishi mumkin.',
-    'meta.status.title': 'Alifbo oʻzgardimi? Yangi alifbo tasdiqlandimi — Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.status.title': 'Yangi alifbo qachon kuchga kiradi? Alifbo oʻzgardimi — Alfavit',
     'meta.status.desc': '2026-yilgi alifbo islohoti kuchga kirdimi: qonun 2026-yil 10-sentabrda Senatdan oʻtdi va Prezident imzosini kutmoqda. Sana bilan tekshirilgan.',
     'status.title': 'Alifbo oʻzgardimi?',
     'status.checked': 'Holat tekshirilgan sana:',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'status.inForceOn': 'Kuchga kirish sanasi:',
+    'status.daysLeft': '{n} kun qoldi',
     'status.timeline': 'Qanday boʻldi va keyin nima boʻladi',
     'status.sources': 'Manbalar',
     'alphabet.count.heading': 'Oʻzbek alifbosida nechta harf bor?',
@@ -245,10 +257,14 @@ export const translations = {
     'reform.updated': '2026-yil 22-oktabrda yangilandi',
     'reform.ngNote': 'ng birikmasi endi alifboda alohida harf sifatida berilmaydi; imloda n + g tarzida yoziladi.',
     'news.senate': 'Prezident alifbo toʻgʻrisidagi qonunni 2026-yil 21-oktabrda imzoladi. Nima va qachon oʻzgaradi →',
-    'meta.guide.keyboard.title': 'Ş, Ç, Ö, Ğ harflarini qanday yozish — Alfavit',
-    'meta.guide.keyboard.desc': 'Yangi toʻrt harfni Mac, Windows, iPhone va Android da yozish: nusxalash tugmalari, klaviatura joylashuvlari, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
-    'guides.keyboard': 'ş ç ö ğ harflarini yozish',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.keyboard.title': 'Ö, Ğ, Ş, Ç harflarini klaviatura va telefonda qanday yozish — Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.keyboard.desc': 'Yangi alifbodagi Ö, Ğ, Ş, Ç harflarini Android, iPhone, Windows va Mac klaviaturasida yozish: qaysi klaviaturani qoʻshish, qaysi tugmalar, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
+    'guides.keyboard': 'ö ğ ş ç harflarini yozish',
     'converter.share': 'Ulashish',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'converter.heading': 'Matningizni yangi alifboga oʻgiring',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -260,6 +276,8 @@ export const translations = {
     'hero.headlinePre': 'Ваши слова — в ',
     'hero.headlineEm': 'новом алфавите',
     'hero.headlinePost': ' Узбекистана.',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'hero.kicker': 'Конвертер нового узбекского алфавита',
     'hero.desc': 'Мгновенно конвертируйте узбекский текст с кириллицы или старой латиницы в реформированную латиницу 2026 года — бесплатно, в браузере, ничего не загружается.',
     'converter.inputLabel': 'Кириллица или старая латиница',
     'converter.outputLabel': 'Новая латиница',
@@ -315,8 +333,10 @@ export const translations = {
     'footer.reform': 'Реформа',
     'footer.developers': 'Разработчикам',
     'footer.telegram': 'Telegram',
-    'meta.home.title': 'Alfavit — конвертер узбекской новой латиницы',
-    'meta.home.desc': 'Конвертируйте узбекский текст с кириллицы или старой латиницы в новую латиницу 2026 года — бесплатно, мгновенно, в браузере.',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.home.title': 'Конвертер в новый узбекский алфавит — с кириллицы и латиницы | Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.home.desc': 'Бесплатный конвертер нового узбекского алфавита: переводите текст с кириллицы или старой латиницы на алфавит 2026 года (Ö, Ğ, Ş, Ç) мгновенно. Текст не покидает устройство.',
     'meta.files.title': 'Конвертация файлов — Alfavit',
     'meta.files.desc': 'Конвертируйте файлы .txt, .srt и .docx в новую узбекскую латиницу — в браузере, ничего не загружается.',
     'meta.apps.title': 'Приложения и каналы — Alfavit',
@@ -357,10 +377,14 @@ export const translations = {
     'alphabet.chart.pdf': 'A4 PDF',
     'notfound.title': 'Страница не найдена',
     'notfound.body': 'Такого адреса на alfavit.uz нет. Возможно, опечатка или ссылка изменилась.',
-    'meta.status.title': 'Узбекский алфавит уже изменился? — Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.status.title': 'Когда вступит в силу новый узбекский алфавит? — Alfavit',
     'meta.status.desc': 'Вступила ли в силу реформа узбекского алфавита 2026 года: закон одобрен Сенатом 10 сентября 2026 года и ждёт подписи Президента. С датой проверки.',
     'status.title': 'Алфавит уже изменился?',
     'status.checked': 'Статус проверен:',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'status.inForceOn': 'Вступает в силу:',
+    'status.daysLeft': 'осталось дней: {n}',
     'status.timeline': 'Как к этому пришли и что дальше',
     'status.sources': 'Источники',
     'alphabet.count.heading': 'Сколько букв в узбекском алфавите?',
@@ -369,10 +393,14 @@ export const translations = {
     'reform.updated': 'Обновлено 22 октября 2026 года',
     'reform.ngNote': 'Сочетание ng больше не считается отдельной буквой; в написании остаётся как n + g.',
     'news.senate': 'Президент подписал закон об алфавите 21 октября 2026 года. Что и когда меняется →',
-    'meta.guide.keyboard.title': 'Как набирать Ş, Ç, Ö, Ğ — Alfavit',
-    'meta.guide.keyboard.desc': 'Четыре новые узбекские буквы на Mac, Windows, iPhone и Android: кнопки копирования, раскладки, сочетания клавиш — или пусть Alfavit конвертирует по мере ввода.',
-    'guides.keyboard': 'Как набирать ş ç ö ğ',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.keyboard.title': 'Как набрать Ö, Ğ, Ş, Ç на клавиатуре и телефоне — Alfavit',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'meta.guide.keyboard.desc': 'Новые узбекские буквы Ö, Ğ, Ş, Ç на Android, iPhone, Windows и Mac: какую раскладку добавить, какие клавиши, сочетания — или пусть Alfavit конвертирует по мере ввода.',
+    'guides.keyboard': 'Как набирать ö ğ ş ç',
     'converter.share': 'Поделиться',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's check.
+    'converter.heading': 'Переведите свой текст на новый алфавит',
   },
 } as const
 

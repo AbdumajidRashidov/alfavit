@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
+import { Converter } from '../components/Converter'
 import { SITE_URL, localePath, pageDates } from '../seo/config'
 import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
 import { LETTERS, SOUNDS } from '../content/alphabet'
@@ -55,6 +56,14 @@ export function AlphabetPage() {
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('alphabet.title')}</h1>
         <p className="mt-4 text-base text-muted">{t('alphabet.intro')}</p>
+
+        {/* 68% of visits land on this page and most never reach the home
+            page's converter, though 40% of those who do use it. So the page
+            carries its own, right under the intro. Added, not swapped in:
+            the title, H1, intro, letter table and schema are what rank here.
+            Compact, with fixed-height boxes and no fade-in, so it is in the
+            prerendered HTML at full size and moves nothing when JS loads. */}
+        <Converter compact />
 
         {/* "alifboda nechta harf bor" and its Russian and English variants draw
             ~120 impressions a quarter. The page answered it in passing; this

@@ -5,6 +5,8 @@
  * page whose sources disagree with the reform page's is worse than no sources.
  */
 export const SOURCES: Array<[string, string]> = [
+  ['lex.uz — Law OʻRQ-1184, official text, 21 Oct 2026', 'https://lex.uz/uz/docs/8548754'],
+  ['gazeta.uz — in force from 22 April 2027', 'https://www.gazeta.uz/oz/2026/10/21/new-alphabet/'],
   ['gazeta.uz — signed by the President, 21 Oct 2026', 'https://www.gazeta.uz/en/2026/10/21/uzbek-alphabet/'],
   [
     'kun.uz — signed by the President, 21 Oct 2026',

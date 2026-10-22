@@ -134,6 +134,12 @@ export function legislationLd(opts: {
   url: string
   adoptedOn: string
   legalForce: string
+  /** The law's official number, once it has one. */
+  identifier?: string
+  /** Official publication date. */
+  datePublished?: string
+  /** The official text (lex.uz). */
+  officialUrl?: string
 }) {
   return {
     '@context': 'https://schema.org',
@@ -145,6 +151,9 @@ export function legislationLd(opts: {
     legislationPassedBy: { '@type': 'GovernmentOrganization', name: 'Oliy Majlis' },
     legislationJurisdiction: { '@type': 'AdministrativeArea', name: 'Uzbekistan' },
     legislationLegalForce: opts.legalForce,
+    ...(opts.identifier ? { legislationIdentifier: opts.identifier } : {}),
+    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
+    ...(opts.officialUrl ? { sameAs: opts.officialUrl } : {}),
   }
 }
 

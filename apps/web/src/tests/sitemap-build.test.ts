@@ -59,7 +59,7 @@ test('priority follows search value: /alphabet outranks /files', () => {
 // wording here failed the signature-day build for a correct llms.txt.
 const LLMS_STATUS: Record<ReformStage, string> = {
   'awaiting-signature': 'passed but not yet in force',
-  signed: 'signed but not yet fully in force',
+  signed: 'signed, and takes effect on 2027-04-22',
   'in-force': 'the reform is **in force**',
 }
 
@@ -67,4 +67,6 @@ test('dist/llms.txt states when it was last checked and the current legal status
   const llms = readFileSync(resolve(__dirname, '../../dist/llms.txt'), 'utf-8')
   expect(llms).toContain(`Last updated: ${CHECKED_ON}`)
   expect(llms).toContain(LLMS_STATUS[STAGE])
+  // The official text, so a model can check the claim at the source.
+  if (STAGE !== 'awaiting-signature') expect(llms).toContain('https://lex.uz/uz/docs/8548754')
 })
