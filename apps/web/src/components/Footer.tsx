@@ -15,7 +15,7 @@ export function Footer() {
         <Link to={lp('/')} className="font-serif text-2xl text-foreground">
           Alfavit<sup className="text-sm align-super">®</sup>
         </Link>
-        <nav className="flex gap-6 font-sans text-sm text-muted">
+        <nav className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-sans text-sm text-muted sm:justify-end">
           <Link to={lp('/')} className={cls}>{t('nav.convert')}</Link>
           <Link to={lp('/reform')} className={cls}>{t('footer.reform')}</Link>
           <Link to={lp('/status')} className={cls}>{t('status.title')}</Link>
