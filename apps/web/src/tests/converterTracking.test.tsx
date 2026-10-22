@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { expect, test, beforeEach, vi } from 'vitest'
 import { renderWithLocale } from './renderApp'
 import { Converter } from '../components/Converter'
+import { AlphabetPage } from '../pages/AlphabetPage'
 
 const SECRET_TEXT = 'салом дунё жуда махфий матн'
 const COPY_BTN = /Copy|Nusxa|Копировать/
@@ -82,4 +83,33 @@ test('copying fires a copy event with no detail', async () => {
   const copies = beacons().filter((b) => b.e === 'copy')
   expect(copies).toHaveLength(1)
   expect(copies[0].d).toBe('')
+})
+
+// /alphabet gets its own converter; the event's path tells its conversions
+// apart from the home page's, and the same once-per-visit, no-text rules hold.
+test('on /alphabet, typing fires one transliterate event and the text never leaves the page', async () => {
+  const user = userEvent.setup()
+  renderWithLocale(<AlphabetPage />, '/en')
+  await user.type(screen.getByRole('textbox'), 'oʻzbek tili')
+  await screen.findByText('özbek tili')
+
+  const events = beacons().filter((b) => b.e === 'transliterate')
+  expect(events).toHaveLength(1)
+  expect(events[0].d).toBe('old-latin')
+  const all = sent.join('\n')
+  expect(all).not.toContain('zbek tili')
+})
+
+// The compact converter shows a greyed example result before anyone types, so
+// Copy is likely to be pressed with nothing converted: that must not write an
+// empty clipboard, claim "Copied", or count as a copy.
+test('Copy with nothing converted yet copies nothing and reports nothing', async () => {
+  const user = userEvent.setup()
+  renderWithLocale(<Converter compact />)
+  const writeText = vi.fn().mockResolvedValue(undefined)
+  Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true })
+  await user.click(screen.getByRole('button', { name: COPY_BTN }))
+
+  expect(writeText).not.toHaveBeenCalled()
+  expect(beacons().filter((b) => b.e === 'copy')).toHaveLength(0)
 })

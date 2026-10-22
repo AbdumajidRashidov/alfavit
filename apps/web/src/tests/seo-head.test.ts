@@ -100,3 +100,26 @@ test('the alphabet page answers the letter-count query under its own heading', (
   expect(html).toContain('Oʻzbek alifbosida nechta harf bor?')
   expect(dist('en/alphabet.html')).toContain('How many letters are in the Uzbek alphabet?')
 })
+
+test('the alphabet page prerenders a visible converter between the intro and the letter count', () => {
+  const pages = [
+    ['alphabet.html', 'Matningizni yangi alifboga oʻgiring'],
+    ['ru/alphabet.html', 'Переведите свой текст на новый алфавит'],
+    ['en/alphabet.html', 'Convert your text to the new alphabet'],
+  ]
+  for (const [file, heading] of pages) {
+    const html = dist(file)
+    const h1 = html.indexOf('</h1>')
+    const converter = html.indexOf('id="converter-input"')
+    const count = html.indexOf('id="nechta-harf"')
+    expect(h1).toBeGreaterThan(-1)
+    expect(converter).toBeGreaterThan(h1)
+    expect(count).toBeGreaterThan(converter)
+    expect(html).toContain(heading)
+    expect(html).toContain('placeholder="Oʻzbekiston, Toshkent, choʻl, togʻ"')
+    expect(html).toContain('Özbekiston, Toşkent, çöl, toğ')
+    // Above the fold, so it must be in the server HTML at full opacity: the
+    // home page's fade-in starts at opacity 0 and waits for hydration.
+    expect(html.slice(h1, count)).not.toContain('opacity:0')
+  }
+})
