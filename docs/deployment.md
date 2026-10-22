@@ -13,6 +13,12 @@ the repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. See
 [CI API token scopes](#ci-api-token-scopes) — the API job needs a zone-level
 permission the other two do not.
 
+Each deploy job runs its app's tests, and those of the workspace packages it
+depends on (`turbo run test --filter=@alfavit/<app>...`, so the engine's too),
+before it builds; the web job also runs the build-output tests against the
+`dist/` it uploads. A failing test stops that job before its deploy step. This
+does not wait on the separate CI workflow, which starts at the same time.
+
 ---
 
 ## 1. Web app → Cloudflare Pages
