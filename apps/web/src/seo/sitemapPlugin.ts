@@ -3,6 +3,7 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { generateSitemapXml } from './config'
 import { generateLlmsTxt } from './llms'
+import { generateLlmsFullTxt } from './llmsFull'
 
 // Writes <outDir>/sitemap.xml and <outDir>/llms.txt after the bundle is emitted.
 // llms.txt is generated rather than served from public/ so its legal-status
@@ -20,6 +21,7 @@ export function sitemapPlugin(): Plugin {
       const out = (name: string) => resolve(config.root, config.build.outDir, name)
       writeFileSync(out('sitemap.xml'), generateSitemapXml())
       writeFileSync(out('llms.txt'), generateLlmsTxt())
+      writeFileSync(out('llms-full.txt'), generateLlmsFullTxt())
     },
   }
 }

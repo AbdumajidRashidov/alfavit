@@ -70,3 +70,8 @@ test('dist/llms.txt states when it was last checked and the current legal status
   // The official text, so a model can check the claim at the source.
   if (STAGE !== 'awaiting-signature') expect(llms).toContain('https://lex.uz/uz/docs/8548754')
 })
+
+test('dist/llms-full.txt is emitted', () => {
+  const full = readFileSync(resolve(__dirname, '../../dist/llms-full.txt'), 'utf-8')
+  expect(full.startsWith('# Alfavit')).toBe(true)
+})

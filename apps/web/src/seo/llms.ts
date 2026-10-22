@@ -38,6 +38,8 @@ export function generateLlmsTxt(): string {
 
 Last updated: ${CHECKED_ON}. Canonical: ${SITE_URL}/
 
+Full text of the key pages (status, alphabet, reform, keyboard guide, FAQ in three languages): ${SITE_URL}/llms-full.txt
+
 ## Legal status
 
 As of ${CHECKED_ON}, ${STATUS_PARAGRAPH[STAGE]}
@@ -67,10 +69,19 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 - [The 2026 reform](${SITE_URL}/reform): what changed, letter by letter, with sources and the legislative timeline
 - [Cyrillic → new Latin guide](${SITE_URL}/guide/cyrillic-to-latin): step-by-step
 - [Old Latin → new Latin guide](${SITE_URL}/guide/old-latin-to-new): step-by-step
-- [How to type ş ç ö ğ](${SITE_URL}/guide/keyboard): keyboard layouts and shortcuts for the four new letters on Mac, Windows, iPhone, Android
+- [How to type Ö, Ğ, Ş, Ç](${SITE_URL}/guide/keyboard): the keyboard to add, the keys and the shortcuts for the four new letters on Android, iPhone, Windows and Mac
 - [Files](${SITE_URL}/files): convert .txt, .srt, and .docx files in-browser
 - [Apps & channels](${SITE_URL}/apps): web app, Telegram bot, browser extension, public API
 - [Developers](${SITE_URL}/developers): free public transliteration API, no key required
+
+## Tools
+
+- Web converter (${SITE_URL}/, also on ${SITE_URL}/alphabet): paste Cyrillic or old-Latin Uzbek and get the 2026 alphabet. It detects the script, accepts every apostrophe variant (ʻ ' ‘ ’ \`) and keeps capitals; writes Cyrillic е as ye or e by its position and ц as s; keeps s and h apart in words such as Ishoq and mushaf; leaves web addresses, emails and @handles unchanged; and leaves foreign words such as Washington as written.
+- Files (${SITE_URL}/files): .docx, .txt and .srt, converted in the browser; nothing is uploaded.
+- Windows and Mac apps (${SITE_URL}/apps): convert as you type, in any program, keeping your usual keyboard.
+- Telegram bot (https://t.me/alfavit_uz_bot): send it text, or type @alfavit_uz_bot followed by your text in any chat (inline mode).
+- Public API: POST https://api.alfavit.uz/v1/transliterate with JSON {"text": "..."}; returns {"text", "detectedScript", "flags"}, where flags mark spellings with more than one possible answer (Cyrillic е and ц, foreign words) with the alternatives. Free, no key, 60 requests per 60 seconds per IP, up to 100,000 characters.
+- npm: @alfavit/engine (MIT, the conversion engine for JavaScript; offline, no dependencies) and @alfavit/sdk (API client).
 
 ## Languages
 

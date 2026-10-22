@@ -22,13 +22,13 @@ detectScript("o'zbek") // 'old-latin'
   - `options.source`: `'auto' | 'cyrillic' | 'old-latin'` (default `'auto'`; the script is detected per run of text, so mixed input works)
   - `options.onAmbiguity`: `'first' | 'flag'`
   - `segments`: `{ source, output, script, start, end }[]` — one per run of text; `foreign` runs pass through unchanged
-  - `flags`: `{ start, end, chosen, alternatives, reason }[]` — positions where more than one spelling is possible. Reasons include `cyrillic-e-position` (е → e or ye depending on position) and `cyrillic-ts` (ц → s, with c as the alternative)
+  - `flags`: `{ start, end, chosen, alternatives, reason }[]` — positions where more than one spelling is possible. Reasons include `cyrillic-e-position` (е → e or ye depending on position) and `cyrillic-ts` (ц → s, with c as the alternative), and `foreign-word`: a word with letters Uzbek doesn't use (w, or a c outside "ch") is left as written, with its converted form offered as the alternative
 - `detectScript(text) → 'cyrillic' | 'old-latin' | 'foreign'`
 - `version`
 
 ## Design notes
 
-Old-Latin input is normalized first: every apostrophe variant used for oʻ/gʻ (ʻ ʼ ' ‘ ’ `) is recognized. Conversion is deterministic and offline — no network, no locale data, no dependencies. ESM only.
+Old-Latin input is normalized first: every apostrophe variant used for oʻ/gʻ (ʻ ʼ ' ‘ ’ `) is recognized. Web addresses, domains, emails and @handles pass through unchanged, so `shahar.uz` keeps working. Words from a sourced list where old-Latin `sh` is s + h rather than ş (*Ishoq*, *mushaf*, *ashob*; see `S_H_STEMS` in `src/dictionary.ts`) keep the two letters apart, with or without the tutuq and with any suffix. Conversion is deterministic and offline — no network, no locale data, no dependencies. ESM only.
 
 Run the tests with `pnpm test`.
 
