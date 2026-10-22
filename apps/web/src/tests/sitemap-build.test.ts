@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
+import { CHECKED_ON, STAGE, type ReformStage } from '../content/status'
 
 test('dist/sitemap.xml has all 33 locale URLs', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
@@ -54,8 +55,16 @@ test('priority follows search value: /alphabet outranks /files', () => {
   )
 })
 
-test('dist/llms.txt states when it was last updated and that the law is unsigned', () => {
+// llms.txt is generated from STAGE, so this follows it too. Pinning one stage's
+// wording here failed the signature-day build for a correct llms.txt.
+const LLMS_STATUS: Record<ReformStage, string> = {
+  'awaiting-signature': 'passed but not yet in force',
+  signed: 'signed but not yet fully in force',
+  'in-force': 'the reform is **in force**',
+}
+
+test('dist/llms.txt states when it was last checked and the current legal status', () => {
   const llms = readFileSync(resolve(__dirname, '../../dist/llms.txt'), 'utf-8')
-  expect(llms).toMatch(/Last updated: \d{4}-\d{2}-\d{2}/)
-  expect(llms).toContain('passed but not yet in force')
+  expect(llms).toContain(`Last updated: ${CHECKED_ON}`)
+  expect(llms).toContain(LLMS_STATUS[STAGE])
 })

@@ -28,9 +28,9 @@ export interface PageDef {
  * An inaccurate lastmod is worse than none: Google stops trusting the file.
  */
 export const PAGE_PATHS: PageDef[] = [
-  { path: '', priority: 1.0, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
+  { path: '', priority: 1.0, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
   { path: 'alphabet', priority: 0.9, locales: LOCALES, published: '2026-07-17', updated: '2026-09-13' },
-  { path: 'reform', priority: 0.8, locales: LOCALES, published: '2026-07-11', updated: '2026-09-10' },
+  { path: 'reform', priority: 0.8, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
   // /status is re-dated every time the status is re-verified, not when the
   // code changes: CHECKED_ON is what actually makes the page newer.
   { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
