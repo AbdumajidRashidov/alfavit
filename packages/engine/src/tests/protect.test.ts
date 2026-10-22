@@ -35,3 +35,16 @@ test('segments still tile the input, and Cyrillic flags keep their offsets after
   const ts = r.flags.find((f) => f.reason === 'cyrillic-ts')!
   expect(input.slice(ts.start, ts.end)).toBe('ц')
 })
+
+// The public API accepts 100,000 characters. Address detection has to stay
+// linear on hostile input, or one request can burn a Worker's CPU budget.
+test.each([
+  ['dotted words', 'a.'.repeat(50_000)],
+  ['no @ in a long local-part run', 'a'.repeat(100_000)],
+  ['a URL followed by closing brackets', 'https://x.uz/' + ')'.repeat(100_000)],
+  ['@ after a long local-part run', 'a'.repeat(99_990) + '@b'],
+])('stays fast on 100,000 characters of %s', (_name, input) => {
+  const started = performance.now()
+  findProtectedSpans(input)
+  expect(performance.now() - started).toBeLessThan(250)
+})
