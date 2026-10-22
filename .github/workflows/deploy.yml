@@ -8,6 +8,12 @@ concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
+# CI (ci.yml) starts in parallel with this workflow on every push to main, so a
+# red CI does not stop a deploy. Each job therefore runs its own app's tests,
+# plus those of its workspace dependencies (the trailing `...` in the filter
+# pulls in @alfavit/engine), before it builds. A failing test fails the job and
+# its deploy step never runs.
+
 jobs:
   web:
     runs-on: ubuntu-latest
@@ -21,7 +27,12 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run test --filter=@alfavit/web...
       - run: pnpm exec turbo run build --filter=@alfavit/web
+      # Build-output assertions (SEO head, sitemap, reform and guide pages)
+      # against the dist/ this job is about to upload. CI runs the same tests
+      # via `test:dist`, which rebuilds first; here the build just happened.
+      - run: pnpm --dir apps/web exec vitest run --config vitest.dist.config.ts
       - name: Deploy web to Cloudflare Pages
         if: env.CF_TOKEN != ''
         uses: cloudflare/wrangler-action@v3
@@ -44,6 +55,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run test --filter=@alfavit/bot...
       # Build the engine (and type-check the bot); wrangler bundles worker.ts →
       # @alfavit/engine, which must have its dist/ present to resolve.
       - run: pnpm exec turbo run build --filter=@alfavit/bot
@@ -74,6 +86,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run test --filter=@alfavit/api...
       # Build the engine (and type-check the api); wrangler bundles the Worker →
       # @alfavit/engine, which must have its dist/ present to resolve.
       - run: pnpm exec turbo run build --filter=@alfavit/api
@@ -115,6 +128,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm exec turbo run test --filter=@alfavit/collect...
       - run: pnpm exec turbo run build --filter=@alfavit/collect
       # Like the api job, this Worker asserts ZONE routes (alfavit.uz/e and
       # alfavit.uz/dl/*), so CLOUDFLARE_API_TOKEN needs Zone > Workers Routes >
