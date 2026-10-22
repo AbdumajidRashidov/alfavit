@@ -48,3 +48,34 @@ test.each([
   findProtectedSpans(input)
   expect(performance.now() - started).toBeLessThan(250)
 })
+
+// Review of c7391b4: per-word domain matching missed addresses glued to
+// punctuation, emoji or a following suffix, and cut paths at ? and ,.
+test.each([
+  ['Manba:shahar.uz', 'Manba:shahar.uz'],
+  ['👉shahar.uz', '👉shahar.uz'],
+  ['*shahar.uz*', '*shahar.uz*'],
+  ['—shahar.uz', '—shahar.uz'],
+  ['Sayt:kun.uz/news/shahar', 'Sayt:kun.uz/news/shahar'],
+  ['youtube.com/watch?v=aShch12', 'youtube.com/watch?v=aShch12'],
+  ['t.me/shahar_news?start=ch', 't.me/shahar_news?start=ch'],
+  ['shahar.uz/a,sh', 'shahar.uz/a,sh'],
+  ['Shahar.uz’ning', 'Shahar.uzʼning'],
+  ['Сайт:shahar.uzда', 'Sayt:shahar.uzda'],
+  ["kun.uz/o'zbek", "kun.uz/o'zbek"],
+  ['bit.ly/3shCHq', 'bit.ly/3shCHq'],
+  ['youtu.be/aShch12', 'youtu.be/aShch12'],
+  ['championat.asia/uz/shahar', 'championat.asia/uz/shahar'],
+])('%s keeps its address intact', (input, expected) => {
+  expect(t(input)).toBe(expected)
+})
+
+test('an initial before a surname is still text', () => {
+  expect(t('Sh.Mirziyoyev')).toBe('Ş.Mirziyoyev')
+})
+
+test('stays fast on 100,000 characters of repeated domain endings', () => {
+  const started = performance.now()
+  findProtectedSpans('a.uz'.repeat(25_000))
+  expect(performance.now() - started).toBeLessThan(250)
+})
