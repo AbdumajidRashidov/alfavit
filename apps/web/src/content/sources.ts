@@ -5,6 +5,11 @@
  * page whose sources disagree with the reform page's is worse than no sources.
  */
 export const SOURCES: Array<[string, string]> = [
+  ['gazeta.uz — signed by the President, 21 Oct 2026', 'https://www.gazeta.uz/en/2026/10/21/uzbek-alphabet/'],
+  [
+    'kun.uz — signed by the President, 21 Oct 2026',
+    'https://kun.uz/news/2026/10/21/ozbek-lotin-alifbosini-takomillashtirishga-doir-qonun-prezident-tomonidan-imzolandi',
+  ],
   ['gazeta.uz — Senate approval, 10 Sep 2026', 'https://www.gazeta.uz/oz/2026/09/10/uzb-alphabet/'],
   ['spot.uz — Senate approval, 10 Sep 2026', 'https://www.spot.uz/oz/2026/09/10/uzbek-alphabet'],
   ['daryo.uz — Senate approval, 10 Sep 2026', 'https://daryo.uz/fxq5yS_DR'],
