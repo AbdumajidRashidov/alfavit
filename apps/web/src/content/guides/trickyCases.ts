@@ -83,7 +83,6 @@ export const trickyCases: Record<Locale, TrickyCopy> = {
       foreign: { heading: 'Foreign words', note: 'Words Uzbek Latin cannot spell, such as Washington, are left as written; an Uzbek ending after them still converts.' },
     },
   },
-  // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
   uz: {
     title: 'Yangi alifboga oʻgirish: qiyin holatlar',
     intro: 'sh ni harfma-harf ş ga almashtirish koʻp joyda xato beradi. Quyida Alfavit hal qiladigan holatlar va oʻgirgich bugun beradigan natija koʻrsatilgan.',
@@ -102,7 +101,6 @@ export const trickyCases: Record<Locale, TrickyCopy> = {
       foreign: { heading: 'Xorijiy soʻzlar', note: 'Washington kabi oʻzbek lotinida yozib boʻlmaydigan soʻzlar oʻz holicha qoladi; ulardan keyingi oʻzbekcha qoʻshimcha esa oʻgiriladi.' },
     },
   },
-  // UNVERIFIED (drafted 2026-10-22): needs the owner's check.
   ru: {
     title: 'Сложные случаи перевода на новый узбекский алфавит',
     intro: 'Побуквенная замена sh на ş ошибается чаще, чем кажется. Ниже — случаи, с которыми справляется Alfavit, и что конвертер выдаёт сегодня.',

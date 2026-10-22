@@ -187,7 +187,6 @@ export const translations = {
     'file.title': 'Word hujjatini yangi alifboga oʻgirish',
     'file.instruction': 'Fayl brauzeringizda oʻgiriladi — hech narsa yuklanmaydi.',
     'file.choose': 'Fayl tanlang (.txt, .srt, .docx)',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'file.docHint': 'Eski .doc faylmi? Uni Word’da ochib, avval .docx sifatida saqlang.',
     'file.convert': 'Oʻgirish va yuklab olish',
     'file.converting': 'Oʻgirilmoqda…',
@@ -249,7 +248,6 @@ export const translations = {
     'alphabet.tutuq.label': 'Tutuq belgisi (ʼ)',
     'alphabet.tutuq.note': 'Tutuq belgisi — unlilarni ajratadi va boʻgʻiz toʻxtamini bildiradi. U 28 harf tarkibiga kirmaydi.',
     'alphabet.loanword.note': 'Oʻzlashma soʻzlarda kirillcha ц harfi s bilan yoziladi; Alfavit c variantini ham belgilab koʻrsatadi — tanlov sizda.',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'alphabet.chart.heading': 'Lotin alifbosi jadvali va rasmi — yuklab oling',
     'alphabet.qa.adopted.q': 'Lotin alifbosi qachon qabul qilingan?',
     'alphabet.qa.adopted.a': '1993-yilda: 1993-yil 2-sentabrdagi 931-XII-son qonun lotin yozuviga asoslangan oʻzbek alifbosini joriy etdi. 1995-yil 6-maydagi 71-I-son qonun uni 26 ta harf va 3 ta harf birikmasiga keltirdi. 2026-yilgi isloh — OʻRQ-1184-son qonun — 28 ta harf va tutuq belgisini belgilaydi; u 2027-yil 22-apreldan kuchga kiradi.',
@@ -279,11 +277,10 @@ export const translations = {
     'reform.updated': '2026-yil 22-oktabrda yangilandi',
     'reform.ngNote': 'ng birikmasi endi alifboda alohida harf sifatida berilmaydi; imloda n + g tarzida yoziladi.',
     'news.senate': 'Prezident alifbo toʻgʻrisidagi qonunni 2026-yil 21-oktabrda imzoladi. Nima va qachon oʻzgaradi →',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.tricky.title': 'Yangi alifboga oʻgirish: qiyin holatlar — Alfavit',
     'meta.guide.tricky.desc': 'Ishoq yoki Işoq? Egri tirnoqli o’zbek? www.shahar.uz? Harfma-harf almashtirish xato qiladigan holatlarni Alfavit qanday hal qilishi — misollar bilan.',
     'guides.tricky': 'Qiyin holatlar',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.title': 'Ö, Ğ, Ş, Ç harflarini klaviatura va telefonda qanday yozish — Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.desc': 'Yangi alifbodagi Ö, Ğ, Ş, Ç harflarini Android, iPhone, Windows va Mac klaviaturasida yozish: qaysi klaviaturani qoʻshish, qaysi tugmalar, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
@@ -339,7 +336,6 @@ export const translations = {
     'file.title': 'Перевести документ Word на новый узбекский алфавит',
     'file.instruction': 'Файл конвертируется в браузере — ничего не загружается.',
     'file.choose': 'Выберите файл (.txt, .srt, .docx)',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'file.docHint': 'Старый файл .doc? Откройте его в Word и сначала сохраните как .docx.',
     'file.convert': 'Конвертировать и скачать',
     'file.converting': 'Конвертация…',
@@ -401,7 +397,6 @@ export const translations = {
     'alphabet.tutuq.label': 'Тутук белгиси (ʼ)',
     'alphabet.tutuq.note': 'Знак апострофа — разделяет гласные и обозначает гортанную смычку. Не входит в число 28 букв.',
     'alphabet.loanword.note': 'В заимствованиях кириллическая ц передаётся как s; Alfavit отмечает c как альтернативу, чтобы вы могли выбрать.',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'alphabet.chart.heading': 'Таблица и картинка узбекского алфавита — скачать',
     'alphabet.qa.adopted.q': 'Когда был принят латинский алфавит?',
     'alphabet.qa.adopted.a': 'В 1993 году: закон № 931-XII от 2 сентября 1993 года ввёл узбекский алфавит на основе латиницы. Закон № 71-I от 6 мая 1995 года изменил его до 26 букв и 3 буквосочетаний. Реформа 2026 года — закон ЗРУ-1184 — устанавливает 28 букв и знак тутук; он вступает в силу 22 апреля 2027 года.',
@@ -431,11 +426,10 @@ export const translations = {
     'reform.updated': 'Обновлено 22 октября 2026 года',
     'reform.ngNote': 'Сочетание ng больше не считается отдельной буквой; в написании остаётся как n + g.',
     'news.senate': 'Президент подписал закон об алфавите 21 октября 2026 года. Что и когда меняется →',
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
-    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.tricky.title': 'Сложные случаи перевода на новый узбекский алфавит — Alfavit',
     'meta.guide.tricky.desc': 'Ishoq или Işoq? o’zbek с «кудрявой» кавычкой? www.shahar.uz? Как Alfavit справляется там, где побуквенная замена ошибается, — на примерах.',
     'guides.tricky': 'Сложные случаи',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.title': 'Как набрать Ö, Ğ, Ş, Ç на клавиатуре и телефоне — Alfavit',
     // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
     'meta.guide.keyboard.desc': 'Новые узбекские буквы Ö, Ğ, Ş, Ç на Android, iPhone, Windows и Mac: какую раскладку добавить, какие клавиши, сочетания — или пусть Alfavit конвертирует по мере ввода.',
