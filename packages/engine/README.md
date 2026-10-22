@@ -26,6 +26,13 @@ detectScript("o'zbek") // 'old-latin'
 - `detectScript(text) → 'cyrillic' | 'old-latin' | 'foreign'`
 - `version`
 
+## 0.2.0
+
+- Web addresses, domains, emails and @handles pass through unchanged (`shahar.uz` no longer becomes `şahar.uz`).
+- Words where old-Latin `sh` is s + h — *Ishoq*, *mushaf*, *ashob*, *ishol*, *tashih* — keep the two letters apart, with or without the tutuq and with any suffix.
+- Words Uzbek Latin can't spell (a `w`, or a `c` outside `ch`) are left as written and flagged `foreign-word`; an Uzbek suffix after them still converts.
+- Old-Latin conversion stays fast on long input (100,000 characters in milliseconds).
+
 ## Design notes
 
 Old-Latin input is normalized first: every apostrophe variant used for oʻ/gʻ (ʻ ʼ ' ‘ ’ `) is recognized. Web addresses, domains, emails and @handles pass through unchanged, so `shahar.uz` keeps working. Words from a sourced list where old-Latin `sh` is s + h rather than ş (*Ishoq*, *mushaf*, *ashob*; see `S_H_STEMS` in `src/dictionary.ts`) keep the two letters apart, with or without the tutuq and with any suffix. Conversion is deterministic and offline — no network, no locale data, no dependencies. ESM only.
