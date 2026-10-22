@@ -22,6 +22,23 @@ test('transliterateDocxXml round-trips XML entities', () => {
   expect(transliterateDocxXml('<w:t>А &amp; Б</w:t>')).toBe('<w:t>A &amp; B</w:t>')
 })
 
+test('transliterateDocxXml converts text written as numeric character references', () => {
+  // Some document generators write every non-ASCII letter as a reference: Тошкент.
+  expect(transliterateDocxXml('<w:t>&#1058;&#1086;&#1096;&#x43A;&#x435;&#x43D;&#x442;</w:t>')).toBe('<w:t>Toşkent</w:t>')
+  // A reference to anything else comes back as the character itself.
+  expect(transliterateDocxXml('<w:t>&#169; &#x2014; &#128512;</w:t>')).toBe('<w:t>© — 😀</w:t>')
+})
+
+test('transliterateDocxXml leaves escaped reference text as text', () => {
+  expect(transliterateDocxXml('<w:t>&amp;#1058; &amp;lt;</w:t>')).toBe('<w:t>&amp;#1058; &amp;lt;</w:t>')
+})
+
+test('transliterateDocxXml keeps a carriage return reference and reads a raw one as a line feed', () => {
+  // An XML parser reads a raw CR (or CR LF) as LF; only &#13; is a real CR.
+  expect(transliterateDocxXml('<w:t>А&#13;Б</w:t>')).toBe('<w:t>A&#13;B</w:t>')
+  expect(transliterateDocxXml('<w:t>А\r\nБ\rВ</w:t>')).toBe('<w:t>A\nB\nV</w:t>')
+})
+
 test('transliterateDocxXml leaves non-w:t markup and empty runs untouched', () => {
   expect(transliterateDocxXml('<w:p><w:pPr/></w:p>')).toBe('<w:p><w:pPr/></w:p>')
   expect(transliterateDocxXml('<w:t/>')).toBe('<w:t/>')
