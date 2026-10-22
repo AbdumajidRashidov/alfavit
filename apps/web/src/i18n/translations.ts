@@ -125,6 +125,7 @@ export const translations = {
     'meta.guide.keyboard.desc': 'Type the four new Uzbek letters on Mac, Windows, iPhone and Android: copy buttons, keyboard layouts, shortcuts — or let Alfavit convert as you type.',
     'guides.keyboard': 'How to type ş ç ö ğ',
     'converter.share': 'Share',
+    'converter.heading': 'Convert your text to the new alphabet',
   },
   uz: {
     'nav.convert': 'Oʻgirish',
@@ -249,6 +250,8 @@ export const translations = {
     'meta.guide.keyboard.desc': 'Yangi toʻrt harfni Mac, Windows, iPhone va Android da yozish: nusxalash tugmalari, klaviatura joylashuvlari, tezkor tugmalar — yoki Alfavit yozayotganingizda oʻgirsin.',
     'guides.keyboard': 'ş ç ö ğ harflarini yozish',
     'converter.share': 'Ulashish',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's native-speaker check.
+    'converter.heading': 'Matningizni yangi alifboga oʻgiring',
   },
   ru: {
     'nav.convert': 'Конвертер',
@@ -373,6 +376,8 @@ export const translations = {
     'meta.guide.keyboard.desc': 'Четыре новые узбекские буквы на Mac, Windows, iPhone и Android: кнопки копирования, раскладки, сочетания клавиш — или пусть Alfavit конвертирует по мере ввода.',
     'guides.keyboard': 'Как набирать ş ç ö ğ',
     'converter.share': 'Поделиться',
+    // UNVERIFIED (drafted 2026-10-22): needs the owner's check.
+    'converter.heading': 'Переведите свой текст на новый алфавит',
   },
 } as const
 
