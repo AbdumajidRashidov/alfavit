@@ -4,5 +4,5 @@ import { keyboard } from '../content/guides/keyboard'
 
 export function GuideKeyboardPage() {
   const { locale } = useT()
-  return <GuidePage guide={keyboard[locale]} pagePath="guide/keyboard" titleKey="meta.guide.keyboard.title" descKey="meta.guide.keyboard.desc" />
+  return <GuidePage guide={keyboard[locale]} pagePath="guide/keyboard" titleKey="meta.guide.keyboard.title" descKey="meta.guide.keyboard.desc" chart />
 }

@@ -153,3 +153,14 @@ test('/alphabet FAQPage carries exactly the visible questions', () => {
   expect(qs).toHaveLength(4)
   for (const q of qs) expect(html).toContain(`>${q}</h2>`)
 })
+
+test.each([
+  ['en/reform.html', 'uzbek-latin-alphabet-2026.png'],
+  ['guide/keyboard.html', 'lotin-alifbosi-jadvali-2026.png'],
+  ['alphabet.html', 'lotin-alifbosi-jadvali-2026.png'],
+])('%s declares the chart ImageObject for its language', (file, png) => {
+  const html = dist(file)
+  expect(html).toContain('"@type":"ImageObject"')
+  expect(html).toContain(`"contentUrl":"https://alfavit.uz/chart/${png}"`)
+  expect(html).toContain('"caption":')
+})

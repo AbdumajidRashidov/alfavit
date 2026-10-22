@@ -1,4 +1,5 @@
 import { SITE_URL, type Locale } from './config'
+import { CHART_WIDTH, CHART_HEIGHT, chartPng } from '../content/chart'
 
 export const organizationLd = {
   '@context': 'https://schema.org',
@@ -73,6 +74,7 @@ export function imageObjectLd(opts: {
   width: number
   height: number
   acquireLicensePage: string
+  caption?: string
 }) {
   return {
     '@context': 'https://schema.org',
@@ -81,6 +83,7 @@ export function imageObjectLd(opts: {
     url: opts.contentUrl,
     name: opts.name,
     description: opts.description,
+    ...(opts.caption ? { caption: opts.caption } : {}),
     width: opts.width,
     height: opts.height,
     license: 'https://github.com/AbdumajidRashidov/alfavit/blob/main/LICENSE',
@@ -182,4 +185,17 @@ export function definedTermSetLd(
       inDefinedTermSet: url,
     })),
   }
+}
+
+/** The printable chart's ImageObject for one language, on the page that shows it. */
+export function chartImageLd(opts: { locale: Locale; name: string; description: string; caption: string; pageUrl: string }) {
+  return imageObjectLd({
+    contentUrl: SITE_URL + chartPng(opts.locale),
+    name: opts.name,
+    description: opts.description,
+    caption: opts.caption,
+    width: CHART_WIDTH,
+    height: CHART_HEIGHT,
+    acquireLicensePage: opts.pageUrl,
+  })
 }

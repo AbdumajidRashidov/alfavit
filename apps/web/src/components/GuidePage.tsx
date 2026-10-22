@@ -4,7 +4,9 @@ import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from './Seo'
 import { Converter } from './Converter'
-import { howToLd } from '../seo/jsonld'
+import { ChartFigure } from './ChartFigure'
+import { howToLd, chartImageLd } from '../seo/jsonld'
+import { SITE_URL, localePath } from '../seo/config'
 import type { Guide } from '../content/types'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -17,10 +19,12 @@ interface GuidePageProps {
   converter?: boolean
   /** Placeholder text for that converter (e.g. a Cyrillic sample on the Cyrillic guide). */
   converterExample?: string
+  /** Shows the printable chart, for pages that draw chart-image searches (the keyboard guide). */
+  chart?: boolean
 }
 
-export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false, converterExample }: GuidePageProps) {
-  const { t } = useT()
+export function GuidePage({ guide, pagePath, titleKey, descKey, converter = false, converterExample, chart = false }: GuidePageProps) {
+  const { t, locale } = useT()
   const lp = useLocalePath()
   const [copied, setCopied] = useState<string | null>(null)
 
@@ -32,7 +36,9 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
 
   return (
     <>
-      <Seo titleKey={titleKey} descKey={descKey} pagePath={pagePath} jsonLd={howToLd(guide.title, guide.steps)} breadcrumb />
+      <Seo titleKey={titleKey} descKey={descKey} pagePath={pagePath} jsonLd={chart
+          ? [howToLd(guide.title, guide.steps), chartImageLd({ locale, name: t('alphabet.title'), description: t('alphabet.chart.alt'), caption: t('alphabet.chart.caption'), pageUrl: SITE_URL + localePath(locale, pagePath) })]
+          : howToLd(guide.title, guide.steps)} breadcrumb />
       <section className="mx-auto max-w-3xl px-6 py-24">
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground">{guide.title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{guide.intro}</p>
@@ -87,6 +93,8 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
             ))}
           </div>
         </div>
+
+        {chart && <ChartFigure />}
 
         {/* With the converter on the page, a button to the home page would send people away from it. */}
         {!converter && (
