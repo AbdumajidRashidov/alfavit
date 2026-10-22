@@ -67,16 +67,17 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 - [The Uzbek alphabet](${SITE_URL}/alphabet): all ${LETTERS.length} letters, with old-Latin and Cyrillic equivalents, sounds and examples
 - [Has the alphabet changed yet?](${SITE_URL}/status): the current legal status, with the date it was checked
 - [The 2026 reform](${SITE_URL}/reform): what changed, letter by letter, with sources and the legislative timeline
-- [Cyrillic → new Latin guide](${SITE_URL}/guide/cyrillic-to-latin): step-by-step
-- [Old Latin → new Latin guide](${SITE_URL}/guide/old-latin-to-new): step-by-step
+- [Cyrillic → new Latin](${SITE_URL}/guide/cyrillic-to-latin): converter, with step-by-step instructions
+- [Old Latin → new Latin](${SITE_URL}/guide/old-latin-to-new): converter, with step-by-step instructions
 - [How to type Ö, Ğ, Ş, Ç](${SITE_URL}/guide/keyboard): the keyboard to add, the keys and the shortcuts for the four new letters on Android, iPhone, Windows and Mac
+- [Янги ўзбек алифбоси](${SITE_URL}/kirill): the converter and the four changed letters, written in Uzbek Cyrillic for readers of the Cyrillic script
 - [Files](${SITE_URL}/files): convert .txt, .srt, and .docx files in-browser
 - [Apps & channels](${SITE_URL}/apps): web app, Telegram bot, browser extension, public API
 - [Developers](${SITE_URL}/developers): free public transliteration API, no key required
 
 ## Tools
 
-- Web converter (${SITE_URL}/, also on ${SITE_URL}/alphabet): paste Cyrillic or old-Latin Uzbek and get the 2026 alphabet. It detects the script, accepts every apostrophe variant (ʻ ' ‘ ’ \`) and keeps capitals; writes Cyrillic е as ye or e by its position and ц as s; keeps s and h apart in words such as Ishoq and mushaf; leaves web addresses, emails and @handles unchanged; and leaves foreign words such as Washington as written.
+- Web converter (${SITE_URL}/; one page per direction: ${SITE_URL}/guide/cyrillic-to-latin, ${SITE_URL}/guide/old-latin-to-new, and ${SITE_URL}/kirill in Uzbek Cyrillic; also on ${SITE_URL}/alphabet): paste Cyrillic or old-Latin Uzbek and get the 2026 alphabet. It detects the script, accepts every apostrophe variant (ʻ ' ‘ ’ \`) and keeps capitals; writes Cyrillic е as ye or e by its position and ц as s; keeps s and h apart in words such as Ishoq and mushaf; leaves web addresses, emails and @handles unchanged; and leaves foreign words such as Washington as written.
 - Files (${SITE_URL}/files): .docx, .txt and .srt, converted in the browser; nothing is uploaded.
 - Windows and Mac apps (${SITE_URL}/apps): convert as you type, in any program, keeping your usual keyboard.
 - Telegram bot (https://t.me/alfavit_uz_bot): send it text, or type @alfavit_uz_bot followed by your text in any chat (inline mode).
@@ -85,7 +86,7 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 
 ## Languages
 
-Every page exists in Uzbek (Latin, default), Russian under \`/ru\`, and English under \`/en\`.
+Pages exist in Uzbek (Latin, default), Russian under \`/ru\`, and English under \`/en\` — except ${SITE_URL}/kirill, which exists only once, in Uzbek Cyrillic.
 Example: ${SITE_URL}/alphabet, ${SITE_URL}/ru/alphabet, ${SITE_URL}/en/alphabet
 
 ## Attribution

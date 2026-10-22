@@ -1,6 +1,6 @@
 # Chrome Web Store listing — Alfavit
 
-Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.1.1.zip`.
+Everything you paste into the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) when submitting `alfavit-extension-v0.2.0.zip`.
 
 ---
 
@@ -31,9 +31,9 @@ Alfavit understands both source scripts automatically:
 
 Everything runs on your device. No account, no network requests, no tracking — your text never leaves the browser.
 
-Part of the Alfavit platform, which also offers a web app, a Telegram bot, file conversion, a macOS app, and a public API.
+Part of the Alfavit platform, which also offers a web app, a Telegram bot, file conversion, Windows and macOS apps, and a public API.
 
-Uzbekistan's Senate approved the 28-letter alphabet on 10 September 2026 — Alfavit converts your text to it today.
+Uzbekistan's President signed the 28-letter alphabet into law on 21 October 2026; it takes effect on 22 April 2027. Alfavit converts your text to it today.
 ```
 
 **Category:** Productivity
@@ -74,7 +74,7 @@ https://alfavit.uz
 
 | Asset | Requirement | File |
 |-------|-------------|------|
-| Package | .zip, manifest at root | `alfavit-extension-v0.1.1.zip` |
+| Package | .zip, manifest at root | `apps/extension/release/alfavit-extension-v0.2.0.zip`, built on `main` by `pack:store` (see the checklist) |
 | Store icon | 128×128 PNG | `../../apps/extension/public/icons/128.png` |
 | Screenshot(s) | 1280×800 PNG, ≥1 required | `screenshots/01-popup.png`, `screenshots/02-context-menu.png` |
 | Small promo tile | 440×280 PNG (optional) | `screenshots/promo-440x280.png` |
@@ -85,7 +85,8 @@ https://alfavit.uz
 
 - [ ] Create a Chrome Web Store developer account ($5 one-time fee)
 - [x] Privacy page live at `https://alfavit.uz/privacy`
-- [ ] Upload `alfavit-extension-v0.1.1.zip`
+- [ ] On `main`, after the old-Latin speed fix is merged: `pnpm --filter @alfavit/engine build && pnpm --filter @alfavit/extension pack:store`. It refuses to pack an engine without the fix and prints the zip's path and sha256
+- [ ] Upload that `apps/extension/release/alfavit-extension-v0.2.0.zip`
 - [ ] Paste name, summary, description (above)
 - [ ] Upload store icon + screenshots
 - [ ] Fill single purpose + permission justifications + data disclosures

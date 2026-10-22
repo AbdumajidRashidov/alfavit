@@ -101,7 +101,7 @@ export function articleLd(
   headline: string,
   description: string,
   url: string,
-  meta: { published: string; updated: string; locale: Locale },
+  meta: { published: string; updated: string; locale: Locale; inLanguage?: string },
 ) {
   return {
     '@context': 'https://schema.org',
@@ -114,7 +114,7 @@ export function articleLd(
     // The default locale writes Uzbek in Latin script, which is the whole
     // point of the site; the tag has to say so, or 'uz' reads as ambiguous
     // now that both scripts are in use.
-    inLanguage: meta.locale === 'uz' ? 'uz-Latn' : meta.locale,
+    inLanguage: meta.inLanguage ?? (meta.locale === 'uz' ? 'uz-Latn' : meta.locale),
     publisher: { '@type': 'Organization', name: 'Alfavit' },
   }
 }

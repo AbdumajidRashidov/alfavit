@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs && tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "pack:store": "pnpm run build && node pack.mjs"
   },
   "dependencies": {
     "@alfavit/engine": "workspace:*"

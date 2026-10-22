@@ -8,6 +8,8 @@ dist
 # local Claude Code preview config (machine-specific)
 .claude/launch.json
 apps/extension/dist/
+# store zips are built on main by `pnpm --filter @alfavit/extension pack:store`, never committed
+apps/extension/release/
 
 # marketing trackers: journalist replies and outreach notes stay off GitHub
 docs/marketing/private/

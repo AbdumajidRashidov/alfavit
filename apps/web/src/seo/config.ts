@@ -34,11 +34,13 @@ export const PAGE_PATHS: PageDef[] = [
   // /status is re-dated every time the status is re-verified, not when the
   // code changes: CHECKED_ON is what actually makes the page newer.
   { path: 'status', priority: 0.8, locales: LOCALES, published: '2026-09-13', updated: CHECKED_ON },
+  // Uzbek Cyrillic, root only: no ru or en version, so no alternates.
+  { path: 'kirill', priority: 0.7, locales: ['uz'], published: '2026-10-22', updated: '2026-10-22' },
   { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-22' },
-  { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
-  { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-07-15' },
+  { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
+  { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
   { path: 'apps', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
-  { path: 'files', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
+  { path: 'files', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
   { path: 'developers', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
   { path: 'privacy', priority: 0.3, locales: LOCALES, published: '2026-07-14', updated: '2026-09-12' },
 ]
@@ -77,10 +79,13 @@ export function generateSitemapXml(): string {
   const urls = PAGE_PATHS.flatMap(({ path, priority, locales, updated }) =>
     locales.map((locale) => {
       const loc = SITE_URL + localePath(locale, path)
-      const alts = locales
-        .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_URL + localePath(l, path)}"/>`)
-        .join('\n')
-      const xdefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + localePath(DEFAULT_LOCALE, path)}"/>`
+      // Alternates only where a page has more than one language version.
+      const alts = locales.length > 1
+        ? locales.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_URL + localePath(l, path)}"/>`).join('\n') + '\n'
+        : ''
+      const xdefault = locales.length > 1
+        ? `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + localePath(DEFAULT_LOCALE, path)}"/>\n`
+        : ''
       // The alphabet chart is the one image worth crawling; declaring it here is
       // how Google Images finds it without waiting to render the page. Google
       // reads only <image:loc> — caption, title and license were retired in 2022.
@@ -88,7 +93,7 @@ export function generateSitemapXml(): string {
         path === 'alphabet'
           ? `\n    <image:image>\n      <image:loc>${SITE_URL + chartPng(locale)}</image:loc>\n    </image:image>`
           : ''
-      return `  <url>\n    <loc>${loc}</loc>\n${alts}\n${xdefault}\n    <lastmod>${updated}</lastmod>\n    <priority>${priority.toFixed(1)}</priority>${image}\n  </url>`
+      return `  <url>\n    <loc>${loc}</loc>\n${alts}${xdefault}    <lastmod>${updated}</lastmod>\n    <priority>${priority.toFixed(1)}</priority>${image}\n  </url>`
     }),
   )
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls.join('\n')}\n</urlset>\n`

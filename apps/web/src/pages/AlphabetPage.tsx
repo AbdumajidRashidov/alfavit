@@ -3,6 +3,7 @@ import { useT } from '../i18n/useT'
 import { useLocalePath } from '../i18n/useLocalePath'
 import { Seo } from '../components/Seo'
 import { Converter } from '../components/Converter'
+import { kirill } from '../content/kirill'
 import { SITE_URL, localePath, pageDates } from '../seo/config'
 import { articleLd, imageObjectLd, definedTermSetLd } from '../seo/jsonld'
 import { LETTERS, SOUNDS } from '../content/alphabet'
@@ -179,6 +180,9 @@ export function AlphabetPage() {
           <Link to={lp('/reform')} className="underline hover:text-foreground">{t('reform.title')}</Link>
           {' · '}
           <Link to={lp('/')} className="underline hover:text-foreground">{t('nav.convert')}</Link>
+          {' · '}
+          {/* /kirill exists at the root only, so no locale prefix. */}
+          <Link to="/kirill" lang="uz-Cyrl" className="underline hover:text-foreground">{kirill.linkFromAlphabet}</Link>
         </p>
       </section>
     </>
