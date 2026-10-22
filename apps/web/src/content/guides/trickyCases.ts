@@ -12,15 +12,15 @@ export const TRICKY_GROUPS: { id: string; inputs: string[] }[] = [
   { id: 'apostrophes', inputs: ["o'zbek", 'o’zbek', 'o‘zbek', 'o`zbek', "g'oya"] },
   { id: 'tutuq', inputs: ['маъно', 'санъат', "ma'no"] },
   { id: 'ng', inputs: ['ming', 'tong', 'dengiz'] },
-  { id: 'capitals', inputs: ['SHAHAR', 'Shahar', 'O‘ZBEKISTON', 'CHOY'] },
+  { id: 'capitals', inputs: ['SHAHAR', 'Shahar', 'O‘ZBEKISTON', 'CHOY', 'ЁШЛАР'] },
   { id: 'mixed', inputs: ['Тошкент va Samarqand'] },
-  { id: 'cyrillic-e', inputs: ['ер', 'телефон', 'поезд', 'Европа'] },
+  { id: 'cyrillic-e', inputs: ['ер', 'телефон', 'ҳеч', 'поезд', 'Европа'] },
   { id: 'cyrillic-ts', inputs: ['цирк', 'милиция'] },
   { id: 'addresses', inputs: ['www.shahar.uz', 'info@choy.uz', '@shahar_news'] },
   { id: 'foreign', inputs: ['Washington', 'Facebook’da'] },
 ]
 
-/** Engine 0.2.0 output for every input above, verified 22 Oct 2026. */
+/** Engine 0.2.1 output for every input above, verified 22 Oct 2026. */
 export const TRICKY_EXPECTED: Record<string, string> = {
   Ishoq: 'Ishoq',
   "Is'hoq": 'Ishoq',
@@ -40,9 +40,11 @@ export const TRICKY_EXPECTED: Record<string, string> = {
   Shahar: 'Şahar',
   'O‘ZBEKISTON': 'ÖZBEKISTON',
   CHOY: 'ÇOY',
+  ЁШЛАР: 'YOŞLAR',
   'Тошкент va Samarqand': 'Toşkent va Samarqand',
   ер: 'yer',
   телефон: 'telefon',
+  ҳеч: 'heç',
   поезд: 'poyezd',
   Европа: 'Yevropa',
   цирк: 'sirk',
