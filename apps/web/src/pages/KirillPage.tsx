@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/Seo'
-import { Converter } from '../components/Converter'
+import { Converter, CYRILLIC_EXAMPLE } from '../components/Converter'
 import { SITE_URL, pageDates } from '../seo/config'
 import { articleLd, faqPageLd } from '../seo/jsonld'
 import { LETTERS } from '../content/alphabet'
@@ -29,21 +29,23 @@ export function KirillPage() {
         <h1 className="font-serif text-4xl sm:text-5xl text-foreground">{kirill.title}</h1>
         <p className="mt-6 text-lg leading-relaxed text-muted">{kirill.intro}</p>
 
-        <Converter compact />
+        <Converter compact example={CYRILLIC_EXAMPLE} strings={kirill.converter} />
 
-        <h2 className="mt-16 font-medium text-foreground">{kirill.lettersHeading}</h2>
-        <table className="mt-4 w-full text-left">
+        <h2 id="kirill-letters" className="mt-16 font-medium text-foreground">{kirill.lettersHeading}</h2>
+        <table aria-labelledby="kirill-letters" className="mt-4 w-full text-left">
           <thead>
             <tr className="text-sm text-muted">
-              <th className="py-2 font-normal">{kirill.fromLabel}</th>
-              <th className="py-2 font-normal">{kirill.toLabel}</th>
+              <th scope="col" className="py-2 font-normal">{kirill.fromLabel}</th>
+              <th scope="col" className="py-2 font-normal">{kirill.oldLabel}</th>
+              <th scope="col" className="py-2 font-normal">{kirill.toLabel}</th>
             </tr>
           </thead>
           <tbody>
             {CHANGED.map((L) => (
               <tr key={L.id} className="border-t border-black/10">
                 <td className="py-3 font-serif text-2xl text-foreground">{L.cyrillic}</td>
-                <td className="py-3 font-serif text-2xl text-foreground">{L.latin}</td>
+                <td lang="uz-Latn" className="py-3 font-serif text-2xl text-muted">{L.old}</td>
+                <td lang="uz-Latn" className="py-3 font-serif text-2xl text-foreground">{L.latin}</td>
               </tr>
             ))}
           </tbody>

@@ -19,3 +19,23 @@ test.each(['/alphabet', '/ru/alphabet', '/en/alphabet'])('%s links to /kirill wi
   const { container } = renderApp(path)
   expect(container.querySelector('a[href="/kirill"]')).not.toBeNull()
 })
+
+// Review of 192c486: the page's own tool spoke Latin on a page for Cyrillic readers,
+// and the letters table read as if the Cyrillic letters had changed.
+test('/kirill speaks Cyrillic inside the converter too', () => {
+  const { container } = renderApp('/kirill')
+  expect(container.querySelector('#converter-heading')!.textContent).toMatch(/[Ѐ-ӿ]/)
+  expect(container.querySelector('#converter-input')!.getAttribute('placeholder')).toMatch(/[Ѐ-ӿ]/)
+  expect(container.querySelector('label[for="converter-input"]')!.textContent).toMatch(/[Ѐ-ӿ]/)
+})
+
+test('/kirill letters table shows Cyrillic, the 1995 Latin and the new Latin, with column headers', () => {
+  const { container } = renderApp('/kirill')
+  const table = container.querySelector('table')!
+  const heads = table.querySelectorAll('thead th')
+  expect(heads).toHaveLength(3)
+  heads.forEach((th) => expect(th.getAttribute('scope')).toBe('col'))
+  expect(table.textContent).toContain('Oʻ oʻ')
+  const labelledBy = table.getAttribute('aria-labelledby')!
+  expect(container.querySelector(`#${labelledBy}`)?.tagName).toBe('H2')
+})

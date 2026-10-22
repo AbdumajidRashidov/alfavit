@@ -16,7 +16,10 @@ export interface KirillPage {
   intro: string
   lettersHeading: string
   fromLabel: string
+  oldLabel: string
   toLabel: string
+  /** The converter's labels, in Cyrillic (the UI locale is Latin Uzbek). */
+  converter: { heading: string; inputLabel: string; outputLabel: string; copy: string; copied: string; share: string }
   qa: { q: string; a: string }[]
   alphabetLink: string
   statusLink: string
@@ -29,9 +32,18 @@ export const kirill: KirillPage = {
   metaDesc: 'Кирилл ёзувидаги ўзбекча матнни 2026 йилги янги алифбога (Ö, Ğ, Ş, Ç) бир зумда ўгиринг. Қонун 2027 йил 22 апрелдан кучга киради.',
   title: 'Янги ўзбек алифбоси: кириллдан янги лотинга ўгириш',
   intro: 'Кирилл ёзувидаги матнни қуйидаги майдонга қўйинг — у 2026 йилги янги лотин алифбосига бир зумда ўгирилади. Ҳеч нарса юкланмайди: ўгириш қурилмангизнинг ўзида бажарилади.',
-  lettersHeading: 'Ўзгарган тўртта ҳарф',
+  lettersHeading: 'Лотин ёзувида ўзгарган тўртта ҳарф',
   fromLabel: 'Кирилл',
-  toLabel: 'Янги лотин',
+  oldLabel: 'Эски лотин (1995)',
+  toLabel: 'Янги лотин (2026)',
+  converter: {
+    heading: 'Матнингизни янги алифбога ўгиринг',
+    inputLabel: 'Кирилл ёки эски лотин',
+    outputLabel: 'Янги лотин',
+    copy: 'Нусха олиш',
+    copied: 'Нусха олинди',
+    share: 'Улашиш',
+  },
   qa: [
     {
       q: 'Янги алифбо қачон кучга киради?',
