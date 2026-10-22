@@ -16,10 +16,10 @@ import type { Locale } from '../seo/config'
  */
 export type ReformStage = 'awaiting-signature' | 'signed' | 'in-force'
 
-export const STAGE: ReformStage = 'awaiting-signature'
+export const STAGE: ReformStage = 'signed'
 
 /** ISO date a human last verified STAGE against the sources. */
-export const CHECKED_ON = '2026-09-13'
+export const CHECKED_ON = '2026-10-22'
 
 /** Build fails once CHECKED_ON is older than this. */
 export const MAX_AGE_DAYS = 45
@@ -59,15 +59,15 @@ export const STATUS_COPY: Record<ReformStage, Record<Locale, StatusCopy>> = {
   signed: {
     uz: {
       headline: 'Ha — Prezident qonunni imzoladi.',
-      body: 'Qonun imzolandi va rasmiy eʼlon qilindi. U oʻtish davri tugagach toʻliq kuchga kiradi; amaldagi alifboda berilgan hujjatlar kuchini saqlaydi.',
+      body: 'Qonun 2026-yil 21-oktabrda imzolandi. U oʻtish davri tugagach toʻliq kuchga kiradi; amaldagi alifboda berilgan hujjatlar kuchini saqlaydi.',
     },
     ru: {
       headline: 'Да — Президент подписал закон.',
-      body: 'Закон подписан и официально опубликован. Он вступит в полную силу по окончании переходного периода; документы на прежнем алфавите остаются действительными.',
+      body: 'Закон подписан 21 октября 2026 года. Он вступит в полную силу по окончании переходного периода; документы на прежнем алфавите остаются действительными.',
     },
     en: {
       headline: 'Yes — the President has signed the law.',
-      body: 'The law is signed and officially published. It takes full effect once the transition period ends; documents issued in the previous alphabet remain valid.',
+      body: 'The law was signed on 21 October 2026. It takes full effect once the transition period ends; documents issued in the previous alphabet remain valid.',
     },
   },
   'in-force': {

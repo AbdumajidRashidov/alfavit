@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
+import { STAGE, STATUS_COPY, legalForce } from '../content/status'
 
 // Requires `pnpm --dir apps/web build` to have run (see the step below).
 const dist = (p: string) => readFileSync(resolve(__dirname, '../../dist', p), 'utf-8')
@@ -78,17 +79,19 @@ test('404.html is built, noindex, and free of canonical or hreflang', () => {
   expect(html).not.toContain('hreflang=')
 })
 
-test('/status answers the question in the markup and declares the law not in force', () => {
+test('/status answers the question in the markup and declares its legal force', () => {
+  // Follows STAGE, as the page does. Pinning one stage's headline here failed
+  // the signature-day build for a correct page.
   const html = dist('status.html')
-  expect(html).toContain('Yoʻq — qonun qabul qilingan, ammo hali imzolanmagan.')
+  expect(html).toContain(STATUS_COPY[STAGE].uz.headline)
   expect(html).toContain('"@type":"Legislation"')
-  expect(html).toContain('"legislationLegalForce":"https://schema.org/NotInForce"')
+  expect(html).toContain(`"legislationLegalForce":"${legalForce()}"`)
   expect(html).toContain('"legislationDate":"2026-07-07"')
   expect(html).toContain('rel="canonical" href="https://alfavit.uz/status"')
 
   // Localised, not just the default locale prerendered three times.
-  expect(dist('en/status.html')).toContain('Not yet — the law has passed, but it has not been signed.')
-  expect(dist('ru/status.html')).toContain('Нет — закон принят, но ещё не подписан.')
+  expect(dist('en/status.html')).toContain(STATUS_COPY[STAGE].en.headline)
+  expect(dist('ru/status.html')).toContain(STATUS_COPY[STAGE].ru.headline)
 })
 
 test('the alphabet page answers the letter-count query under its own heading', () => {
