@@ -76,12 +76,12 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 
 ## Tools
 
-- Web converter (${SITE_URL}/, also on ${SITE_URL}/alphabet): paste Cyrillic or old-Latin Uzbek and get the 2026 alphabet. It detects the script, accepts every apostrophe variant (ʻ ' ‘ ’ \`) and keeps capitals; flags Cyrillic е (e or ye) and ц (s or c) for review; keeps s and h apart in words such as Ishoq and mushaf; leaves web addresses, emails and @handles unchanged; and flags foreign words such as Washington instead of rewriting them.
+- Web converter (${SITE_URL}/, also on ${SITE_URL}/alphabet): paste Cyrillic or old-Latin Uzbek and get the 2026 alphabet. It detects the script, accepts every apostrophe variant (ʻ ' ‘ ’ \`) and keeps capitals; writes Cyrillic е as ye or e by its position and ц as s; keeps s and h apart in words such as Ishoq and mushaf; leaves web addresses, emails and @handles unchanged; and leaves foreign words such as Washington as written.
 - Files (${SITE_URL}/files): .docx, .txt and .srt, converted in the browser; nothing is uploaded.
 - Windows and Mac apps (${SITE_URL}/apps): convert as you type, in any program, keeping your usual keyboard.
 - Telegram bot (https://t.me/alfavit_uz_bot): send it text, or type @alfavit_uz_bot followed by your text in any chat (inline mode).
-- Public API: POST https://api.alfavit.uz/v1/transliterate with JSON {"text": "..."}; returns {"text", "detectedScript", "flags"}. Free, no key, 60 requests per 60 seconds per IP, up to 100,000 characters.
-- npm: @alfavit/engine (MIT, the same converter, offline, no dependencies) and @alfavit/sdk (API client).
+- Public API: POST https://api.alfavit.uz/v1/transliterate with JSON {"text": "..."}; returns {"text", "detectedScript", "flags"}, where flags mark spellings with more than one possible answer (Cyrillic е and ц, foreign words) with the alternatives. Free, no key, 60 requests per 60 seconds per IP, up to 100,000 characters.
+- npm: @alfavit/engine (MIT, the conversion engine for JavaScript; offline, no dependencies) and @alfavit/sdk (API client).
 
 ## Languages
 
