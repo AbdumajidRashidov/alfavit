@@ -2,10 +2,15 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
 import { CHECKED_ON, STAGE, type ReformStage } from '../content/status'
+import { PAGE_PATHS } from '../seo/config'
 
-test('dist/sitemap.xml has all 33 locale URLs', () => {
+// One <url> per page per language version it has.
+const URL_COUNT = PAGE_PATHS.reduce((n, p) => n + p.locales.length, 0)
+
+test('dist/sitemap.xml has every locale URL', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect((xml.match(/<loc>/g) ?? []).length).toBe(33)
+  expect(URL_COUNT).toBe(34) // 11 pages x 3 languages, plus /kirill in Uzbek only
+  expect((xml.match(/<loc>/g) ?? []).length).toBe(URL_COUNT)
   expect(xml).toContain('<loc>https://alfavit.uz/ru/files</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/en/alphabet</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/ru/status</loc>')
@@ -31,7 +36,7 @@ test('dist/sitemap.xml declares the chart image on every alphabet URL', () => {
 
 test('every sitemap URL carries a lastmod, and none points at the 404', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect((xml.match(/<lastmod>/g) ?? []).length).toBe(33)
+  expect((xml.match(/<lastmod>/g) ?? []).length).toBe(URL_COUNT)
   // An inaccurate or missing lastmod makes Google stop trusting the file.
   for (const d of xml.match(/<lastmod>([^<]+)<\/lastmod>/g) ?? []) {
     const date = d.replace(/<\/?lastmod>/g, '')

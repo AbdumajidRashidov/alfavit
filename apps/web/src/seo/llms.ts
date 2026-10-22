@@ -70,6 +70,7 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 - [Cyrillic → new Latin guide](${SITE_URL}/guide/cyrillic-to-latin): step-by-step
 - [Old Latin → new Latin guide](${SITE_URL}/guide/old-latin-to-new): step-by-step
 - [How to type Ö, Ğ, Ş, Ç](${SITE_URL}/guide/keyboard): the keyboard to add, the keys and the shortcuts for the four new letters on Android, iPhone, Windows and Mac
+- [Янги ўзбек алифбоси](${SITE_URL}/kirill): the converter and the four changed letters, written in Uzbek Cyrillic for readers of the Cyrillic script
 - [Files](${SITE_URL}/files): convert .txt, .srt, and .docx files in-browser
 - [Apps & channels](${SITE_URL}/apps): web app, Telegram bot, browser extension, public API
 - [Developers](${SITE_URL}/developers): free public transliteration API, no key required

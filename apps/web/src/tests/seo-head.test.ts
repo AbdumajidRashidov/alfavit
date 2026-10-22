@@ -136,3 +136,11 @@ test('the alphabet page prerenders a visible converter between the intro and the
     expect(html.slice(h1, count)).not.toContain('opacity:0')
   }
 })
+
+test('/kirill is prerendered as Uzbek Cyrillic', () => {
+  const html = dist('kirill.html')
+  expect(html).toMatch(/<html[^>]*lang="uz-Cyrl"/)
+  expect(html).toContain('"inLanguage":"uz-Cyrl"')
+  // One page, no translations: hreflang alternates would point only at itself.
+  expect(html).not.toContain('hreflang=')
+})

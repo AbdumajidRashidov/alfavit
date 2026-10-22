@@ -49,3 +49,10 @@ test('sitemap includes all locales for guides', () => {
   expect(xml).toContain('<loc>https://alfavit.uz/ru/guide/cyrillic-to-latin</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/en/guide/cyrillic-to-latin</loc>')
 })
+
+test('/kirill is in the sitemap with no ru or en alternate', () => {
+  const xml = generateSitemapXml()
+  expect(xml).toContain('<loc>https://alfavit.uz/kirill</loc>')
+  expect(xml).not.toContain('https://alfavit.uz/ru/kirill')
+  expect(xml).not.toContain('https://alfavit.uz/en/kirill')
+})

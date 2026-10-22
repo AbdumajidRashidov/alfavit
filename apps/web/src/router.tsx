@@ -11,6 +11,7 @@ import { PrivacyPage } from './pages/PrivacyPage'
 import { GuideCyrillicPage } from './pages/GuideCyrillicPage'
 import { GuideOldLatinPage } from './pages/GuideOldLatinPage'
 import { GuideKeyboardPage } from './pages/GuideKeyboardPage'
+import { KirillPage } from './pages/KirillPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { StatusPage } from './pages/StatusPage'
 import { localesForPath, type Locale } from './seo/config'
@@ -29,6 +30,7 @@ const PAGES: PageDef[] = [
   { path: 'guide/cyrillic-to-latin', Component: GuideCyrillicPage },
   { path: 'guide/old-latin-to-new', Component: GuideOldLatinPage },
   { path: 'guide/keyboard', Component: GuideKeyboardPage },
+  { path: 'kirill', Component: KirillPage },
 ]
 
 function childrenFor(locale: Locale): RouteRecord[] {
