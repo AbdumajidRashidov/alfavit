@@ -61,7 +61,7 @@ Only you can do these. Tick them in order; the code side is already merged when 
 - [ ] Record the demo GIF per `demo-shotlist.md`; upload the MP4 somewhere linkable (Telegram channel post works).
 - [ ] Make the GitHub repo public; set description and topics (`developer-launch.md` → repo checklist); publish the draft desktop release.
 - [ ] Create the npm org `alfavit`; run `pnpm turbo run build --filter=@alfavit/engine --filter=@alfavit/sdk`, then `pnpm --filter @alfavit/engine publish --no-git-checks` and the same for `@alfavit/sdk`.
-- [ ] Register a Chrome Web Store developer account (one-time $5) and submit `docs/chrome-web-store/alfavit-extension-v0.1.1.zip` per `docs/chrome-web-store/LISTING.md`.
+- [ ] Register a Chrome Web Store developer account (one-time $5) and submit the zip built by `pnpm --filter @alfavit/extension pack:store` (on `main`; see `docs/chrome-web-store/LISTING.md`).
 - [ ] Push the bot's new descriptions: `BOT_TOKEN=… pnpm --dir apps/bot setup:config`.
 - [ ] Send the press pitches (`press-outreach.md`), before 10:00 Tashkent time, one outlet per email. Log each in the tracker.
 - [ ] Post the Telegram, LinkedIn and X posts (`launch-posts.md`). Seed communities over the next four days (`community-seeding.md`), never more than two venues per day.
