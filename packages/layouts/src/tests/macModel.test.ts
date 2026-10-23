@@ -49,3 +49,18 @@ test('macDisplaced lists what each override replaced', () => {
   expect(macDisplaced()).toContainEqual({ combo: "⇧⌥'", was: 'Æ', now: 'ʼ' })
   expect(macDisplaced().find((d) => d.combo === '⌥c')).toBeUndefined() // ⌥c is already ç
 })
+
+// The web page calls macDisplaced() while rendering, and the site still
+// targets Safari 14, which has no structuredClone.
+test('works in browsers without structuredClone', () => {
+  const saved = globalThis.structuredClone
+  // @ts-expect-error simulating Safari 14
+  delete globalThis.structuredClone
+  try {
+    expect(macDisplaced()).toContainEqual({ combo: '⌥s', was: 'ß', now: 'ş' })
+    expect(macModel().keys[1].option).toBe('ş')
+    expect(US_BASE[1].option).toBe('ß') // the model must not write through to the base
+  } finally {
+    globalThis.structuredClone = saved
+  }
+})

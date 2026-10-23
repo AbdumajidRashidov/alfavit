@@ -15,7 +15,12 @@ export interface MacModel {
 }
 
 export function macModel(): MacModel {
-  const keys = structuredClone(US_BASE) as Record<number, Record<MacState, MacOutput>>
+  // One level of copying is enough: overrides replace whole state values and
+  // never mutate the dead-key objects. (No structuredClone: the web page runs
+  // this on Safari 14, which lacks it.)
+  const keys: Record<number, Record<MacState, MacOutput>> = Object.fromEntries(
+    Object.entries(US_BASE).map(([code, states]) => [code, { ...states }]),
+  )
   const overrides: MacModel['overrides'] = []
   for (const { base, lower, upper } of KEY_TABLE) {
     const keyCode = MAC_KEY_CODES[base]

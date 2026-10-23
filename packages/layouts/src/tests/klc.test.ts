@@ -4,11 +4,13 @@ import { generateKlc, encodeKlc } from '../windows/klc.js'
 
 const klc = generateKlc()
 
+// Cap 5 = CAPLOK | CAPLOKALTGR: Caps Lock capitalises the AltGr letters too
+// (Caps Lock + AltGr+s gives Ş — Review Focus 3, on Windows).
 test.each([
-  ['18\tO\t\t1\to\tO\t-1\t00f6\t00d6'],
-  ['22\tG\t\t1\tg\tG\t-1\t011f\t011e'],
-  ['1f\tS\t\t1\ts\tS\t-1\t015f\t015e'],
-  ['2e\tC\t\t1\tc\tC\t-1\t00e7\t00c7'],
+  ['18\tO\t\t5\to\tO\t-1\t00f6\t00d6'],
+  ['22\tG\t\t5\tg\tG\t-1\t011f\t011e'],
+  ['1f\tS\t\t5\ts\tS\t-1\t015f\t015e'],
+  ['2e\tC\t\t5\tc\tC\t-1\t00e7\t00c7'],
   ['28\tOEM_7\t\t0\t0027\t0022\t-1\t02bc\t02bc'], // Review Focus 5
 ])('carries the row %s', (row) => expect(klc).toContain(row))
 

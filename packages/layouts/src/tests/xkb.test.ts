@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { generateAlfavitVariant, generateUzSymbols, generateEvdevXml } from '../linux/xkb.js'
+import { generateAlfavitVariant, generateUzSymbols, generateEvdevXml, linuxFiles } from '../linux/xkb.js'
 import { tarGz } from '../linux/tar.js'
 
 const upstream = readFileSync(new URL('../linux/upstream/uz', import.meta.url), 'utf8')
@@ -40,4 +40,14 @@ test('the registry adds the variant under uz', () => {
 test('the tarball is byte-identical across runs', () => {
   const files = [{ path: 'xkb/symbols/uz', content: 'a' }, { path: 'xkb/rules/evdev.xml', content: 'b' }]
   expect(tarGz(files).equals(tarGz(files))).toBe(true)
+})
+
+// MIT/X11 terms: the notice travels with the copied symbols/uz.
+test('the drop-in carries the xkeyboard-config licence next to the copied file', () => {
+  const copying = readFileSync(new URL('../linux/upstream/COPYING', import.meta.url), 'utf8')
+  expect(copying).toContain('Permission to use, copy, modify, distribute, and sell this software')
+  const files = linuxFiles(upstream, copying)
+  expect(files.map((f) => f.path)).toEqual(['xkb/symbols/uz', 'xkb/rules/evdev.xml', 'xkb/COPYING.xkeyboard-config'])
+  expect(files[2].content).toBe(copying)
+  expect(files[0].content).toContain('COPYING.xkeyboard-config')
 })

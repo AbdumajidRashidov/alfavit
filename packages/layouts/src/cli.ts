@@ -6,7 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { DOWNLOADS } from './keys.js'
 import { generateKeylayout } from './macos/keylayout.js'
 import { macModel } from './macos/model.js'
-import { generateUzSymbols, generateEvdevXml } from './linux/xkb.js'
+import { linuxFiles } from './linux/xkb.js'
 import { tarGz } from './linux/tar.js'
 import { generateKlc, encodeKlc } from './windows/klc.js'
 
@@ -24,11 +24,8 @@ export function writeArtefacts(repoRoot: string): void {
   write(join(out, 'macos/model.json'), JSON.stringify(macModel(), null, 2) + '\n')
   write(join(download, DOWNLOADS.mac), keylayout)
 
-  const upstream = readFileSync(join(repoRoot, 'packages/layouts/src/linux/upstream/uz'), 'utf8')
-  const xkb = [
-    { path: 'xkb/symbols/uz', content: generateUzSymbols(upstream) },
-    { path: 'xkb/rules/evdev.xml', content: generateEvdevXml() },
-  ]
+  const upstreamDir = join(repoRoot, 'packages/layouts/src/linux/upstream')
+  const xkb = linuxFiles(readFileSync(join(upstreamDir, 'uz'), 'utf8'), readFileSync(join(upstreamDir, 'COPYING'), 'utf8'))
   for (const f of xkb) write(join(out, 'linux', f.path), f.content)
   write(join(download, DOWNLOADS.linux), tarGz(xkb))
 

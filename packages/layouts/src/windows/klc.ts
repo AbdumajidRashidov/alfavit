@@ -5,7 +5,7 @@ import { KEY_TABLE, LAYOUT_NAME, type KeyBase } from '../keys.js'
 
 /** U.S. rows: scan code, virtual key, Caps Lock acts as Shift, then the
  * characters for no modifier, Shift, and Ctrl (null = none). */
-const US_ROWS: [string, string, 0 | 1, string, string, string | null][] = [
+const US_ROWS: [string, string, number, string, string, string | null][] = [
   ['02', '1', 0, '1', '!', null], ['03', '2', 0, '2', '@', null], ['04', '3', 0, '3', '#', null],
   ['05', '4', 0, '4', '$', null], ['06', '5', 0, '5', '%', null], ['07', '6', 0, '6', '^', null],
   ['08', '7', 0, '7', '&', null], ['09', '8', 0, '8', '*', null], ['0a', '9', 0, '9', '(', null],
@@ -55,7 +55,9 @@ export function generateKlc(): string {
   const rows = US_ROWS.map(([sc, vk, cap, s0, s1, ctrl]) => {
     const k = altGr.get(sc)
     const vkCol = vk.length >= 8 ? `${vk}\t` : `${vk}\t\t`
-    return [sc, `${vkCol}${cap}`, cell(s0), cell(s1), cell(ctrl), cell(k?.lower ?? null), cell(k?.upper ?? null)].join('\t')
+    // CAPLOKALTGR (4): Caps Lock also capitalises the AltGr letters (ʼ has no capital).
+    const capFlags = k && k.upper !== k.lower ? cap | 4 : cap
+    return [sc, `${vkCol}${capFlags}`, cell(s0), cell(s1), cell(ctrl), cell(k?.lower ?? null), cell(k?.upper ?? null)].join('\t')
   })
   const lines = [
     `KBD\talfavit\t"${LAYOUT_NAME}"`,

@@ -37,6 +37,16 @@ export function generateUzSymbols(upstream: string): string {
   return `${upstream}\n${generateAlfavitVariant()}`
 }
 
+/** Everything the tarball unpacks into ~/.config: the shadowing uz file, the
+ * registry entry, and xkeyboard-config's licence for the copied text. */
+export function linuxFiles(upstream: string, copying: string): { path: string; content: string }[] {
+  return [
+    { path: 'xkb/symbols/uz', content: generateUzSymbols(upstream) },
+    { path: 'xkb/rules/evdev.xml', content: generateEvdevXml() },
+    { path: 'xkb/COPYING.xkeyboard-config', content: copying },
+  ]
+}
+
 export function generateEvdevXml(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <xkbConfigRegistry version="1.1">

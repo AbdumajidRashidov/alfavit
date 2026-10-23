@@ -1,8 +1,9 @@
 // Verbatim copy of symbols/uz from xkeyboard-config 2.49:
 // https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/raw/xkeyboard-config-2.49/symbols/uz
-// Distributed under the xkeyboard-config licence (MIT/X11 style; see COPYING
-// in that repository). Shipped whole because ~/.config/xkb/symbols/uz shadows
-// the system file: the Alfavit variant is appended after this text.
+// Distributed under the xkeyboard-config licence (MIT/X11 style), whose full
+// notice ships alongside as ~/.config/xkb/COPYING.xkeyboard-config. Shipped
+// whole because ~/.config/xkb/symbols/uz shadows the system file: the Alfavit
+// variant is appended after this text.
 
 // Keyboard layouts for Uzbekistan.
 
