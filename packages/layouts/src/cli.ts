@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { DOWNLOADS } from './keys.js'
-import { generateKeylayout } from './macos/keylayout.js'
+import { generateKeylayout, MAC_COMBOS } from './macos/keylayout.js'
 import { macModel } from './macos/model.js'
 import { linuxFiles } from './linux/xkb.js'
 import { tarGz } from './linux/tar.js'
@@ -21,7 +21,7 @@ export function writeArtefacts(repoRoot: string): void {
 
   const keylayout = generateKeylayout()
   write(join(out, 'macos', DOWNLOADS.mac), keylayout)
-  write(join(out, 'macos/model.json'), JSON.stringify(macModel(), null, 2) + '\n')
+  write(join(out, 'macos/model.json'), JSON.stringify({ ...macModel(), combos: MAC_COMBOS }, null, 2) + '\n')
   write(join(download, DOWNLOADS.mac), keylayout)
 
   const upstreamDir = join(repoRoot, 'packages/layouts/src/linux/upstream')

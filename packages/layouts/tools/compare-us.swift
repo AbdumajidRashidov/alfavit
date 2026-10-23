@@ -1,6 +1,7 @@
 // Checks packages/layouts/out/macos/model.json against the U.S. keyboard layout
-// installed on this Mac, key by key, so the hand-written US base cannot carry a
-// transcription slip into the shipped layout.
+// installed on this Mac, key by key and for all 32 combinations of ⌘ ⇧ ⇪ ⌥ ⌃
+// (through the model's combination table), so neither a transcription slip in
+// the US base nor a wrong modifier mapping reaches the shipped layout.
 //
 // Read-only: it reads the U.S. layout's data through Text Input Sources and
 // translates keystrokes with UCKeyTranslate. It selects, enables and changes
@@ -18,6 +19,7 @@ let json = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWi
 let keys = json["keys"] as! [String: [String: Any]]
 let deadKeys = json["deadKeys"] as! [String: [String: Any]]
 let overrides = Set((json["overrides"] as! [[String: Any]]).map { "\($0["keyCode"]!):\($0["state"]!)" })
+let combos = (json["combos"] as! [[String: Any]]).map { (bits: UInt32($0["bits"] as! Int), state: $0["state"] as! String) }
 
 let filter = [kTISPropertyInputSourceID as String: "com.apple.keylayout.US"] as CFDictionary
 guard let sources = TISCreateInputSourceList(filter, true)?.takeRetainedValue() as? [TISInputSource],
@@ -28,12 +30,13 @@ guard let sources = TISCreateInputSourceList(filter, true)?.takeRetainedValue() 
 let layoutData = Unmanaged<CFData>.fromOpaque(raw).takeUnretainedValue() as Data
 let keyboardType = UInt32(LMGetKbdType())
 
-// UCKeyTranslate modifier state = (Carbon modifier mask >> 8) & 0xFF.
-let states: [(name: String, mods: UInt32)] = [
-  ("plain", 0), ("command", 1), ("shift", 2), ("caps", 4),
-  ("option", 8), ("shiftOption", 10), ("capsOption", 12), ("control", 16),
-]
-let modsOf = Dictionary(uniqueKeysWithValues: states.map { ($0.name, $0.mods) })
+// UCKeyTranslate modifier state = (Carbon modifier mask >> 8) & 0xFF:
+// command 1, shift 2, caps 4, option 8, control 16 — the model's combo bits.
+let modsOf: [String: UInt32] = ["plain": 0, "shift": 2, "option": 8]
+func comboName(_ b: UInt32) -> String {
+  let n = [b & 1 != 0 ? "⌘" : "", b & 2 != 0 ? "⇧" : "", b & 4 != 0 ? "⇪" : "", b & 8 != 0 ? "⌥" : "", b & 16 != 0 ? "⌃" : ""].joined()
+  return n.isEmpty ? "none" : n
+}
 
 func translate(_ code: UInt16, _ mods: UInt32, _ dead: inout UInt32) -> String {
   layoutData.withUnsafeBytes { buf -> String in
@@ -52,21 +55,23 @@ func show(_ s: String) -> String {
 var mismatches: [String] = []
 func mismatch(_ line: String) { mismatches.append(line) }
 
-// 1. Every key code, every state.
-for code in 0...127 {
-  for (state, mods) in states {
+// 1. Every key code, under every one of the 32 modifier combinations.
+if combos.count != 32 { mismatch("combination table has \(combos.count) entries, want 32") }
+for (mods, state) in combos {
+  let label = "\(comboName(mods))→\(state)"
+  for code in 0...127 {
     if overrides.contains("\(code):\(state)") { continue }
     var dead: UInt32 = 0
     let actual = translate(UInt16(code), mods, &dead)
     switch keys[String(code)]?[state] {
     case nil:
-      if !actual.isEmpty || dead != 0 { mismatch("\(code) \(state) model=(missing) apple=\(dead != 0 ? "dead key" : show(actual))") }
+      if !actual.isEmpty || dead != 0 { mismatch("\(code) \(label) model=(missing) apple=\(dead != 0 ? "dead key" : show(actual))") }
     case let expected as String:
-      if dead != 0 || actual != expected { mismatch("\(code) \(state) model=\(show(expected)) apple=\(dead != 0 ? "dead key" : show(actual))") }
+      if dead != 0 || actual != expected { mismatch("\(code) \(label) model=\(show(expected)) apple=\(dead != 0 ? "dead key" : show(actual))") }
     case let expected as [String: Any]:
-      if dead == 0 || !actual.isEmpty { mismatch("\(code) \(state) model=dead \(expected["dead"]!) apple=\(show(actual))") }
+      if dead == 0 || !actual.isEmpty { mismatch("\(code) \(label) model=dead \(expected["dead"]!) apple=\(show(actual))") }
     default:
-      mismatch("\(code) \(state) model=unreadable")
+      mismatch("\(code) \(label) model=unreadable")
     }
   }
 }

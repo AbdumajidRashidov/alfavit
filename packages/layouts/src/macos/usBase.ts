@@ -3,11 +3,11 @@
 // value here against the U.S. layout installed on the machine, so a
 // transcription slip shows up as a named mismatch rather than a wrong key.
 
-export type MacState = 'plain' | 'shift' | 'caps' | 'option' | 'shiftOption' | 'capsOption' | 'command' | 'control'
+export type MacState = 'plain' | 'shift' | 'caps' | 'option' | 'shiftOption' | 'capsOption' | 'command' | 'commandOption' | 'control'
 export type DeadKeyId = 'acute' | 'diaeresis' | 'circumflex' | 'tilde' | 'grave'
 export type MacOutput = string | { dead: DeadKeyId }
 
-export const MAC_STATES: readonly MacState[] = ['plain', 'shift', 'caps', 'option', 'shiftOption', 'capsOption', 'command', 'control']
+export const MAC_STATES: readonly MacState[] = ['plain', 'shift', 'caps', 'option', 'shiftOption', 'capsOption', 'command', 'commandOption', 'control']
 
 const D = (dead: DeadKeyId): MacOutput => ({ dead })
 // Spelled by code point: these are invisible or look like other characters.
@@ -102,6 +102,12 @@ const STATE_EXCEPTIONS: Partial<Record<number, Partial<Record<MacState, MacOutpu
  * other key it types the plain Option one. Read off the U.S. layout. */
 const CAPS_OPTION_FROM_SHIFT = new Set([0, 2, 3, 4, 11, 12, 14, 16, 32, 34, 35, 37, 38, 45, 46, 50])
 
+/** With ⌘ held the U.S. layout never starts an accent: ⌘⌥ on an accent key
+ * types this instead (note ^ and ~ are the ASCII ones, not ˆ and ˜). */
+const COMMAND_OPTION_ACCENT: Record<DeadKeyId, string> = {
+  acute: String.fromCodePoint(0x00b4), diaeresis: String.fromCodePoint(0x00a8), circumflex: '^', tilde: '~', grave: '`',
+}
+
 const CONTROL_PUNCT: Record<string, string> = { '[': '\u001B', '\\': '\u001C', ']': '\u001D' }
 
 function expand(code: number, [plain, shift, option, shiftOption]: [string, string, MacOutput, MacOutput]): Record<MacState, MacOutput> {
@@ -114,6 +120,7 @@ function expand(code: number, [plain, shift, option, shiftOption]: [string, stri
     shiftOption,
     capsOption: CAPS_OPTION_FROM_SHIFT.has(code) ? shiftOption : option,
     command: plain,
+    commandOption: typeof option === 'string' ? option : COMMAND_OPTION_ACCENT[option.dead],
     control: letter ? String.fromCharCode(plain.charCodeAt(0) - 96) : (CONTROL_PUNCT[plain] ?? plain),
   }
 }

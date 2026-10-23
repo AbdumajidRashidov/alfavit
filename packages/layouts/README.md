@@ -29,10 +29,16 @@ it writes: CI regenerates and fails on any difference.
 swift packages/layouts/tools/compare-us.swift packages/layouts/out/macos/model.json
 ```
 
-Reads the U.S. layout installed on the Mac and translates every key in every
-state, plus every dead key, against `model.json`. Read-only: it selects,
-enables and changes nothing. Must print `0 mismatches`. Run it after any change
-to `src/macos/usBase.ts`.
+Reads the U.S. layout installed on the Mac and translates every key under all
+32 combinations of ⌘ ⇧ ⇪ ⌥ ⌃ (through the combination table in `model.json`),
+plus every dead key, against `model.json`. Read-only: it selects, enables and
+changes nothing. Must print `0 mismatches`. Run it after any change to
+`src/macos/usBase.ts` or `src/macos/keylayout.ts`.
+
+Known limit: the layout has one key map for every keyboard type. ANSI and ISO
+keyboards match Apple's U.S. layout exactly; Japanese (JIS) keyboards do not —
+Apple's U.S. layout has a separate JIS table (for example `¥` and `_` on the
+two extra JIS keys), which this layout does not reproduce.
 
 ## Acceptance checklist — macOS (owner)
 

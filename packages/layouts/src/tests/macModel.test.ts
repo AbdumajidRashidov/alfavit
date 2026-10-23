@@ -3,7 +3,7 @@ import { macModel, type MacState } from '../macos/model.js'
 import { US_BASE } from '../macos/usBase.js'
 import { macDisplaced } from '../index.js'
 
-const STATES: MacState[] = ['plain', 'shift', 'caps', 'option', 'shiftOption', 'capsOption', 'command', 'control']
+const STATES: MacState[] = ['plain', 'shift', 'caps', 'option', 'shiftOption', 'capsOption', 'command', 'commandOption', 'control']
 
 test('the five overrides, in every state the spec names', () => {
   const k = macModel().keys
@@ -22,7 +22,7 @@ test('nothing else differs from the US base', () => {
   for (const [code, states] of Object.entries(US_BASE))
     for (const [state, out] of Object.entries(states))
       if (!overridden.has(`${code}:${state}`)) expect(keys[+code][state as MacState]).toEqual(out)
-  expect(overrides).toHaveLength(15)
+  expect(overrides).toHaveLength(20)
 })
 
 // Review Focus 2: ⌘C/⌘V/⌘S keep working, and Ctrl+C in Terminal still sends ^C.
@@ -63,4 +63,14 @@ test('works in browsers without structuredClone', () => {
   } finally {
     globalThis.structuredClone = saved
   }
+})
+
+// Apple's U.S. layout: with ⌘ held, the accent keys type their spacing
+// character instead of starting an accent, so a shortcut never leaves a
+// half-typed accent behind. ⌘⌥ is otherwise the Option layer — ours included.
+test('⌘⌥ is the Option layer with the accent keys made plain', () => {
+  const k = macModel().keys
+  expect([k[14].commandOption, k[32].commandOption, k[34].commandOption, k[45].commandOption, k[50].commandOption])
+    .toEqual(['\u00B4', '\u00A8', '^', '~', '`'])
+  expect([k[0].commandOption, k[31].commandOption, k[1].commandOption]).toEqual(['å', 'ö', 'ş'])
 })

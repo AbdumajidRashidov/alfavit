@@ -1,5 +1,5 @@
 // What the Özbek (yangi alifbo) layout types on macOS: the U.S. layout with
-// the five letters written onto Option, Shift+Option and Caps Lock+Option.
+// the five letters written onto Option, Shift+Option, Caps Lock+Option and ⌘⌥.
 // Nothing else changes — a test holds every other key/state to US_BASE.
 import { KEY_TABLE, type KeyBase } from '../keys.js'
 import { US_BASE, DEAD_KEYS, type MacState, type MacOutput } from './usBase.js'
@@ -24,7 +24,7 @@ export function macModel(): MacModel {
   const overrides: MacModel['overrides'] = []
   for (const { base, lower, upper } of KEY_TABLE) {
     const keyCode = MAC_KEY_CODES[base]
-    for (const [state, out] of [['option', lower], ['shiftOption', upper], ['capsOption', upper]] as const) {
+    for (const [state, out] of [['option', lower], ['shiftOption', upper], ['capsOption', upper], ['commandOption', lower]] as const) {
       keys[keyCode][state] = out
       overrides.push({ keyCode, state })
     }

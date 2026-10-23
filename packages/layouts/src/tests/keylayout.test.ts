@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { generateKeylayout, MAC_LAYOUT_ID, MAC_STATE_INDEX } from '../macos/keylayout.js'
+import { generateKeylayout, MAC_LAYOUT_ID, MAC_STATE_INDEX, MAC_COMBOS } from '../macos/keylayout.js'
 
 const xml = generateKeylayout()
 const mapFor = (index: number) => xml.match(new RegExp(`<keyMap index="${index}">([\\s\\S]*?)</keyMap>`))![1]
@@ -57,4 +57,18 @@ test('maxout covers the longest output', () => {
   const outputs = [...xml.matchAll(/output="([^"]*)"/g)].map((m) => m[1].match(/&#x[0-9A-F]+;|./g)!.length)
   expect(maxout).toBeGreaterThanOrEqual(Math.max(...outputs))
   expect(maxout).toBeGreaterThanOrEqual(2)
+})
+
+// All 32 combinations of ⌘ ⇧ ⇪ ⌥ ⌃ are listed explicitly — no wildcards —
+// each under exactly one keyMap, chosen as Apple's U.S. layout does.
+test('every modifier combination selects exactly one keyMap, as on the U.S. layout', () => {
+  expect(MAC_COMBOS.map((c) => c.bits).sort((a, b) => a - b)).toEqual([...Array(32).keys()])
+  const listed = [...xml.matchAll(/<modifier keys="([^"]*)"\/>/g)].map((m) => m[1].split(' ').filter(Boolean).sort().join(' '))
+  expect(listed).toHaveLength(32)
+  expect(new Set(listed).size).toBe(32)
+  const stateOf = (bits: number) => MAC_COMBOS.find((c) => c.bits === bits)!.state
+  expect(stateOf(1 | 8)).toBe('commandOption')       // ⌘⌥
+  expect(stateOf(1 | 2 | 8)).toBe('shiftOption')     // ⌘⇧⌥
+  expect(stateOf(1 | 16)).toBe('control')            // ⌘⌃
+  expect(stateOf(1 | 2)).toBe('command')             // ⌘⇧
 })

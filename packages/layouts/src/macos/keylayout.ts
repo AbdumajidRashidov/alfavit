@@ -8,17 +8,28 @@ export const MAC_LAYOUT_ID = -19263
 
 export const MAC_STATE_INDEX: Record<MacState, number> = Object.fromEntries(MAC_STATES.map((s, i) => [s, i])) as Record<MacState, number>
 
-/** Which modifier combinations select each state. `?` means "may be down". */
-const SELECT: Record<MacState, string[]> = {
-  plain: [''],
-  shift: ['anyShift caps?'],
-  caps: ['caps'],
-  option: ['anyOption'],
-  shiftOption: ['anyShift caps? anyOption'],
-  capsOption: ['caps anyOption'],
-  command: ['anyShift? caps? anyOption? command'],
-  control: ['anyShift? caps? anyOption? anyControl'],
+/** UCKeyTranslate's modifier bits, also used for the combination table. */
+const CMD = 1, SHIFT = 2, CAPS = 4, OPT = 8, CTRL = 16
+
+/** The state each modifier combination selects, as on Apple's U.S. layout
+ * (checked for all 32 by tools/compare-us.swift): Control wins over
+ * everything; ⌘ alone ignores Shift and Caps Lock; ⌘⌥ is the Option layer
+ * without accents, ⌘⇧⌥ the Shift+Option one. */
+function stateFor(bits: number): MacState {
+  if (bits & CTRL) return 'control'
+  if (bits & CMD) return bits & OPT ? (bits & SHIFT ? 'shiftOption' : 'commandOption') : 'command'
+  if (bits & OPT) return bits & SHIFT ? 'shiftOption' : bits & CAPS ? 'capsOption' : 'option'
+  return bits & SHIFT ? 'shift' : bits & CAPS ? 'caps' : 'plain'
 }
+
+export interface MacCombo { bits: number; state: MacState }
+export const MAC_COMBOS: MacCombo[] = Array.from({ length: 32 }, (_, bits) => ({ bits, state: stateFor(bits) }))
+
+/** One exact combination, no wildcards: a modifier not named must be up. */
+const modifierKeys = (bits: number) =>
+  [bits & SHIFT && 'anyShift', bits & CAPS && 'caps', bits & OPT && 'anyOption', bits & CTRL && 'anyControl', bits & CMD && 'command']
+    .filter(Boolean)
+    .join(' ')
 
 /** Every output that is not an ASCII letter or digit becomes a character
  * reference, so control characters and quotes can never break the XML. */
@@ -50,7 +61,7 @@ export function generateKeylayout(): string {
   })
 
   const selects = MAC_STATES.map((state) => {
-    const mods = SELECT[state].map((m) => `      <modifier keys="${m}"/>`).join('\n')
+    const mods = MAC_COMBOS.filter((c) => c.state === state).map((c) => `      <modifier keys="${modifierKeys(c.bits)}"/>`).join('\n')
     return `    <keyMapSelect mapIndex="${MAC_STATE_INDEX[state]}">\n${mods}\n    </keyMapSelect>`
   })
 
