@@ -286,8 +286,8 @@ pair for them, and it is the only Phase 1 artefact with a distribution problem.
   and gets the same sitemap, hreflang and structured-data treatment as the
   other localised pages.
 - **`apps/web/src/content/guides/keyboard.ts`** (en, uz, ru): existing steps
-  kept **word for word** — they carry the search plan's keywords and were just
-  owner-verified. Add one new first step pointing to the layout page, and
+  kept **word for word** — they carry the search plan's keywords. Add one new
+  first step pointing to the layout page, and
   rewrite the closing note per *The official layout question* above. Turkish Q
   stays as the advice for people who will not install anything.
 - **Downloads and the Apps page:** cards for the macOS and Linux layouts next
@@ -409,7 +409,7 @@ Both decided 23 Oct 2026.
    The keyboard guide is the asset the
    [search-visibility plan](2026-10-22-search-llm-visibility-design.md) bets on
    for "Ö Ğ Ş Ç klaviatura"; its `steps[]` feed the HowTo JSON-LD and
-   `llms-full.txt`; its uz and ru copy was owner-verified on 23 Oct. So its
+   `llms-full.txt`. (Its uz and ru steps still carry `UNVERIFIED` markers — the 23 Oct approval covered the week-3 strings, not this guide.) So its
    existing steps stay **word for word**. One new step is added at the top
    pointing to the layout, and the closing note is rewritten per *The official
    layout question*. The layout itself gets **its own localised download page**
