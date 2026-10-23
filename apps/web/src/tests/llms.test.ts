@@ -45,3 +45,8 @@ test('llms.txt points to the keyboard layout page, never to a /dl/ route', () =>
   expect(txt).toContain(`${SITE_URL}/keyboard-layout`)
   expect(txt).not.toContain('/dl/')
 })
+
+test('lists the Chrome extension with its store link', () => {
+  const txt = generateLlmsTxt()
+  expect(txt).toMatch(/^- Chrome extension \(https:\/\/chromewebstore\.google\.com\/detail\/alfavit-%E2%80%94-new-uzbek-latin\/nfklgogkhkinngpbiijniglifomklcmo\):/m)
+})

@@ -32,8 +32,16 @@ test('renders groups, platforms, and CTAs with macOS and Windows live for downlo
   // The two layout cards open the layout page (installing needs its instructions), never a raw download.
   expect(openHrefs.filter((h) => h === '/en/keyboard-layout')).toHaveLength(2)
   for (const name of ['Keyboard layout — macOS', 'Keyboard layout — Linux']) expect(screen.getByText(name)).toBeInTheDocument()
-  // Three remain Coming soon: iOS, Android, extension.
-  expect(screen.getAllByText('Coming soon')).toHaveLength(3)
+  // Two remain Coming soon: iOS and Android. The extension is in the Chrome Web Store.
+  expect(screen.getAllByText('Coming soon')).toHaveLength(2)
+})
+
+const STORE = 'https://chromewebstore.google.com/detail/alfavit-%E2%80%94-new-uzbek-latin/nfklgogkhkinngpbiijniglifomklcmo'
+
+test('the extension card opens its Chrome Web Store listing, with no tracking or language parameters', () => {
+  renderWithLocale(<Channels />, '/en')
+  const openHrefs = screen.getAllByRole('link', { name: 'Open' }).map((a) => a.getAttribute('href'))
+  expect(openHrefs).toContain(STORE)
 })
 
 test('extension card goes live when a store URL is provided', () => {
