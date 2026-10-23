@@ -11,7 +11,7 @@ pnpm -C apps/extension build
 ```
 
 Emits `dist/` containing `manifest.json`, `background.js`, `popup.js`,
-`popup.html`, and `icons/`.
+`popup.html`, `icons/`, and `_locales/`.
 
 ## Load unpacked (development)
 
@@ -27,6 +27,26 @@ Emits `dist/` containing `manifest.json`, `background.js`, `popup.js`,
   otherwise the converted text is copied to your clipboard.
 
 Conversion is fully on-device via `@alfavit/engine`. No network, no tracking.
+
+## Languages
+
+Strings live in `public/_locales/{en,uz,ru}/messages.json`; uz and ru entries
+marked UNVERIFIED in their `description` still need a native-speaker check.
+
+- **Menu, popup, and page toast** follow Chrome's *Preferred languages*
+  (`chrome.i18n.getAcceptLanguages()`, set at `chrome://settings/languages`):
+  the first entry whose base language is uz, ru, or en wins, so Uzbek listed
+  below Russian gives Russian. With none of the three listed, `chrome.i18n`
+  decides. `src/i18n.ts` bundles the same `_locales` files, so they stay the
+  only copy of the strings.
+- **Store name and description** (`__MSG_…__` in the manifest) can only follow
+  the browser's UI language. Desktop Chrome has no Uzbek UI language, so there
+  Uzbek speakers see them in Russian or English.
+
+The menu title is set at install and update, refreshed when Chrome starts, and
+refreshed after each use. A change to the language list therefore shows in the
+menu after a Chrome restart or after one more right-click conversion; the popup
+picks it up the next time it opens.
 
 ## Publishing
 

@@ -1,7 +1,8 @@
 // Injected into the page via chrome.scripting.executeScript. MUST be
 // self-contained: no imports, no references to module-scope bindings — only
-// its argument and page globals (document, navigator).
-export function applyConversion(converted: string): void {
+// its arguments and page globals (document, navigator). The caller passes the
+// localized toast text, since chrome.i18n belongs to the extension, not the page.
+export function applyConversion(converted: string, copiedToast: string): void {
   const el = document.activeElement as HTMLElement | null
   const tag = el?.tagName
   if (el && (tag === 'INPUT' || tag === 'TEXTAREA')) {
@@ -26,7 +27,7 @@ export function applyConversion(converted: string): void {
   }
   void navigator.clipboard.writeText(converted).catch(() => {})
   const toast = document.createElement('div')
-  toast.textContent = 'Copied — new Latin'
+  toast.textContent = copiedToast
   toast.style.cssText =
     'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:10px 16px;border-radius:999px;font:14px sans-serif;z-index:2147483647;opacity:.95'
   document.body.appendChild(toast)

@@ -44,9 +44,10 @@
   </head>
   <body>
     <h1>Alfavit&reg;</h1>
-    <textarea id="in" placeholder="Matn kiriting…" autofocus></textarea>
-    <textarea id="out" readonly placeholder="new Latin"></textarea>
-    <button id="copy">Copy</button>
+    <!-- Labels come from _locales via popup.js (chrome.i18n). -->
+    <textarea id="in" autofocus></textarea>
+    <textarea id="out" readonly></textarea>
+    <button id="copy"></button>
     <script type="module" src="popup.js"></script>
   </body>
 </html>

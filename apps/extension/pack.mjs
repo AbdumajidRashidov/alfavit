@@ -7,7 +7,7 @@
 //   pnpm --filter @alfavit/engine build && pnpm --filter @alfavit/extension pack:store
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { mkdirSync, readFileSync, rmSync } from 'node:fs'
+import { mkdirSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const fail = (msg) => {
@@ -29,6 +29,9 @@ execFileSync('zip', ['-qrX', out, '.', '-x', '.DS_Store', '*/.DS_Store'], { cwd:
 
 const files = execFileSync('unzip', ['-Z1', out]).toString().split('\n').filter(Boolean)
 if (!files.includes('manifest.json')) fail('manifest.json is not at the zip root')
+// The manifest's name and description are __MSG_…__ lookups: Chrome rejects a zip without them.
+for (const locale of readdirSync('public/_locales'))
+  if (!files.includes(`_locales/${locale}/messages.json`)) fail(`_locales/${locale}/messages.json is not in the zip`)
 
 const sha = createHash('sha256').update(readFileSync(out)).digest('hex')
 console.log(`${out}\n  version ${manifest.version}, ${files.length} files\n  sha256 ${sha}`)
