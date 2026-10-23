@@ -49,3 +49,12 @@ test.skipIf(!existsSync(DTD))("validates against Apple's DTD", () => {
 test('the committed file is what the generator produces', () => {
   expect(readFileSync(new URL('../../out/macos/Ozbek-yangi-alifbo.keylayout', import.meta.url), 'utf8')).toBe(xml)
 })
+
+// ⌥e then j types j + U+0301: two UTF-16 units. macOS truncates any output
+// longer than maxout, so maxout must cover the longest one.
+test('maxout covers the longest output', () => {
+  const maxout = Number(xml.match(/maxout="(\d+)"/)![1])
+  const outputs = [...xml.matchAll(/output="([^"]*)"/g)].map((m) => m[1].match(/&#x[0-9A-F]+;|./g)!.length)
+  expect(maxout).toBeGreaterThanOrEqual(Math.max(...outputs))
+  expect(maxout).toBeGreaterThanOrEqual(2)
+})

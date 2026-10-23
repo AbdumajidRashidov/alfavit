@@ -16,12 +16,15 @@ export interface KeyAssignment {
 // Reform order, as everywhere the change is reported: Ö, Ğ, Ş, Ç — then ʼ.
 // The tutuq is U+02BC. U+02BB is an input form the engine normalises away and
 // must never be typed by a key.
+// Spelled by code point: ʼ (U+02BC) and ʻ (U+02BB) look alike in source.
+const TUTUQ = String.fromCodePoint(0x02bc)
+
 export const KEY_TABLE: readonly KeyAssignment[] = [
   { base: 'o', lower: 'ö', upper: 'Ö' },
   { base: 'g', lower: 'ğ', upper: 'Ğ' },
   { base: 's', lower: 'ş', upper: 'Ş' },
   { base: 'c', lower: 'ç', upper: 'Ç' },
-  { base: "'", lower: 'ʼ', upper: 'ʼ' },
+  { base: "'", lower: TUTUQ, upper: TUTUQ },
 ]
 
 export const LAYOUT_NAME = 'Özbek (yangi alifbo)'

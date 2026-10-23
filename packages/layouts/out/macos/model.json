@@ -6,7 +6,7 @@
       "caps": "A",
       "option": "å",
       "shiftOption": "Å",
-      "capsOption": "å",
+      "capsOption": "Å",
       "command": "a",
       "control": "\u0001"
     },
@@ -26,7 +26,7 @@
       "caps": "D",
       "option": "∂",
       "shiftOption": "Î",
-      "capsOption": "∂",
+      "capsOption": "Î",
       "command": "d",
       "control": "\u0004"
     },
@@ -36,7 +36,7 @@
       "caps": "F",
       "option": "ƒ",
       "shiftOption": "Ï",
-      "capsOption": "ƒ",
+      "capsOption": "Ï",
       "command": "f",
       "control": "\u0006"
     },
@@ -46,7 +46,7 @@
       "caps": "H",
       "option": "˙",
       "shiftOption": "Ó",
-      "capsOption": "˙",
+      "capsOption": "Ó",
       "command": "h",
       "control": "\b"
     },
@@ -108,7 +108,7 @@
       "shiftOption": "±",
       "capsOption": "§",
       "command": "§",
-      "control": "§"
+      "control": "0"
     },
     "11": {
       "plain": "b",
@@ -116,7 +116,7 @@
       "caps": "B",
       "option": "∫",
       "shiftOption": "ı",
-      "capsOption": "∫",
+      "capsOption": "ı",
       "command": "b",
       "control": "\u0002"
     },
@@ -126,7 +126,7 @@
       "caps": "Q",
       "option": "œ",
       "shiftOption": "Œ",
-      "capsOption": "œ",
+      "capsOption": "Œ",
       "command": "q",
       "control": "\u0011"
     },
@@ -148,9 +148,7 @@
         "dead": "acute"
       },
       "shiftOption": "´",
-      "capsOption": {
-        "dead": "acute"
-      },
+      "capsOption": "´",
       "command": "e",
       "control": "\u0005"
     },
@@ -170,7 +168,7 @@
       "caps": "Y",
       "option": "¥",
       "shiftOption": "Á",
-      "capsOption": "¥",
+      "capsOption": "Á",
       "command": "y",
       "control": "\u0019"
     },
@@ -282,7 +280,7 @@
       "shiftOption": "—",
       "capsOption": "–",
       "command": "-",
-      "control": "-"
+      "control": "\u001f"
     },
     "28": {
       "plain": "8",
@@ -332,9 +330,7 @@
         "dead": "diaeresis"
       },
       "shiftOption": "¨",
-      "capsOption": {
-        "dead": "diaeresis"
-      },
+      "capsOption": "¨",
       "command": "u",
       "control": "\u0015"
     },
@@ -356,9 +352,7 @@
         "dead": "circumflex"
       },
       "shiftOption": "ˆ",
-      "capsOption": {
-        "dead": "circumflex"
-      },
+      "capsOption": "ˆ",
       "command": "i",
       "control": "\t"
     },
@@ -368,7 +362,7 @@
       "caps": "P",
       "option": "π",
       "shiftOption": "∏",
-      "capsOption": "π",
+      "capsOption": "∏",
       "command": "p",
       "control": "\u0010"
     },
@@ -388,7 +382,7 @@
       "caps": "L",
       "option": "¬",
       "shiftOption": "Ò",
-      "capsOption": "¬",
+      "capsOption": "Ò",
       "command": "l",
       "control": "\f"
     },
@@ -398,7 +392,7 @@
       "caps": "J",
       "option": "∆",
       "shiftOption": "Ô",
-      "capsOption": "∆",
+      "capsOption": "Ô",
       "command": "j",
       "control": "\n"
     },
@@ -470,9 +464,7 @@
         "dead": "tilde"
       },
       "shiftOption": "˜",
-      "capsOption": {
-        "dead": "tilde"
-      },
+      "capsOption": "˜",
       "command": "n",
       "control": "\u000e"
     },
@@ -482,7 +474,7 @@
       "caps": "M",
       "option": "µ",
       "shiftOption": "Â",
-      "capsOption": "µ",
+      "capsOption": "Â",
       "command": "m",
       "control": "\r"
     },
@@ -524,9 +516,7 @@
         "dead": "grave"
       },
       "shiftOption": "`",
-      "capsOption": {
-        "dead": "grave"
-      },
+      "capsOption": "`",
       "command": "`",
       "control": "`"
     },
@@ -560,16 +550,6 @@
       "command": "\u001b",
       "control": "\u001b"
     },
-    "64": {
-      "plain": "\u0010",
-      "shift": "\u0010",
-      "caps": "\u0010",
-      "option": "\u0010",
-      "shiftOption": "\u0010",
-      "capsOption": "\u0010",
-      "command": "\u0010",
-      "control": "\u0010"
-    },
     "65": {
       "plain": ".",
       "shift": ".",
@@ -579,6 +559,16 @@
       "capsOption": ".",
       "command": ".",
       "control": "."
+    },
+    "66": {
+      "plain": "\u001d",
+      "shift": "*",
+      "caps": "\u001d",
+      "option": "\u001d",
+      "shiftOption": "*",
+      "capsOption": "\u001d",
+      "command": "\u001d",
+      "control": "\u001d"
     },
     "67": {
       "plain": "*",
@@ -600,6 +590,16 @@
       "command": "+",
       "control": "+"
     },
+    "70": {
+      "plain": "\u001c",
+      "shift": "+",
+      "caps": "\u001c",
+      "option": "\u001c",
+      "shiftOption": "+",
+      "capsOption": "\u001c",
+      "command": "\u001c",
+      "control": "\u001c"
+    },
     "71": {
       "plain": "\u001b",
       "shift": "\u001b",
@@ -609,6 +609,16 @@
       "capsOption": "\u001b",
       "command": "\u001b",
       "control": "\u001b"
+    },
+    "72": {
+      "plain": "\u001f",
+      "shift": "=",
+      "caps": "\u001f",
+      "option": "\u001f",
+      "shiftOption": "=",
+      "capsOption": "\u001f",
+      "command": "\u001f",
+      "control": "\u001f"
     },
     "75": {
       "plain": "/",
@@ -630,6 +640,16 @@
       "command": "\u0003",
       "control": "\u0003"
     },
+    "77": {
+      "plain": "\u001e",
+      "shift": "/",
+      "caps": "\u001e",
+      "option": "\u001e",
+      "shiftOption": "/",
+      "capsOption": "\u001e",
+      "command": "\u001e",
+      "control": "\u001e"
+    },
     "78": {
       "plain": "-",
       "shift": "-",
@@ -639,26 +659,6 @@
       "capsOption": "-",
       "command": "-",
       "control": "-"
-    },
-    "79": {
-      "plain": "\u0010",
-      "shift": "\u0010",
-      "caps": "\u0010",
-      "option": "\u0010",
-      "shiftOption": "\u0010",
-      "capsOption": "\u0010",
-      "command": "\u0010",
-      "control": "\u0010"
-    },
-    "80": {
-      "plain": "\u0010",
-      "shift": "\u0010",
-      "caps": "\u0010",
-      "option": "\u0010",
-      "shiftOption": "\u0010",
-      "capsOption": "\u0010",
-      "command": "\u0010",
-      "control": "\u0010"
     },
     "81": {
       "plain": "=",
@@ -750,16 +750,6 @@
       "command": "7",
       "control": "7"
     },
-    "90": {
-      "plain": "\u0010",
-      "shift": "\u0010",
-      "caps": "\u0010",
-      "option": "\u0010",
-      "shiftOption": "\u0010",
-      "capsOption": "\u0010",
-      "command": "\u0010",
-      "control": "\u0010"
-    },
     "91": {
       "plain": "8",
       "shift": "8",
@@ -840,7 +830,27 @@
       "command": "\u0010",
       "control": "\u0010"
     },
+    "102": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
     "103": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "104": {
       "plain": "\u0010",
       "shift": "\u0010",
       "caps": "\u0010",
@@ -880,6 +890,16 @@
       "command": "\u0010",
       "control": "\u0010"
     },
+    "108": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
     "109": {
       "plain": "\u0010",
       "shift": "\u0010",
@@ -890,7 +910,27 @@
       "command": "\u0010",
       "control": "\u0010"
     },
+    "110": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
     "111": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "112": {
       "plain": "\u0010",
       "shift": "\u0010",
       "caps": "\u0010",
@@ -1054,7 +1094,9 @@
         "o": "ó",
         "O": "Ó",
         "u": "ú",
-        "U": "Ú"
+        "U": "Ú",
+        "j": "j́",
+        "J": "J́"
       }
     },
     "diaeresis": {

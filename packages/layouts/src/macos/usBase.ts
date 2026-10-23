@@ -10,6 +10,9 @@ export type MacOutput = string | { dead: DeadKeyId }
 export const MAC_STATES: readonly MacState[] = ['plain', 'shift', 'caps', 'option', 'shiftOption', 'capsOption', 'command', 'control']
 
 const D = (dead: DeadKeyId): MacOutput => ({ dead })
+// Spelled by code point: these are invisible or look like other characters.
+const NBSP = String.fromCodePoint(0x00a0)
+const COMBINING_ACUTE = String.fromCodePoint(0x0301)
 
 /** Printable keys: [plain, shift, option, shift+option]. */
 const PRINTABLE: Record<number, [string, string, MacOutput, MacOutput]> = {
@@ -60,7 +63,7 @@ const PRINTABLE: Record<number, [string, string, MacOutput, MacOutput]> = {
   45: ['n', 'N', D('tilde'), '˜'],
   46: ['m', 'M', 'µ', 'Â'],
   47: ['.', '>', '≥', '˘'],
-  49: [' ', ' ', ' ', ' '],
+  49: [' ', ' ', NBSP, NBSP],
   50: ['`', '~', D('grave'), '`'],
 }
 
@@ -73,19 +76,35 @@ const FIXED: Record<number, string> = {
   // navigation
   114: '\u0005', 115: '\u0001', 116: '\u000B', 117: '\u007F', 119: '\u0004', 121: '\u000C',
   123: '\u001C', 124: '\u001D', 125: '\u001F', 126: '\u001E',
-  // function keys all send U+0010
-  64: '\u0010', 79: '\u0010', 80: '\u0010', 90: '\u0010', 96: '\u0010', 97: '\u0010', 98: '\u0010',
-  99: '\u0010', 100: '\u0010', 101: '\u0010', 103: '\u0010', 105: '\u0010', 106: '\u0010',
-  107: '\u0010', 109: '\u0010', 111: '\u0010', 113: '\u0010', 118: '\u0010', 120: '\u0010', 122: '\u0010',
+  // the legacy keypad arrow keys: arrows unshifted, keypad symbols with Shift
+  // (see STATE_EXCEPTIONS)
+  66: '\u001D', 70: '\u001C', 72: '\u001F', 77: '\u001E',
+  // function keys all send U+0010 (F17–F20, codes 64/79/80/90, send nothing
+  // on the U.S. layout and are left out)
+  96: '\u0010', 97: '\u0010', 98: '\u0010', 99: '\u0010', 100: '\u0010', 101: '\u0010',
+  102: '\u0010', 103: '\u0010', 104: '\u0010', 105: '\u0010', 106: '\u0010', 107: '\u0010',
+  108: '\u0010', 109: '\u0010', 110: '\u0010', 111: '\u0010', 112: '\u0010', 113: '\u0010',
+  118: '\u0010', 120: '\u0010', 122: '\u0010',
 }
 
 /** Where Apple's U.S. layout departs from the derivation rules below. Filled
  * from compare-us.swift mismatches; each entry is a checked fact. */
-const STATE_EXCEPTIONS: Partial<Record<number, Partial<Record<MacState, MacOutput>>>> = {}
+const STATE_EXCEPTIONS: Partial<Record<number, Partial<Record<MacState, MacOutput>>>> = {
+  10: { control: '0' },
+  27: { control: '\u001F' },
+  66: { shift: '*', shiftOption: '*' },
+  70: { shift: '+', shiftOption: '+' },
+  72: { shift: '=', shiftOption: '=' },
+  77: { shift: '/', shiftOption: '/' },
+}
+
+/** Keys where Caps Lock + Option types the Shift + Option character; on every
+ * other key it types the plain Option one. Read off the U.S. layout. */
+const CAPS_OPTION_FROM_SHIFT = new Set([0, 2, 3, 4, 11, 12, 14, 16, 32, 34, 35, 37, 38, 45, 46, 50])
 
 const CONTROL_PUNCT: Record<string, string> = { '[': '\u001B', '\\': '\u001C', ']': '\u001D' }
 
-function expand([plain, shift, option, shiftOption]: [string, string, MacOutput, MacOutput]): Record<MacState, MacOutput> {
+function expand(code: number, [plain, shift, option, shiftOption]: [string, string, MacOutput, MacOutput]): Record<MacState, MacOutput> {
   const letter = /^[a-z]$/.test(plain)
   return {
     plain,
@@ -93,7 +112,7 @@ function expand([plain, shift, option, shiftOption]: [string, string, MacOutput,
     caps: letter ? shift : plain,
     option,
     shiftOption,
-    capsOption: option,
+    capsOption: CAPS_OPTION_FROM_SHIFT.has(code) ? shiftOption : option,
     command: plain,
     control: letter ? String.fromCharCode(plain.charCodeAt(0) - 96) : (CONTROL_PUNCT[plain] ?? plain),
   }
@@ -101,7 +120,7 @@ function expand([plain, shift, option, shiftOption]: [string, string, MacOutput,
 
 function build(): Record<number, Record<MacState, MacOutput>> {
   const out: Record<number, Record<MacState, MacOutput>> = {}
-  for (const [code, row] of Object.entries(PRINTABLE)) out[+code] = expand(row)
+  for (const [code, row] of Object.entries(PRINTABLE)) out[+code] = expand(+code, row)
   for (const [code, ch] of Object.entries(FIXED))
     out[+code] = Object.fromEntries(MAC_STATES.map((s) => [s, ch])) as Record<MacState, MacOutput>
   for (const [code, states] of Object.entries(STATE_EXCEPTIONS)) Object.assign(out[+code], states)
@@ -114,7 +133,8 @@ const upper = (pairs: Record<string, string>) =>
   Object.fromEntries(Object.entries(pairs).flatMap(([k, v]) => [[k, v], [k.toUpperCase(), v.toUpperCase()]]))
 
 export const DEAD_KEYS: Record<DeadKeyId, { terminator: string; compose: Record<string, string> }> = {
-  acute: { terminator: '´', compose: upper({ a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú' }) },
+  // j has no precomposed acute: the U.S. layout types j + U+0301.
+  acute: { terminator: '´', compose: upper({ a: 'á', e: 'é', i: 'í', o: 'ó', u: 'ú', j: 'j' + COMBINING_ACUTE }) },
   diaeresis: { terminator: '¨', compose: upper({ a: 'ä', e: 'ë', i: 'ï', o: 'ö', u: 'ü', y: 'ÿ' }) },
   circumflex: { terminator: 'ˆ', compose: upper({ a: 'â', e: 'ê', i: 'î', o: 'ô', u: 'û' }) },
   tilde: { terminator: '˜', compose: upper({ a: 'ã', n: 'ñ', o: 'õ' }) },
