@@ -60,3 +60,15 @@ test('utm parameters on a download link are preserved in the data point', async 
   expect(points[0].blobs[4]).toBe('post')
   expect(points[0].blobs[5]).toBe('senate-2026-09')
 })
+
+test.each([
+  ['mac-layout', '/download/Ozbek-yangi-alifbo.keylayout'],
+  ['linux-layout', '/download/alfavit-xkb.tar.gz'],
+])('/dl/%s redirects to %s and counts it', async (platform, target) => {
+  const { points, env } = fakeEnv()
+  const res = await createApp().fetch(get(`/dl/${platform}`), env)
+  expect(res.status).toBe(302)
+  expect(res.headers.get('location')).toBe(target)
+  expect(points).toHaveLength(1)
+  expect(points[0].blobs[9]).toBe(platform)
+})

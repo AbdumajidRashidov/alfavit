@@ -44,11 +44,14 @@ async function write(
   })
 }
 
-/** The only two redirect targets. A map, not string interpolation, so a crafted
- * platform value cannot become an open redirect. */
+/** The only redirect targets: the two app installers and the two keyboard
+ * layouts. A map, not string interpolation, so a crafted platform value cannot
+ * become an open redirect. */
 export const INSTALLERS: Record<string, string> = {
   mac: '/download/Alfavit.dmg',
   win: '/download/Alfavit-Setup.exe',
+  'mac-layout': '/download/Ozbek-yangi-alifbo.keylayout',
+  'linux-layout': '/download/alfavit-xkb.tar.gz',
 }
 
 export function createApp() {
