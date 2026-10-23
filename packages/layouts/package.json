@@ -1,0 +1,23 @@
+{
+  "name": "@alfavit/layouts",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Keyboard layouts for the 2026 Uzbek Latin alphabet: ö ğ ş ç ʼ on Option/AltGr, generated for macOS, Linux and Windows from one key table.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "sideEffects": false,
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json",
+    "generate": "tsc -p tsconfig.json && node dist/cli.js"
+  },
+  "devDependencies": {
+    "@alfavit/engine": "workspace:*",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}
