@@ -9,7 +9,7 @@ const URL_COUNT = PAGE_PATHS.reduce((n, p) => n + p.locales.length, 0)
 
 test('dist/sitemap.xml has every locale URL', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect(URL_COUNT).toBe(37) // 12 pages x 3 languages, plus /kirill in Uzbek only
+  expect(URL_COUNT).toBe(40) // 13 pages x 3 languages, plus /kirill in Uzbek only
   expect((xml.match(/<loc>/g) ?? []).length).toBe(URL_COUNT)
   expect(xml).toContain('<loc>https://alfavit.uz/ru/files</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/en/alphabet</loc>')

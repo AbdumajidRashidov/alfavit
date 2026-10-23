@@ -1,0 +1,48 @@
+import { screen } from '@testing-library/react'
+import { beforeEach, expect, test } from 'vitest'
+import { KEY_TABLE, macDisplaced } from '@alfavit/layouts'
+import { renderWithLocale, renderApp } from './renderApp'
+import { KeyboardLayoutPage } from '../pages/KeyboardLayoutPage'
+import { keyboardLayout } from '../content/keyboardLayout'
+import { LOCALES } from '../i18n/translations'
+import { generateSitemapXml } from '../seo/config'
+
+beforeEach(() => {
+  localStorage.clear()
+  Object.defineProperty(navigator, 'language', { value: 'en-US', configurable: true })
+})
+
+test('renders the combos from the key table', () => {
+  renderWithLocale(<KeyboardLayoutPage />, '/en')
+  for (const k of KEY_TABLE) expect(screen.getAllByText(k.lower).length).toBeGreaterThan(0)
+  expect(screen.getByText('Özbek (yangi alifbo)')).toBeInTheDocument()
+})
+
+test('lists every displaced character', () => {
+  renderWithLocale(<KeyboardLayoutPage />, '/en')
+  for (const d of macDisplaced()) expect(screen.getAllByText(d.was).length).toBeGreaterThan(0)
+})
+
+test('downloads go through the counted routes', () => {
+  renderWithLocale(<KeyboardLayoutPage />, '/en')
+  const hrefs = screen.getAllByRole('link', { name: /download/i }).map((a) => a.getAttribute('href'))
+  expect(hrefs).toEqual(['/dl/mac-layout', '/dl/linux-layout'])
+})
+
+// Review Focus 1: if the layout is missing from Input Sources, the page says how to fix it.
+test('tells Mac users what to do if the layout is not listed', () => {
+  renderWithLocale(<KeyboardLayoutPage />, '/en')
+  expect(screen.getByText(/xattr -d com\.apple\.quarantine/)).toBeInTheDocument()
+})
+
+test('makes no install-time or "official" claim in any locale', () => {
+  for (const l of LOCALES) expect(JSON.stringify(keyboardLayout[l])).not.toMatch(/minute|daqiqa|минут|official|rasmiy|официальн/i)
+})
+
+test('is routed and in the sitemap under every locale', () => {
+  renderApp('/ru/keyboard-layout')
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(keyboardLayout.ru.title)
+  const xml = generateSitemapXml()
+  for (const path of ['/keyboard-layout', '/ru/keyboard-layout', '/en/keyboard-layout'])
+    expect(xml).toContain(`<loc>https://alfavit.uz${path}</loc>`)
+})

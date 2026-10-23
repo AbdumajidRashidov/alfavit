@@ -39,3 +39,9 @@ test('llms.txt names a converter URL for each direction', () => {
   const web = generateLlmsTxt().split('\n').find((l) => l.startsWith('- Web converter'))!
   for (const path of ['/guide/cyrillic-to-latin', '/guide/old-latin-to-new', '/kirill']) expect(web).toContain(`${SITE_URL}${path}`)
 })
+
+test('llms.txt points to the keyboard layout page, never to a /dl/ route', () => {
+  const txt = generateLlmsTxt()
+  expect(txt).toContain(`${SITE_URL}/keyboard-layout`)
+  expect(txt).not.toContain('/dl/')
+})
