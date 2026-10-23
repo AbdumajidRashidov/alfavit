@@ -20,8 +20,8 @@ test('renders groups, platforms, and CTAs with macOS and Windows live for downlo
   const downloads = screen.getAllByRole('link', { name: 'Download' }).map((a) => a.getAttribute('href'))
   // Counted routes: the collect Worker records the download, then 302s to the installer.
   expect(downloads).toEqual(['/dl/mac', '/dl/win'])
-  // Both desktop cards show the New badge + the live-transform description.
-  expect(screen.getAllByText('New')).toHaveLength(2)
+  // Both app cards and both layout cards show the New badge; only the apps carry the live-transform description.
+  expect(screen.getAllByText('New')).toHaveLength(4)
   expect(screen.getAllByText(/converts to new-Latin/i)).toHaveLength(2)
   expect(screen.getByText(/SmartScreen/)).toBeInTheDocument()
   // Three "Open" links remain: Web (/en), Telegram (external), API (/en/developers).
@@ -29,6 +29,9 @@ test('renders groups, platforms, and CTAs with macOS and Windows live for downlo
   expect(openHrefs).toContain('/en')
   expect(openHrefs).toContain('https://t.me/alfavit_uz_bot')
   expect(openHrefs).toContain('/en/developers')
+  // The two layout cards open the layout page (installing needs its instructions), never a raw download.
+  expect(openHrefs.filter((h) => h === '/en/keyboard-layout')).toHaveLength(2)
+  for (const name of ['Keyboard layout — macOS', 'Keyboard layout — Linux']) expect(screen.getByText(name)).toBeInTheDocument()
   // Three remain Coming soon: iOS, Android, extension.
   expect(screen.getAllByText('Coming soon')).toHaveLength(3)
 })

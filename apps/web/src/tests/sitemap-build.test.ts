@@ -9,7 +9,7 @@ const URL_COUNT = PAGE_PATHS.reduce((n, p) => n + p.locales.length, 0)
 
 test('dist/sitemap.xml has every locale URL', () => {
   const xml = readFileSync(resolve(__dirname, '../../dist/sitemap.xml'), 'utf-8')
-  expect(URL_COUNT).toBe(37) // 12 pages x 3 languages, plus /kirill in Uzbek only
+  expect(URL_COUNT).toBe(40) // 13 pages x 3 languages, plus /kirill in Uzbek only
   expect((xml.match(/<loc>/g) ?? []).length).toBe(URL_COUNT)
   expect(xml).toContain('<loc>https://alfavit.uz/ru/files</loc>')
   expect(xml).toContain('<loc>https://alfavit.uz/en/alphabet</loc>')
@@ -79,4 +79,16 @@ test('dist/llms.txt states when it was last checked and the current legal status
 test('dist/llms-full.txt is emitted', () => {
   const full = readFileSync(resolve(__dirname, '../../dist/llms-full.txt'), 'utf-8')
   expect(full.startsWith('# Alfavit')).toBe(true)
+})
+
+// Browsers must save the layout files, not show the .keylayout's XML in a tab:
+// Cloudflare Pages reads dist/_headers.
+test('dist/_headers makes both keyboard layout files download', () => {
+  const headers = readFileSync(resolve(__dirname, '../../dist/_headers'), 'utf-8')
+  for (const file of ['Ozbek-yangi-alifbo.keylayout', 'alfavit-xkb.tar.gz']) {
+    const block = headers.split(/\n(?=\/)/).find((b) => b.startsWith(`/download/${file}\n`))
+    expect(block, file).toBeDefined()
+    expect(block).toContain(`Content-Disposition: attachment; filename="${file}"`)
+    expect(block).toContain('Content-Type: application/octet-stream')
+  }
 })

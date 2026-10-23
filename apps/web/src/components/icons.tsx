@@ -60,3 +60,12 @@ export function CodeIcon({ className }: IconProps) {
     </svg>
   )
 }
+
+export function KeyboardIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <rect x="2.5" y="6" width="19" height="12" rx="2" />
+      <path d="M6 9.5h.01M9 9.5h.01M12 9.5h.01M15 9.5h.01M18 9.5h.01M6 12.5h.01M9 12.5h.01M12 12.5h.01M15 12.5h.01M18 12.5h.01M8 15.5h8" />
+    </svg>
+  )
+}

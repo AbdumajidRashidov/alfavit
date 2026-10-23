@@ -37,10 +37,11 @@ export const PAGE_PATHS: PageDef[] = [
   // Uzbek Cyrillic, root only: no ru or en version, so no alternates.
   { path: 'kirill', priority: 0.7, locales: ['uz'], published: '2026-10-22', updated: '2026-10-22' },
   { path: 'guide/tricky-cases', priority: 0.6, locales: LOCALES, published: '2026-10-22', updated: '2026-10-22' },
-  { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-22' },
+  { path: 'guide/keyboard', priority: 0.6, locales: LOCALES, published: '2026-09-10', updated: '2026-10-23' },
+  { path: 'keyboard-layout', priority: 0.7, locales: LOCALES, published: '2026-10-23', updated: '2026-10-23' },
   { path: 'guide/cyrillic-to-latin', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
   { path: 'guide/old-latin-to-new', priority: 0.6, locales: LOCALES, published: '2026-07-14', updated: '2026-10-22' },
-  { path: 'apps', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
+  { path: 'apps', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-10-23' },
   { path: 'files', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-10-22' },
   { path: 'developers', priority: 0.5, locales: LOCALES, published: '2026-07-11', updated: '2026-07-14' },
   { path: 'privacy', priority: 0.3, locales: LOCALES, published: '2026-07-14', updated: '2026-09-12' },

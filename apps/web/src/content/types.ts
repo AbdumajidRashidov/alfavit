@@ -20,7 +20,8 @@ export interface GuideLetter {
 export interface Guide {
   title: string
   intro: string
-  steps: { heading: string; body: string }[]
+  /** `link` renders under the step's body, pointing to another page of the site. */
+  steps: { heading: string; body: string; link?: { pagePath: string; label: string } }[]
   examples: [string, string][]
   /** Optional strip of copyable letters rendered above the steps. */
   letters?: GuideLetter[]
@@ -31,4 +32,32 @@ export interface Guide {
 export interface TimelineItem {
   date: string
   body: string
+}
+
+/** Copy for /keyboard-layout. The key combinations and the displaced
+ * characters are not here: the page renders them from @alfavit/layouts. */
+export interface KeyboardLayoutCopy {
+  title: string
+  intro: string
+  combosHeading: string
+  displacedHeading: string
+  mac: {
+    heading: string
+    steps: string[]
+    /** Label before the layout's name as it appears in Input Sources. */
+    lookFor: string
+    /** What to do if the layout does not appear (the quarantine flag). */
+    notListed: string
+    uninstall: string
+  }
+  linux: {
+    heading: string
+    steps: string[]
+    x11Note: string
+    /** Unpacking replaces any existing ~/.config/xkb files of the same name. */
+    caution: string
+    uninstall: string
+  }
+  windows: { heading: string; body: string }
+  privacy: string
 }

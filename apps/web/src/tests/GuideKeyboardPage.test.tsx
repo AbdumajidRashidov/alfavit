@@ -16,7 +16,7 @@ test('renders the title, five steps and the four letter buttons', () => {
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('How to type Ö, Ğ, Ş, Ç on a keyboard and phone')
   expect(screen.getAllByRole('listitem').length).toBeGreaterThanOrEqual(5)
   for (const pair of ['Ö ö', 'Ğ ğ', 'Ş ş', 'Ç ç']) expect(screen.getByText(pair)).toBeInTheDocument()
-  expect(screen.getByText(/Turkish Q layout is the practical choice/)).toBeInTheDocument()
+  expect(screen.getByText(/Alfavit will ship the official placement as soon as it is published/)).toBeInTheDocument()
 })
 
 test('letters run in the official order, and phones come before computers', () => {
@@ -24,7 +24,7 @@ test('letters run in the official order, and phones come before computers', () =
   const letters = screen.getAllByRole('button', { name: /^Copy / }).map((b) => b.getAttribute('aria-label'))
   expect(letters).toEqual(['Copy ö', 'Copy ğ', 'Copy ş', 'Copy ç'])
   const steps = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)
-  expect(steps.slice(0, 4)).toEqual(['Copy the letters from this page', 'iPhone and Android', 'Windows', 'Mac'])
+  expect(steps.slice(0, 5)).toEqual(['Install the Alfavit keyboard layout (Mac and Linux)', 'Copy the letters from this page', 'iPhone and Android', 'Windows', 'Mac'])
 })
 
 test('says the Windows app converts as you type, not just the Mac app', () => {
@@ -55,7 +55,16 @@ test('is routed under every locale', () => {
 // Final review of week 3: on the Turkish Q layout the key where i usually sits
 // types a dotless ı, so every place that recommends it says where the dotted i is.
 test.each(LOCALES)('in %s, every Turkish-keyboard step and the /alphabet answer warn about the dotless ı', (locale) => {
-  const [, phone, windows, mac] = keyboard[locale].steps
+  const [, , phone, windows, mac] = keyboard[locale].steps
   for (const step of [phone, windows, mac]) expect(step.body).toContain('ı')
   expect(translations[locale]['alphabet.qa.typeO.a']).toContain('ı')
+})
+
+test('the first step links to the layout page', () => {
+  renderWithLocale(<GuideKeyboardPage />, '/en')
+  expect(screen.getByRole('link', { name: /Get the layout/ })).toHaveAttribute('href', '/en/keyboard-layout')
+})
+
+test.each(LOCALES)('in %s, the new first step links to keyboard-layout', (locale) => {
+  expect(keyboard[locale].steps[0].link?.pagePath).toBe('keyboard-layout')
 })

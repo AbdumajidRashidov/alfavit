@@ -1,0 +1,9 @@
+# Cloudflare Pages response headers.
+# The keyboard layouts must be saved, not shown: an unknown extension can be
+# served inline, and a .keylayout is XML that a browser would happily display.
+/download/Ozbek-yangi-alifbo.keylayout
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="Ozbek-yangi-alifbo.keylayout"
+/download/alfavit-xkb.tar.gz
+  Content-Type: application/octet-stream
+  Content-Disposition: attachment; filename="alfavit-xkb.tar.gz"

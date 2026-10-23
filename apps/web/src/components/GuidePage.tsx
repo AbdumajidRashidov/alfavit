@@ -74,6 +74,9 @@ export function GuidePage({ guide, pagePath, titleKey, descKey, converter = fals
               <div>
                 <h2 className="font-medium text-foreground">{step.heading}</h2>
                 <p className="mt-1 leading-relaxed text-muted">{step.body}</p>
+                {step.link && (
+                  <Link to={lp(`/${step.link.pagePath}`)} className="mt-2 inline-block text-sm text-muted underline hover:text-foreground">{step.link.label} →</Link>
+                )}
               </div>
             </li>
           ))}
