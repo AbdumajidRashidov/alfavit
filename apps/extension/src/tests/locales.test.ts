@@ -2,9 +2,10 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { expect, test } from 'vitest'
 
-// The UI follows the browser language through chrome.i18n. Chrome refuses to
-// load an extension whose manifest names a missing message, and a key missing
-// from one locale silently falls back to English for those users.
+// The manifest reads these files through chrome.i18n, and src/i18n.ts bundles
+// them for the menu, popup and toast. Chrome refuses to load an extension whose
+// manifest names a missing message, and a key missing from one locale silently
+// falls back to English for those users.
 const ROOT = resolve(__dirname, '../..')
 const LOCALES = ['en', 'uz', 'ru']
 
