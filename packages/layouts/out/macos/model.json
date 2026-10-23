@@ -1,0 +1,1181 @@
+{
+  "keys": {
+    "0": {
+      "plain": "a",
+      "shift": "A",
+      "caps": "A",
+      "option": "å",
+      "shiftOption": "Å",
+      "capsOption": "å",
+      "command": "a",
+      "control": "\u0001"
+    },
+    "1": {
+      "plain": "s",
+      "shift": "S",
+      "caps": "S",
+      "option": "ş",
+      "shiftOption": "Ş",
+      "capsOption": "Ş",
+      "command": "s",
+      "control": "\u0013"
+    },
+    "2": {
+      "plain": "d",
+      "shift": "D",
+      "caps": "D",
+      "option": "∂",
+      "shiftOption": "Î",
+      "capsOption": "∂",
+      "command": "d",
+      "control": "\u0004"
+    },
+    "3": {
+      "plain": "f",
+      "shift": "F",
+      "caps": "F",
+      "option": "ƒ",
+      "shiftOption": "Ï",
+      "capsOption": "ƒ",
+      "command": "f",
+      "control": "\u0006"
+    },
+    "4": {
+      "plain": "h",
+      "shift": "H",
+      "caps": "H",
+      "option": "˙",
+      "shiftOption": "Ó",
+      "capsOption": "˙",
+      "command": "h",
+      "control": "\b"
+    },
+    "5": {
+      "plain": "g",
+      "shift": "G",
+      "caps": "G",
+      "option": "ğ",
+      "shiftOption": "Ğ",
+      "capsOption": "Ğ",
+      "command": "g",
+      "control": "\u0007"
+    },
+    "6": {
+      "plain": "z",
+      "shift": "Z",
+      "caps": "Z",
+      "option": "Ω",
+      "shiftOption": "¸",
+      "capsOption": "Ω",
+      "command": "z",
+      "control": "\u001a"
+    },
+    "7": {
+      "plain": "x",
+      "shift": "X",
+      "caps": "X",
+      "option": "≈",
+      "shiftOption": "˛",
+      "capsOption": "≈",
+      "command": "x",
+      "control": "\u0018"
+    },
+    "8": {
+      "plain": "c",
+      "shift": "C",
+      "caps": "C",
+      "option": "ç",
+      "shiftOption": "Ç",
+      "capsOption": "Ç",
+      "command": "c",
+      "control": "\u0003"
+    },
+    "9": {
+      "plain": "v",
+      "shift": "V",
+      "caps": "V",
+      "option": "√",
+      "shiftOption": "◊",
+      "capsOption": "√",
+      "command": "v",
+      "control": "\u0016"
+    },
+    "10": {
+      "plain": "§",
+      "shift": "±",
+      "caps": "§",
+      "option": "§",
+      "shiftOption": "±",
+      "capsOption": "§",
+      "command": "§",
+      "control": "§"
+    },
+    "11": {
+      "plain": "b",
+      "shift": "B",
+      "caps": "B",
+      "option": "∫",
+      "shiftOption": "ı",
+      "capsOption": "∫",
+      "command": "b",
+      "control": "\u0002"
+    },
+    "12": {
+      "plain": "q",
+      "shift": "Q",
+      "caps": "Q",
+      "option": "œ",
+      "shiftOption": "Œ",
+      "capsOption": "œ",
+      "command": "q",
+      "control": "\u0011"
+    },
+    "13": {
+      "plain": "w",
+      "shift": "W",
+      "caps": "W",
+      "option": "∑",
+      "shiftOption": "„",
+      "capsOption": "∑",
+      "command": "w",
+      "control": "\u0017"
+    },
+    "14": {
+      "plain": "e",
+      "shift": "E",
+      "caps": "E",
+      "option": {
+        "dead": "acute"
+      },
+      "shiftOption": "´",
+      "capsOption": {
+        "dead": "acute"
+      },
+      "command": "e",
+      "control": "\u0005"
+    },
+    "15": {
+      "plain": "r",
+      "shift": "R",
+      "caps": "R",
+      "option": "®",
+      "shiftOption": "‰",
+      "capsOption": "®",
+      "command": "r",
+      "control": "\u0012"
+    },
+    "16": {
+      "plain": "y",
+      "shift": "Y",
+      "caps": "Y",
+      "option": "¥",
+      "shiftOption": "Á",
+      "capsOption": "¥",
+      "command": "y",
+      "control": "\u0019"
+    },
+    "17": {
+      "plain": "t",
+      "shift": "T",
+      "caps": "T",
+      "option": "†",
+      "shiftOption": "ˇ",
+      "capsOption": "†",
+      "command": "t",
+      "control": "\u0014"
+    },
+    "18": {
+      "plain": "1",
+      "shift": "!",
+      "caps": "1",
+      "option": "¡",
+      "shiftOption": "⁄",
+      "capsOption": "¡",
+      "command": "1",
+      "control": "1"
+    },
+    "19": {
+      "plain": "2",
+      "shift": "@",
+      "caps": "2",
+      "option": "™",
+      "shiftOption": "€",
+      "capsOption": "™",
+      "command": "2",
+      "control": "2"
+    },
+    "20": {
+      "plain": "3",
+      "shift": "#",
+      "caps": "3",
+      "option": "£",
+      "shiftOption": "‹",
+      "capsOption": "£",
+      "command": "3",
+      "control": "3"
+    },
+    "21": {
+      "plain": "4",
+      "shift": "$",
+      "caps": "4",
+      "option": "¢",
+      "shiftOption": "›",
+      "capsOption": "¢",
+      "command": "4",
+      "control": "4"
+    },
+    "22": {
+      "plain": "6",
+      "shift": "^",
+      "caps": "6",
+      "option": "§",
+      "shiftOption": "ﬂ",
+      "capsOption": "§",
+      "command": "6",
+      "control": "6"
+    },
+    "23": {
+      "plain": "5",
+      "shift": "%",
+      "caps": "5",
+      "option": "∞",
+      "shiftOption": "ﬁ",
+      "capsOption": "∞",
+      "command": "5",
+      "control": "5"
+    },
+    "24": {
+      "plain": "=",
+      "shift": "+",
+      "caps": "=",
+      "option": "≠",
+      "shiftOption": "±",
+      "capsOption": "≠",
+      "command": "=",
+      "control": "="
+    },
+    "25": {
+      "plain": "9",
+      "shift": "(",
+      "caps": "9",
+      "option": "ª",
+      "shiftOption": "·",
+      "capsOption": "ª",
+      "command": "9",
+      "control": "9"
+    },
+    "26": {
+      "plain": "7",
+      "shift": "&",
+      "caps": "7",
+      "option": "¶",
+      "shiftOption": "‡",
+      "capsOption": "¶",
+      "command": "7",
+      "control": "7"
+    },
+    "27": {
+      "plain": "-",
+      "shift": "_",
+      "caps": "-",
+      "option": "–",
+      "shiftOption": "—",
+      "capsOption": "–",
+      "command": "-",
+      "control": "-"
+    },
+    "28": {
+      "plain": "8",
+      "shift": "*",
+      "caps": "8",
+      "option": "•",
+      "shiftOption": "°",
+      "capsOption": "•",
+      "command": "8",
+      "control": "8"
+    },
+    "29": {
+      "plain": "0",
+      "shift": ")",
+      "caps": "0",
+      "option": "º",
+      "shiftOption": "‚",
+      "capsOption": "º",
+      "command": "0",
+      "control": "0"
+    },
+    "30": {
+      "plain": "]",
+      "shift": "}",
+      "caps": "]",
+      "option": "‘",
+      "shiftOption": "’",
+      "capsOption": "‘",
+      "command": "]",
+      "control": "\u001d"
+    },
+    "31": {
+      "plain": "o",
+      "shift": "O",
+      "caps": "O",
+      "option": "ö",
+      "shiftOption": "Ö",
+      "capsOption": "Ö",
+      "command": "o",
+      "control": "\u000f"
+    },
+    "32": {
+      "plain": "u",
+      "shift": "U",
+      "caps": "U",
+      "option": {
+        "dead": "diaeresis"
+      },
+      "shiftOption": "¨",
+      "capsOption": {
+        "dead": "diaeresis"
+      },
+      "command": "u",
+      "control": "\u0015"
+    },
+    "33": {
+      "plain": "[",
+      "shift": "{",
+      "caps": "[",
+      "option": "“",
+      "shiftOption": "”",
+      "capsOption": "“",
+      "command": "[",
+      "control": "\u001b"
+    },
+    "34": {
+      "plain": "i",
+      "shift": "I",
+      "caps": "I",
+      "option": {
+        "dead": "circumflex"
+      },
+      "shiftOption": "ˆ",
+      "capsOption": {
+        "dead": "circumflex"
+      },
+      "command": "i",
+      "control": "\t"
+    },
+    "35": {
+      "plain": "p",
+      "shift": "P",
+      "caps": "P",
+      "option": "π",
+      "shiftOption": "∏",
+      "capsOption": "π",
+      "command": "p",
+      "control": "\u0010"
+    },
+    "36": {
+      "plain": "\r",
+      "shift": "\r",
+      "caps": "\r",
+      "option": "\r",
+      "shiftOption": "\r",
+      "capsOption": "\r",
+      "command": "\r",
+      "control": "\r"
+    },
+    "37": {
+      "plain": "l",
+      "shift": "L",
+      "caps": "L",
+      "option": "¬",
+      "shiftOption": "Ò",
+      "capsOption": "¬",
+      "command": "l",
+      "control": "\f"
+    },
+    "38": {
+      "plain": "j",
+      "shift": "J",
+      "caps": "J",
+      "option": "∆",
+      "shiftOption": "Ô",
+      "capsOption": "∆",
+      "command": "j",
+      "control": "\n"
+    },
+    "39": {
+      "plain": "'",
+      "shift": "\"",
+      "caps": "'",
+      "option": "ʼ",
+      "shiftOption": "ʼ",
+      "capsOption": "ʼ",
+      "command": "'",
+      "control": "'"
+    },
+    "40": {
+      "plain": "k",
+      "shift": "K",
+      "caps": "K",
+      "option": "˚",
+      "shiftOption": "",
+      "capsOption": "˚",
+      "command": "k",
+      "control": "\u000b"
+    },
+    "41": {
+      "plain": ";",
+      "shift": ":",
+      "caps": ";",
+      "option": "…",
+      "shiftOption": "Ú",
+      "capsOption": "…",
+      "command": ";",
+      "control": ";"
+    },
+    "42": {
+      "plain": "\\",
+      "shift": "|",
+      "caps": "\\",
+      "option": "«",
+      "shiftOption": "»",
+      "capsOption": "«",
+      "command": "\\",
+      "control": "\u001c"
+    },
+    "43": {
+      "plain": ",",
+      "shift": "<",
+      "caps": ",",
+      "option": "≤",
+      "shiftOption": "¯",
+      "capsOption": "≤",
+      "command": ",",
+      "control": ","
+    },
+    "44": {
+      "plain": "/",
+      "shift": "?",
+      "caps": "/",
+      "option": "÷",
+      "shiftOption": "¿",
+      "capsOption": "÷",
+      "command": "/",
+      "control": "/"
+    },
+    "45": {
+      "plain": "n",
+      "shift": "N",
+      "caps": "N",
+      "option": {
+        "dead": "tilde"
+      },
+      "shiftOption": "˜",
+      "capsOption": {
+        "dead": "tilde"
+      },
+      "command": "n",
+      "control": "\u000e"
+    },
+    "46": {
+      "plain": "m",
+      "shift": "M",
+      "caps": "M",
+      "option": "µ",
+      "shiftOption": "Â",
+      "capsOption": "µ",
+      "command": "m",
+      "control": "\r"
+    },
+    "47": {
+      "plain": ".",
+      "shift": ">",
+      "caps": ".",
+      "option": "≥",
+      "shiftOption": "˘",
+      "capsOption": "≥",
+      "command": ".",
+      "control": "."
+    },
+    "48": {
+      "plain": "\t",
+      "shift": "\t",
+      "caps": "\t",
+      "option": "\t",
+      "shiftOption": "\t",
+      "capsOption": "\t",
+      "command": "\t",
+      "control": "\t"
+    },
+    "49": {
+      "plain": " ",
+      "shift": " ",
+      "caps": " ",
+      "option": " ",
+      "shiftOption": " ",
+      "capsOption": " ",
+      "command": " ",
+      "control": " "
+    },
+    "50": {
+      "plain": "`",
+      "shift": "~",
+      "caps": "`",
+      "option": {
+        "dead": "grave"
+      },
+      "shiftOption": "`",
+      "capsOption": {
+        "dead": "grave"
+      },
+      "command": "`",
+      "control": "`"
+    },
+    "51": {
+      "plain": "\b",
+      "shift": "\b",
+      "caps": "\b",
+      "option": "\b",
+      "shiftOption": "\b",
+      "capsOption": "\b",
+      "command": "\b",
+      "control": "\b"
+    },
+    "52": {
+      "plain": "\u0003",
+      "shift": "\u0003",
+      "caps": "\u0003",
+      "option": "\u0003",
+      "shiftOption": "\u0003",
+      "capsOption": "\u0003",
+      "command": "\u0003",
+      "control": "\u0003"
+    },
+    "53": {
+      "plain": "\u001b",
+      "shift": "\u001b",
+      "caps": "\u001b",
+      "option": "\u001b",
+      "shiftOption": "\u001b",
+      "capsOption": "\u001b",
+      "command": "\u001b",
+      "control": "\u001b"
+    },
+    "64": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "65": {
+      "plain": ".",
+      "shift": ".",
+      "caps": ".",
+      "option": ".",
+      "shiftOption": ".",
+      "capsOption": ".",
+      "command": ".",
+      "control": "."
+    },
+    "67": {
+      "plain": "*",
+      "shift": "*",
+      "caps": "*",
+      "option": "*",
+      "shiftOption": "*",
+      "capsOption": "*",
+      "command": "*",
+      "control": "*"
+    },
+    "69": {
+      "plain": "+",
+      "shift": "+",
+      "caps": "+",
+      "option": "+",
+      "shiftOption": "+",
+      "capsOption": "+",
+      "command": "+",
+      "control": "+"
+    },
+    "71": {
+      "plain": "\u001b",
+      "shift": "\u001b",
+      "caps": "\u001b",
+      "option": "\u001b",
+      "shiftOption": "\u001b",
+      "capsOption": "\u001b",
+      "command": "\u001b",
+      "control": "\u001b"
+    },
+    "75": {
+      "plain": "/",
+      "shift": "/",
+      "caps": "/",
+      "option": "/",
+      "shiftOption": "/",
+      "capsOption": "/",
+      "command": "/",
+      "control": "/"
+    },
+    "76": {
+      "plain": "\u0003",
+      "shift": "\u0003",
+      "caps": "\u0003",
+      "option": "\u0003",
+      "shiftOption": "\u0003",
+      "capsOption": "\u0003",
+      "command": "\u0003",
+      "control": "\u0003"
+    },
+    "78": {
+      "plain": "-",
+      "shift": "-",
+      "caps": "-",
+      "option": "-",
+      "shiftOption": "-",
+      "capsOption": "-",
+      "command": "-",
+      "control": "-"
+    },
+    "79": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "80": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "81": {
+      "plain": "=",
+      "shift": "=",
+      "caps": "=",
+      "option": "=",
+      "shiftOption": "=",
+      "capsOption": "=",
+      "command": "=",
+      "control": "="
+    },
+    "82": {
+      "plain": "0",
+      "shift": "0",
+      "caps": "0",
+      "option": "0",
+      "shiftOption": "0",
+      "capsOption": "0",
+      "command": "0",
+      "control": "0"
+    },
+    "83": {
+      "plain": "1",
+      "shift": "1",
+      "caps": "1",
+      "option": "1",
+      "shiftOption": "1",
+      "capsOption": "1",
+      "command": "1",
+      "control": "1"
+    },
+    "84": {
+      "plain": "2",
+      "shift": "2",
+      "caps": "2",
+      "option": "2",
+      "shiftOption": "2",
+      "capsOption": "2",
+      "command": "2",
+      "control": "2"
+    },
+    "85": {
+      "plain": "3",
+      "shift": "3",
+      "caps": "3",
+      "option": "3",
+      "shiftOption": "3",
+      "capsOption": "3",
+      "command": "3",
+      "control": "3"
+    },
+    "86": {
+      "plain": "4",
+      "shift": "4",
+      "caps": "4",
+      "option": "4",
+      "shiftOption": "4",
+      "capsOption": "4",
+      "command": "4",
+      "control": "4"
+    },
+    "87": {
+      "plain": "5",
+      "shift": "5",
+      "caps": "5",
+      "option": "5",
+      "shiftOption": "5",
+      "capsOption": "5",
+      "command": "5",
+      "control": "5"
+    },
+    "88": {
+      "plain": "6",
+      "shift": "6",
+      "caps": "6",
+      "option": "6",
+      "shiftOption": "6",
+      "capsOption": "6",
+      "command": "6",
+      "control": "6"
+    },
+    "89": {
+      "plain": "7",
+      "shift": "7",
+      "caps": "7",
+      "option": "7",
+      "shiftOption": "7",
+      "capsOption": "7",
+      "command": "7",
+      "control": "7"
+    },
+    "90": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "91": {
+      "plain": "8",
+      "shift": "8",
+      "caps": "8",
+      "option": "8",
+      "shiftOption": "8",
+      "capsOption": "8",
+      "command": "8",
+      "control": "8"
+    },
+    "92": {
+      "plain": "9",
+      "shift": "9",
+      "caps": "9",
+      "option": "9",
+      "shiftOption": "9",
+      "capsOption": "9",
+      "command": "9",
+      "control": "9"
+    },
+    "96": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "97": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "98": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "99": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "100": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "101": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "103": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "105": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "106": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "107": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "109": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "111": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "113": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "114": {
+      "plain": "\u0005",
+      "shift": "\u0005",
+      "caps": "\u0005",
+      "option": "\u0005",
+      "shiftOption": "\u0005",
+      "capsOption": "\u0005",
+      "command": "\u0005",
+      "control": "\u0005"
+    },
+    "115": {
+      "plain": "\u0001",
+      "shift": "\u0001",
+      "caps": "\u0001",
+      "option": "\u0001",
+      "shiftOption": "\u0001",
+      "capsOption": "\u0001",
+      "command": "\u0001",
+      "control": "\u0001"
+    },
+    "116": {
+      "plain": "\u000b",
+      "shift": "\u000b",
+      "caps": "\u000b",
+      "option": "\u000b",
+      "shiftOption": "\u000b",
+      "capsOption": "\u000b",
+      "command": "\u000b",
+      "control": "\u000b"
+    },
+    "117": {
+      "plain": "",
+      "shift": "",
+      "caps": "",
+      "option": "",
+      "shiftOption": "",
+      "capsOption": "",
+      "command": "",
+      "control": ""
+    },
+    "118": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "119": {
+      "plain": "\u0004",
+      "shift": "\u0004",
+      "caps": "\u0004",
+      "option": "\u0004",
+      "shiftOption": "\u0004",
+      "capsOption": "\u0004",
+      "command": "\u0004",
+      "control": "\u0004"
+    },
+    "120": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "121": {
+      "plain": "\f",
+      "shift": "\f",
+      "caps": "\f",
+      "option": "\f",
+      "shiftOption": "\f",
+      "capsOption": "\f",
+      "command": "\f",
+      "control": "\f"
+    },
+    "122": {
+      "plain": "\u0010",
+      "shift": "\u0010",
+      "caps": "\u0010",
+      "option": "\u0010",
+      "shiftOption": "\u0010",
+      "capsOption": "\u0010",
+      "command": "\u0010",
+      "control": "\u0010"
+    },
+    "123": {
+      "plain": "\u001c",
+      "shift": "\u001c",
+      "caps": "\u001c",
+      "option": "\u001c",
+      "shiftOption": "\u001c",
+      "capsOption": "\u001c",
+      "command": "\u001c",
+      "control": "\u001c"
+    },
+    "124": {
+      "plain": "\u001d",
+      "shift": "\u001d",
+      "caps": "\u001d",
+      "option": "\u001d",
+      "shiftOption": "\u001d",
+      "capsOption": "\u001d",
+      "command": "\u001d",
+      "control": "\u001d"
+    },
+    "125": {
+      "plain": "\u001f",
+      "shift": "\u001f",
+      "caps": "\u001f",
+      "option": "\u001f",
+      "shiftOption": "\u001f",
+      "capsOption": "\u001f",
+      "command": "\u001f",
+      "control": "\u001f"
+    },
+    "126": {
+      "plain": "\u001e",
+      "shift": "\u001e",
+      "caps": "\u001e",
+      "option": "\u001e",
+      "shiftOption": "\u001e",
+      "capsOption": "\u001e",
+      "command": "\u001e",
+      "control": "\u001e"
+    }
+  },
+  "deadKeys": {
+    "acute": {
+      "terminator": "´",
+      "compose": {
+        "a": "á",
+        "A": "Á",
+        "e": "é",
+        "E": "É",
+        "i": "í",
+        "I": "Í",
+        "o": "ó",
+        "O": "Ó",
+        "u": "ú",
+        "U": "Ú"
+      }
+    },
+    "diaeresis": {
+      "terminator": "¨",
+      "compose": {
+        "a": "ä",
+        "A": "Ä",
+        "e": "ë",
+        "E": "Ë",
+        "i": "ï",
+        "I": "Ï",
+        "o": "ö",
+        "O": "Ö",
+        "u": "ü",
+        "U": "Ü",
+        "y": "ÿ",
+        "Y": "Ÿ"
+      }
+    },
+    "circumflex": {
+      "terminator": "ˆ",
+      "compose": {
+        "a": "â",
+        "A": "Â",
+        "e": "ê",
+        "E": "Ê",
+        "i": "î",
+        "I": "Î",
+        "o": "ô",
+        "O": "Ô",
+        "u": "û",
+        "U": "Û"
+      }
+    },
+    "tilde": {
+      "terminator": "˜",
+      "compose": {
+        "a": "ã",
+        "A": "Ã",
+        "n": "ñ",
+        "N": "Ñ",
+        "o": "õ",
+        "O": "Õ"
+      }
+    },
+    "grave": {
+      "terminator": "`",
+      "compose": {
+        "a": "à",
+        "A": "À",
+        "e": "è",
+        "E": "È",
+        "i": "ì",
+        "I": "Ì",
+        "o": "ò",
+        "O": "Ò",
+        "u": "ù",
+        "U": "Ù"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "keyCode": 31,
+      "state": "option"
+    },
+    {
+      "keyCode": 31,
+      "state": "shiftOption"
+    },
+    {
+      "keyCode": 31,
+      "state": "capsOption"
+    },
+    {
+      "keyCode": 5,
+      "state": "option"
+    },
+    {
+      "keyCode": 5,
+      "state": "shiftOption"
+    },
+    {
+      "keyCode": 5,
+      "state": "capsOption"
+    },
+    {
+      "keyCode": 1,
+      "state": "option"
+    },
+    {
+      "keyCode": 1,
+      "state": "shiftOption"
+    },
+    {
+      "keyCode": 1,
+      "state": "capsOption"
+    },
+    {
+      "keyCode": 8,
+      "state": "option"
+    },
+    {
+      "keyCode": 8,
+      "state": "shiftOption"
+    },
+    {
+      "keyCode": 8,
+      "state": "capsOption"
+    },
+    {
+      "keyCode": 39,
+      "state": "option"
+    },
+    {
+      "keyCode": 39,
+      "state": "shiftOption"
+    },
+    {
+      "keyCode": 39,
+      "state": "capsOption"
+    }
+  ]
+}

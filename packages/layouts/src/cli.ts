@@ -1,0 +1,28 @@
+// Writes every generated artefact. The only module in this package that
+// touches the filesystem; never import it from index.ts.
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { DOWNLOADS } from './keys.js'
+import { generateKeylayout } from './macos/keylayout.js'
+import { macModel } from './macos/model.js'
+
+function write(path: string, content: string | Buffer): void {
+  mkdirSync(dirname(path), { recursive: true })
+  writeFileSync(path, content)
+}
+
+export function writeArtefacts(repoRoot: string): void {
+  const out = join(repoRoot, 'packages/layouts/out')
+  const download = join(repoRoot, 'apps/web/public/download')
+
+  const keylayout = generateKeylayout()
+  write(join(out, 'macos', DOWNLOADS.mac), keylayout)
+  write(join(out, 'macos/model.json'), JSON.stringify(macModel(), null, 2) + '\n')
+  write(join(download, DOWNLOADS.mac), keylayout)
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  // dist/cli.js → packages/layouts/dist → repo root is three levels up.
+  writeArtefacts(resolve(dirname(fileURLToPath(import.meta.url)), '../../..'))
+}
