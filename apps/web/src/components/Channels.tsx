@@ -6,7 +6,7 @@ import { useLocalePath } from '../i18n/useLocalePath'
 import { Reveal } from './Reveal'
 import { track } from '../analytics/track'
 import type { TranslationKey } from '../i18n/translations'
-import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon } from './icons'
+import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon, KeyboardIcon } from './icons'
 
 interface Item {
   nameKey: TranslationKey
@@ -49,6 +49,24 @@ function buildGroups(extensionStoreUrl: string | null): Group[] {
           download: true,
           descKey: 'channels.windows.desc',
           noteKey: 'channels.windows.note',
+          badge: 'new',
+        },
+        // The layouts open their page rather than downloading: installing one
+        // needs the steps there.
+        {
+          nameKey: 'channels.layout.mac.name',
+          Icon: KeyboardIcon,
+          live: true,
+          href: '/keyboard-layout',
+          descKey: 'channels.layout.mac.desc',
+          badge: 'new',
+        },
+        {
+          nameKey: 'channels.layout.linux.name',
+          Icon: KeyboardIcon,
+          live: true,
+          href: '/keyboard-layout',
+          descKey: 'channels.layout.linux.desc',
           badge: 'new',
         },
       ],

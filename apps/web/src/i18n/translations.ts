@@ -140,6 +140,10 @@ export const translations = {
     'meta.keyboardLayout.title': 'Uzbek new-alphabet keyboard layout for Mac and Linux — Alfavit',
     'meta.keyboardLayout.desc': 'Type ö, ğ, ş, ç and ʼ with Option on a Mac or AltGr on Linux. A free layout file: no key moves, no app runs, nothing is sent anywhere.',
     'guides.keyboardLayout': 'Keyboard layout',
+    'channels.layout.mac.name': 'Keyboard layout — macOS',
+    'channels.layout.mac.desc': 'Type ö ğ ş ç ʼ with Option (Mac) or AltGr (Linux). No app, nothing moves, nothing sent anywhere.',
+    'channels.layout.linux.name': 'Keyboard layout — Linux',
+    'channels.layout.linux.desc': 'Type ö ğ ş ç ʼ with Option (Mac) or AltGr (Linux). No app, nothing moves, nothing sent anywhere.',
     'layout.download.mac': 'Download for macOS',
     'layout.download.linux': 'Download for Linux',
     'converter.share': 'Share',
@@ -296,6 +300,14 @@ export const translations = {
     'meta.keyboardLayout.desc': 'ö, ğ, ş, ç va ʼ ni Mac’da Option, Linux’da AltGr bilan yozing. Bepul joylashuv fayli: tugmalar joyidan siljimaydi, dastur ishlamaydi, hech narsa yuborilmaydi.',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
     'guides.keyboardLayout': 'Klaviatura joylashuvi',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
+    'channels.layout.mac.name': 'Klaviatura joylashuvi — macOS',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
+    'channels.layout.mac.desc': 'ö ğ ş ç ʼ ni Option (Mac) yoki AltGr (Linux) bilan yozing. Dastur kerak emas, tugmalar siljimaydi, hech narsa yuborilmaydi.',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
+    'channels.layout.linux.name': 'Klaviatura joylashuvi — Linux',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
+    'channels.layout.linux.desc': 'ö ğ ş ç ʼ ni Option (Mac) yoki AltGr (Linux) bilan yozing. Dastur kerak emas, tugmalar siljimaydi, hech narsa yuborilmaydi.',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
     'layout.download.mac': 'macOS uchun yuklab olish',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check.
@@ -455,6 +467,14 @@ export const translations = {
     'meta.keyboardLayout.desc': 'Набирайте ö, ğ, ş, ç и ʼ через Option на Mac или AltGr в Linux. Бесплатный файл раскладки: клавиши не сдвигаются, приложение не нужно, ничего никуда не отправляется.',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
     'guides.keyboardLayout': 'Раскладка клавиатуры',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
+    'channels.layout.mac.name': 'Раскладка — macOS',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
+    'channels.layout.mac.desc': 'Набирайте ö ğ ş ç ʼ через Option (Mac) или AltGr (Linux). Без приложения, клавиши на месте, ничего никуда не отправляется.',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
+    'channels.layout.linux.name': 'Раскладка — Linux',
+    // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
+    'channels.layout.linux.desc': 'Набирайте ö ğ ş ç ʼ через Option (Mac) или AltGr (Linux). Без приложения, клавиши на месте, ничего никуда не отправляется.',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
     'layout.download.mac': 'Скачать для macOS',
     // UNVERIFIED (drafted 2026-10-23): needs the owner's check.
