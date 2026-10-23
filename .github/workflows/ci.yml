@@ -16,7 +16,10 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update && sudo apt-get install -y libxkbcommon-tools  # xkbcli, for the Linux layout's behavioural test
       - run: pnpm test   # turbo run test (unit tests; engine built first via ^build)
+        env:
+          REQUIRE_XKBCLI: '1'  # fail, not skip, if xkbcli is missing
       - run: pnpm build  # turbo run build (type-check + emit, incl. web dist)
       - run: pnpm --dir apps/web test:dist  # build-output assertions against fresh dist
       - run: pnpm --dir packages/engine test:dist  # published engine must import under plain Node ESM
