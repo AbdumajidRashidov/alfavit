@@ -21,6 +21,11 @@ jobs:
         env:
           REQUIRE_XKBCLI: '1'  # fail, not skip, if xkbcli is missing
       - run: pnpm build  # turbo run build (type-check + emit, incl. web dist)
-      - run: pnpm --dir packages/layouts generate && git diff --exit-code -- packages/layouts/out apps/web/public/download  # generated layouts and downloads must be committed as generated
+      # Generated layouts and downloads must be committed exactly as generated:
+      # git diff catches changed files, git status catches new ones never added.
+      - run: |
+          pnpm --dir packages/layouts generate
+          git diff --exit-code -- packages/layouts/out apps/web/public/download
+          test -z "$(git status --porcelain --untracked-files=all -- packages/layouts/out apps/web/public/download)"
       - run: pnpm --dir apps/web test:dist  # build-output assertions against fresh dist
       - run: pnpm --dir packages/engine test:dist  # published engine must import under plain Node ESM
