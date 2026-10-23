@@ -8,6 +8,7 @@ import { generateKeylayout } from './macos/keylayout.js'
 import { macModel } from './macos/model.js'
 import { generateUzSymbols, generateEvdevXml } from './linux/xkb.js'
 import { tarGz } from './linux/tar.js'
+import { generateKlc, encodeKlc } from './windows/klc.js'
 
 function write(path: string, content: string | Buffer): void {
   mkdirSync(dirname(path), { recursive: true })
@@ -30,6 +31,8 @@ export function writeArtefacts(repoRoot: string): void {
   ]
   for (const f of xkb) write(join(out, 'linux', f.path), f.content)
   write(join(download, DOWNLOADS.linux), tarGz(xkb))
+
+  write(join(out, 'windows/ozbek-yangi-alifbo.klc'), encodeKlc(generateKlc()))
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
