@@ -20,7 +20,8 @@ export interface GuideLetter {
 export interface Guide {
   title: string
   intro: string
-  steps: { heading: string; body: string }[]
+  /** `link` renders under the step's body, pointing to another page of the site. */
+  steps: { heading: string; body: string; link?: { pagePath: string; label: string } }[]
   examples: [string, string][]
   /** Optional strip of copyable letters rendered above the steps. */
   letters?: GuideLetter[]
