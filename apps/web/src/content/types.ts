@@ -50,7 +50,14 @@ export interface KeyboardLayoutCopy {
     notListed: string
     uninstall: string
   }
-  linux: { heading: string; steps: string[]; x11Note: string }
+  linux: {
+    heading: string
+    steps: string[]
+    x11Note: string
+    /** Unpacking replaces any existing ~/.config/xkb files of the same name. */
+    caution: string
+    uninstall: string
+  }
   windows: { heading: string; body: string }
   privacy: string
 }

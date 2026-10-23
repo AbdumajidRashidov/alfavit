@@ -4,7 +4,8 @@ import type { Locale } from '../seo/config'
 // No install-time claim until the owner has measured one, and nothing calls
 // the layout official: a test holds both.
 const XATTR = 'xattr -d com.apple.quarantine "$HOME/Library/Keyboard Layouts/Ozbek-yangi-alifbo.keylayout"'
-const TAR = 'tar -xzf alfavit-xkb.tar.gz -C ~/.config'
+const TAR = 'tar -xzf ~/Downloads/alfavit-xkb.tar.gz -C ~/.config'
+const RM = 'rm ~/.config/xkb/symbols/uz ~/.config/xkb/rules/evdev.xml ~/.config/xkb/COPYING.xkeyboard-config'
 
 export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
   en: {
@@ -27,12 +28,14 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     linux: {
       heading: 'Install on Linux',
       steps: [
-        'Download the archive below.',
+        'Download the archive below; it lands in your Downloads folder.',
         `Unpack it into your configuration folder: ${TAR}`,
         'Log out and back in.',
         'In your desktop’s keyboard settings, add “Uzbek (Alfavit, AltGr)”. AltGr is the right-hand Alt key.',
       ],
-      x11Note: 'This works on Wayland desktops (GNOME, KDE Plasma, Sway and others). X11 sessions do not read ~/.config/xkb, so there the layout has to be installed system-wide by hand.',
+      x11Note: 'This works on desktops that read ~/.config/xkb, such as GNOME on Wayland. X11 sessions do not read it, so there the layout has to be installed system-wide by hand.',
+      caution: 'If you already keep your own layouts in ~/.config/xkb, back up rules/evdev.xml and symbols/uz first: unpacking replaces them.',
+      uninstall: `To remove it, delete “Uzbek (Alfavit, AltGr)” in your keyboard settings, run ${RM}, and log out and back in.`,
     },
     windows: {
       heading: 'Windows',
@@ -61,12 +64,14 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     linux: {
       heading: 'Linux’ga oʻrnatish',
       steps: [
-        'Quyidagi arxivni yuklab oling.',
+        'Quyidagi arxivni yuklab oling; u Downloads jildiga tushadi.',
         `Uni sozlamalar jildiga oching: ${TAR}`,
         'Tizimdan chiqib, qayta kiring.',
         'Ish stolining klaviatura sozlamalarida “Uzbek (Alfavit, AltGr)” ni qoʻshing. AltGr — oʻng tomondagi Alt tugmasi.',
       ],
-      x11Note: 'Bu Wayland ish stollarida (GNOME, KDE Plasma, Sway va boshqalar) ishlaydi. X11 seanslari ~/.config/xkb ni oʻqimaydi, u yerda joylashuvni tizimga qoʻlda oʻrnatish kerak.',
+      x11Note: 'Bu ~/.config/xkb ni oʻqiydigan ish stollarida, masalan, Wayland’dagi GNOME’da ishlaydi. X11 seanslari uni oʻqimaydi, u yerda joylashuvni tizimga qoʻlda oʻrnatish kerak.',
+      caution: 'Agar ~/.config/xkb da oʻz joylashuvlaringiz boʻlsa, avval rules/evdev.xml va symbols/uz nusxasini saqlab qoʻying: arxivni ochish ularni almashtiradi.',
+      uninstall: `Oʻchirish uchun klaviatura sozlamalaridan “Uzbek (Alfavit, AltGr)” ni olib tashlang, ${RM} buyrugʻini bajaring va tizimdan chiqib, qayta kiring.`,
     },
     windows: {
       heading: 'Windows',
@@ -95,12 +100,14 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     linux: {
       heading: 'Установка в Linux',
       steps: [
-        'Скачайте архив ниже.',
+        'Скачайте архив ниже — он сохранится в папку Downloads.',
         `Распакуйте его в папку настроек: ${TAR}`,
         'Выйдите из системы и войдите снова.',
         'В настройках клавиатуры добавьте «Uzbek (Alfavit, AltGr)». AltGr — правая клавиша Alt.',
       ],
-      x11Note: 'Работает в окружениях Wayland (GNOME, KDE Plasma, Sway и другие). Сеансы X11 не читают ~/.config/xkb — там раскладку нужно установить в систему вручную.',
+      x11Note: 'Работает в окружениях, которые читают ~/.config/xkb, например в GNOME на Wayland. Сеансы X11 его не читают — там раскладку нужно установить в систему вручную.',
+      caution: 'Если вы уже храните свои раскладки в ~/.config/xkb, сначала сохраните копии rules/evdev.xml и symbols/uz: распаковка их заменит.',
+      uninstall: `Чтобы удалить раскладку, уберите «Uzbek (Alfavit, AltGr)» в настройках клавиатуры, выполните ${RM} и перезайдите в систему.`,
     },
     windows: {
       heading: 'Windows',

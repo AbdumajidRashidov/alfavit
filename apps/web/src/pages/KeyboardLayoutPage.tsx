@@ -76,7 +76,9 @@ export function KeyboardLayoutPage() {
         <h2 className="mt-14 font-medium text-foreground">{copy.linux.heading}</h2>
         <Steps steps={copy.linux.steps} />
         <p className="mt-4 text-sm leading-relaxed text-muted">{copy.linux.x11Note}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{copy.linux.caution}</p>
         <a href="/dl/linux-layout" download className={BTN}>{t('layout.download.linux')}</a>
+        <p className="mt-4 text-sm leading-relaxed text-muted">{copy.linux.uninstall}</p>
 
         <h2 className="mt-14 font-medium text-foreground">{copy.windows.heading}</h2>
         <p className="mt-4 leading-relaxed text-muted">{copy.windows.body}</p>

@@ -46,3 +46,30 @@ test('is routed and in the sitemap under every locale', () => {
   for (const path of ['/keyboard-layout', '/ru/keyboard-layout', '/en/keyboard-layout'])
     expect(xml).toContain(`<loc>https://alfavit.uz${path}</loc>`)
 })
+
+// Spec, success criterion 2: a one-line uninstall — on Linux as on the Mac.
+test.each(LOCALES)('in %s, Linux users are told how to remove the layout', (locale) => {
+  const { uninstall } = keyboardLayout[locale].linux
+  expect(uninstall).toContain('rm ~/.config/xkb/symbols/uz ~/.config/xkb/rules/evdev.xml')
+})
+
+// A fresh terminal opens in ~, not in the download folder.
+test.each(LOCALES)('in %s, the tar command works from a fresh terminal', (locale) => {
+  expect(keyboardLayout[locale].linux.steps.join(' ')).toContain('tar -xzf ~/Downloads/alfavit-xkb.tar.gz -C ~/.config')
+})
+
+// Only libxkbcommon (what GNOME uses) was tested; no other desktop is promised.
+test.each(LOCALES)('in %s, the Linux copy names no desktop it was not tested on', (locale) => {
+  expect(JSON.stringify(keyboardLayout[locale].linux)).not.toMatch(/KDE|Plasma|Sway/)
+})
+
+// Unpacking replaces ~/.config/xkb/rules/evdev.xml and symbols/uz.
+test.each(LOCALES)('in %s, the page warns that unpacking replaces existing files', (locale) => {
+  expect(keyboardLayout[locale].linux.caution).toMatch(/evdev\.xml/)
+})
+
+test('the page shows the Linux uninstall and caution', () => {
+  renderWithLocale(<KeyboardLayoutPage />, '/en')
+  expect(screen.getByText(/rm ~\/\.config\/xkb\/symbols\/uz/)).toBeInTheDocument()
+  expect(screen.getByText(keyboardLayout.en.linux.caution)).toBeInTheDocument()
+})
