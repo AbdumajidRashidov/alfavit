@@ -1,0 +1,34 @@
+{
+  "extName": {
+    "message": "Alfavit — новая узбекская латиница",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Extension name in the Chrome Web Store. Max 75 characters."
+  },
+  "extDescription": {
+    "message": "Конвертируйте узбекский текст с кириллицы или старой латиницы в реформированную латиницу прямо в браузере.",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Extension summary in the Chrome Web Store, after the site's hero.desc. Max 132 characters."
+  },
+  "menuConvert": {
+    "message": "Конвертировать в новую латиницу",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Right-click menu item on selected text."
+  },
+  "popupInputPlaceholder": {
+    "message": "Введите текст…",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Popup input placeholder; the site's converter.placeholder."
+  },
+  "popupOutputPlaceholder": {
+    "message": "Новая латиница",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Popup result placeholder; the site's converter.outputLabel."
+  },
+  "popupCopy": {
+    "message": "Копировать",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Copy button; the site's converter.copy."
+  },
+  "popupCopied": {
+    "message": "Скопировано",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Copy button after copying; the site's converter.copied."
+  },
+  "toastCopied": {
+    "message": "Скопировано — новая латиница",
+    "description": "UNVERIFIED (drafted 2026-10-23): needs the owner's native-speaker check. Notice on the page when the converted text went to the clipboard."
+  }
+}

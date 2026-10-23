@@ -11,7 +11,7 @@ pnpm -C apps/extension build
 ```
 
 Emits `dist/` containing `manifest.json`, `background.js`, `popup.js`,
-`popup.html`, and `icons/`.
+`popup.html`, `icons/`, and `_locales/`.
 
 ## Load unpacked (development)
 
@@ -27,6 +27,14 @@ Emits `dist/` containing `manifest.json`, `background.js`, `popup.js`,
   otherwise the converted text is copied to your clipboard.
 
 Conversion is fully on-device via `@alfavit/engine`. No network, no tracking.
+
+## Languages
+
+The menu, popup, and store name follow the browser's UI language through
+`chrome.i18n`: Uzbek, Russian, or English (the fallback). Strings live in
+`public/_locales/{en,uz,ru}/messages.json`; uz and ru entries marked UNVERIFIED
+in their `description` still need a native-speaker check. Desktop Chrome has no
+Uzbek UI language, so there Uzbek speakers get Russian or English.
 
 ## Publishing
 

@@ -19,5 +19,6 @@ await build({
 cpSync('manifest.json', `${outdir}/manifest.json`)
 cpSync('public/popup.html', `${outdir}/popup.html`)
 cpSync('public/icons', `${outdir}/icons`, { recursive: true })
+cpSync('public/_locales', `${outdir}/_locales`, { recursive: true })
 
 console.log('built extension → dist/')

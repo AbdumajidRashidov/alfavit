@@ -1,0 +1,34 @@
+{
+  "extName": {
+    "message": "Alfavit — new Uzbek Latin",
+    "description": "Extension name in the Chrome Web Store and chrome://extensions. Max 75 characters."
+  },
+  "extDescription": {
+    "message": "Convert Uzbek text from Cyrillic or old Latin to the reformed new Latin, right in your browser.",
+    "description": "Extension summary in the Chrome Web Store and chrome://extensions. Max 132 characters."
+  },
+  "menuConvert": {
+    "message": "Convert to new Latin",
+    "description": "Right-click menu item shown on selected text."
+  },
+  "popupInputPlaceholder": {
+    "message": "Matn kiriting…",
+    "description": "Placeholder of the popup's input box. Uzbek on purpose, as on the site's English page: the box takes Uzbek text."
+  },
+  "popupOutputPlaceholder": {
+    "message": "new Latin",
+    "description": "Placeholder of the popup's read-only result box."
+  },
+  "popupCopy": {
+    "message": "Copy",
+    "description": "Popup button that copies the result."
+  },
+  "popupCopied": {
+    "message": "Copied",
+    "description": "The copy button's label for a moment after copying."
+  },
+  "toastCopied": {
+    "message": "Copied — new Latin",
+    "description": "Notice on the page when the selection is not editable, so the converted text went to the clipboard instead."
+  }
+}

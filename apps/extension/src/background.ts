@@ -6,7 +6,7 @@ const MENU_ID = 'alfavit-convert'
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: MENU_ID,
-    title: 'Convert to new Latin',
+    title: chrome.i18n.getMessage('menuConvert'),
     contexts: ['selection'],
   })
 })
@@ -17,6 +17,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   void chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: applyConversion,
-    args: [converted],
+    args: [converted, chrome.i18n.getMessage('toastCopied')],
   })
 })
