@@ -6,6 +6,7 @@ import { useLocalePath } from '../i18n/useLocalePath'
 import { Reveal } from './Reveal'
 import { track } from '../analytics/track'
 import type { TranslationKey } from '../i18n/translations'
+import { EXTENSION_STORE_URL } from '../content/extension'
 import { AppleIcon, WindowsIcon, AndroidIcon, GlobeIcon, TelegramIcon, PuzzleIcon, CodeIcon, KeyboardIcon } from './icons'
 
 interface Item {
@@ -22,9 +23,7 @@ interface Item {
 }
 interface Group { labelKey: TranslationKey; items: Item[] }
 
-/** Chrome Web Store listing URL. Stays null until Google approves the extension;
- * paste the store URL here to flip the card from "Coming soon" to a live "Open" link. */
-export const EXTENSION_STORE_URL: string | null = null
+export { EXTENSION_STORE_URL }
 
 function buildGroups(extensionStoreUrl: string | null): Group[] {
   return [

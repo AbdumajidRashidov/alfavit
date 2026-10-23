@@ -92,5 +92,5 @@ https://alfavit.uz
 - [ ] Fill single purpose + permission justifications + data disclosures
 - [ ] Set category = Productivity, visibility = Public
 - [ ] Submit for review (typically a few days)
-- [ ] On approval: paste the Web Store URL into `EXTENSION_STORE_URL` in `apps/web/src/components/Channels.tsx` (the card flips from "Coming soon" to a live "Open" link)
+- [x] On approval: the Web Store URL is in `EXTENSION_STORE_URL` (`apps/web/src/content/extension.ts`); the card shows a live "Open" link and llms.txt lists it. Live since 23 Oct 2026.
 ```

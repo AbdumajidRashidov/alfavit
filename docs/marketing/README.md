@@ -61,10 +61,11 @@ Only you can do these. Tick them in order; the code side is already merged when 
 - [ ] Record the demo GIF per `demo-shotlist.md`; upload the MP4 somewhere linkable (Telegram channel post works).
 - [ ] Make the GitHub repo public; set description and topics (`developer-launch.md` → repo checklist); publish the draft desktop release.
 - [ ] Create the npm org `alfavit`; run `pnpm turbo run build --filter=@alfavit/engine --filter=@alfavit/sdk`, then `pnpm --filter @alfavit/engine publish --no-git-checks` and the same for `@alfavit/sdk`.
-- [ ] Register a Chrome Web Store developer account (one-time $5) and submit the zip built by `pnpm --filter @alfavit/extension pack:store` (on `main`; see `docs/chrome-web-store/LISTING.md`).
+- [x] Register a Chrome Web Store developer account (one-time $5) and submit the zip built by `pnpm --filter @alfavit/extension pack:store` (on `main`; see `docs/chrome-web-store/LISTING.md`). Approved 23 Oct 2026.
 - [ ] Push the bot's new descriptions: `BOT_TOKEN=… pnpm --dir apps/bot setup:config`.
 - [ ] Send the press pitches (`press-outreach.md`), before 10:00 Tashkent time, one outlet per email. Log each in the tracker.
 - [ ] Post the Telegram, LinkedIn and X posts (`launch-posts.md`). Seed communities over the next four days (`community-seeding.md`), never more than two venues per day.
 - [ ] Show HN on a weekday between 14:00 and 16:00 Tashkent time (`developer-launch.md`).
-- [ ] When Google approves the extension: paste the store URL into `EXTENSION_STORE_URL` in `apps/web/src/components/Channels.tsx`, merge, and post the extension announcement.
+- [x] When Google approves the extension: put the store URL in `EXTENSION_STORE_URL` (now `apps/web/src/content/extension.ts`) and merge.
+- [ ] Post the extension announcement.
 - [ ] Every Monday, 30 minutes: fill the weekly review in `metrics.md`.

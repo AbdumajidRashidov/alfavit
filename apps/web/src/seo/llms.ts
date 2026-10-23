@@ -1,6 +1,7 @@
 import { SITE_URL } from './config'
 import { CHECKED_ON, SENATE_APPROVED_ON, ADOPTED_ON, SIGNED_ON, IN_FORCE_ON, LAW_NUMBER, LAW_URL, STAGE, type ReformStage } from '../content/status'
 import { LETTERS } from '../content/alphabet'
+import { EXTENSION_STORE_URL } from '../content/extension'
 import { chartPng } from '../content/chart'
 
 /**
@@ -83,6 +84,7 @@ Printable chart (PNG and A4 PDF, MIT-licensed): ${SITE_URL}${chartPng('uz')}
 - Files (${SITE_URL}/files): .docx, .txt and .srt, converted in the browser; nothing is uploaded.
 - Windows and Mac apps (${SITE_URL}/apps): convert as you type, in any program, keeping your usual keyboard.
 - Keyboard layout (${SITE_URL}/keyboard-layout): macOS and Linux; Option or AltGr with o, g, s, c and the apostrophe key types ö, ğ, ş, ç and ʼ. A layout file, not an app.
+- Chrome extension (${EXTENSION_STORE_URL}): select text on any page and choose "Convert to new Latin" from the right-click menu, or paste into its toolbar popup. Runs on your device; no account, nothing sent.
 - Telegram bot (https://t.me/alfavit_uz_bot): send it text, or type @alfavit_uz_bot followed by your text in any chat (inline mode).
 - Public API: POST https://api.alfavit.uz/v1/transliterate with JSON {"text": "..."}; returns {"text", "detectedScript", "flags"}, where flags mark spellings with more than one possible answer (Cyrillic е and ц, foreign words) with the alternatives. Free, no key, 60 requests per 60 seconds per IP, up to 100,000 characters.
 - npm: @alfavit/engine (MIT, the conversion engine for JavaScript; offline, no dependencies) and @alfavit/sdk (API client).
