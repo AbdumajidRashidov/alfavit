@@ -28,6 +28,11 @@ const US_ROWS: [string, string, number, string, string, string | null][] = [
 
 const SCAN: Record<KeyBase, string> = { o: '18', g: '22', s: '1f', c: '2e', "'": '28' }
 
+/** Shift+Ctrl on Windows U.S.: Ctrl+Shift+2 is NUL, +6 is RS, +- is US. */
+const SHIFT_CTRL: Record<string, string> = {
+  '03': String.fromCharCode(0x00), '07': String.fromCharCode(0x1e), '0c': String.fromCharCode(0x1f),
+}
+
 /** Letters and digits as themselves, everything else as four hex digits. */
 const cell = (ch: string | null) =>
   ch === null ? '-1' : /^[A-Za-z0-9]$/.test(ch) ? ch : ch.codePointAt(0)!.toString(16).padStart(4, '0')
@@ -57,7 +62,7 @@ export function generateKlc(): string {
     const vkCol = vk.length >= 8 ? `${vk}\t` : `${vk}\t\t`
     // CAPLOKALTGR (4): Caps Lock also capitalises the AltGr letters (ʼ has no capital).
     const capFlags = k && k.upper !== k.lower ? cap | 4 : cap
-    return [sc, `${vkCol}${capFlags}`, cell(s0), cell(s1), cell(ctrl), cell(k?.lower ?? null), cell(k?.upper ?? null)].join('\t')
+    return [sc, `${vkCol}${capFlags}`, cell(s0), cell(s1), cell(ctrl), cell(SHIFT_CTRL[sc] ?? null), cell(k?.lower ?? null), cell(k?.upper ?? null)].join('\t')
   })
   const lines = [
     `KBD\talfavit\t"${LAYOUT_NAME}"`,
@@ -77,13 +82,14 @@ export function generateKlc(): string {
     '0\t//Column 4',
     '1\t//Column 5 : Shft',
     '2\t//Column 6 :       Ctrl',
-    '6\t//Column 7 :       Ctrl Alt',
-    '7\t//Column 8 : Shft  Ctrl Alt',
+    '3\t//Column 7 : Shft  Ctrl',
+    '6\t//Column 8 :       Ctrl Alt',
+    '7\t//Column 9 : Shft  Ctrl Alt',
     '',
     'LAYOUT\t\t;an extra \'@\' at the end is a dead key',
     '',
-    '//SC\tVK_\t\tCap\t0\t1\t2\t6\t7',
-    '//--\t----\t\t----\t----\t----\t----\t----\t----',
+    '//SC\tVK_\t\tCap\t0\t1\t2\t3\t6\t7',
+    '//--\t----\t\t----\t----\t----\t----\t----\t----\t----',
     '',
     ...rows,
     '',
