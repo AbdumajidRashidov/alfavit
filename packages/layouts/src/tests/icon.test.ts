@@ -117,3 +117,45 @@ test.skipIf(!existsSync('/usr/bin/iconutil'))('iconutil reads every size back', 
   const width = (f: string) => execFileSync('sips', ['-g', 'pixelWidth', join(dir, 'icon.iconset', f)], { encoding: 'utf8' }).match(/pixelWidth: (\d+)/)![1]
   expect(files.map(width)).toEqual(['16', '32', '32', '64'])
 })
+
+// Owner review, 24 Oct 2026: the Z looked out of line with the Ö. The Ö rose
+// a pixel above the Z (a type designer's overshoot, which reads as an error
+// at 16 pt), and the capitals sat 1.2 pt below the badge's centre.
+function letterRows(px: number, rgba: Buffer) {
+  const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
+  // One column per letter: the Ö's middle, which runs between its dots, and
+  // one through the Z, which crosses both bars.
+  const rows = (x: number) => {
+    const ys: number[] = []
+    for (let y = 1; y < px - 1; y++) if (hole(x, y)) ys.push(y)
+    return { top: Math.min(...ys), bottom: Math.max(...ys) }
+  }
+  return { o: rows(Math.floor((px * 4.7) / 16)), z: rows(Math.round(px * 0.75)) }
+}
+
+test('the Ö and the Z share their top and bottom rows at every size', () => {
+  for (const { type, px, rgba } of images) {
+    const { o, z } = letterRows(px, rgba)
+    expect(o, type).toEqual(z)
+  }
+})
+
+test('the capitals are centred in the badge', () => {
+  for (const { type, px, rgba } of images) {
+    const { z } = letterRows(px, rgba)
+    expect(Math.abs((z.top + z.bottom) / 2 - (px - 1) / 2), type).toBeLessThanOrEqual(0.5)
+  }
+})
+
+test('on Retina (32 px and up) the Z’s bars are whole rows, not blurred half-rows', () => {
+  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
+    const { z } = letterRows(px, rgba)
+    const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
+    // Across the Z's middle columns, the first and last rows of the letter are
+    // fully cut out, and the rows just outside it fully solid: no half-tone smear.
+    for (let x = Math.round(px * 0.62); x < Math.round(px * 0.85); x++) {
+      for (const y of [z.top, z.bottom]) expect(alpha(x, y), `${type} row ${y}`).toBe(0)
+      for (const y of [z.top - 1, z.bottom + 1]) expect(alpha(x, y), `${type} row ${y}`).toBe(255)
+    }
+  }
+})
