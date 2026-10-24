@@ -82,13 +82,18 @@ test('dist/llms-full.txt is emitted', () => {
 })
 
 // Browsers must save the layout files, not show the .keylayout's XML in a tab:
-// Cloudflare Pages reads dist/_headers.
-test('dist/_headers makes both keyboard layout files download', () => {
+// Cloudflare Pages reads dist/_headers. The zip says it is a zip, so Safari
+// unpacks it the way it unpacks any downloaded archive.
+test('dist/_headers makes every keyboard layout file download', () => {
   const headers = readFileSync(resolve(__dirname, '../../dist/_headers'), 'utf-8')
-  for (const file of ['Ozbek-yangi-alifbo.keylayout', 'alfavit-xkb.tar.gz']) {
+  for (const [file, type] of [
+    ['Ozbek-yangi-alifbo.zip', 'application/zip'],
+    ['Ozbek-yangi-alifbo.keylayout', 'application/octet-stream'],
+    ['alfavit-xkb.tar.gz', 'application/octet-stream'],
+  ]) {
     const block = headers.split(/\n(?=\/)/).find((b) => b.startsWith(`/download/${file}\n`))
     expect(block, file).toBeDefined()
     expect(block).toContain(`Content-Disposition: attachment; filename="${file}"`)
-    expect(block).toContain('Content-Type: application/octet-stream')
+    expect(block).toContain(`Content-Type: ${type}`)
   }
 })

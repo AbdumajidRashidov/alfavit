@@ -50,7 +50,7 @@ async function write(
 export const INSTALLERS: Record<string, string> = {
   mac: '/download/Alfavit.dmg',
   win: '/download/Alfavit-Setup.exe',
-  'mac-layout': '/download/Ozbek-yangi-alifbo.keylayout',
+  'mac-layout': '/download/Ozbek-yangi-alifbo.zip',
   'linux-layout': '/download/alfavit-xkb.tar.gz',
 }
 
