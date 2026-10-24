@@ -6,16 +6,22 @@
 //
 // The drawing is KeyboardLayouts.framework's (KLInputSourceIconManager), done
 // with public calls: a rounded rectangle of radius 5 pt, the label cut out of
-// it in the system font, semibold, 11 pt, its line box centred vertically and
-// its ink centred across. Checked on macOS 27.0 against Apple's own renderer
-// asked for a 16 × 16 pt "öz" badge: no pixel off by more than 7/255.
+// it in the system font, semibold, starting at 11 pt and 1 pt smaller at a
+// time while it is too wide, centred across by its width and down by its line
+// height (which AppKit makes taller to fit the dots on a capital Ö). With
+// "too wide" meaning wider than the badge, this matches Apple's own renderer
+// asked for a 16 × 16 pt "ÖZ" badge to within 7/255 per pixel (macOS 27.0) —
+// but at 11 pt the Ö and Z then touch the badge's edges, which never happens
+// in Apple's 22 pt badges. So here the text must also leave ¾ pt a side,
+// which settles at 10 pt.
 //
 // The only difference from ABC's badge is the width. macOS draws a
 // third-party layout's icon at 16 × 16 pt; Apple's badges are 22 × 16 pt.
 import AppKit
 
-let label = "öz"
+let label = "ÖZ"
 let sizes = [16, 32, 64] // pixels: 16 pt at 1x, 16 pt at 2x and 32 pt at 1x, 32 pt at 2x
+let margin: CGFloat = 0.75 // points of badge left clear on each side of the text
 
 /** Alpha, one byte per pixel, rows top to bottom. */
 func mask(px: Int) -> [UInt8] {
@@ -23,13 +29,16 @@ func mask(px: Int) -> [UInt8] {
   ctx.scaleBy(x: CGFloat(px) / 16, y: CGFloat(px) / 16)
   ctx.addPath(CGPath(roundedRect: CGRect(x: 0, y: 0, width: 16, height: 16), cornerWidth: 5, cornerHeight: 5, transform: nil))
   ctx.fillPath()
-  let font = NSFont.systemFont(ofSize: 11, weight: .semibold)
-  let line = CTLineCreateWithAttributedString(NSAttributedString(string: label, attributes: [.font: font]))
-  var ascent: CGFloat = 0, descent: CGFloat = 0
-  _ = CTLineGetTypographicBounds(line, &ascent, &descent, nil)
-  let ink = CTLineGetImageBounds(line, ctx)
+  var fontSize: CGFloat = 11
+  var text: NSAttributedString, line: CTLine, width: CGFloat, descent: CGFloat = 0
+  repeat {
+    text = NSAttributedString(string: label, attributes: [.font: NSFont.systemFont(ofSize: fontSize, weight: .semibold)])
+    line = CTLineCreateWithAttributedString(text)
+    width = CGFloat(CTLineGetTypographicBounds(line, nil, &descent, nil))
+    fontSize -= 1
+  } while width >= 16 - 2 * margin
   ctx.setBlendMode(.destinationOut)
-  ctx.textPosition = CGPoint(x: 8 - (ink.minX + ink.width / 2), y: 8 - (ascent - descent) / 2)
+  ctx.textPosition = CGPoint(x: (16 - width) / 2, y: (16 - text.size().height) / 2 + descent)
   CTLineDraw(line, ctx)
   let data = ctx.data!.bindMemory(to: UInt8.self, capacity: px * px)
   return (0..<px * px).map { data[$0] }

@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { inflateSync } from 'node:zlib'
 import { encodeIcns, MAC_ICON_ENTRIES } from '../macos/icon.js'
+import { ICON_LABEL } from '../macos/iconMasks.js'
 
 /** type → payload, in file order. */
 function readIcns(icns: Buffer): [string, Buffer][] {
@@ -103,6 +104,11 @@ test('draws a filled badge with rounded corners and the letters cut out', () => 
 // only öz text" — ABC's badge beside ours in the input menu. macOS draws a
 // third-party layout's icon at 16 × 16 pt, so the badge is ABC's at that
 // width: as tall as ABC's, with ABC's corners, font, weight and placement.
+// Owner review, same day: capitals, as Apple's own two-letter badges are.
+test('the label is ÖZ, in capitals', () => {
+  expect(ICON_LABEL).toBe('ÖZ')
+})
+
 test('the badge is as tall as ABC’s: it fills the 16 pt icon from top to bottom', () => {
   for (const { type, px, rgba } of images) {
     const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
