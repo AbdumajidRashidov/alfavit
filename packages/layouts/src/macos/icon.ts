@@ -1,77 +1,23 @@
-// The layout's menu-bar icon: "ÖZ" cut out of a filled rounded badge, the
-// style of Apple's own "A", "РУ" and "ЎЗ". Apple draws those from text labels
-// (TISIconLabels), but macOS reads labels only for input methods and its own
-// input sources (KeyboardLayouts.framework keeps them in a table keyed by
-// Apple's ids), never from a third-party layout bundle — so the badge is
-// drawn here, as a template icon that macOS tints for light and dark menu bars.
+// The layout's menu-bar icon: "öz" cut out of a filled rounded badge, drawn
+// exactly as macOS draws its own "A", "РУ" and "ЎЗ" — the same corners, font,
+// weight and placement — at the 16 × 16 pt macOS allows a third-party layout
+// (Apple's own badges are 22 × 16 pt). Apple draws those from text labels,
+// but macOS reads labels only for input methods and its own input sources
+// (KeyboardLayouts.framework keeps them in a table keyed by Apple's ids),
+// never from a third-party layout bundle — so the badge ships as a template
+// icon that macOS tints for light and dark menu bars.
 //
-// Drawn from geometry rather than a font: no font licence question, and the
-// same bytes on every machine. Only + - * / and sqrt, which IEEE 754 fixes
-// exactly; no trigonometry, whose last bit may vary between engines.
+// The pixels are rendered on a Mac by tools/render-icon.swift, in Apple's
+// system font, and committed as src/macos/iconMasks.ts; this module only
+// packs them, so every machine builds the same bytes.
 import { crc32 } from '../zip.js'
+import { ICON_MASKS } from './iconMasks.js'
 
-/** Point coordinates on the 16 × 16 pt canvas, y downwards.
- *
- * macOS draws a third-party layout's icon at 16 × 16 pt; Apple's own badges
- * are 22 × 16 pt, with 11 pt semibold text (8 pt capitals). This is Apple's
- * badge scaled by ¾ to the 16 pt width: 16 × 12 pt, centred, with every
- * measurement of the letters scaled alike — the owner's choice over a full-
- * height square, so that it reads as the same design as ABC beside it.
- *
- * The capitals are centred in the badge (5–11 pt) and the Ö's dots sit above
- * them. The O has no overshoot: at this size a round letter that rises past
- * the Z reads as misaligned, not as optically equal. Edges sit on whole or
- * half points, so at 2x (the Retina menu bar) every bar is whole pixel rows. */
-const BADGE = { top: 2, bottom: 14, radius: 3.5 }
-const CAP_TOP = 5
-const BASELINE = 11
-const O = { cx: 5.4, cy: (CAP_TOP + BASELINE) / 2, rx: 2.85, ry: (BASELINE - CAP_TOP) / 2, stemX: 1.2, stemY: 1.05 }
-const DOTS = { dx: 0.92, cy: 3.875, r: 0.62 }
-const Z = { left: 9, right: 13.5, bar: 1, diagonal: 1.45 }
-
-function inBadge(x: number, y: number): boolean {
-  const r = BADGE.radius
-  const dx = x - Math.min(Math.max(x, r), 16 - r)
-  const dy = y - Math.min(Math.max(y, BADGE.top + r), BADGE.bottom - r)
-  return x >= 0 && x <= 16 && y >= BADGE.top && y <= BADGE.bottom && dx * dx + dy * dy <= r * r
-}
-
-function inO(x: number, y: number): boolean {
-  const ex = (x - O.cx) / O.rx, ey = (y - O.cy) / O.ry
-  const ix = (x - O.cx) / (O.rx - O.stemX), iy = (y - O.cy) / (O.ry - O.stemY)
-  return ex * ex + ey * ey <= 1 && ix * ix + iy * iy > 1
-}
-
-function inDots(x: number, y: number): boolean {
-  const near = (cx: number) => (x - cx) * (x - cx) + (y - DOTS.cy) * (y - DOTS.cy) <= DOTS.r * DOTS.r
-  return near(O.cx - DOTS.dx) || near(O.cx + DOTS.dx)
-}
-
-function inZ(x: number, y: number): boolean {
-  if (x < Z.left || x > Z.right || y < CAP_TOP || y > BASELINE) return false
-  if (y <= CAP_TOP + Z.bar || y >= BASELINE - Z.bar) return true
-  // The diagonal runs between the bars: its right edge leaves the top bar at
-  // the letter's right end, its left edge lands on the bottom bar at the left
-  // end, so both corners are clean (no step where it joins a bar).
-  const t = (y - (CAP_TOP + Z.bar)) / (BASELINE - CAP_TOP - 2 * Z.bar)
-  const from = Z.right - Z.diagonal - t * (Z.right - Z.diagonal - Z.left)
-  return x >= from && x <= from + Z.diagonal
-}
-
-const inIcon = (x: number, y: number) => inBadge(x, y) && !inO(x, y) && !inDots(x, y) && !inZ(x, y)
-
-/** Coverage of each pixel, 8 × 8 samples, as alpha 0–255, row by row. */
+/** Alpha 0–255 for each pixel, row by row. */
 export function renderIcon(px: number): Uint8Array {
-  const S = 8, scale = 16 / px
-  const alpha = new Uint8Array(px * px)
-  for (let py = 0; py < px; py++)
-    for (let qx = 0; qx < px; qx++) {
-      let hits = 0
-      for (let j = 0; j < S; j++)
-        for (let i = 0; i < S; i++) if (inIcon((qx + (i + 0.5) / S) * scale, (py + (j + 0.5) / S) * scale)) hits++
-      alpha[py * px + qx] = Math.round((hits * 255) / (S * S))
-    }
-  return alpha
+  const mask = ICON_MASKS[px]
+  if (!mask) throw new Error(`no ${px} px icon: add the size to tools/render-icon.swift and run it`)
+  return new Uint8Array(Buffer.from(mask, 'base64'))
 }
 
 function chunk(type: string, data: Buffer): Buffer {

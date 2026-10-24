@@ -90,38 +90,34 @@ test('every pixel of every size is black: the icon is a template', () => {
 test('draws a filled badge with rounded corners and the letters cut out', () => {
   for (const { type, px, rgba } of images) {
     const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
-    const top = px / 8, bottom = (px * 7) / 8 - 1 // the badge's rows: 2–14 pt
-    expect(alpha(0, top), `${type} corner`).toBe(0)
-    expect(alpha(px - 1, bottom), `${type} corner`).toBe(0)
-    expect(alpha(0, px / 2), `${type} left edge`).toBe(255)
-    expect(alpha(px / 2, bottom), `${type} bottom edge`).toBe(255)
-    // Inside the badge, the letters are holes. At 16 px a 1 pt stroke rarely
-    // clears a whole pixel, so transparency is summed, not counted.
+    for (const [x, y] of [[0, 0], [px - 1, 0], [0, px - 1], [px - 1, px - 1]]) expect(alpha(x, y), `${type} corner`).toBe(0)
+    // Inside the badge, the letters are holes. At 16 px a stroke rarely clears
+    // a whole pixel, so transparency is summed, not counted.
     let holes = 0
     for (let y = px / 4; y < (px * 3) / 4; y++) for (let x = px / 8; x < (px * 7) / 8; x++) holes += (255 - alpha(x, y)) / 255
-    expect(holes, type).toBeGreaterThan(px * px * 0.06)
+    expect(holes, type).toBeGreaterThan(px * px * 0.08)
   }
 })
 
-// Owner review, 24 Oct 2026, with the layout installed: next to ABC the square
-// badge did not look like the same design. macOS draws a third-party layout's
-// icon at 16 × 16 pt; the 22 × 16 pt badges come from a table only Apple's
-// input sources are in. The owner chose Apple's badge scaled to fit: 16 pt
-// wide, 12 pt tall (Apple's 22 × 16 is 4:3 within a quarter point), the
-// letters scaled with it to 6 pt capitals.
-test('the badge is Apple’s 22 × 16 pt badge scaled to the 16 pt width macOS allows', () => {
+// Owner review, 24 Oct 2026: "these two icons should be exactly the same, but
+// only öz text" — ABC's badge beside ours in the input menu. macOS draws a
+// third-party layout's icon at 16 × 16 pt, so the badge is ABC's at that
+// width: as tall as ABC's, with ABC's corners, font, weight and placement.
+test('the badge is as tall as ABC’s: it fills the 16 pt icon from top to bottom', () => {
   for (const { type, px, rgba } of images) {
-    const opaque = (y: number) => [...Array(px).keys()].some((x) => rgba[(y * px + x) * 4 + 3] > 0)
-    const rows = [...Array(px).keys()].filter(opaque)
-    expect([rows[0], rows.at(-1)], type).toEqual([px / 8, (px * 7) / 8 - 1])
-    expect(rgba[((px / 2) * px + px - 1) * 4 + 3], `${type} right edge`).toBe(255)
+    const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
+    for (const [x, y] of [[px / 2, 0], [px / 2, px - 1], [0, px / 2], [px - 1, px / 2]]) expect(alpha(x, y), `${type} edge ${x},${y}`).toBe(255)
   }
 })
 
-test('the capitals are 6 pt tall, as Apple’s 8 pt capitals scaled to the badge', () => {
+test('the letters are centred across the badge, as macOS centres its own', () => {
   for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
-    const { z } = letterRows(px, rgba)
-    expect(z.bottom - z.top + 1, type).toBe((px * 6) / 16)
+    const xs: number[] = []
+    // Clear of the rounded corners: rows 2–14 pt, columns 1–15 pt.
+    for (let y = px / 8; y < (px * 7) / 8; y++)
+      for (let x = px / 16; x < (px * 15) / 16; x++) if (rgba[(y * px + x) * 4 + 3] < 128) xs.push(x)
+    const middle = (Math.min(...xs) + Math.max(...xs) + 1) / 2
+    expect(Math.abs(middle - px / 2), type).toBeLessThanOrEqual(px / 32)
   }
 })
 
@@ -139,75 +135,4 @@ test.skipIf(!existsSync('/usr/bin/iconutil'))('iconutil reads every size back', 
   expect(files).toEqual(['icon_16x16.png', 'icon_16x16@2x.png', 'icon_32x32.png', 'icon_32x32@2x.png'])
   const width = (f: string) => execFileSync('sips', ['-g', 'pixelWidth', join(dir, 'icon.iconset', f)], { encoding: 'utf8' }).match(/pixelWidth: (\d+)/)![1]
   expect(files.map(width)).toEqual(['16', '32', '32', '64'])
-})
-
-// Owner review, 24 Oct 2026: the Z looked out of line with the Ö. The Ö rose
-// a pixel above the Z (a type designer's overshoot, which reads as an error
-// at 16 pt), and the capitals sat 1.2 pt below the badge's centre.
-function letterRows(px: number, rgba: Buffer) {
-  const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
-  // One column per letter: the Ö's middle (5.4 pt), which runs between its
-  // dots, and one through the Z (11.5 pt), which crosses both bars.
-  const rows = (x: number) => {
-    const ys: number[] = []
-    // Inside the badge only (2–14 pt): above and below it is transparent too.
-    for (let y = px / 8 + 1; y < (px * 7) / 8 - 1; y++) if (hole(x, y)) ys.push(y)
-    return { top: Math.min(...ys), bottom: Math.max(...ys) }
-  }
-  return { o: rows(Math.floor((px * 5.4) / 16)), z: rows(Math.floor((px * 11.5) / 16)) }
-}
-
-test('the Ö and the Z share their top and bottom rows at every size', () => {
-  for (const { type, px, rgba } of images) {
-    const { o, z } = letterRows(px, rgba)
-    expect(o, type).toEqual(z)
-  }
-})
-
-test('the capitals are centred in the badge', () => {
-  for (const { type, px, rgba } of images) {
-    const { z } = letterRows(px, rgba)
-    expect(Math.abs((z.top + z.bottom) / 2 - (px - 1) / 2), type).toBeLessThanOrEqual(0.5)
-  }
-})
-
-test('on Retina (32 px and up) the Z’s bars are whole rows, not blurred half-rows', () => {
-  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
-    const { z } = letterRows(px, rgba)
-    const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
-    // Across the Z's middle columns, the first and last rows of the letter are
-    // fully cut out, and the rows just outside it fully solid: no half-tone smear.
-    for (let x = Math.round((px * 10) / 16); x < Math.round((px * 13) / 16); x++) {
-      for (const y of [z.top, z.bottom]) expect(alpha(x, y), `${type} row ${y}`).toBe(0)
-      for (const y of [z.top - 1, z.bottom + 1]) expect(alpha(x, y), `${type} row ${y}`).toBe(255)
-    }
-  }
-})
-
-// Owner review, 24 Oct 2026: the Z's diagonal joined each bar short of its
-// end, leaving a step at the bottom-left and top-right corners. In a proper
-// Z (Apple's SF "Z" was the reference) the diagonal's edge runs straight into
-// the bar's end.
-test('on Retina the Z’s diagonal meets each bar at its end, with no step', () => {
-  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
-    const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
-    const x0 = Math.round(px * 0.55), x1 = Math.round(px * 0.9375)
-    const span = (y: number) => {
-      const xs: number[] = []
-      for (let x = x0; x < x1; x++) if (hole(x, y)) xs.push(x)
-      return xs.length ? { left: Math.min(...xs), right: Math.max(...xs), width: xs.length } : null
-    }
-    // Only the letters' rows, clear of the badge's transparent rounded corners.
-    const rows = Array.from({ length: px }, (_, y) => (y >= Math.round(px * 0.2) && y < Math.round(px * 0.8) ? span(y) : null))
-    const zLeft = Math.min(...rows.filter(Boolean).map((r) => r!.left))
-    const zRight = Math.max(...rows.filter(Boolean).map((r) => r!.right))
-    const isBar = (y: number) => rows[y] !== null && rows[y]!.width >= (zRight - zLeft + 1) * 0.9
-    const barRows = rows.map((_, y) => y).filter(isBar)
-    const topBarEnd = barRows.filter((y) => y < px / 2).at(-1)!
-    const bottomBarStart = barRows.filter((y) => y > px / 2)[0]
-    // Just below the top bar the diagonal starts at the right end; just above
-    // the bottom bar it ends at the left end.
-    expect(zRight - rows[topBarEnd + 1]!.right, `${type} top-right step`).toBeLessThanOrEqual(1)
-    expect(rows[bottomBarStart - 1]!.left - zLeft, `${type} bottom-left step`).toBeLessThanOrEqual(1)
-  }
 })
