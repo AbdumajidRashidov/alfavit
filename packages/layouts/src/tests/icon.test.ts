@@ -159,3 +159,31 @@ test('on Retina (32 px and up) the Z’s bars are whole rows, not blurred half-r
     }
   }
 })
+
+// Owner review, 24 Oct 2026: the Z's diagonal joined each bar short of its
+// end, leaving a step at the bottom-left and top-right corners. In a proper
+// Z (Apple's SF "Z" was the reference) the diagonal's edge runs straight into
+// the bar's end.
+test('on Retina the Z’s diagonal meets each bar at its end, with no step', () => {
+  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
+    const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
+    const x0 = Math.round(px * 0.55), x1 = Math.round(px * 0.9375)
+    const span = (y: number) => {
+      const xs: number[] = []
+      for (let x = x0; x < x1; x++) if (hole(x, y)) xs.push(x)
+      return xs.length ? { left: Math.min(...xs), right: Math.max(...xs), width: xs.length } : null
+    }
+    // Only the letters' rows, clear of the badge's transparent rounded corners.
+    const rows = Array.from({ length: px }, (_, y) => (y >= Math.round(px * 0.2) && y < Math.round(px * 0.8) ? span(y) : null))
+    const zLeft = Math.min(...rows.filter(Boolean).map((r) => r!.left))
+    const zRight = Math.max(...rows.filter(Boolean).map((r) => r!.right))
+    const isBar = (y: number) => rows[y] !== null && rows[y]!.width >= (zRight - zLeft + 1) * 0.9
+    const barRows = rows.map((_, y) => y).filter(isBar)
+    const topBarEnd = barRows.filter((y) => y < px / 2).at(-1)!
+    const bottomBarStart = barRows.filter((y) => y > px / 2)[0]
+    // Just below the top bar the diagonal starts at the right end; just above
+    // the bottom bar it ends at the left end.
+    expect(zRight - rows[topBarEnd + 1]!.right, `${type} top-right step`).toBeLessThanOrEqual(1)
+    expect(rows[bottomBarStart - 1]!.left - zLeft, `${type} bottom-left step`).toBeLessThanOrEqual(1)
+  }
+})

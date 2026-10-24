@@ -44,8 +44,11 @@ function inDots(x: number, y: number): boolean {
 function inZ(x: number, y: number): boolean {
   if (x < Z.left || x > Z.right || y < CAP_TOP || y > BASELINE) return false
   if (y <= CAP_TOP + Z.bar || y >= BASELINE - Z.bar) return true
-  // The diagonal runs from the top bar's right end to the bottom bar's left end.
-  const from = Z.right - Z.diagonal - ((y - CAP_TOP) / (BASELINE - CAP_TOP)) * (Z.right - Z.diagonal - Z.left)
+  // The diagonal runs between the bars: its right edge leaves the top bar at
+  // the letter's right end, its left edge lands on the bottom bar at the left
+  // end, so both corners are clean (no step where it joins a bar).
+  const t = (y - (CAP_TOP + Z.bar)) / (BASELINE - CAP_TOP - 2 * Z.bar)
+  const from = Z.right - Z.diagonal - t * (Z.right - Z.diagonal - Z.left)
   return x >= from && x <= from + Z.diagonal
 }
 
