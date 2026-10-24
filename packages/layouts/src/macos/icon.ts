@@ -11,13 +11,18 @@ import { crc32 } from '../zip.js'
 
 /** Point coordinates on the 16 × 16 pt canvas, y downwards. Apple's badges
  * are 16 pt tall with 11 pt semibold text; an .icns is square, so this one is
- * as tall and as heavy, and narrower. */
+ * as tall and as heavy, and narrower.
+ *
+ * The capitals are centred in the badge (4–12 pt) and the Ö's dots sit above
+ * them. The O has no overshoot: at 16 pt a round letter that rises past the
+ * Z reads as misaligned, not as optically equal. Edges sit on whole or half
+ * points, so at 2x (the Retina menu bar) every bar is whole pixel rows. */
 const BADGE_RADIUS = 4
-const CAP_TOP = 5.4
-const BASELINE = 13
-const O = { cx: 4.7, cy: (CAP_TOP + BASELINE) / 2, rx: 3.35, ry: (BASELINE - CAP_TOP) / 2 + 0.1, stemX: 1.5, stemY: 1.3 }
-const DOTS = { dx: 1.45, cy: 3.55, r: 0.8 }
-const Z = { left: 8.95, right: 14.65, bar: 1.25, diagonal: 1.85 }
+const CAP_TOP = 4
+const BASELINE = 12
+const O = { cx: 4.75, cy: (CAP_TOP + BASELINE) / 2, rx: 3.25, ry: (BASELINE - CAP_TOP) / 2, stemX: 1.6, stemY: 1.5 }
+const DOTS = { dx: 1.45, cy: 2.55, r: 0.8 }
+const Z = { left: 9, right: 14.5, bar: 1.5, diagonal: 2 }
 
 function inBadge(x: number, y: number): boolean {
   const dx = x - Math.min(Math.max(x, BADGE_RADIUS), 16 - BADGE_RADIUS)
@@ -39,8 +44,11 @@ function inDots(x: number, y: number): boolean {
 function inZ(x: number, y: number): boolean {
   if (x < Z.left || x > Z.right || y < CAP_TOP || y > BASELINE) return false
   if (y <= CAP_TOP + Z.bar || y >= BASELINE - Z.bar) return true
-  // The diagonal runs from the top bar's right end to the bottom bar's left end.
-  const from = Z.right - Z.diagonal - ((y - CAP_TOP) / (BASELINE - CAP_TOP)) * (Z.right - Z.diagonal - Z.left)
+  // The diagonal runs between the bars: its right edge leaves the top bar at
+  // the letter's right end, its left edge lands on the bottom bar at the left
+  // end, so both corners are clean (no step where it joins a bar).
+  const t = (y - (CAP_TOP + Z.bar)) / (BASELINE - CAP_TOP - 2 * Z.bar)
+  const from = Z.right - Z.diagonal - t * (Z.right - Z.diagonal - Z.left)
   return x >= from && x <= from + Z.diagonal
 }
 

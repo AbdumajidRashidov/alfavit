@@ -117,3 +117,73 @@ test.skipIf(!existsSync('/usr/bin/iconutil'))('iconutil reads every size back', 
   const width = (f: string) => execFileSync('sips', ['-g', 'pixelWidth', join(dir, 'icon.iconset', f)], { encoding: 'utf8' }).match(/pixelWidth: (\d+)/)![1]
   expect(files.map(width)).toEqual(['16', '32', '32', '64'])
 })
+
+// Owner review, 24 Oct 2026: the Z looked out of line with the Ö. The Ö rose
+// a pixel above the Z (a type designer's overshoot, which reads as an error
+// at 16 pt), and the capitals sat 1.2 pt below the badge's centre.
+function letterRows(px: number, rgba: Buffer) {
+  const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
+  // One column per letter: the Ö's middle, which runs between its dots, and
+  // one through the Z, which crosses both bars.
+  const rows = (x: number) => {
+    const ys: number[] = []
+    for (let y = 1; y < px - 1; y++) if (hole(x, y)) ys.push(y)
+    return { top: Math.min(...ys), bottom: Math.max(...ys) }
+  }
+  return { o: rows(Math.floor((px * 4.7) / 16)), z: rows(Math.round(px * 0.75)) }
+}
+
+test('the Ö and the Z share their top and bottom rows at every size', () => {
+  for (const { type, px, rgba } of images) {
+    const { o, z } = letterRows(px, rgba)
+    expect(o, type).toEqual(z)
+  }
+})
+
+test('the capitals are centred in the badge', () => {
+  for (const { type, px, rgba } of images) {
+    const { z } = letterRows(px, rgba)
+    expect(Math.abs((z.top + z.bottom) / 2 - (px - 1) / 2), type).toBeLessThanOrEqual(0.5)
+  }
+})
+
+test('on Retina (32 px and up) the Z’s bars are whole rows, not blurred half-rows', () => {
+  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
+    const { z } = letterRows(px, rgba)
+    const alpha = (x: number, y: number) => rgba[(y * px + x) * 4 + 3]
+    // Across the Z's middle columns, the first and last rows of the letter are
+    // fully cut out, and the rows just outside it fully solid: no half-tone smear.
+    for (let x = Math.round(px * 0.62); x < Math.round(px * 0.85); x++) {
+      for (const y of [z.top, z.bottom]) expect(alpha(x, y), `${type} row ${y}`).toBe(0)
+      for (const y of [z.top - 1, z.bottom + 1]) expect(alpha(x, y), `${type} row ${y}`).toBe(255)
+    }
+  }
+})
+
+// Owner review, 24 Oct 2026: the Z's diagonal joined each bar short of its
+// end, leaving a step at the bottom-left and top-right corners. In a proper
+// Z (Apple's SF "Z" was the reference) the diagonal's edge runs straight into
+// the bar's end.
+test('on Retina the Z’s diagonal meets each bar at its end, with no step', () => {
+  for (const { type, px, rgba } of images.filter((i) => i.px >= 32)) {
+    const hole = (x: number, y: number) => rgba[(y * px + x) * 4 + 3] < 128
+    const x0 = Math.round(px * 0.55), x1 = Math.round(px * 0.9375)
+    const span = (y: number) => {
+      const xs: number[] = []
+      for (let x = x0; x < x1; x++) if (hole(x, y)) xs.push(x)
+      return xs.length ? { left: Math.min(...xs), right: Math.max(...xs), width: xs.length } : null
+    }
+    // Only the letters' rows, clear of the badge's transparent rounded corners.
+    const rows = Array.from({ length: px }, (_, y) => (y >= Math.round(px * 0.2) && y < Math.round(px * 0.8) ? span(y) : null))
+    const zLeft = Math.min(...rows.filter(Boolean).map((r) => r!.left))
+    const zRight = Math.max(...rows.filter(Boolean).map((r) => r!.right))
+    const isBar = (y: number) => rows[y] !== null && rows[y]!.width >= (zRight - zLeft + 1) * 0.9
+    const barRows = rows.map((_, y) => y).filter(isBar)
+    const topBarEnd = barRows.filter((y) => y < px / 2).at(-1)!
+    const bottomBarStart = barRows.filter((y) => y > px / 2)[0]
+    // Just below the top bar the diagonal starts at the right end; just above
+    // the bottom bar it ends at the left end.
+    expect(zRight - rows[topBarEnd + 1]!.right, `${type} top-right step`).toBeLessThanOrEqual(1)
+    expect(rows[bottomBarStart - 1]!.left - zLeft, `${type} bottom-left step`).toBeLessThanOrEqual(1)
+  }
+})
