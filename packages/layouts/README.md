@@ -50,14 +50,19 @@ for a layout bundle's `KLInfo_<layout name>` dictionary
 (`islPopulateKLPropertiesFromBundle`) reads `TISInputSourceID`,
 `TISIntendedLanguage`, `TISIconIsTemplate` and a few locale keys, but not
 `TISIconLabels`; labels are read only for input methods and for Apple's
-compiled layout collection.
+compiled layout collection. The 22 × 16 pt badges themselves come from
+KeyboardLayouts.framework (`KLInputSourceIconManager`), whose label table is
+keyed by Apple's own input-source ids; for any other layout it returns
+nothing and the menu falls back to the layout's icon, drawn at 16 × 16 pt
+(measured on the owner's Mac, 24 Oct 2026, beside ABC's 22 × 16 pt badge).
 
-So `src/macos/icon.ts` draws the badge itself: "ÖZ" cut out of a filled
-rounded square, matched to the system badges' 16 pt height, 11 pt text and
-semibold weight, and marked as a template (`TISIconIsTemplate`) so macOS
-paints it white on a dark menu bar and black on a light one. It is drawn from
-geometry, not a font, so the bytes are the same on every machine. An `.icns`
-is square; Apple's badges are 22 × 16 pt, so this one is narrower.
+So `src/macos/icon.ts` draws the badge itself, as Apple's badge scaled by ¾
+to the 16 pt width macOS allows: "ÖZ" cut out of a 16 × 12 pt rounded pill,
+6 pt capitals centred in it, every stroke scaled alike. The owner chose this
+over a full-height square, which looked like a different design next to ABC.
+It is marked as a template (`TISIconIsTemplate`) so macOS paints it white on
+a dark menu bar and black on a light one, and drawn from geometry, not a
+font, so the bytes are the same on every machine.
 
 ## Acceptance checklist — macOS (owner)
 

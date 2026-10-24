@@ -1,33 +1,39 @@
 // The layout's menu-bar icon: "ÖZ" cut out of a filled rounded badge, the
 // style of Apple's own "A", "РУ" and "ЎЗ". Apple draws those from text labels
 // (TISIconLabels), but macOS reads labels only for input methods and its own
-// layouts, never from a third-party layout bundle — so the badge is drawn
-// here, as a template icon that macOS tints for light and dark menu bars.
+// input sources (KeyboardLayouts.framework keeps them in a table keyed by
+// Apple's ids), never from a third-party layout bundle — so the badge is
+// drawn here, as a template icon that macOS tints for light and dark menu bars.
 //
 // Drawn from geometry rather than a font: no font licence question, and the
 // same bytes on every machine. Only + - * / and sqrt, which IEEE 754 fixes
 // exactly; no trigonometry, whose last bit may vary between engines.
 import { crc32 } from '../zip.js'
 
-/** Point coordinates on the 16 × 16 pt canvas, y downwards. Apple's badges
- * are 16 pt tall with 11 pt semibold text; an .icns is square, so this one is
- * as tall and as heavy, and narrower.
+/** Point coordinates on the 16 × 16 pt canvas, y downwards.
  *
- * The capitals are centred in the badge (4–12 pt) and the Ö's dots sit above
- * them. The O has no overshoot: at 16 pt a round letter that rises past the
- * Z reads as misaligned, not as optically equal. Edges sit on whole or half
- * points, so at 2x (the Retina menu bar) every bar is whole pixel rows. */
-const BADGE_RADIUS = 4
-const CAP_TOP = 4
-const BASELINE = 12
-const O = { cx: 4.75, cy: (CAP_TOP + BASELINE) / 2, rx: 3.25, ry: (BASELINE - CAP_TOP) / 2, stemX: 1.6, stemY: 1.5 }
-const DOTS = { dx: 1.45, cy: 2.55, r: 0.8 }
-const Z = { left: 9, right: 14.5, bar: 1.5, diagonal: 2 }
+ * macOS draws a third-party layout's icon at 16 × 16 pt; Apple's own badges
+ * are 22 × 16 pt, with 11 pt semibold text (8 pt capitals). This is Apple's
+ * badge scaled by ¾ to the 16 pt width: 16 × 12 pt, centred, with every
+ * measurement of the letters scaled alike — the owner's choice over a full-
+ * height square, so that it reads as the same design as ABC beside it.
+ *
+ * The capitals are centred in the badge (5–11 pt) and the Ö's dots sit above
+ * them. The O has no overshoot: at this size a round letter that rises past
+ * the Z reads as misaligned, not as optically equal. Edges sit on whole or
+ * half points, so at 2x (the Retina menu bar) every bar is whole pixel rows. */
+const BADGE = { top: 2, bottom: 14, radius: 3.5 }
+const CAP_TOP = 5
+const BASELINE = 11
+const O = { cx: 5.4, cy: (CAP_TOP + BASELINE) / 2, rx: 2.85, ry: (BASELINE - CAP_TOP) / 2, stemX: 1.2, stemY: 1.05 }
+const DOTS = { dx: 0.92, cy: 3.875, r: 0.62 }
+const Z = { left: 9, right: 13.5, bar: 1, diagonal: 1.45 }
 
 function inBadge(x: number, y: number): boolean {
-  const dx = x - Math.min(Math.max(x, BADGE_RADIUS), 16 - BADGE_RADIUS)
-  const dy = y - Math.min(Math.max(y, BADGE_RADIUS), 16 - BADGE_RADIUS)
-  return x >= 0 && x <= 16 && y >= 0 && y <= 16 && dx * dx + dy * dy <= BADGE_RADIUS * BADGE_RADIUS
+  const r = BADGE.radius
+  const dx = x - Math.min(Math.max(x, r), 16 - r)
+  const dy = y - Math.min(Math.max(y, BADGE.top + r), BADGE.bottom - r)
+  return x >= 0 && x <= 16 && y >= BADGE.top && y <= BADGE.bottom && dx * dx + dy * dy <= r * r
 }
 
 function inO(x: number, y: number): boolean {
