@@ -1,6 +1,10 @@
 # Cloudflare Pages response headers.
 # The keyboard layouts must be saved, not shown: an unknown extension can be
 # served inline, and a .keylayout is XML that a browser would happily display.
+# The Mac layout is a zip of a .bundle; the bare .keylayout stays for old links.
+/download/Ozbek-yangi-alifbo.zip
+  Content-Type: application/zip
+  Content-Disposition: attachment; filename="Ozbek-yangi-alifbo.zip"
 /download/Ozbek-yangi-alifbo.keylayout
   Content-Type: application/octet-stream
   Content-Disposition: attachment; filename="Ozbek-yangi-alifbo.keylayout"

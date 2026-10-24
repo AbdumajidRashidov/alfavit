@@ -3,7 +3,12 @@ import type { Locale } from '../seo/config'
 
 // No install-time claim until the owner has measured one, and nothing calls
 // the layout official: a test holds both.
-const XATTR = 'xattr -d com.apple.quarantine "$HOME/Library/Keyboard Layouts/Ozbek-yangi-alifbo.keylayout"'
+// The Mac download is a zip holding the .bundle; the bundle is what carries
+// the menu-bar icon. Before 24 Oct 2026 the download was the bare .keylayout.
+const ZIP = 'Ozbek-yangi-alifbo.zip'
+const BUNDLE = 'Ozbek-yangi-alifbo.bundle'
+const OLD_FILE = 'Ozbek-yangi-alifbo.keylayout'
+const XATTR = `xattr -r -d com.apple.quarantine "$HOME/Library/Keyboard Layouts/${BUNDLE}"`
 const TAR = 'tar -xzf ~/Downloads/alfavit-xkb.tar.gz -C ~/.config'
 const RM = 'rm ~/.config/xkb/symbols/uz ~/.config/xkb/rules/evdev.xml ~/.config/xkb/COPYING.xkeyboard-config'
 
@@ -16,14 +21,14 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     mac: {
       heading: 'Install on a Mac',
       steps: [
-        'Download the layout file below.',
-        'Move it to the Keyboard Layouts folder in your Library: in Finder, choose Go → Go to Folder and enter ~/Library/Keyboard Layouts.',
+        `Download the archive below. If your browser does not unpack it, double-click ${ZIP} in your Downloads folder: you get ${BUNDLE}.`,
+        `Move ${BUNDLE} to the Keyboard Layouts folder in your Library: in Finder, choose Go → Go to Folder and enter ~/Library/Keyboard Layouts. If an earlier ${OLD_FILE} is there, delete it.`,
         'Log out and back in.',
         'Open System Settings → Keyboard → Input Sources → Edit, press + and add the layout. Switch to it from the input menu in the menu bar.',
       ],
       lookFor: 'In the list it is called',
       notListed: `Not in the list? Run ${XATTR} in Terminal, then log out and back in.`,
-      uninstall: 'To remove it, delete the file from ~/Library/Keyboard Layouts and log out and back in.',
+      uninstall: `To remove it, delete ${BUNDLE} from ~/Library/Keyboard Layouts and log out and back in.`,
     },
     linux: {
       heading: 'Install on Linux',
@@ -51,15 +56,16 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     displacedHeading: 'Bu tugmalar Mac’da avval nimani yozardi',
     mac: {
       heading: 'Mac’ga oʻrnatish',
+      // UNVERIFIED (drafted 2026-10-24): the first two steps and the uninstall line, rewritten for the .zip and .bundle.
       steps: [
-        'Quyidagi joylashuv faylini yuklab oling.',
-        'Uni Library ichidagi Keyboard Layouts jildiga koʻchiring: Finder’da Go → Go to Folder ni tanlab, ~/Library/Keyboard Layouts deb yozing.',
+        `Quyidagi arxivni yuklab oling. Brauzer uni oʻzi ochmasa, Downloads jildidagi ${ZIP} faylini ikki marta bosing: ${BUNDLE} paydo boʻladi.`,
+        `${BUNDLE} ni Library ichidagi Keyboard Layouts jildiga koʻchiring: Finder’da Go → Go to Folder ni tanlab, ~/Library/Keyboard Layouts deb yozing. U yerda avvalgi ${OLD_FILE} fayli boʻlsa, uni oʻchiring.`,
         'Tizimdan chiqib, qayta kiring.',
         'System Settings → Keyboard → Input Sources → Edit ni oching, + tugmasini bosing va joylashuvni qoʻshing. Unga menyu satridagi kiritish menyusidan oʻting.',
       ],
       lookFor: 'Roʻyxatda u shunday nomlanadi:',
       notListed: `Roʻyxatda koʻrinmasa, Terminal’da ${XATTR} buyrugʻini bajaring va tizimdan chiqib, qayta kiring.`,
-      uninstall: 'Oʻchirish uchun faylni ~/Library/Keyboard Layouts jildidan oʻchiring va tizimdan chiqib, qayta kiring.',
+      uninstall: `Oʻchirish uchun ${BUNDLE} ni ~/Library/Keyboard Layouts jildidan oʻchiring va tizimdan chiqib, qayta kiring.`,
     },
     linux: {
       heading: 'Linux’ga oʻrnatish',
@@ -87,15 +93,16 @@ export const keyboardLayout: Record<Locale, KeyboardLayoutCopy> = {
     displacedHeading: 'Что эти сочетания печатали на Mac раньше',
     mac: {
       heading: 'Установка на Mac',
+      // UNVERIFIED (drafted 2026-10-24): the first two steps and the uninstall line, rewritten for the .zip and .bundle.
       steps: [
-        'Скачайте файл раскладки ниже.',
-        'Переместите его в папку Keyboard Layouts в вашей библиотеке: в Finder выберите Go → Go to Folder и введите ~/Library/Keyboard Layouts.',
+        `Скачайте архив ниже. Если браузер не распаковал его сам, дважды щёлкните ${ZIP} в папке Downloads — появится ${BUNDLE}.`,
+        `Переместите ${BUNDLE} в папку Keyboard Layouts в вашей библиотеке: в Finder выберите Go → Go to Folder и введите ~/Library/Keyboard Layouts. Если там есть прежний файл ${OLD_FILE}, удалите его.`,
         'Выйдите из системы и войдите снова.',
         'Откройте System Settings → Keyboard → Input Sources → Edit, нажмите + и добавьте раскладку. Переключайтесь на неё через меню ввода в строке меню.',
       ],
       lookFor: 'В списке она называется',
       notListed: `Нет в списке? Выполните в Терминале ${XATTR}, затем выйдите из системы и войдите снова.`,
-      uninstall: 'Чтобы удалить раскладку, удалите файл из ~/Library/Keyboard Layouts и перезайдите в систему.',
+      uninstall: `Чтобы удалить раскладку, удалите ${BUNDLE} из ~/Library/Keyboard Layouts и перезайдите в систему.`,
     },
     linux: {
       heading: 'Установка в Linux',

@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { DOWNLOADS } from './keys.js'
 import { generateKeylayout, MAC_COMBOS } from './macos/keylayout.js'
 import { macModel } from './macos/model.js'
+import { macBundleFiles, macBundleZip } from './macos/bundle.js'
 import { linuxFiles } from './linux/xkb.js'
 import { tarGz } from './linux/tar.js'
 import { generateKlc, encodeKlc } from './windows/klc.js'
@@ -20,9 +21,11 @@ export function writeArtefacts(repoRoot: string): void {
   const download = join(repoRoot, 'apps/web/public/download')
 
   const keylayout = generateKeylayout()
-  write(join(out, 'macos', DOWNLOADS.mac), keylayout)
+  write(join(out, 'macos', DOWNLOADS.macKeylayout), keylayout)
   write(join(out, 'macos/model.json'), JSON.stringify({ ...macModel(), combos: MAC_COMBOS }, null, 2) + '\n')
-  write(join(download, DOWNLOADS.mac), keylayout)
+  for (const f of macBundleFiles()) write(join(out, 'macos', f.path), f.content)
+  write(join(download, DOWNLOADS.mac), macBundleZip())
+  write(join(download, DOWNLOADS.macKeylayout), keylayout)
 
   const upstreamDir = join(repoRoot, 'packages/layouts/src/linux/upstream')
   const xkb = linuxFiles(readFileSync(join(upstreamDir, 'uz'), 'utf8'), readFileSync(join(upstreamDir, 'COPYING'), 'utf8'))

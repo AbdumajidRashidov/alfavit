@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { beforeEach, expect, test } from 'vitest'
-import { KEY_TABLE, macDisplaced } from '@alfavit/layouts'
+import { DOWNLOADS, KEY_TABLE, MAC_BUNDLE, macDisplaced } from '@alfavit/layouts'
 import { renderWithLocale, renderApp } from './renderApp'
 import { KeyboardLayoutPage } from '../pages/KeyboardLayoutPage'
 import { keyboardLayout } from '../content/keyboardLayout'
@@ -32,7 +32,21 @@ test('downloads go through the counted routes', () => {
 // Review Focus 1: if the layout is missing from Input Sources, the page says how to fix it.
 test('tells Mac users what to do if the layout is not listed', () => {
   renderWithLocale(<KeyboardLayoutPage />, '/en')
-  expect(screen.getByText(/xattr -d com\.apple\.quarantine/)).toBeInTheDocument()
+  expect(screen.getByText(/xattr -r -d com\.apple\.quarantine "\$HOME\/Library\/Keyboard Layouts\/Ozbek-yangi-alifbo\.bundle"/)).toBeInTheDocument()
+})
+
+// The download is a zip of the bundle; the bundle is what goes into the folder.
+test.each(LOCALES)('in %s, the Mac steps unzip the archive and move the bundle', (locale) => {
+  const { steps, notListed, uninstall } = keyboardLayout[locale].mac
+  expect(steps.join(' ')).toContain(DOWNLOADS.mac)
+  expect(steps.join(' ')).toContain(MAC_BUNDLE)
+  expect(notListed).toContain(MAC_BUNDLE)
+  expect(uninstall).toContain(MAC_BUNDLE)
+})
+
+// Two copies of one layout would both show up in Input Sources.
+test.each(LOCALES)('in %s, the Mac steps say to delete the earlier single file first', (locale) => {
+  expect(keyboardLayout[locale].mac.steps.join(' ')).toContain(DOWNLOADS.macKeylayout)
 })
 
 test('makes no install-time or "official" claim in any locale', () => {

@@ -32,4 +32,8 @@ export const LINUX_LAYOUT = 'uz'
 export const LINUX_VARIANT = 'alfavit'
 export const LINUX_DESCRIPTION = 'Uzbek (Alfavit, AltGr)'
 
-export const DOWNLOADS = { mac: 'Ozbek-yangi-alifbo.keylayout', linux: 'alfavit-xkb.tar.gz' } as const
+/** The macOS download is a zip of this bundle: the bundle is what carries the
+ * icon. The bare .keylayout is still served, for links to it made before. */
+export const MAC_BUNDLE = 'Ozbek-yangi-alifbo.bundle'
+
+export const DOWNLOADS = { mac: 'Ozbek-yangi-alifbo.zip', macKeylayout: 'Ozbek-yangi-alifbo.keylayout', linux: 'alfavit-xkb.tar.gz' } as const

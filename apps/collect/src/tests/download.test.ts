@@ -62,7 +62,7 @@ test('utm parameters on a download link are preserved in the data point', async 
 })
 
 test.each([
-  ['mac-layout', '/download/Ozbek-yangi-alifbo.keylayout'],
+  ['mac-layout', '/download/Ozbek-yangi-alifbo.zip'],
   ['linux-layout', '/download/alfavit-xkb.tar.gz'],
 ])('/dl/%s redirects to %s and counts it', async (platform, target) => {
   const { points, env } = fakeEnv()
