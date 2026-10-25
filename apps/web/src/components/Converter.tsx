@@ -26,6 +26,13 @@ export function telegramShareHref(text: string): string {
  * `compact` is the /alphabet version: a bordered card under the page intro,
  * shorter boxes, the old-Latin example, and no fade-in — it sits above the
  * fold, and the fade starts at opacity 0 until hydration.
+ *
+ * Phone sizing is measured, not guessed. At 375x812 the card ran 380→857,
+ * so the result box and Copy button fell past the ~700px a phone actually
+ * shows once browser chrome is out: visitors saw a box to type in and no
+ * sign of what came out. Every `sm:` below buys that back and stops at the
+ * breakpoint; desktop is unchanged. Heights stay fixed at both sizes — they
+ * are what keeps the prerendered HTML from moving when JS loads.
  */
 type ConverterStrings = Partial<Record<'heading' | 'inputLabel' | 'outputLabel' | 'copy' | 'copied' | 'share', string>>
 
@@ -77,7 +84,7 @@ export function Converter({
   }
 
   const scriptKey = `script.${detectedScript}` as TranslationKey
-  const box = compact ? 'h-28 rounded-xl text-base' : 'h-64 rounded-2xl text-lg'
+  const box = compact ? 'h-20 sm:h-28 rounded-xl text-base' : 'h-64 rounded-2xl text-lg'
   // Narrower in the card so Поделиться + Копировать fit side by side on a 320px phone.
   const pad = compact ? 'px-3' : 'px-5'
 
@@ -136,9 +143,9 @@ export function Converter({
     // wrap on a 360px phone and push the boxes down mid-typing. Here they get
     // fixed-height lines below their box, so nothing on the page moves.
     return (
-      <section aria-labelledby="converter-heading" className="mt-12 rounded-xl border border-black/10 p-5">
+      <section aria-labelledby="converter-heading" className="mt-8 rounded-xl border border-black/10 p-4 sm:mt-12 sm:p-5">
         <h2 id="converter-heading" className="font-medium text-foreground">{s('heading')}</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="mt-3 grid gap-3 sm:mt-4 sm:gap-4 sm:grid-cols-2">
           <div className="min-w-0">
             {inputLabel}
             {textarea}

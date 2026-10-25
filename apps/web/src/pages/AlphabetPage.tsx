@@ -55,7 +55,7 @@ export function AlphabetPage() {
           chartImageLd({ locale, name: t('alphabet.title'), description: t('alphabet.chart.alt'), caption: t('alphabet.chart.caption'), pageUrl: url }),
         ]}
       />
-      <section className="mx-auto max-w-3xl px-6 py-24">
+      <section className="mx-auto max-w-3xl px-6 pt-10 pb-24 sm:pt-24">
         <h1 className="font-serif text-4xl sm:text-6xl text-foreground">{t('alphabet.title')}</h1>
         <p className="mt-4 text-base text-muted">{t('alphabet.intro')}</p>
 
